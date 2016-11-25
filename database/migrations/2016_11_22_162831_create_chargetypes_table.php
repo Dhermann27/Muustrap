@@ -20,9 +20,9 @@ class CreateChargetypesTable extends Migration
         });
         DB::update('ALTER TABLE chargetypes AUTO_INCREMENT = 1000');
 
-        DB::unprepared('CREATE FUNCTION getchargetypeid (chargetypename VARCHAR(1024)) RETURNS INT DETERMINISTIC 	BEGIN
- 				RETURN(SELECT t.id FROM chargetypes t WHERE t.name LIKE CONCAT(\'%\', chargetypename, \'%\') LIMIT 1);
- 			END');
+        DB::unprepared('CREATE FUNCTION getchargetypeid (chargetypename VARCHAR(1024)) RETURNS INT DETERMINISTIC BEGIN
+ 			RETURN(SELECT t.id FROM chargetypes t WHERE t.name LIKE CONCAT(\'%\', chargetypename, \'%\') LIMIT 1);
+ 		END');
 
     }
 

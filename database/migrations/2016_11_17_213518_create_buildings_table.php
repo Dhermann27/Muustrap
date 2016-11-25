@@ -15,9 +15,9 @@ class CreateBuildingsTable extends Migration {
 		} );
         DB::update('ALTER TABLE buildings AUTO_INCREMENT = 1000');
 
-        DB::unprepared('CREATE FUNCTION getbuildingid (buildingname VARCHAR(1024)) RETURNS INT DETERMINISTIC 	BEGIN
- 				RETURN(SELECT b.id FROM buildings b WHERE b.name LIKE CONCAT(\'%\', buildingname, \'%\') LIMIT 1);
- 			END');
+        DB::unprepared('CREATE FUNCTION getbuildingid (buildingname VARCHAR(1024)) RETURNS INT DETERMINISTIC BEGIN
+ 			RETURN(SELECT b.id FROM buildings b WHERE b.name LIKE CONCAT(\'%\', buildingname, \'%\') LIMIT 1);
+ 		END');
 
 	}
 	

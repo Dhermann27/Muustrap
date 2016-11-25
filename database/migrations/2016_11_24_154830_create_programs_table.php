@@ -26,17 +26,22 @@ class CreateProgramsTable extends Migration
             $table->tinyInteger('is_program_housing');
             $table->timestamps();
         });
-        DB::update('ALTER TABLE programs AUTO_INCREMENT = 1000');
 
         DB::unprepared('CREATE FUNCTION getprogramidbyname (programname VARCHAR(1024), year INT) RETURNS INT DETERMINISTIC 	BEGIN
- 				RETURN(SELECT p.id FROM programs p WHERE p.name LIKE CONCAT(\'%\', programname, \'%\') AND year>=p.start_year AND year<=p.end_year LIMIT 1);
- 			END');
+ 			RETURN(SELECT p.id FROM programs p WHERE p.name LIKE CONCAT(\'%\', programname, \'%\') AND year>=p.start_year AND year<=p.end_year LIMIT 1);
+ 		END');
         DB::unprepared('CREATE FUNCTION getprogramidbycamperid (id INT, year INT) RETURNS INT DETERMINISTIC BEGIN
-                DECLARE age, grade INT DEFAULT 0;
-                SELECT getage(c.birthdate, year) INTO age FROM campers c WHERE c.id=id;
-                SELECT age+c.gradeoffset INTO grade FROM campers c WHERE c.id=id;
-                RETURN(SELECT p.id FROM programs p WHERE p.age_min<=age AND p.age_max>=age AND p.grade_min<=grade AND p.grade_max>=grade AND year>=p.start_year AND year<=p.end_year LIMIT 1);
-            END');
+            DECLARE age, grade INT DEFAULT 0;
+            SELECT getage(c.birthdate, year) INTO age FROM campers c WHERE c.id=id;
+            SELECT age+c.gradeoffset INTO grade FROM campers c WHERE c.id=id;
+            RETURN(SELECT p.id FROM programs p WHERE p.age_min<=age AND p.age_max>=age AND p.grade_min<=grade AND p.grade_max>=grade AND year>=p.start_year AND year<=p.end_year LIMIT 1);
+        END');
+        DB::unprepared('CREATE FUNCTION getprogramfee (camperid INT, year INT) RETURNS FLOAT DETERMINISTIC BEGIN
+            DECLARE age, grade INT DEFAULT 0;
+            SELECT getage(c.birthdate, year) INTO age FROM campers c WHERE c.id=id;
+            SELECT age+c.gradeoffset INTO age, grade FROM campers c WHERE c.id=camperid;
+            RETURN(SELECT p.fee FROM programs p WHERE p.age_min<=age AND p.age_max>=age AND p.grade_min<=grade AND p.grade_max>=grade AND year>=p.start_year AND year<=p.end_year LIMIT 1);
+        END');
     }
 
     /**
@@ -48,6 +53,7 @@ class CreateProgramsTable extends Migration
     {
         DB::unprepared('DROP FUNCTION IF EXISTS getprogramidbyname');
         DB::unprepared('DROP FUNCTION IF EXISTS getprogramidbycamperid');
+        DB::unprepared('DROP FUNCTION IF EXISTS getprogramfee');
         Schema::dropIfExists('programs');
     }
 }

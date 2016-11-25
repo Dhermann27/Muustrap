@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateChurchesTable extends Migration
+class CreateVolunteerpositionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateChurchesTable extends Migration
      */
     public function up()
     {
-        Schema::create('churches', function (Blueprint $table) {
+        Schema::create('volunteerpositions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('city');
-            $table->string('statecd');
-            $table->timestamps();
         });
     }
 
@@ -29,6 +26,6 @@ class CreateChurchesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('churches');
+        Schema::dropIfExists('volunteerpositions');
     }
 }

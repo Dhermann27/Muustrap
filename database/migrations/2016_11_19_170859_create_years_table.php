@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateYearsTable extends Migration
 {
@@ -21,9 +21,9 @@ class CreateYearsTable extends Migration
             $table->tinyInteger('is_current');
         });
 
-        DB::unprepared('CREATE FUNCTION getcurrentyear () RETURNS INT DETERMINISTIC 	BEGIN
- 				RETURN(SELECT year FROM years WHERE is_current=1 LIMIT 1);
- 			END');
+        DB::unprepared('CREATE FUNCTION getcurrentyear () RETURNS INT DETERMINISTIC BEGIN
+ 			RETURN(SELECT year FROM years WHERE is_current=1 LIMIT 1);
+ 		END');
     }
 
     /**
@@ -33,7 +33,7 @@ class CreateYearsTable extends Migration
      */
     public function down()
     {
-        DB::unprepared('DROP FUNCTION IF EXISTS getcurrentyear' );
+        DB::unprepared('DROP FUNCTION IF EXISTS getcurrentyear');
         Schema::dropIfExists('years');
     }
 }

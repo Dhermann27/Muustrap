@@ -27,7 +27,6 @@ class CreateRoomsTable extends Migration
             $table->integer('connected_with');
             $table->timestamps();
         });
-        DB::update('ALTER TABLE rooms AUTO_INCREMENT = 1000');
     }
 
     /**

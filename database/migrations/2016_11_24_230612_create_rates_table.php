@@ -33,7 +33,7 @@ class CreateRatesTable extends Migration
             SELECT getage(c.birthdate, year), SUM(IF(getage(cp.birthdate, year)>17,1,0)), SUM(IF(getage(cp.birthdate, year)<=17,1,0)), ya.days, IF(ysp.staffpositionid>0,1,0), getprogramid(camperid, year)
    		        INTO age, adults, children, days, staff, programid 
    		        FROM (campers c, yearsattending ya, yearsattending yap, campers cp)
-   		        LEFT JOIN yearsattending__staff ysp
+   		        LEFT JOIN yearattending__staff ysp
    			        ON ysp.yearsattendingid=ya.id AND ysp.staffpositionid IN (getstaffpositionid(\'Sr. High Staff\'),getstaffpositionid(\'Jr. High Staff\'))
    		        WHERE c.id=camperid AND c.id=ya.camperid AND ya.year=year AND ya.roomid=yap.roomid AND ya.year=yap.year AND yap.camperid=cp.id;
             IF staff=1 THEN

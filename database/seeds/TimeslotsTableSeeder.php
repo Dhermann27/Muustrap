@@ -12,18 +12,19 @@ class TimeslotsTableSeeder extends Seeder
     public function run()
     {
         $timeslots = array(
-            'Sunrise' => ['06:30:00', '07:30:00'],
-            'Morning' => ['09:50:00', '11:50:00'],
-            'Early Afternoon' => ['13:30:00', '15:30:00'],
-            'Late Afternoon' => ['16:00:00', '17:30:00'],
-            'Evening' => ['19:30:00', '20:30:00'],
-            'Excursions' => ['00:00:00', '06:00:00']
+            'Sunrise' => ['SR', '06:30:00', '07:30:00'],
+            'Morning' => ['M', '09:50:00', '11:50:00'],
+            'Early Afternoon' => ['EA', '13:30:00', '15:30:00'],
+            'Late Afternoon' => ['LA', '16:00:00', '17:30:00'],
+            'Evening' => ['SS', '19:30:00', '20:30:00'],
+            'Excursions' => ['EX', '00:00:00', '06:00:00']
         );
-        foreach ($timeslots as $name => $times) {
+        foreach ($timeslots as $name => $info) {
             DB::table('timeslots')->insert([
                 'name' => $name,
-                'start_time' => $times[0],
-                'end_time' => $times[1]
+                'code' => $info[0],
+                'start_time' => $info[1],
+                'end_time' => $info[2]
             ]);
         }
     }

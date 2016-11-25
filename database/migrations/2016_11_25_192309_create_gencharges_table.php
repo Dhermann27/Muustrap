@@ -36,7 +36,7 @@ class CreateGenchargesTable extends Migration
 			    WHERE y.is_current=1 AND y.year=ya.year AND ya.camperid=c.id;
 	        INSERT INTO gencharges (year, camperid, amount, chargetypeid, memo)
 	        	SELECT tsp.year, tsp.camperid, -(tsp.housing_amount) amount, 1021, tsp.staffpositionname
-		        FROM muusa_thisyear_staff tsp;
+		        FROM thisyear_staff tsp;
         END');// AND getrate(ya.camperid, y.year)>0; TODO: Still needed?
     }
 

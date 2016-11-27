@@ -16,7 +16,7 @@ class CreateGenchargesTable extends Migration
         Schema::create('gencharges', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('camperid')->unsigned();
-//            $table->foreign('camperid')->references('id')->on('campers');
+            $table->foreign('camperid')->references('id')->on('campers');
             $table->float('charge');
             $table->string('memo')->nullable();
             $table->integer('chargetypeid')->unsigned();

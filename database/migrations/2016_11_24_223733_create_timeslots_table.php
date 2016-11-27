@@ -20,6 +20,7 @@ class CreateTimeslotsTable extends Migration
             $table->time('start_time');
             $table->time('end_time');
         });
+        DB::update('ALTER TABLE chargetypes AUTO_INCREMENT = 1000');
     }
 
     /**

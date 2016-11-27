@@ -20,7 +20,7 @@ class CreateCampersTable extends Migration
             $table->char('sexcd');
             $table->string('firstname');
             $table->string('lastname');
-            $table->string('email')->nullable();
+            $table->string('email')->nullable()->unique();
             $table->bigInteger('phonenbr');
             $table->date('birthdate');
             $table->integer('gradeoffset');

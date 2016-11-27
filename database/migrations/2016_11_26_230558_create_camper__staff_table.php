@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateYearsattendingTable extends Migration
+class CreateCamperStaffTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,13 @@ class CreateYearsattendingTable extends Migration
      */
     public function up()
     {
-        Schema::create('yearsattending', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('camper__staff', function (Blueprint $table) {
             $table->integer('camperid')->unsigned();
             $table->foreign('camperid')->references('id')->on('campers');
-            $table->integer('year');
-            $table->integer('roomid')->nullable()->unsigned();
-            $table->foreign('roomid')->references('id')->on('rooms');
-            $table->integer('days');
-            $table->tinyInteger('is_private');
-            $table->timestamp('paydate');
+            $table->integer('staffpositionid')->unsigned();
+            $table->foreign('staffpositionid')->references('id')->on('staffpositions');
             $table->timestamps();
+            $table->unique(array('camperid', 'staffpositionid'));
         });
     }
 
@@ -34,6 +30,6 @@ class CreateYearsattendingTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('yearsattending');
+        Schema::dropIfExists('camper__staff');
     }
 }

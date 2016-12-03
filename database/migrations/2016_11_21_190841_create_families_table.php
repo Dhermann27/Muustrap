@@ -23,7 +23,7 @@ class CreateFamiliesTable extends Migration
             $table->foreign('statecd')->references('code')->on('statecodes');
             $table->string('zipcd')->default('99999');
             $table->string('country')->default('USA');
-            $table->tinyInteger('is_ecomm');
+            $table->tinyInteger('is_address_current')->default('1');
             $table->tinyInteger('is_scholar');
             $table->timestamps();
         });

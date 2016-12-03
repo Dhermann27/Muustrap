@@ -21,8 +21,6 @@ class CreateOldgenchargesTable extends Migration
             $table->string('memo')->nullable();
             $table->integer('chargetypeid')->unsigned();
             $table->foreign('chargetypeid')->references('id')->on('chargetypes');
-            $table->date('deposited_date')->nullable();
-            $table->timestamp('timestamp');
             $table->integer('year');
             $table->timestamps();
         });

@@ -15,7 +15,7 @@ class CreateCampersTable extends Migration
     {
         Schema::create('campers', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('familyid')->unsigned();
+            $table->integer('familyid')->unsigned()->nullable();
             $table->foreign('familyid')->references('id')->on('families');
             $table->char('sexcd');
             $table->string('firstname');
@@ -28,7 +28,7 @@ class CreateCampersTable extends Migration
             $table->tinyInteger('is_handicap');
             $table->integer('foodoptionid')->unsigned();
             $table->foreign('foodoptionid')->references('id')->on('foodoptions');
-            $table->integer('churchid')->unsigned();
+            $table->integer('churchid')->unsigned()->defaul('2084'); // Church of the Larger Fellowship
             $table->foreign('churchid')->references('id')->on('churches');
             $table->timestamps();
         });

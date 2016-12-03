@@ -17,7 +17,7 @@ class CreateYearsTable extends Migration
             $table->integer('year')->unique();
             $table->date('start_date');
             $table->date('end_prereg');
-            $table->date('open_reg');
+            $table->date('start_open');
             $table->tinyInteger('is_current');
         });
 

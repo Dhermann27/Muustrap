@@ -18,7 +18,7 @@ class CreateChargesTable extends Migration
             $table->integer('camperid')->unsigned();
             $table->foreign('camperid')->references('id')->on('campers');
             $table->float('amount');
-            $table->string('memo');
+            $table->string('memo')->nullable();
             $table->integer('chargetypeid')->unsigned();
             $table->foreign('chargetypeid')->references('id')->on('chargetypes');
             $table->date('deposited_date')->nullable();

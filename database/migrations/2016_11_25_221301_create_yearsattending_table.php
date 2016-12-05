@@ -18,7 +18,7 @@ class CreateYearsattendingTable extends Migration
             $table->integer('camperid')->unsigned();
             $table->foreign('camperid')->references('id')->on('campers');
             $table->integer('year');
-            $table->integer('roomid')->nullable()->unsigned();
+            $table->integer('roomid')->unsigned()->nullable()->default(NULL);
             $table->foreign('roomid')->references('id')->on('rooms');
             $table->integer('days');
             $table->tinyInteger('is_private');

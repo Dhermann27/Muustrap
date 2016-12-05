@@ -119,7 +119,7 @@ INSERT INTO muusa.staffpositions (id, name, compensationlevelid,
                                   programid, start_year, end_year, created_at) SELECT
                                                                                  id,
                                                                                  name,
-                                                                                 (SELECT cl.id
+                                                                                 IFNULL((SELECT cl.id
                                                                                   FROM
                                                                                     muusa.compensationlevels cl
                                                                                   WHERE
@@ -130,7 +130,7 @@ INSERT INTO muusa.staffpositions (id, name, compensationlevelid,
                                                                                     cl.max_compensation
                                                                                   ORDER BY
                                                                                     cl.max_compensation
-                                                                                  LIMIT 1),
+                                                                                  LIMIT 1), 1004),
                                                                                  programid,
                                                                                  start_year,
                                                                                  end_year,

@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>MUUStrap</title>
+    <title>Midwest Unitarian Universalist Summer Assembly</title>
 
     <!-- Bootstrap -->
     <link href="/css/bootstrap.min.css" rel="stylesheet"/>
@@ -48,8 +48,8 @@
         <div class="navbar-header">
             <a class="navbar-brand" href="//muusa.org">
                 <h4>
-                    <img alt="Brand" src="images/brand.png"> Midwest Unitarian
-                    Universalist Summer Assembly
+                    <img alt="Brand" src="images/brand.png"> <span class="hidden-sm">Midwest Unitarian
+                    Universalist Summer Assembly</span>
                 </h4>
             </a>
         </div>
@@ -94,6 +94,7 @@
                 page</a> or email our <a href="mailto:info@muusa.org">Marketing
                 Coordinator</a> with any questions in the meantime.
         </p>
+	<p>Next site update: December 20</p>
     </div>
     <div class="col-md-3">
         <div class="fb-page" data-href="https://www.facebook.com/Muusa2013/"

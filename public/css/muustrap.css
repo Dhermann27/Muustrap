@@ -4,3 +4,16 @@ div.jumbotron {
     color: white;
     margin-bottom: 0px;
 }
+
+div.jumbotron p {
+        padding: 10px;
+}
+
+nav a.navbar-brand {
+        padding: 0px 15px;
+}
+
+nav a.navbar-brand h4 {
+        margin-top: 0px;
+}
+

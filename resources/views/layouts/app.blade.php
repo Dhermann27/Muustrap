@@ -14,6 +14,10 @@
     <link
             href="//fonts.googleapis.com/css?family=Fenix|Fredericka+the+Great"
             rel="stylesheet">
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.slim.js"
+            integrity="sha256-5i/mQ300M779N2OVDrl16lbohwXNUdzL/R2aVUXyXWA="
+            crossorigin="anonymous"></script>
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -41,7 +45,7 @@
             </button>
             <a class="navbar-brand" href="//muusa.org">
                 <h4>
-                    <img alt="Brand" src="images/brand.png"> Midwest Unitarian
+                    <img alt="Brand" src="/images/brand.png"> Midwest Unitarian
                     Universalist Summer Assembly
                 </h4>
             </a>

@@ -120,17 +120,17 @@ INSERT INTO muusa.staffpositions (id, name, compensationlevelid,
                                                                                  id,
                                                                                  name,
                                                                                  IFNULL((SELECT cl.id
-                                                                                  FROM
-                                                                                    muusa.compensationlevels cl
-                                                                                  WHERE
-                                                                                    registration_amount
-                                                                                    +
-                                                                                    housing_amount
-                                                                                    <=
-                                                                                    cl.max_compensation
-                                                                                  ORDER BY
-                                                                                    cl.max_compensation
-                                                                                  LIMIT 1), 1004),
+                                                                                         FROM
+                                                                                           muusa.compensationlevels cl
+                                                                                         WHERE
+                                                                                           registration_amount
+                                                                                           +
+                                                                                           housing_amount
+                                                                                           <=
+                                                                                           cl.max_compensation
+                                                                                         ORDER BY
+                                                                                           cl.max_compensation
+                                                                                         LIMIT 1), 1004),
                                                                                  programid,
                                                                                  start_year,
                                                                                  end_year,
@@ -239,3 +239,11 @@ INSERT INTO muusa.camper__staff (camperid, staffpositionid, created_at) SELECT
                                                                           created_at
                                                                         FROM muusa_system.muusa_camperid__staff;
 
+INSERT INTO muusa.contactbox (name, emails, created_at) SELECT
+                                                                 name,
+                                                                 email,
+                                                                 NOW()
+                                                               FROM muusa_system.jml_alfcontact;
+
+/* Don't forget to alter the auto_increments
+ALTER TABLE contactus AUTO_INCREMENT = 1000*/

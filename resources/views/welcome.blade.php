@@ -44,7 +44,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-9" align="center">
+        <div class="col-md-7 text-center">
             <h2>This page is under construction. Registration opens on
                 February 1.</h2>
             <p>
@@ -52,6 +52,14 @@
                     page</a> or email our <a href="mailto:info@muusa.org">Marketing
                     Coordinator</a> with any questions in the meantime.
             </p>
+        </div>
+        <div class="col-md-2 text-center">
+            <p>&nbsp;</p>
+            <i class="fa fa-calculator fa-5x"></i><br/>
+            <h4>Camp Cost Calculator</h4>
+            <p>Use this tool to help estimate how much MUUSA will cost this year.</p>
+            <a class="booty" href="{{ url('/cost') }}">Enter Your Information <i class="fa fa-arrow-right"></i>
+            </a>
         </div>
         <div class="col-md-3">
             <div class="fb-page" data-href="https://www.facebook.com/Muusa2013/"

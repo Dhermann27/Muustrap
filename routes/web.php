@@ -20,4 +20,8 @@ Auth::routes();
 Route::get('/contact', 'ContactController@index');
 Route::post('/contact', 'ContactController@store');
 
-Route::get('/home', 'HomeController@index');
+Route::get('/cost', function () {
+    return view('campcost');
+});
+
+//Route::get('/home', 'HomeController@index');

@@ -47,7 +47,7 @@
                                 <div class="col-md-6">
                                     <select name="id" class="form-control">
                                         @foreach($mailboxes as $mailbox)
-                                            <option value="{{ $mailbox->id }}"{{ @if(old('id') == $mailbox->id) echo " selected" @endif}}>
+                                            <option value="{{ $mailbox->id }}"{{ (old('id') == $mailbox->id) ? " selected" : "" }}>
                                                 {{ $mailbox->name }}
                                             </option>
                                         @endforeach

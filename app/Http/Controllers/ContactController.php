@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactUs;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -19,8 +20,10 @@ class ContactController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|max:255',
             'id' => 'required|unique:contactboxes',
-            'message' => 'required',
+            'message' => 'required|min:5',
             'g-recaptcha-response' => 'required|captcha',
         ]);
+
+        Mail::to(Contactbox::findOrFail($request->id)->emails)->send(new ContactUs($request));
     }
 }

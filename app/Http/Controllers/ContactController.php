@@ -24,6 +24,8 @@ class ContactController extends Controller
             'g-recaptcha-response' => 'required|captcha',
         ]);
 
-        Mail::to(Contactbox::findOrFail($request->id)->emails)->send(new ContactUs($request));
+        Mail::to('dhermann27@gmail.com')->send(new ContactUs($request));
+
+        return view('welcome');
     }
 }

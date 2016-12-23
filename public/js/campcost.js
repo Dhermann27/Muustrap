@@ -61,17 +61,17 @@ function calc() {
                 default:
                     rate = adults * 650.0;
             }
-            total += rate + (children * 264);
+            total += rate + (children * 344);
             adultsfee.html("$" + rate.toFixed(2));
             childrenfee.html("$" + (children * 344).toFixed(2));
             break;
         case 3:
-            total += adults * 395 + children * 344;
+            total += adults * 545 + children * 344;
             adultsfee.html("$" + (adults * 545).toFixed(2));
             childrenfee.html("$" + (children * 344).toFixed(2));
             break;
         case 4:
-            total += adults * 288 + children * 242;
+            total += adults * 438 + children * 242;
             adultsfee.html("$" + (adults * 438).toFixed(2));
             childrenfee.html("$" + (children * 242).toFixed(2));
             break;
@@ -89,8 +89,8 @@ function calc() {
             yasfee.html("$" + (yas * 408).toFixed(2));
             break;
     }
-    total += jrsrs * 520;
-    $("#jrsrs-fee").html("$" + (jrsrs * 520).toFixed(2));
+    total += jrsrs * 490;
+    $("#jrsrs-fee").html("$" + (jrsrs * 490).toFixed(2));
     total += babies * 80;
     $("#babies-fee").html("$" + (babies * 80).toFixed(2));
     $("#deposit").html("$" + deposit.toFixed(2));

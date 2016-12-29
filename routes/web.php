@@ -14,3 +14,14 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/contact', 'ContactController@index');
+Route::post('/contact', 'ContactController@store');
+
+Route::get('/cost', function () {
+    return view('campcost');
+});
+
+//Route::get('/home', 'HomeController@index');

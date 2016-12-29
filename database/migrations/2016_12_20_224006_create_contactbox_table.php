@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAccountsTable extends Migration
+class CreateContactusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateAccountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('accounts', function (Blueprint $table) {
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->tinyInteger('is_active');
-            $table->string('token')->nullable();
+        Schema::create('contactbox', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('emails');
             $table->timestamps();
         });
+        DB::update('ALTER TABLE contactus AUTO_INCREMENT = 1000');
     }
 
     /**
@@ -29,6 +29,6 @@ class CreateAccountsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('accounts');
+        Schema::dropIfExists('contactbox');
     }
 }

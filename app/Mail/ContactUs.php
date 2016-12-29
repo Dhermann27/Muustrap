@@ -29,6 +29,6 @@ class ContactUs extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.contact');
+        return $this->from('muusa@muusa.org')->view('mail.contact');
     }
 }

@@ -19,7 +19,7 @@ class ContactUs extends Mailable
      */
     public function __construct(Request $request)
     {
-        $this->$request = $request;
+        $this->request = $request;
     }
 
     /**
@@ -29,6 +29,6 @@ class ContactUs extends Mailable
      */
     public function build()
     {
-        return $this->from('muusa@muusa.org')->view('mail.contact');
+        return $this->from('muusa@muusa.org')->text('mail.contact');
     }
 }

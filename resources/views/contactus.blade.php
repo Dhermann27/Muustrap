@@ -8,6 +8,11 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Contact Us</div>
                     <div class="panel-body">
+                        @if (!empty($success))
+                            <div class="alert alert-success">
+                                {{ $success }}
+                            </div>
+                        @endif
                         <form class="form-horizontal" role="form" method="POST" action="{{ url('/contact') }}">
                             {{ csrf_field() }}
 
@@ -41,17 +46,23 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group{{ $errors->has('mailbox') ? ' has-error' : '' }}">
                                 <label for="id" class="col-md-4 control-label">Subject</label>
 
                                 <div class="col-md-6">
-                                    <select name="id" class="form-control">
+                                    <select id="mailbox " name="mailbox" class="form-control">
                                         @foreach($mailboxes as $mailbox)
                                             <option value="{{ $mailbox->id }}"{{ (old('id') == $mailbox->id) ? " selected" : "" }}>
                                                 {{ $mailbox->name }}
                                             </option>
                                         @endforeach
                                     </select>
+
+                                    @if ($errors->has('mailbox'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('mailbox') }}</strong>
+                                    </span>
+                                    @endif
                                 </div>
                             </div>
 
@@ -72,7 +83,7 @@
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
-                                    {!! app('captcha')->display('Send'); !!}
+                                    {!! app('captcha')->display('Send') !!}
                                 </div>
                             </div>
                         </form>

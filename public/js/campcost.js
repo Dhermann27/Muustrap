@@ -93,8 +93,8 @@ function calc() {
     $("#jrsrs-fee").html("$" + (jrsrs * 490).toFixed(2));
     total += babies * 80;
     $("#babies-fee").html("$" + (babies * 80).toFixed(2));
-    $("#deposit").html("$" + deposit.toFixed(2));
-    $("#arrival").html("$" + (total - deposit).toFixed(2));
+    $("#deposit").html("$" + Math.min(total, deposit).toFixed(2));
+    $("#arrival").html("$" + Math.max(total - deposit, 0).toFixed(2));
     $("#total").html("$" + total.toFixed(2));
 }
 

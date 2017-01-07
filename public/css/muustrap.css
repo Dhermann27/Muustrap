@@ -7,7 +7,7 @@ h1 {
     font-family: 'Fenix', serif;
 }
 
-h2, h3, h4, div.panel-heading {
+h2, h3, h4, div.panel-heading, table.table-responsive thead {
     font-family: 'Fredericka the Great', cursive;
 }
 
@@ -48,4 +48,10 @@ nav a.navbar-brand h4 {
     -webkit-font-smoothing: antialiased;
     padding: 10px;
     line-height: 30px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }

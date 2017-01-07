@@ -47,7 +47,7 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('mailbox') ? ' has-error' : '' }}">
-                                <label for="id" class="col-md-4 control-label">Subject</label>
+                                <label for="mailbox" class="col-md-4 control-label">Subject</label>
 
                                 <div class="col-md-6">
                                     <select id="mailbox " name="mailbox" class="form-control">

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -43,7 +43,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="//muusa.org">
+            <a class="navbar-brand" href="/">
                 <h4>
                     <img alt="Brand" src="/images/brand.png"> Midwest Unitarian
                     Universalist Summer Assembly

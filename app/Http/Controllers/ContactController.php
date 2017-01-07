@@ -12,18 +12,22 @@ class ContactController extends Controller
 
     public function index()
     {
-        return view('contactus', ['mailboxes' => \App\Contactbox::all()]);
+        return view('contactus', ['mailboxes' => \App\Contactbox::orderBy('id')->get()]);
     }
 
     public function store(Request $request)
     {
+        $messages = [
+            'g-recaptcha-response.required' => 'Please check the CAPTCHA box and follow any additional instructions.',
+        ];
+
         $this->validate($request, [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255',
             'mailbox' => 'required|exists:contactboxes,id',
             'message' => 'required|min:5',
             'g-recaptcha-response' => 'required|captcha',
-        ]);
+        ], $messages);
 
         // Multiple comma-delimited email addresses hack
         $users_temp = explode(',', DB::table('contactboxes')->where('id', $request->mailbox)->first()->emails);

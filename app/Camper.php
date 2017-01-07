@@ -18,7 +18,7 @@ class Camper extends Model
 
     public function family()
     {
-        return $this->hasOne(Family::class);
+        return $this->belongsTo(Family::class, 'familyid');
     }
 
     public function gencharge()

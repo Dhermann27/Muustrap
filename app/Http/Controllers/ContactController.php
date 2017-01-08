@@ -41,7 +41,7 @@ class ContactController extends Controller
 
         Mail::to($users)->send(new ContactUs($request));
 
-        return view('contactus', ['mailboxes' => \App\Contactbox::all()])
+        return view('contactus', ['mailboxes' => \App\Contactbox::orderBy('id')->get()])
             ->with('success', 'Message sent! Please expect a response in 1-3 business days.');
     }
 }

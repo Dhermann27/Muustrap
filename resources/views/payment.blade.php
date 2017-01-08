@@ -43,7 +43,9 @@
                                 <div class="input-group">
                                     <span class="input-group-addon">$</span>
                                     <input type="number" id="donation" class="form-control"
-                                           data-number-to-fixed="2" min="0" name="donation" value="{{ old('donation') }}"/>
+                                           data-number-to-fixed="2" min="0" name="donation"
+                                           placeholder="Enter Donation Here"
+                                           value="{{ old('donation') }}"/>
                                 </div>
 
                                 @if ($errors->has('donation'))
@@ -57,7 +59,7 @@
                         </tr>
                         <tr align="right">
                             <td><strong>Amount Due Now:</strong></td>
-                            <td id="amountNow">
+                            <td id="amountNow" align="right">{{ money_format('%.2n', $deposit) }}
                             </td>
                             <td colspan="2"></td>
                         </tr>
@@ -82,13 +84,13 @@
                             <h4>To Pay via PayPal:</h4>
                             <div>
                                 <label for="amount" class="control-label">Suggested Payment:</label>
-                                
+
                                 <div class="input-group">
                                     <span class="input-group-addon">$</span>
                                     <input type="number" id="amount"
                                            class="form-control" name="amount"
-                                           data-number-to-fixed="2" min="0"
-                                           value=""/></div>
+                                           data-number-to-fixed="2" min="0" placeholder="Enter Another Amount"
+                                           value="{{ number_format(max($charges->sum('amount'), 0.0), 2) }}"/></div>
                             </div>
                             <p>&nbsp;</p>
                             <div align="right">

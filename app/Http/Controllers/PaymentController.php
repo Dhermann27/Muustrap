@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Braintree_Gateway;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Braintree_Gateway;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
@@ -15,12 +16,15 @@ class PaymentController extends Controller
             'accessToken' => env('PAYPAL_TOKEN')
         ));
 
+        $depositchargetypeid = DB::select('SELECT getchargetypeid(\'MUUSA Deposit\') FROM users');
+        $familyid = \App\Camper::where('email', Auth::user()->email)->first()->family->id;
+        $charges = \App\Thisyear_Charge::where('familyid', $familyid)->get();
+        $deposit = $charges->where('chargetypeid', $depositchargetypeid)->sum('amount');
+
         return view('payment',
             ['year' => \App\Year::where('is_current', '1')->first(),
                 'token' => $gateway->clientToken()->generate(),
-                'charges' =>
-                    \App\Thisyear_Charge::where('familyid',
-                        \App\Camper::where('email', Auth::user()->email)->first()->family->id)->get()]);
+                'charges' => $charges, 'deposit' => $deposit]);
     }
 
     public function store(Request $request)
@@ -31,7 +35,8 @@ class PaymentController extends Controller
 
         setlocale(LC_MONETARY, 'en_US.UTF-8');
         $this->validate($request, [
-            'donation' => 'required|min:0|max:100'
+            'donation' => 'required|min:0|max:100',
+            'amount' => 'required|min:0'
         ], $messages);
 
         $gateway = new Braintree_Gateway(array(
@@ -58,9 +63,14 @@ class PaymentController extends Controller
 //            print_r("Success ID: " . $result->transaction->id);
         } else {
             $message = array('error' => 'Error. Payment was not processed by MUUSA: ' . $result->message);
-//            print_r("Error Message: " . $result->message);
         }
 
+        return view('payment',
+            ['year' => \App\Year::where('is_current', '1')->first(),
+                'token' => $gateway->clientToken()->generate(),
+                'charges' =>
+                    \App\Thisyear_Charge::where('familyid',
+                        \App\Camper::where('email', Auth::user()->email)->first()->family->id)->get()])->with($message);
 
     }
 }

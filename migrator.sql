@@ -49,32 +49,32 @@ INSERT INTO muusa.chargetypes (id, name, is_shown) SELECT
 INSERT INTO muusa.campers (id, familyid, sexcd, firstname, lastname,
                            email, phonenbr, birthdate, gradeoffset, sponsor,
                            is_handicap, foodoptionid, churchid, created_at) SELECT
-                                                                              id,
-                                                                              familyid,
-                                                                              sexcd,
-                                                                              firstname,
-                                                                              lastname,
-                                                                              IF(email = '', NULL, email),
+                                                                              c.id,
+                                                                              c.familyid,
+                                                                              c.sexcd,
+                                                                              c.firstname,
+                                                                              c.lastname,
+                                                                              IF(c.email = '', NULL, c.email),
                                                                               (SELECT n.phonenbr
                                                                                FROM
                                                                                  muusa_system.muusa_phonenumber n
                                                                                WHERE
                                                                                  n.camperid
                                                                                  =
-                                                                                 id
+                                                                                 c.id
                                                                                ORDER BY
                                                                                  phonetypeid
                                                                                LIMIT 1),
-                                                                              birthdate,
-                                                                              IFNULL(gradeoffset, '-5'),
-                                                                              sponsor,
-                                                                              is_handicap,
-                                                                              IF(foodoptionid = '0', 1000,
-                                                                                 foodoptionid),
-                                                                              IF(churchid = '0', 2084, churchid),
-                                                                              created_at
+                                                                              c.birthdate,
+                                                                              IFNULL(c.gradeoffset, '-5'),
+                                                                              c.sponsor,
+                                                                              c.is_handicap,
+                                                                              IF(c.foodoptionid = '0', 1000,
+                                                                                 c.foodoptionid),
+                                                                              IF(c.churchid = '0', 2084, c.churchid),
+                                                                              c.created_at
                                                                             FROM
-                                                                              muusa_system.muusa_camper;
+                                                                              muusa_system.muusa_camper c;
 
 INSERT INTO muusa.programs (id, name, age_max, age_min, grade_max, grade_min,
                             start_year, end_year, fee, is_program_housing, created_at) SELECT

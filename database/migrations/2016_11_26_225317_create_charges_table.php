@@ -22,7 +22,7 @@ class CreateChargesTable extends Migration
             $table->integer('chargetypeid')->unsigned();
             $table->foreign('chargetypeid')->references('id')->on('chargetypes');
             $table->date('deposited_date')->nullable();
-            $table->date('timestamp');
+            $table->date('timestamp')->useCurrent();
             $table->integer('year');
             $table->timestamps();
         });

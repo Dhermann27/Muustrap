@@ -28,6 +28,8 @@ function calc() {
         children = parseInt($("#children").val(), 10),
         babies = parseInt($("#babies").val(), 10);
     var singlealert = $("#single-alert"),
+        adultalert = $("#adult-choose"),
+        yaalert = $("#ya-choose"),
         adultsfee = $("#adults-fee"),
         yasfee = $("#yas-fee"),
         childrenfee = $("#children-fee");
@@ -41,10 +43,15 @@ function calc() {
             deposit = 300.0;
     }
     singlealert.hide();
+    adultalert.hide();
+    yaalert.hide();
     switch (parseInt($("#adults-housing").val(), 10)) {
         case 0:
             adultsfee.html("$0.00");
             childrenfee.html("$0.00");
+            if (adults > 0) {
+                adultalert.show();
+            }
             break;
         case 1:
             switch (adults + children + babies) {
@@ -79,6 +86,9 @@ function calc() {
     switch (parseInt($("#yas-housing").val(), 10)) {
         case 0:
             yasfee.html("$0.00");
+            if(yas > 0) {
+                yaalert.show();
+            }
             break;
         case 1:
             total += yas * 490;

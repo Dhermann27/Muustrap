@@ -50,7 +50,7 @@
                                 <label for="mailbox" class="col-md-4 control-label">Subject</label>
 
                                 <div class="col-md-6">
-                                    <select id="mailbox " name="mailbox" class="form-control">
+                                    <select id="mailbox" name="mailbox" class="form-control">
                                         @foreach($mailboxes as $mailbox)
                                             <option value="{{ $mailbox->id }}"{{ (old('id') == $mailbox->id) ? " selected" : "" }}>
                                                 {{ $mailbox->name }}
@@ -67,7 +67,7 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('message') ? ' has-error' : '' }}">
-                                <label for="password" class="col-md-4 control-label">Message</label>
+                                <label for="message" class="col-md-4 control-label">Message</label>
 
                                 <div class="col-md-6">
                                     <textarea id="message" class="form-control" name="message"

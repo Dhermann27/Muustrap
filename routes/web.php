@@ -21,6 +21,7 @@ Route::get('/contact', 'ContactController@index');
 Route::post('/contact', 'ContactController@store');
 
 Route::get('/payment', 'PaymentController@index')->middleware('auth');
+Route::post('/payment', 'PaymentController@store')->middleware('auth');
 
 Route::get('/cost', function () {
     return view('campcost');

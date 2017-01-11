@@ -9,10 +9,8 @@
                     <div class="panel-heading">Camp Cost Calculator</div>
                     <div class="panel-body">
                         <div class="alert alert-info">
-                            These numbers are approximations and can change based on several
-                            other factors, such as additional excursion costs and volunteer
-                            credits. You should <strong>not</strong> use this page to precisely
-                            determine your camp costs.
+                            Warning: this calculator only provides an estimate of your camp cost and your actual fees
+                            may vary.
                         </div>
                         <div class="form-group row">
                             <label for="adults" class="col-md-3 control-label">Adults Attending</label>
@@ -40,7 +38,11 @@
                                     <option value="1">Guestroom, Cabin, or Loft</option>
                                     <option value="3">Camp Lakewood Cabin (dorm style)</option>
                                     <option value="4">Tent Camping</option>
-                                </select></div>
+                                </select>
+                                <div id="adult-choose" style="display: none;">Please choose a housing type to see the
+                                    cost.
+                                </div>
+                            </div>
                             <div class="col-md-2 text-right" id="adults-fee">$0.00</div>
                         </div>
                         <div id="single-alert" class="row alert alert-warning" style="display: none;">
@@ -74,7 +76,11 @@
                                     <option value="0" selected>Choose Housing Arrangements</option>
                                     <option value="1">YA Cabin</option>
                                     <option value="2">Tent Camping</option>
-                                </select></div>
+                                </select>
+                                <div id="ya-choose" style="display: none;">Please choose a housing type to see the
+                                    cost.
+                                </div>
+                            </div>
                             <div class="col-md-2 text-right" id="yas-fee">$0.00</div>
                         </div>
                         <div class="form-group row">

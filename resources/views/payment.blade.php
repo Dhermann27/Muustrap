@@ -9,13 +9,13 @@
                 <form id="payment" class="form-horizontal" role="form" method="POST" action="{{ url('/payment') }}">
                     {{ csrf_field() }}
 
-                    @if (!empty($success))
+                    @if(!empty($success))
                         <div class="alert alert-success">
                             {{ $success }}
                         </div>
                     @elseif(!empty($error))
                         <div class="alert alert-error">
-                            {{ $success }}
+                            {{ $error }}
                         </div>
                     @endif
                     <table class="table table-responsive table-striped table-bordered">
@@ -30,7 +30,7 @@
                         @foreach($charges as $charge)
                             <tr>
                                 <td>{{ $charge->chargetypename }}</td>
-                                <td align=" right">{{ money_format('%.2n', $charge->amount) }}</td>
+                                <td class="amount" align="right">{{ money_format('%.2n', $charge->amount) }}</td>
                                 <td align="center">{{ $charge->timestamp }}</td>
                                 <td>{{ $charge->memo }}</td>
                             </tr>
@@ -39,11 +39,11 @@
                             <td>
                                 <label for="donation" class="control-label">Donation</label>
                             </td>
-                            <td align="right">
+                            <td class="form-group{{ $errors->has('donation') ? ' has-error' : '' }}">
                                 <div class="input-group">
                                     <span class="input-group-addon">$</span>
                                     <input type="number" id="donation" class="form-control"
-                                           data-number-to-fixed="2" min="0" name="donation"
+                                           name="donation" data-number-to-fixed="2" min="0"
                                            placeholder="Enter Donation Here"
                                            value="{{ old('donation') }}"/>
                                 </div>
@@ -82,7 +82,7 @@
                         </div>
                         <div class="col-md-6">
                             <h4>To Pay via PayPal:</h4>
-                            <div>
+                            <div class="form-group{{ $errors->has('amount') ? ' has-error' : '' }}">
                                 <label for="amount" class="control-label">Suggested Payment:</label>
 
                                 <div class="input-group">
@@ -91,6 +91,12 @@
                                            class="form-control" name="amount"
                                            data-number-to-fixed="2" min="0" placeholder="Enter Another Amount"
                                            value="{{ number_format(max($charges->sum('amount'), 0.0), 2) }}"/></div>
+
+                                @if ($errors->has('amount'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('amount') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                             <p>&nbsp;</p>
                             <div align="right">
@@ -100,27 +106,58 @@
                                     braintree.client.create({
                                         authorization: '{{ $token }}'
                                     }, function (clientErr, clientInstance) {
-                                        // Create PayPal component
+                                        if (clientErr) {
+                                            console.error('Error creating client:', clientErr);
+                                            return;
+                                        }
                                         braintree.paypal.create({
                                             client: clientInstance
-                                        }, function (err, paypalInstance) {
-                                            $("#paypalButton").on('click', function () {
+                                        }, function (paypalErr, paypalInstance) {
+                                            var paypalButton = $("#paypalButton");
+                                            if (paypalErr) {
+                                                console.error('Error creating PayPal:', paypalErr);
+                                                return;
+                                            }
+                                            paypalButton.prop('disabled', false);
+                                            paypalButton.on('click', function () {
+                                                paypalButton.prop('disabled', true);
                                                 paypalInstance.tokenize({
-                                                    flow: 'checkout', // Required
-                                                    amount: $("#amount"), // Required
-                                                    currency: 'USD', // Required
-                                                    locale: 'en_US',
-                                                    enableShippingAddress: false
-                                                }, function (err, tokenizationPayload) {
-                                                    $("#nonce").val(tokenizationPayload.nonce);
-                                                    $("#payment").submit();
-                                                });
+                                                        flow: 'checkout', // Required
+                                                        intent: 'sale',
+                                                        useraction: 'commit',
+                                                        displayName: 'Midwest Unitarian Universalist Summer Assembly',
+                                                        amount: $("#amount").val(), // Required
+                                                        currency: 'USD', // Required
+                                                        locale: 'en_US',
+                                                        enableShippingAddress: false
+                                                    }, function (tokenizeErr, tokenizationPayload) {
+                                                        paypalButton.prop('disabled', false);
+                                                        if (tokenizeErr) {
+                                                            switch (tokenizeErr.code) {
+                                                                case 'PAYPAL_POPUP_CLOSED':
+                                                                    console.error('Customer closed PayPal popup.');
+                                                                    break;
+                                                                case 'PAYPAL_ACCOUNT_TOKENIZATION_FAILED':
+                                                                    console.error('PayPal tokenization failed. See details:', tokenizeErr.details);
+                                                                    break;
+                                                                case 'PAYPAL_FLOW_FAILED':
+                                                                    console.error('Unable to initialize PayPal flow. Are your options correct?', tokenizeErr.details);
+                                                                    break;
+                                                                default:
+                                                                    console.error('Error!', tokenizeErr);
+                                                            }
+                                                        } else {
+                                                            $("#nonce").val(tokenizationPayload.nonce);
+                                                            $("#payment").submit();
+                                                        }
+                                                    }
+                                                );
                                             });
                                         });
                                     });
 
                                 </script>
-                                <input type="hidden" id="nonce"/>
+                                <input type="hidden" id="nonce" name="nonce"/>
                                 <script src="https://www.paypalobjects.com/api/button.js?"
                                         data-merchant="braintree"
                                         data-id="paypalButton"
@@ -129,13 +166,13 @@
                                         data-size="medium"
                                         data-shape="rect"
                                         data-button_type="submit"
-                                        data-button_disabled="false"
+                                        data-button_disabled="true"
                                 ></script>
                             </div>
                         </div>
                     </div>
+                </form>
             </div>
-            </form>
             <script src="/js/payment.js" type="text/javascript"></script>
         </div>
     </div>

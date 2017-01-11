@@ -9,24 +9,6 @@ use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
-    public function index()
-    {
-        setlocale(LC_MONETARY, 'en_US.UTF-8');
-        $gateway = new Braintree_Gateway(array(
-            'accessToken' => env('PAYPAL_TOKEN')
-        ));
-
-        $depositchargetypeid = DB::select('SELECT getchargetypeid(\'MUUSA Deposit\') FROM users');
-        $familyid = \App\Camper::where('email', Auth::user()->email)->first()->family->id;
-        $charges = \App\Thisyear_Charge::where('familyid', $familyid)->get();
-        $deposit = $charges->where('chargetypeid', $depositchargetypeid)->sum('amount');
-
-        return view('payment',
-            ['year' => \App\Year::where('is_current', '1')->first(),
-                'token' => $gateway->clientToken()->generate(),
-                'charges' => $charges, 'deposit' => $deposit]);
-    }
-
     public function store(Request $request)
     {
         $messages = [
@@ -35,9 +17,20 @@ class PaymentController extends Controller
 
         setlocale(LC_MONETARY, 'en_US.UTF-8');
         $this->validate($request, [
-            'donation' => 'required|min:0|max:100',
+            'donation' => 'min:0|max:100',
             'amount' => 'required|min:0'
         ], $messages);
+
+        $camperid = \App\Camper::where('email', Auth::user()->email)->first()->id;
+        if ($request->donation > 0) {
+            DB::table('charges')->insert(
+                ['camperid' => $camperid,
+                    'amount' => $request->donation, 'memo' => 'MUUSA Scholarship Fund',
+                    'chargetypeid' => DB::raw('getchargetypeid(\'Donation\')'),
+                    'year' => DB::raw('getcurrentyear()'), 'timestamp' => date("Y-m-d"),
+                    'created_at' => DB::raw('CURRENT_TIMESTAMP')]
+            );
+        }
 
         $gateway = new Braintree_Gateway(array(
             'accessToken' => env('PAYPAL_TOKEN')
@@ -46,31 +39,49 @@ class PaymentController extends Controller
         $result = $gateway->transaction()->sale([
             "amount" => $request->amount,
             'merchantAccountId' => 'USD',
-            "paymentMethodNonce" => $request->payment_method_nonce,
-            "orderId" => $_POST['Mapped to PayPal Invoice Number'],
-            "descriptor" => [
-                "name" => "Descriptor displayed in customer CC statements. 22 char max"
-            ],
+            "paymentMethodNonce" => $request->nonce,
             "options" => [
                 "paypal" => [
-                    "customField" => $_POST["PayPal custom field"],
-                    "description" => $_POST["Description for PayPal email receipt"]
+                    "description" => "Midwest Unitarian Universalist Summer Assembly fees"
                 ],
             ]
         ]);
+
+        $success = '';
+        $error = '';
         if ($result->success) {
-            $message = array('success' => 'Payment received! You should receive a receipt via email for your records.');
-//            print_r("Success ID: " . $result->transaction->id);
+            DB::table('charges')->insert(
+                ['camperid' => $camperid, 'amount' => '-' . $request->amount, 'memo' => $result->transaction->id,
+                    'chargetypeid' => DB::raw('getchargetypeid(\'Paypal Payment\')'),
+                    'year' => DB::raw('getcurrentyear()'), 'timestamp' => date("Y-m-d"),
+                    'created_at' => DB::raw('CURRENT_TIMESTAMP')]
+            );
+
+            $success = 'Payment received! You should receive a receipt via email for your records.';
         } else {
-            $message = array('error' => 'Error. Payment was not processed by MUUSA: ' . $result->message);
+            $error = 'Error. Payment was not processed by MUUSA: ' . $result->message;
         }
 
+        return $this->index($success, $error);
+
+    }
+
+    public function index($success = null, $error = null)
+    {
+        setlocale(LC_MONETARY, 'en_US.UTF-8');
+        $gateway = new Braintree_Gateway(array(
+            'accessToken' => env('PAYPAL_TOKEN')
+        ));
+
+        $depositchargetype = DB::select(DB::raw('SELECT getchargetypeid(\'MUUSA Deposit\') FROM users'));
+        $familyid = \App\Camper::where('email', Auth::user()->email)->first()->family->id;
+        $charges = \App\Thisyear_Charge::where('familyid', $familyid)->orderBy('timestamp')->get();
+        $deposit = $charges->where('chargetypeid', $depositchargetype)->sum('amount');
+
+        $token = $gateway->clientToken()->generate();
         return view('payment',
             ['year' => \App\Year::where('is_current', '1')->first(),
-                'token' => $gateway->clientToken()->generate(),
-                'charges' =>
-                    \App\Thisyear_Charge::where('familyid',
-                        \App\Camper::where('email', Auth::user()->email)->first()->family->id)->get()])->with($message);
-
+                'token' => $token,
+                'charges' => $charges, 'deposit' => $deposit, 'success' => $success, 'error' => $error]);
     }
 }

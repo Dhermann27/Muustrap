@@ -16,7 +16,7 @@
 
                                 <div class="col-md-6">
                                     <input id="email" type="email" class="form-control" name="email"
-                                           value="{{ old('email') }}" required>
+                                           value="{{ old('email', isset($_GET['email']) ? $_GET['email'] : '') }}" required>
 
                                     @if ($errors->has('email'))
                                         <span class="help-block">
@@ -51,7 +51,7 @@
 
                             <div class="form-group{{ $errors->has('message') ? ' has-error' : '' }}">
                                 <div class="col-md-6 col-md-offset-4">
-                                    {!! app('captcha')->display('', 'en') !!}
+                                    {!! app('captcha')->display() !!}
 
                                     @if ($errors->has('g-recaptcha-response'))
                                         <span class="help-block">
@@ -63,7 +63,7 @@
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
-                                    <button type="submit" class="btn btn-primary">Register</button>
+                                    <button type="submit" class="btn btn-primary">Create Account</button>
                                 </div>
                             </div>
                         </form>

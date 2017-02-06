@@ -168,5 +168,8 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
     <script src="/js/campcost.js" type="text/javascript"></script>
 @endsection

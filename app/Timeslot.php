@@ -8,8 +8,10 @@ class Timeslot extends Model
 {
     public $timestamps = false;
 
-    public function workshop()
+    protected $dates = ['start_time', 'end_time'];
+
+    public function workshops()
     {
-        return $this->belongsTo(Workshop::class);
+        return $this->hasMany(Workshop::class, 'timeslotid');
     }
 }

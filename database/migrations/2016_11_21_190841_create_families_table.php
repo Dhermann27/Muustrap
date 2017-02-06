@@ -24,7 +24,8 @@ class CreateFamiliesTable extends Migration
             $table->string('zipcd')->default('99999');
             $table->string('country')->default('USA');
             $table->tinyInteger('is_address_current')->default('1');
-            $table->tinyInteger('is_scholar');
+            $table->tinyInteger('is_ecomm')->default('1');
+            $table->tinyInteger('is_scholar')->default('0');
             $table->timestamps();
         });
     }

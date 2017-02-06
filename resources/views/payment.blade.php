@@ -90,7 +90,8 @@
                                     <input type="number" id="amount"
                                            class="form-control" name="amount"
                                            data-number-to-fixed="2" min="0" placeholder="Enter Another Amount"
-                                           value="{{ number_format(max($charges->sum('amount'), 0.0), 2) }}"/></div>
+                                           value="{{ number_format(max(count($charges) > 0 ? $charges->sum('amount') : 0.0, 0.0), 2) }}"/>
+                                </div>
 
                                 @if ($errors->has('amount'))
                                     <span class="help-block">
@@ -173,7 +174,10 @@
                     </div>
                 </form>
             </div>
-            <script src="/js/payment.js" type="text/javascript"></script>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script src="/js/payment.js" type="text/javascript"></script>
 @endsection

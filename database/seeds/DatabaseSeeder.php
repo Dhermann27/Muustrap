@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(CompensationlevelTableSeeder::class);
+        $this->call(PronounTableSeeder::class);
         $this->call(StatecodesTableSeeder::class);
         $this->call(StaticdatesTableSeeder::class);
         $this->call(TimeslotsTableSeeder::class);

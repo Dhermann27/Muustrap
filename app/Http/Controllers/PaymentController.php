@@ -21,17 +21,19 @@ class PaymentController extends Controller
             'amount' => 'required|min:0'
         ], $messages);
 
-        $camperid = \App\Camper::where('email', Auth::user()->email)->first()->id;
-        if ($request->donation > 0) {
-            DB::table('charges')->insert(
-                ['camperid' => $camperid,
-                    'amount' => $request->donation, 'memo' => 'MUUSA Scholarship Fund',
-                    'chargetypeid' => DB::raw('getchargetypeid(\'Donation\')'),
-                    'year' => DB::raw('getcurrentyear()'), 'timestamp' => date("Y-m-d"),
-                    'created_at' => DB::raw('CURRENT_TIMESTAMP')]
-            );
+        $camper = \App\Camper::where('email', Auth::user()->email)->first();
+        if ($camper !== null) {
+            if ($request->donation > 0) {
+                \App\Charge::updateOrCreate(
+                    ['camperid' => $camper->id, 'chargetypeid' => DB::raw('getchargetypeid(\'Donation\')'),
+                        'year' => DB::raw('getcurrentyear()')],
+                    ['camperid' => $camper->id,
+                        'amount' => $request->donation, 'memo' => 'MUUSA Scholarship Fund',
+                        'chargetypeid' => DB::raw('getchargetypeid(\'Donation\')'),
+                        'year' => DB::raw('getcurrentyear()'), 'timestamp' => date("Y-m-d")]
+                );
+            }
         }
-
         $gateway = new Braintree_Gateway(array(
             'accessToken' => env('PAYPAL_TOKEN')
         ));
@@ -73,10 +75,15 @@ class PaymentController extends Controller
             'accessToken' => env('PAYPAL_TOKEN')
         ));
 
-        $depositchargetype = DB::select(DB::raw('SELECT getchargetypeid(\'MUUSA Deposit\') FROM users'));
-        $familyid = \App\Camper::where('email', Auth::user()->email)->first()->family->id;
-        $charges = \App\Thisyear_Charge::where('familyid', $familyid)->orderBy('timestamp')->get();
-        $deposit = $charges->where('chargetypeid', $depositchargetype)->sum('amount');
+        $charges = [];
+        $deposit = 0.0;
+        $camper = \App\Camper::where('email', Auth::user()->email)->first();
+        if ($camper !== null) {
+            $depositchargetype = DB::select(DB::raw('SELECT getchargetypeid(\'MUUSA Deposit\') FROM users'));
+            $familyid = $camper->family->id;
+            $charges = \App\Thisyear_Charge::where('familyid', $familyid)->orderBy('timestamp')->get();
+            $deposit = $charges->where('chargetypeid', $depositchargetype)->sum('amount');
+        }
 
         $token = $gateway->clientToken()->generate();
         return view('payment',

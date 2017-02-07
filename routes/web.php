@@ -37,8 +37,14 @@ Route::get('/cost', function () {
     return view('campcost');
 });
 Route::get('/excursions', function () {
-    return view('excursions');
+    return view('excursions', ['workshops' => \App\Workshop::where('timeslotid', '1005')->get()]);
 });
 Route::get('/themespeaker', function () {
     return view('themespeaker');
+});
+Route::get('/programs', function () {
+    return view('programs', ['programs' => \App\Program::whereNotNull('blurb')->orderBy('age_min')->orderBy('grade_min')->get()]);
+});
+Route::get('/housing', function () {
+    return view('housing', ['buildings' => \App\Building::whereNotNull('blurb')->get()]);
 });

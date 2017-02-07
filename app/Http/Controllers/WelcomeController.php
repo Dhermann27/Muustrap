@@ -43,7 +43,10 @@ class WelcomeController extends Controller
 
     private function isPaid($family)
     {
-        return $family != null && $family->paydate != null;
+
+        return $family != null &&
+            \App\Thisyear_Charge::where('familyid', $family->id)->where('chargetypeid', 1003)->
+            where('chargetypeid', 1003)->orWhere('amount', '<', '0')->get()->sum('amount') <= 0;
     }
 
 }

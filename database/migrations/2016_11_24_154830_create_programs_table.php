@@ -23,6 +23,7 @@ class CreateProgramsTable extends Migration
             $table->integer('start_year');
             $table->integer('end_year');
             $table->integer('fee');
+            $table->text('blurb')->nullable();
             $table->tinyInteger('is_program_housing');
             $table->timestamps();
         });

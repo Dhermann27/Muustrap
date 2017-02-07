@@ -35,6 +35,10 @@ div.panel {
     margin: 10px;
 }
 
+div#spacer0 {
+    background-image: url("/images/spacer0.png");
+}
+
 div#spacer1 {
     background-image: url("/images/spacer1.jpg");
 }

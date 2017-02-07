@@ -12,6 +12,7 @@ class CreateBuildingsTable extends Migration {
 		Schema::create ( 'buildings', function (Blueprint $table) {
 			$table->increments ( 'id' );
 			$table->string ( 'name' );
+			$table->text('blurb')->nullable();
 		} );
         DB::update('ALTER TABLE buildings AUTO_INCREMENT = 1000');
 

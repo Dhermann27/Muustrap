@@ -9,8 +9,8 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/muustrap.css"/>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto:500"/>
+    <script src="//use.fontawesome.com/9364904132.js"></script>
 
 @yield('css')
 

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Yearattending extends Model
 {
     protected $table = "yearsattending";
+    protected $fillable = ['camperid', 'year'];
 
     public function camper()
     {
@@ -21,5 +22,9 @@ class Yearattending extends Model
     public function scholarship()
     {
         return $this->belongsTo(Scholarship::class);
+    }
+
+    public function workshops() {
+        return $this->hasMany(Yearattending__Workshop::class, 'yearattendingid', 'id');
     }
 }

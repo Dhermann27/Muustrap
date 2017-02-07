@@ -47,10 +47,10 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('mailbox') ? ' has-error' : '' }}">
-                                <label for="id" class="col-md-4 control-label">Subject</label>
+                                <label for="mailbox" class="col-md-4 control-label">Subject</label>
 
                                 <div class="col-md-6">
-                                    <select id="mailbox " name="mailbox" class="form-control">
+                                    <select id="mailbox" name="mailbox" class="form-control">
                                         @foreach($mailboxes as $mailbox)
                                             <option value="{{ $mailbox->id }}"{{ (old('id') == $mailbox->id) ? " selected" : "" }}>
                                                 {{ $mailbox->name }}
@@ -67,7 +67,7 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('message') ? ' has-error' : '' }}">
-                                <label for="password" class="col-md-4 control-label">Message</label>
+                                <label for="message" class="col-md-4 control-label">Message</label>
 
                                 <div class="col-md-6">
                                     <textarea id="message" class="form-control" name="message"
@@ -80,10 +80,20 @@
                                     @endif
                                 </div>
                             </div>
+                            <div class="form-group{{ $errors->has('message') ? ' has-error' : '' }}">
+                                <div class="col-md-6 col-md-offset-4">
+                                    {!! app('captcha')->display() !!}
 
+                                    @if ($errors->has('g-recaptcha-response'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
-                                    {!! app('captcha')->display('Send') !!}
+                                    <button type="submit" class="btn btn-primary">Send Message</button>
                                 </div>
                             </div>
                         </form>
@@ -92,5 +102,4 @@
             </div>
         </div>
     </div>
-
 @endsection

@@ -7,19 +7,14 @@
     <title>Midwest Unitarian Universalist Summer Assembly</title>
 
     <!-- Bootstrap -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="/css/muustrap.css" rel="stylesheet"/>
-    <link rel="stylesheet" type="text/css"
-          href="//netdna.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
-    <link
-            href="//fonts.googleapis.com/css?family=Fenix|Fredericka+the+Great"
-            rel="stylesheet">
-    <script
-            src="https://code.jquery.com/jquery-3.1.1.slim.js"
-            integrity="sha256-5i/mQ300M779N2OVDrl16lbohwXNUdzL/R2aVUXyXWA="
-            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/muustrap.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto:500"/>
+    <script src="//use.fontawesome.com/9364904132.js"></script>
 
-    <!-- CSRF Token -->
+@yield('css')
+
+<!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Scripts -->
@@ -30,62 +25,46 @@
     </script>
 </head>
 <body>
-<nav class="navbar navbar-default" style="margin-bottom: 0
-
-;">
+<nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
             <!-- Collapsed Hamburger -->
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#app-navbar-collapse">
+                    data-target="#myNavbar">
                 <span class="sr-only">Toggle Navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="//muusa.org">
+            <a class="navbar-brand" href="/">
                 <h4>
-                    <img alt="Brand" src="/images/brand.png"> Midwest Unitarian
+                    <img alt="Brand" src="/images/brand.png"> <span class="hidden-xs">Midwest Unitarian
                     Universalist Summer Assembly
                 </h4>
             </a>
-            <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                <!-- Left Side Of Navbar -->
-                <ul class="nav navbar-nav">
-                    &nbsp;
-                </ul>
-
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{{ url('/contact') }}">Contact Us</a></li>
-                    <!-- Authentication Links -->
-                    @if (Auth::guest())
-                        <li><a href="{{ url('/login') }}">Login</a></li>
-                        <li><a href="{{ url('/register') }}">Register</a></li>
-                    @else
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-expanded="false">
-                                {{ Auth::user()->name }} <span class="caret"></span>
-                            </a>
-
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <a href="{{ url('/logout') }}"
-                                       onclick="event.preventDefault();
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{ url('/MUUSA_2017_Brochure.pdf') }}">Web Brochure</a></li>
+                <li><a href="{{ url('/contact') }}">Contact Us</a></li>
+                <!-- Authentication Links -->
+                @if (Auth::guest())
+                    <li><a href="{{ url('/login') }}">Login</a></li>
+                    <li><a href="{{ url('/register') }}">Create Account</a></li>
+                @else
+                    <li><a href="{{ url('/logout') }}"
+                           onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        Logout
-                                    </a>
+                            Logout
+                        </a>
 
-                                    <form id="logout-form" action="{{ url('/logout') }}" method="POST"
-                                          style="display: none;">
-                                        {{ csrf_field() }}
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
-                    @endif
-                </ul>
-            </div>
+                        <form id="logout-form" action="{{ url('/logout') }}" method="POST"
+                              style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                    </li>
+                @endif
+            </ul>
         </div>
     </div>
 </nav>
@@ -93,8 +72,12 @@
 @yield('content')
 
 <script
-        src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
+        src="//code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
 <script src="/js/bootstrap.min.js"></script>
+
+@yield('script')
+
 </body>
 </html>

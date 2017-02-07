@@ -20,9 +20,9 @@ class CreateYearsattendingTable extends Migration
             $table->integer('year');
             $table->integer('roomid')->unsigned()->nullable()->default(NULL);
             $table->foreign('roomid')->references('id')->on('rooms');
-            $table->integer('days');
-            $table->tinyInteger('is_private');
-            $table->timestamp('paydate');
+            $table->integer('days')->default('6');
+            $table->tinyInteger('is_private')->default('0');
+            $table->timestamp('paydate')->nullable();
             $table->timestamps();
         });
     }

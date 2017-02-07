@@ -15,11 +15,7 @@ Route::get('/', 'WelcomeController@index');
 
 Auth::routes();
 
-Route::group(['middleware' => 'auth', 'prefix' => 'workshops'], function () {
-    Route::get('/chooser', 'WorkshopController@index');
-    Route::post('/chooser', 'WorkshopController@store');
-    Route::get('/', 'WorkshopController@read');
-});
+Route::get('/workshops', 'WorkshopController@read');
 
 Route::get('/contact', 'ContactController@index');
 Route::post('/contact', 'ContactController@store');
@@ -30,6 +26,8 @@ Route::get('/camper', 'CamperController@index')->middleware('auth');
 Route::post('/camper', 'CamperController@store')->middleware('auth');
 Route::get('/payment', 'PaymentController@index')->middleware('auth');
 Route::post('/payment', 'PaymentController@store')->middleware('auth');
+Route::get('/workshopchoice', 'WorkshopController@index')->middleware('auth');
+Route::post('/workshopchoice', 'WorkshopController@store')->middleware('auth');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'data'], function () {
     Route::get('churchlist', 'DataController@churches');

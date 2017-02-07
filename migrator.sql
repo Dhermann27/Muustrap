@@ -334,7 +334,8 @@ CREATE VIEW byyear_campers AS
     f.zipcd,
     f.country,
     c.id,
-    c.pronoun,
+    c.pronounid,
+    o.name                                       pronounname,
     c.firstname,
     c.lastname,
     c.email,
@@ -359,10 +360,11 @@ CREATE VIEW byyear_campers AS
     r.room_number,
     b.id                                         buildingid,
     b.name                                       buildingname
-  FROM (families f, campers c, yearsattending ya, programs p)
+  FROM (families f, campers c, yearsattending ya, programs p, pronouns o)
     LEFT JOIN (buildings b, rooms r) ON ya.roomid = r.id AND r.buildingid = b.id
     LEFT JOIN churches u ON c.churchid = u.id
-  WHERE f.id = c.familyid AND c.id = ya.camperid AND p.id = getprogramidbycamperid(c.id, ya.year);
+  WHERE f.id = c.familyid AND c.id = ya.camperid AND p.id = getprogramidbycamperid(c.id, ya.year)
+        AND c.pronounid = o.id;
 
 DROP VIEW IF EXISTS byyear_charges;
 CREATE VIEW byyear_charges AS
@@ -405,8 +407,7 @@ CREATE VIEW thisyear_families AS
     yf.statecd,
     yf.zipcd,
     yf.country,
-    yf.count,
-    yf.paydate
+    yf.count
   FROM byyear_families yf, years y
   WHERE yf.year = y.year AND y.is_current = 1;
 
@@ -425,6 +426,47 @@ CREATE VIEW thisyear_charges AS
     bh.memo
   FROM campers c, byyear_charges bh, chargetypes g, years y
   WHERE c.id = bh.camperid AND bh.chargetypeid = g.id AND bh.year = y.year AND y.is_current = 1;
+
+DROP VIEW IF EXISTS thisyear_campers;
+CREATE VIEW thisyear_campers AS
+  SELECT
+    familyid,
+    familyname,
+    address1,
+    address2,
+    city,
+    statecd,
+    zipcd,
+    country,
+    id,
+    pronounid,
+    pronounname,
+    firstname,
+    lastname,
+    email,
+    birthdate,
+    birthday,
+    age,
+    gradeoffset,
+    grade,
+    programid,
+    programname,
+    sponsor,
+    is_handicap,
+    foodoptionid,
+    churchid,
+    churchname,
+    churchcity,
+    churchstatecd,
+    yearattendingid,
+    paydate,
+    days,
+    roomid,
+    room_number,
+    buildingid,
+    buildingname
+  FROM byyear_campers bc, years y
+  WHERE bc.year = y.year AND y.is_current = 1;
 
 INSERT INTO `workshops` (`id`, `roomid`, `timeslotid`, `order`, `name`, `led_by`, `blurb`, `m`, `t`, `w`, `th`, `f`, `enrolled`, `capacity`, `fee`, `created_at`, `updated_at`)
 VALUES
@@ -528,8 +570,11 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges()
     INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
       SELECT
         bf.year,
-        (SELECT id FROM campers WHERE familyid=bf.id LIMIT 1),
-        IF(bf.count=1,150.0,300),
+        (SELECT id
+         FROM campers
+         WHERE familyid = bf.id
+         LIMIT 1),
+        IF(bf.count = 1, 150.0, 300),
         1003,
         CONCAT("Deposit for ", bf.year)
       FROM byyear_families bf
@@ -538,4 +583,14 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges()
     #       SELECT bsp.year, bsp.camperid, -(bsp.registration_amount+bsp.housing_amount) amount, 1021, bsp.staffpositionname
     #       FROM byyear_staff bsp
     #       WHERE bsp.year=2017;
+  END;
+
+
+DROP PROCEDURE IF EXISTS update_workshops;
+CREATE DEFINER =`root`@`localhost` PROCEDURE update_workshops()
+  BEGIN
+    UPDATE workshops w
+    SET w.enrolled = (SELECT COUNT(*)
+                      FROM yearattending__workshop yw
+                      WHERE w.id = yw.workshopid);
   END;

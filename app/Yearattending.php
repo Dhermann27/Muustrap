@@ -23,4 +23,8 @@ class Yearattending extends Model
     {
         return $this->belongsTo(Scholarship::class);
     }
+
+    public function workshops() {
+        return $this->hasMany(Yearattending__Workshop::class, 'yearattendingid', 'id');
+    }
 }

@@ -18,7 +18,7 @@ class CreateYearattendingWorkshopTable extends Migration
             $table->foreign('yearattendingid')->references('id')->on('yearsattending');
             $table->integer('workshopid')->unsigned();
             $table->foreign('workshopid')->references('id')->on('workshops');
-            $table->tinyInteger('is_leader');
+            $table->tinyInteger('is_leader')->default('0');
             $table->timestamps();
             $table->unique(array('yearattendingid', 'workshopid'), 'yaid__wid_index');
         });

@@ -4,7 +4,6 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css"/>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css"/>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
 @endsection
 
 @section('content')
@@ -13,18 +12,12 @@
         <div class="panel panel-default">
             <div class="panel-heading">Camper Information</div>
             <div class="panel-body">
-                <form id="payment" class="form-horizontal" role="form" method="POST" action="{{ url('/camper') }}">
+                <form class="form-horizontal" role="form" method="POST" action="{{ url('/camper') }}">
                     {{ csrf_field() }}
 
                     @if(!empty($success))
                         <div class="alert alert-success">
                             {!! $success !!}
-                        </div>
-                    @endif
-
-                    @if(!empty($errors))
-                        <div class="alert alert-error">
-                            {{ $errors->first() }}
                         </div>
                     @endif
                     <ul class="nav nav-tabs" role="tablist">
@@ -37,7 +30,7 @@
 
                     <div class="tab-content">
                         @foreach($campers as $camper)
-                            <div role="tabpanel" class="tab-pane{{ $loop->first ? '  active' : '' }}"
+                            <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' in active' : '' }}"
                                  id="{{ $camper->id }}">
                                 <p>&nbsp;</p>
                                 <div class="form-group{{ $errors->has($camper->id . '-yearattendingid') ? ' has-error' : '' }}">
@@ -374,6 +367,9 @@
             $('[data-toggle="tooltip"]').tooltip();
             $('.next').click(function () {
                 $('.nav-tabs > .active').next('li').find('a').trigger('click');
+                $('html,body').animate({
+                    scrollTop: 0
+                }, 700);
             });
             $(".churchlist").autocomplete({
                 source: "/data/churchlist",

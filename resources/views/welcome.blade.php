@@ -173,7 +173,7 @@
                                 <h4>Camp Cost Calculator</h4>
                                 <p>Use this helpful tool to help estimate how much MUUSA will cost this year. Full
                                     details can be found in the brochure.</p>
-                                <a class="booty" href="{{ url('/campcost') }}">Use Calculator <i
+                                <a class="booty" href="{{ url('/cost') }}">Use Calculator <i
                                             class="fa fa-arrow-right"></i>
                                 </a>
                             </div>

@@ -17,7 +17,7 @@
 
             <div class="tab-content">
                 @foreach($timeslots as $timeslot)
-                    <div role="tabpanel" class="tab-pane{{ $loop->first ? '  active' : '' }}" id="{{ $timeslot->id }}">
+                    <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' in active' : '' }}" id="{{ $timeslot->id }}">
                         <h4>{{ $timeslot->start_time->format('g:i A') }}
                             - {{ $timeslot->end_time->format('g:i A') }}</h4>
                         @foreach($timeslot->workshops as $workshop)

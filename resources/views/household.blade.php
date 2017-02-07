@@ -135,8 +135,10 @@
 
                         <div class="col-md-2">
                             <select id="is_ecomm" name="is_ecomm" class="form-control">
-                                <option value="1">No</option>
-                                <option value="0"{{ old('is_ecomm', $family->is_ecomm) == '0' ? ' selected' : '' }}>Yes</option>
+                                <option value="1">No, do not mail me anything</option>
+                                <option value="0"{{ old('is_ecomm', $family->is_ecomm) == '0' ? ' selected' : '' }}>Yes,
+                                    please mail me a brochure
+                                </option>
                             </select>
                             @if ($errors->has('is_ecomm'))
                                 <span class="help-block">
@@ -154,7 +156,9 @@
                         <div class="col-md-2">
                             <select id="is_scholar" name="is_scholar" class="form-control">
                                 <option value="0">No</option>
-                                <option value="1"{{ old('is_scholar', $family->is_scholar) == '1' ? ' selected' : '' }}>Yes</option>
+                                <option value="1"{{ old('is_scholar', $family->is_scholar) == '1' ? ' selected' : '' }}>
+                                    Yes, I will be completing the separate process
+                                </option>
                             </select>
                             @if ($errors->has('is_scholar'))
                                 <span class="help-block">

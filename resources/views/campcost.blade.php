@@ -8,7 +8,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Camp Cost Calculator</div>
                     <div class="panel-body">
-                        <div class="alert alert-info">
+                        <div class="alert alert-warning">
                             Warning: this calculator only provides an estimate of your camp cost and your actual fees
                             may vary.
                         </div>

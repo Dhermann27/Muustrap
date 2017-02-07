@@ -40,7 +40,7 @@ class HouseholdController extends Controller
         );
 
         return view('household', ['family' => $family, 'statecodes' => \App\Statecode::all()->sortBy('name'),
-            'message' => 'Your information has been saved successfully. Proceed to the next screen by clicking <a href="' . url('/campers') . '">here</a>.']);
+            'message' => 'Your information has been saved successfully. Proceed to the next screen by clicking <a href="' . url('/camper') . '">here</a>.']);
 
     }
 

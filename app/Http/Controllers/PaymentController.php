@@ -53,7 +53,7 @@ class PaymentController extends Controller
         $error = '';
         if ($result->success) {
             DB::table('charges')->insert(
-                ['camperid' => $camperid, 'amount' => '-' . $request->amount, 'memo' => $result->transaction->id,
+                ['camperid' => $camper->email, 'amount' => '-' . $request->amount, 'memo' => $result->transaction->id,
                     'chargetypeid' => DB::raw('getchargetypeid(\'Paypal Payment\')'),
                     'year' => DB::raw('getcurrentyear()'), 'timestamp' => date("Y-m-d"),
                     'created_at' => DB::raw('CURRENT_TIMESTAMP')]

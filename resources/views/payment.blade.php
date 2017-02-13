@@ -101,74 +101,8 @@
                             </div>
                             <p>&nbsp;</p>
                             <div align="right">
-                                <script src="https://js.braintreegateway.com/web/3.6.3/js/client.min.js"></script>
-                                <script src="https://js.braintreegateway.com/web/3.6.3/js/paypal.min.js"></script>
-                                <script>
-                                    braintree.client.create({
-                                        authorization: '{{ $token }}'
-                                    }, function (clientErr, clientInstance) {
-                                        if (clientErr) {
-                                            console.error('Error creating client:', clientErr);
-                                            return;
-                                        }
-                                        braintree.paypal.create({
-                                            client: clientInstance
-                                        }, function (paypalErr, paypalInstance) {
-                                            var paypalButton = $("#paypalButton");
-                                            if (paypalErr) {
-                                                console.error('Error creating PayPal:', paypalErr);
-                                                return;
-                                            }
-                                            paypalButton.prop('disabled', false);
-                                            paypalButton.on('click', function () {
-                                                paypalButton.prop('disabled', true);
-                                                paypalInstance.tokenize({
-                                                        flow: 'checkout', // Required
-                                                        intent: 'sale',
-                                                        useraction: 'commit',
-                                                        displayName: 'Midwest Unitarian Universalist Summer Assembly',
-                                                        amount: $("#amount").val(), // Required
-                                                        currency: 'USD', // Required
-                                                        locale: 'en_US',
-                                                        enableShippingAddress: false
-                                                    }, function (tokenizeErr, tokenizationPayload) {
-                                                        paypalButton.prop('disabled', false);
-                                                        if (tokenizeErr) {
-                                                            switch (tokenizeErr.code) {
-                                                                case 'PAYPAL_POPUP_CLOSED':
-                                                                    console.error('Customer closed PayPal popup.');
-                                                                    break;
-                                                                case 'PAYPAL_ACCOUNT_TOKENIZATION_FAILED':
-                                                                    console.error('PayPal tokenization failed. See details:', tokenizeErr.details);
-                                                                    break;
-                                                                case 'PAYPAL_FLOW_FAILED':
-                                                                    console.error('Unable to initialize PayPal flow. Are your options correct?', tokenizeErr.details);
-                                                                    break;
-                                                                default:
-                                                                    console.error('Error!', tokenizeErr);
-                                                            }
-                                                        } else {
-                                                            $("#nonce").val(tokenizationPayload.nonce);
-                                                            $("#payment").submit();
-                                                        }
-                                                    }
-                                                );
-                                            });
-                                        });
-                                    });
-
-                                </script>
-                                <input type="hidden" id="nonce" name="nonce"/>
-                                <script src="https://www.paypalobjects.com/api/button.js?"
-                                        data-merchant="braintree"
-                                        data-id="paypalButton"
-                                        data-button="checkout"
-                                        data-color="blue"
-                                        data-size="medium"
-                                        data-shape="rect"
-                                        data-button_type="submit"
-                                        data-button_disabled="true"
-                                ></script>
+                                <input type="hidden" id="txn" name="txn"/>
+                                <div id="paypal-button"></div>
                             </div>
                         </div>
                     </div>
@@ -179,5 +113,41 @@
 @endsection
 
 @section('script')
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
     <script src="/js/payment.js" type="text/javascript"></script>
+    <script>
+        paypal.Button.render({
+
+            env: '{{ $env }}', // Specify 'sandbox' for the test environment
+
+            client: {
+        {{ $env }}: '{{ $token }}'
+        },
+
+        payment: function () {
+            var env    = this.props.env;
+            var client = this.props.client;
+
+            return paypal.rest.payment.create(env, client, {
+                transactions: [
+                    {
+                        amount: { total: $("#amount").val(), currency: 'USD' }
+                    }
+                ]
+            });
+        },
+
+        commit: true,
+
+            onAuthorize: function (data, actions) {
+                $("#txn").val(data.paymentID);
+            return actions.payment.execute().then(function() {
+                $("#payment").submit();
+            });
+
+        }
+
+        }, '#paypal-button');
+    </script>
+
 @endsection

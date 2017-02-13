@@ -11,7 +11,7 @@ class PaymentController extends Controller
 {
     public function store(Request $request)
     {
-        $messages = [
+        /*$messages = [
             'donation.max' => 'Please use the Contact Us form at the top of the screen (Subject: Treasurer) to commit to a donation above $100.00.',
         ];
 
@@ -19,7 +19,7 @@ class PaymentController extends Controller
         $this->validate($request, [
             'donation' => 'min:0|max:100',
             'amount' => 'required|min:0'
-        ], $messages);
+        ], $messages);*/
 
         $camper = \App\Camper::where('email', Auth::user()->email)->first();
         if ($camper !== null) {
@@ -34,26 +34,26 @@ class PaymentController extends Controller
                 );
             }
         }
-        $gateway = new Braintree_Gateway(array(
-            'accessToken' => env('PAYPAL_TOKEN')
-        ));
-
-        $result = $gateway->transaction()->sale([
-            "amount" => $request->amount,
-            'merchantAccountId' => 'USD',
-            "paymentMethodNonce" => $request->nonce,
-            "options" => [
-                "paypal" => [
-                    "description" => "Midwest Unitarian Universalist Summer Assembly fees"
-                ],
-            ]
-        ]);
-
+//        $gateway = new Braintree_Gateway(array(
+//            'accessToken' => env('PAYPAL_TOKEN')
+//        ));
+//
+//        $result = $gateway->transaction()->sale([
+//            "amount" => $request->amount,
+//            'merchantAccountId' => 'USD',
+//            "paymentMethodNonce" => $request->nonce,
+//            "options" => [
+//                "paypal" => [
+//                    "description" => "Midwest Unitarian Universalist Summer Assembly fees"
+//                ],
+//            ]
+//        ]);
+//
         $success = '';
         $error = '';
-        if ($result->success) {
+        if (!empty($request->txn)) {
             DB::table('charges')->insert(
-                ['camperid' => $camper->email, 'amount' => '-' . $request->amount, 'memo' => $result->transaction->id,
+                ['camperid' => $camper->id, 'amount' => '-' . $request->amount, 'memo' => $request->txn,
                     'chargetypeid' => DB::raw('getchargetypeid(\'Paypal Payment\')'),
                     'year' => DB::raw('getcurrentyear()'), 'timestamp' => date("Y-m-d"),
                     'created_at' => DB::raw('CURRENT_TIMESTAMP')]
@@ -61,7 +61,7 @@ class PaymentController extends Controller
 
             $success = 'Payment received! You should receive a receipt via email for your records.';
         } else {
-            $error = 'Error. Payment was not processed by MUUSA: ' . $result->message;
+            $error = 'Error. Payment was not processed by MUUSA.';
         }
 
         return $this->index($success, $error);
@@ -70,10 +70,12 @@ class PaymentController extends Controller
 
     public function index($success = null, $error = null)
     {
-        setlocale(LC_MONETARY, 'en_US.UTF-8');
-        $gateway = new Braintree_Gateway(array(
-            'accessToken' => env('PAYPAL_TOKEN')
-        ));
+        $env = env('APP_ENV');
+
+//        setlocale(LC_MONETARY, 'en_US.UTF-8');
+//        $gateway = new Braintree_Gateway(array(
+//            'accessToken' => env('PAYPAL_TOKEN')
+//        ));
 
         $charges = [];
         $deposit = 0.0;
@@ -85,10 +87,11 @@ class PaymentController extends Controller
             $deposit = $charges->where('chargetypeid', $depositchargetype)->sum('amount');
         }
 
-        $token = $gateway->clientToken()->generate();
+        $token = env('PAYPAL_CLIENT');
+//        $token = $gateway->clientToken()->generate();
         return view('payment',
             ['year' => \App\Year::where('is_current', '1')->first(),
-                'token' => $token,
+                'token' => $token, 'env' => $env,
                 'charges' => $charges, 'deposit' => $deposit, 'success' => $success, 'error' => $error]);
     }
 }

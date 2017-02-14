@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Charge extends Model
 {
-    protected $fillable = ['camperid', 'chargetypeid', 'year'];
+    protected $fillable = ['camperid', 'amount', 'memo', 'chargetypeid', 'year', 'timestamp'];
 
     public function camper()
     {

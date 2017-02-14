@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Charge extends Model
 {
+    protected $fillable = ['camperid', 'chargetypeid', 'year'];
+
     public function camper()
     {
         return $this->hasOne(Camper::class);

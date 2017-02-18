@@ -20,13 +20,19 @@
                                 <label for="name" class="col-md-4 control-label">Your Name</label>
 
                                 <div class="col-md-6">
-                                    <input id="name" class="form-control" name="name" value="{{ old('name') }}"
-                                           required>
+                                    @if(Auth::check() && !empty($camper))
+                                        <strong>{{ $camper->firstname }} {{ $camper->lastname }}</strong>
+                                        <input type="hidden" name="name"
+                                               value="{{ $camper->firstname }} {{ $camper->lastname }}"/>
+                                    @else
+                                        <input id="name" class="form-control" name="name" value="{{ old('name') }}"
+                                               required>
 
-                                    @if ($errors->has('name'))
-                                        <span class="help-block">
+                                        @if ($errors->has('name'))
+                                            <span class="help-block">
                                         <strong>{{ $errors->first('name') }}</strong>
                                     </span>
+                                        @endif
                                     @endif
                                 </div>
                             </div>
@@ -35,13 +41,18 @@
                                 <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
                                 <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control" name="email"
-                                           value="{{ old('email') }}" required>
+                                    @if(Auth::check())
+                                        <strong>{{ Auth::user()->email }}</strong>
+                                        <input type="hidden" name="email" value="{{ Auth::user()->email }}"/>
+                                    @else
+                                        <input id="email" type="email" class="form-control" name="email"
+                                               value="{{ old('email') }}" required>
 
-                                    @if ($errors->has('email'))
-                                        <span class="help-block">
+                                        @if ($errors->has('email'))
+                                            <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
+                                        @endif
                                     @endif
                                 </div>
                             </div>

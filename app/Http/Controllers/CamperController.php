@@ -16,81 +16,45 @@ class CamperController extends Controller
         $campers = $this->getCampers();
         $emailsToSend = [];
 
-        foreach ($campers as $camper) {
-            $messages = [$camper->id . 'phonenbr.regex' => 'Please enter your ten-digit phone number in 800-555-1212 format.',
-                $camper->id . 'birthdate.regex' => 'Please enter your eight-digit birthdate in 2016-12-31 format.'];
+        $messages = ['*-email.distinct' => 'Please do not use the same email address for multiple campers.',
+            '*-phonenbr.regex' => 'Please enter your ten-digit phone number in 800-555-1212 format.',
+            '*-birthdate.regex' => 'Please enter your eight-digit birthdate in 2016-12-31 format.'];
 
-            $this->validate($request, [
-                $camper->id . '-yearattendingid' => 'required|between:0,99999',
-                $camper->id . '-pronounid' => 'required|exists:pronouns,id',
-                $camper->id . '-firstname' => 'required|max:255',
-                $camper->id . '-lastname' => 'required|max:255',
-                $camper->id . '-email' => 'email|max:255',
-                $camper->id . '-phonenbr' => 'regex:/^\d{3}-\d{3}-\d{4}$/',
-                $camper->id . '-birthdate' => 'required|regex:/^\d{4}-\d{2}-\d{2}$/',
-                $camper->id . '-roommate' => 'max:255',
-                $camper->id . '-sponsor' => 'max:255',
-                $camper->id . '-churchid' => 'exists:churches,id',
-                $camper->id . '-is_handicap' => 'required|in:0,1',
-                $camper->id . '-foodoptionid' => 'required|exists:foodoptions,id',
-            ], $messages);
-        }
+        $this->validate($request, [
+            '*-yearattendingid' => 'between:0,99999',
+            '*-pronounid' => 'exists:pronouns,id',
+            '*-firstname' => 'max:255',
+            '*-lastname' => 'max:255',
+            '*-email' => 'email|max:255|distinct',
+            '*-phonenbr' => 'regex:/^\d{3}-\d{3}-\d{4}$/',
+            '*-birthdate' => 'regex:/^\d{4}-\d{2}-\d{2}$/',
+            '*-roommate' => 'max:255',
+            '*-sponsor' => 'max:255',
+            '*-churchid' => 'exists:churches,id',
+            '*-is_handicap' => 'in:0,1',
+            '*-foodoptionid' => 'exists:foodoptions,id',
+        ], $messages);
 
         foreach ($campers as $camper) {
             if ($camper->email == $logged_in) {
                 Auth::user()->email = $request->input($camper->id . '-email');
                 Auth::user()->save();
             }
-
-            $camper->pronounid = $request->input($camper->id . '-pronounid');
-            $camper->firstname = $request->input($camper->id . '-firstname');
-            $camper->lastname = $request->input($camper->id . '-lastname');
-
-            if ($request->input($camper->id . '-email') != '') {
-                $camper->email = $request->input($camper->id . '-email');
-            }
-            if ($request->input($camper->id . '-phonenbr') != '') {
-                $camper->phonenbr = str_replace('-', '', $request->input($camper->id . '-phonenbr'));
-            }
-            $camper->birthdate = $request->input($camper->id . '-birthdate');
-            $camper->roommate = $request->input($camper->id . '-roommate');
-            $camper->sponsor = $request->input($camper->id . '-sponsor');
-            $camper->churchid = $request->input($camper->id . '-churchid');
-            $camper->is_handicap = $request->input($camper->id . '-is_handicap');
-            $camper->foodoptionid = $request->input($camper->id . '-foodoptionid');
-
-            $camper->save();
-
-            if ($request->input($camper->id . '-yearattendingid') == '1') {
-                $ya = \App\Yearattending::updateOrCreate(['camperid' => $camper->id,
-                    'year' => DB::raw('getcurrentyear()')], []);
-                $camper->yearattendingid = $ya->id;
-
-                if ($camper->email != '') {
-                    $ua = [];
-                    $ua['email'] = $camper->email;
-                    $ua['name'] = $camper->firstname . ' ' . $camper->lastname;
-                    $emailsToSend[count($emailsToSend)] = (object)$ua;
-                }
-            } else {
-                $ya = \App\Yearattending::where(['camperid' => $camper->id,
-                    'year' => DB::raw('getcurrentyear()')])->first();
-                if ($ya != null) {
-                    if ($request->input($camper->id . '-yearattendingid') == '0') {
-                        $ya->delete();
-                    } else {
-                        // Just update timestamp for now
-                        $ya->update();
-                    }
-                }
-            }
-
+            $this->upsertCamper($request, $camper, $camper->id);
         }
+
+        $i = 100;
+        while ($request->input($i . '-yearattendingid') == '1') {
+            $camper = new \App\Camper;
+            $camper->familyid = $logged_in->familyid;
+            $camper = $this->upsertCamper($request, $camper, $i++);
+        }
+
 
         DB::statement('CALL generate_charges();');
 
         $year = $this->getCurrentYear();
-        Mail::to($emailsToSend)->send(new Confirm($year, $campers));
+        Mail::to(Auth::user()->email)->send(new Confirm($year, $campers));
 
         return $this->index('You have successfully saved your changes and registered. Click <a href="/payment">here</a> to remit payment.', $year, $campers);
     }
@@ -105,6 +69,47 @@ class CamperController extends Controller
         return \App\Year::where('is_current', 1)->first();
     }
 
+    private function upsertCamper($request, $camper, $id)
+    {
+        $camper->pronounid = $request->input($id . '-pronounid');
+        $camper->firstname = $request->input($id . '-firstname');
+        $camper->lastname = $request->input($id . '-lastname');
+
+        if ($request->input($id . '-email') != '') {
+            $camper->email = $request->input($id . '-email');
+        }
+        if ($request->input($id . '-phonenbr') != '') {
+            $camper->phonenbr = str_replace('-', '', $request->input($id . '-phonenbr'));
+        }
+        $camper->birthdate = $request->input($id . '-birthdate');
+        $camper->roommate = $request->input($id . '-roommate');
+        $camper->sponsor = $request->input($id . '-sponsor');
+        $camper->churchid = $request->input($id . '-churchid');
+        $camper->is_handicap = $request->input($id . '-is_handicap');
+        $camper->foodoptionid = $request->input($id . '-foodoptionid');
+
+        $camper->save();
+
+        if ($request->input($id . '-yearattendingid') == '1') {
+            $ya = \App\Yearattending::updateOrCreate(['camperid' => $camper->id,
+                'year' => DB::raw('getcurrentyear()')], []);
+            $camper->yearattendingid = $ya->id;
+        } else {
+            $ya = \App\Yearattending::where(['camperid' => $camper->id,
+                'year' => DB::raw('getcurrentyear()')])->first();
+            if ($ya != null) {
+                if ($request->input($id . '-yearattendingid') == '0') {
+                    $ya->delete();
+                } else {
+                    // Just update timestamp for now
+                    $ya->update();
+                }
+            }
+        }
+
+        return $camper;
+    }
+
     public function index($success = null, $year = null, $campers = null)
     {
         if ($year == null) {
@@ -112,6 +117,10 @@ class CamperController extends Controller
         }
         if ($campers == null) {
             $campers = $this->getCampers();
+            $empty = new \App\Camper();
+            $empty->id = 0;
+            $empty->churchid = 2084;
+            $campers->push($empty);
         }
         return view('campers', ['pronouns' => \App\Pronoun::all(), 'foodoptions' => \App\Foodoption::all(),
             'year' => $year, 'campers' => $campers, 'success' => $success]);

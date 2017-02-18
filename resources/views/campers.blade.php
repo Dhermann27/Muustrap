@@ -20,12 +20,21 @@
                             {!! $success !!}
                         </div>
                     @endif
+                    @if(count($errors))
+                        <div class="alert alert-danger">
+                            Changes were not saved. Please review each camper and
+                            correct the errors outlined in red. {{ $errors->first() }}
+                        </div>
+                    @endif
                     <ul class="nav nav-tabs" role="tablist">
-                        @foreach($campers as $camper)
+                        @foreach($campers->where('id', '!=', '0') as $camper)
                             <li role="presentation"{!! $loop->first ? ' class="active"' : '' !!}>
                                 <a href="#{{ $camper->id }}" aria-controls="{{ $camper->id }}" role="tab"
                                    data-toggle="tab">{{ $camper->firstname }} {{ $camper->lastname }}</a></li>
                         @endforeach
+                        <li>
+                            <a id="newcamper" href="#0" role="tab">Create New Camper <i class="fa fa-plus"></i></a>
+                        </li>
                     </ul>
 
                     <div class="tab-content">
@@ -103,7 +112,7 @@
                                     <label for="{{ $camper->id }}-firstname" class="col-md-4 control-label">First
                                         Name</label>
                                     <div class="col-md-6">
-                                        <input id="{{ $camper->id }}-firstname" class="form-control"
+                                        <input id="{{ $camper->id }}-firstname" class="form-control campername"
                                                name="{{ $camper->id }}-firstname"
                                                value="{{ old($camper->id . '-firstname', $camper->firstname) }}"
                                                required>
@@ -119,7 +128,7 @@
                                     <label for="{{ $camper->id }}-lastname" class="col-md-4 control-label">Last
                                         Name</label>
                                     <div class="col-md-6">
-                                        <input id="{{ $camper->id }}-lastname" class="form-control"
+                                        <input id="{{ $camper->id }}-lastname" class="form-control campername"
                                                name="{{ $camper->id }}-lastname"
                                                value="{{ old($camper->id . '-lastname', $camper->lastname) }}"
                                                required>
@@ -138,7 +147,7 @@
                                             <input id="{{ $camper->id }}-email" class="form-control"
                                                    name="{{ $camper->id }}-email"
                                                    value="{{ old($camper->id . '-email', $camper->email) }}"
-                                                   required aria-describedby="{{ $camper->id }}-email-addon">
+                                                   aria-describedby="{{ $camper->id }}-email-addon">
                                             <span class="input-group-addon" id="{{ $camper->id }}-email-addon">@</span>
                                         </div>
                                         @if($camper->logged_in)
@@ -159,8 +168,7 @@
                                     <div class="col-md-6">
                                         <input id="{{ $camper->id }}-phonenbr" class="form-control phonemask"
                                                name="{{ $camper->id }}-phonenbr" data-mask="999-999-9999"
-                                               value="{{ old($camper->id . '-phonenbr', $camper->formatted_phone) }}"
-                                               required>
+                                               value="{{ old($camper->id . '-phonenbr', $camper->formatted_phone) }}">
 
                                         @if ($errors->has($camper->id . '-phonenbr'))
                                             <span class="help-block">
@@ -194,7 +202,8 @@
                                     <label for="{{ $camper->id }}-gradeoffset" class="col-md-4 control-label">Grade
                                         Entering in Fall {{ $year->year }}</label>
                                     <div class="col-md-6">
-                                        <select class="form-control" id="{{ $camper->id }}-gradeoffset">
+                                        <select class="form-control" id="{{ $camper->id }}-gradeoffset"
+                                                name="{{ $camper->id }}-gradeoffset">
                                             <option value="13">Not Applicable</option>
                                             <option value="0">Kindergarten or earlier</option>
                                             @for($i=1; $i<13; $i++)
@@ -329,25 +338,26 @@
                                         @endif
                                     </div>
                                 </div>
-                                @if($camper == $campers->last())
-                                    <div class="form-group">
-                                        <div class="col-md-2 col-md-offset-8">
-                                            <button type="submit" class="btn btn-primary">
-                                                Complete Registration
-                                            </button>
-                                        </div>
+                                <div class="form-group">
+                                    <div class="col-md-2 col-md-offset-8">
+                                        <button type="button" class="btn btn-default next">
+                                            Next Camper
+                                        </button>
                                     </div>
-                                @else
-                                    <div class="form-group">
-                                        <div class="col-md-2 col-md-offset-8">
-                                            <button type="button" class="btn btn-default next">
-                                                Next Camper
-                                            </button>
-                                        </div>
-                                    </div>
-                                @endif
+                                </div>
                             </div>
                         @endforeach
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-2 col-md-offset-8">
+                            <button type="submit" class="btn btn-primary">
+                                @if($camper->yearattendingid != 0)
+                                    Save Changes
+                                @else
+                                    Complete Registration
+                                @endif
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -363,15 +373,36 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
     <script src="/js/bootstrap-datepicker.min.js"></script>
     <script type="text/javascript">
+        var camperCount = 100;
+
         $(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-            $('.next').click(function () {
-                $('.nav-tabs > .active').next('li').find('a').trigger('click');
-                $('html,body').animate({
-                    scrollTop: 0
-                }, 700);
+            $('[data-toggle="tooltip"]').tooltip({
+                content: function () {
+                    return this.getAttribute("title");
+                }
             });
-            $(".churchlist").autocomplete({
+            $('.next').click(function () {
+                var next = $('.nav-tabs > .active').next('li').find('a');
+                if (next.attr("id") != 'newcamper') {
+                    next.trigger('click');
+                    $('html,body').animate({
+                        scrollTop: 0
+                    }, 700);
+                } else {
+                    $('button[type="submit"]').trigger("focus");
+                    $('html,body').animate({
+                        scrollTop: 9999
+                    }, 700);
+                }
+            });
+            $('.campername').on('change', function () {
+                var tab = $(this).parents('div.tab-pane');
+                var name = tab.find("input.campername");
+                if (name.length == 2) {
+                    $('a[href="#' + tab.attr('id') + '"]').text(name[0].value + " " + name[1].value);
+                }
+            });
+            $('.churchlist').autocomplete({
                 source: "/data/churchlist",
                 minLength: 3,
                 select: function (event, ui) {
@@ -379,11 +410,26 @@
                     $(this).next("input").val(ui.item.id);
                     return false;
                 }
-            }).autocomplete("instance")._renderItem = function (ul, item) {
+            }).autocomplete('instance')._renderItem = function (ul, item) {
                 return $("<li>")
                     .append("<div>" + item.name + " (" + item.city + ", " + item.statecd + ")</div>")
                     .appendTo(ul);
             };
-        });
+            $('#0 select, #0 input').prop('disabled', true);
+            $("#newcamper").on('click', function (e) {
+                e.preventDefault();
+                $(this).closest('li').before('<li role="presentation"><a href="#' + camperCount + '" aria-controls="' + camperCount + '" role="tab" data-toggle="tab">New Camper</a></li>');
+                var emptycamper = $("#0");
+                var empty = emptycamper.clone(true, true).attr("id", camperCount);
+                empty.find("input, select").each(function () {
+                    $(this).attr("id", $(this).attr("id").replace('0', camperCount));
+                    $(this).attr("name", $(this).attr("name").replace('0', camperCount));
+                    $(this).prop('disabled', false);
+                });
+                emptycamper.before(empty);
+                $('.nav-tabs a[href="#' + camperCount++ + '"]').trigger('click');
+            });
+        })
+        ;
     </script>
 @endsection

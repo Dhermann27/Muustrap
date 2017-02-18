@@ -28,6 +28,8 @@ Route::get('/payment', 'PaymentController@index')->middleware('auth');
 Route::post('/payment', 'PaymentController@store')->middleware('auth');
 Route::get('/workshopchoice', 'WorkshopController@index')->middleware('auth');
 Route::post('/workshopchoice', 'WorkshopController@store')->middleware('auth');
+Route::get('/roomselection', 'RoomSelectionController@index')->middleware('auth');
+Route::post('/roomselection', 'RoomSelectionController@store')->middleware('auth');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'data'], function () {
     Route::get('churchlist', 'DataController@churches');
@@ -41,6 +43,9 @@ Route::get('/excursions', function () {
 });
 Route::get('/themespeaker', function () {
     return view('themespeaker');
+});
+Route::get('/scholarship', function () {
+    return view('scholarship');
 });
 Route::get('/programs', function () {
     return view('programs', ['programs' => \App\Program::whereNotNull('blurb')->orderBy('age_min')->orderBy('grade_min')->get()]);

@@ -26,7 +26,7 @@
                                     @if($workshop->capacity == 999)
                                         <span class="alert alert-success badge">Unlimited Enrollment</span>
                                     @elseif($workshop->enrolled >= $workshop->capacity)
-                                        <span class="alert alert-danger badge">Waitlist Available</span>
+                                        <span class="alert alert-danger badge">Workshop Full</span>
                                     @elseif($workshop->enrolled >= ($workshop->capacity * .75))
                                         <span class="alert alert-warning badge">Filling Fast!</span>
                                     @else

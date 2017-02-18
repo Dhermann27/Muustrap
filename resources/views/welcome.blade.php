@@ -66,7 +66,11 @@
                                         <p>&nbsp;</p>
                                         <i class="fa fa-bed fa-5x"></i><br/>
                                         <h4>Room Selection</h4>
-                                        <p>Coming soon!</p>
+                                        <p>Find the right place for you and your family to stay, and who might be your
+                                            neighbors.</p>
+                                        <a class="booty" href="{{ url('/roomselection') }}">Choose Room <i
+                                                    class="fa fa-arrow-right"></i>
+                                        </a>
                                     </div>
                                     <div class="col-md-4 text-center">
                                         <p>&nbsp;</p>
@@ -147,7 +151,7 @@
                             <h3 class="panel-title">What is MUUSA like?</h3>
                         </div>
                         <div class="panel-body">
-                            <div class="col-md-4 text-center">
+                            <div class="col-md-3 text-center">
                                 <p>&nbsp;</p>
                                 <i class="fa fa-sitemap fa-5x"></i><br/>
                                 <h4>Programs</h4>
@@ -157,7 +161,7 @@
                                             class="fa fa-arrow-right"></i>
                                 </a>
                             </div>
-                            <div class="col-md-4 text-center">
+                            <div class="col-md-3 text-center">
                                 <p>&nbsp;</p>
                                 <i class="fa fa-bath fa-5x"></i><br/>
                                 <h4>Housing</h4>
@@ -167,13 +171,22 @@
                                             class="fa fa-arrow-right"></i>
                                 </a>
                             </div>
-                            <div class="col-md-4 text-center">
+                            <div class="col-md-3 text-center">
                                 <p>&nbsp;</p>
                                 <i class="fa fa-calculator fa-5x"></i><br/>
                                 <h4>Camp Cost Calculator</h4>
                                 <p>Use this helpful tool to help estimate how much MUUSA will cost this year. Full
                                     details can be found in the brochure.</p>
                                 <a class="booty" href="{{ url('/cost') }}">Use Calculator <i
+                                            class="fa fa-arrow-right"></i>
+                                </a>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <p>&nbsp;</p>
+                                <i class="fa fa-universal-access fa-5x"></i><br/>
+                                <h4>Scholarships</h4>
+                                <p>By partnering with our facility, YMCA of the Ozarks, MUUSA is able to offer financial assistance for those in need.</p>
+                                <a class="booty" href="{{ url('/scholarship') }}">Find Details <i
                                             class="fa fa-arrow-right"></i>
                                 </a>
                             </div>

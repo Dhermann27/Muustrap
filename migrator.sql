@@ -346,6 +346,7 @@ CREATE VIEW byyear_campers AS
     getage(c.birthdate, ya.year) + c.gradeoffset grade,
     p.id                                         programid,
     p.name                                       programname,
+    p.is_program_housing                         is_program_housing,
     c.sponsor,
     c.is_handicap,
     c.foodoptionid,
@@ -451,6 +452,7 @@ CREATE VIEW thisyear_campers AS
     grade,
     programid,
     programname,
+    is_program_housing,
     sponsor,
     is_handicap,
     foodoptionid,
@@ -507,6 +509,16 @@ VALUES
          'In recent years, beer has widely become recognized as being really worth appreciating, at least to those who\'ve given it a whirl. Let\'s spend a few nights learning a bit more about nuances that make a beer really great.',
          1, 0, 1, 0, 1, 0, 25, 0, NOW(), NULL);
 
+DROP FUNCTION IF EXISTS getprogramfee;
+CREATE FUNCTION getprogramfee (camperid INT, myyear YEAR)
+  RETURNS FLOAT DETERMINISTIC
+  BEGIN
+    DECLARE age, grade INT DEFAULT 0;
+    SELECT getage(c.birthdate, myyear), getage(c.birthdate, myyear)+c.gradeoffset INTO age, grade FROM campers c WHERE c.id=camperid;
+    RETURN(SELECT p.fee FROM programs p WHERE p.age_min<=age AND p.age_max>=age AND
+                                                                p.grade_min<=grade AND p.grade_max>=grade AND myyear>=p.start_year AND myyear<=p.end_year LIMIT 1);
+  END;
+
 DROP VIEW IF EXISTS byyear_staff;
 CREATE VIEW byyear_staff AS
   SELECT
@@ -552,21 +564,49 @@ CREATE VIEW byyear_staff AS
   GROUP BY c.id &
 -- No staff position id because of multiple credits line, must be multiple credits due to amount limits
 
+DROP FUNCTION IF EXISTS getrate;
+CREATE FUNCTION getrate (camperid INT, myyear YEAR)
+  RETURNS FLOAT DETERMINISTIC
+  BEGIN
+    DECLARE age, adults, children, days, staff, programid INT DEFAULT 0;
+    SELECT getage(c.birthdate, year), SUM(IF(getage(cp.birthdate, myyear)>17,1,0)),
+      SUM(IF(muusa_getage(cp.birthdate, myyear)<=17,1,0)), ya.days, IF(ysp.staffpositionid>0,1,0),
+      getprogramidbycamperid(camperid, myyear)
+    INTO age, adults, children, days, staff, programid
+    FROM (campers c, yearsattending ya, yearsattending yap, campers cp)
+      LEFT JOIN yearattending__staff ysp
+        ON ysp.yearattendingid=ya.id AND ysp.staffpositionid IN (1023,1025)
+    WHERE c.id=camperid AND c.id=ya.camperid AND ya.year=myyear AND ya.roomid=yap.roomid
+          AND ya.year=yap.year AND yap.camperid=cp.id;
+    IF staff=1 THEN
+      RETURN days * 58;
+    -- DAH Meyer/Burt Staff Housing Rate $58.00/night
+    ELSE
+      RETURN (SELECT FORMAT(IF(age>5, IFNULL(hr.amount*days,0), 0),2)
+              FROM yearsattending ya, rooms r, rates hr
+              WHERE ya.camperid=camperid AND ya.year=year AND r.id=ya.roomid AND
+                    r.buildingid=hr.buildingid AND hr.programid=programid AND
+                    (hr.occupancy_adult=adults OR (hr.occupancy_adult=999 AND adults>0)) AND
+                    (hr.occupancy_children=children OR (hr.occupancy_children=999 AND children>0)) AND
+                    year>=hr.start_year AND year<=hr.end_year);
+    END IF;
+  END&
+
 DROP PROCEDURE IF EXISTS generate_charges;
 CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges()
   BEGIN
     TRUNCATE gencharges;
-    INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
-      SELECT
-        ya.year,
-        ya.camperid,
-        getrate(ya.camperid, ya.year) amount,
-        1000,
-        d.name
-      FROM yearsattending ya, campers c, rooms r, buildings d
-      WHERE ya.roomid != 0 AND ya.camperid = c.id AND ya.roomid = r.id AND r.buildingid = d.id AND
-            getrate(ya.camperid, ya.year) > 0
-            AND ya.year = 2017;
+#     INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
+#       SELECT
+#         ya.year,
+#         ya.camperid,
+#         getrate(ya.camperid, ya.year) amount,
+#         1000,
+#         d.name
+#       FROM yearsattending ya, campers c, rooms r, buildings d
+#       WHERE ya.roomid != 0 AND ya.camperid = c.id AND ya.roomid = r.id AND r.buildingid = d.id AND
+#             getrate(ya.camperid, ya.year) > 0
+#             AND ya.year = 2017;
     INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
       SELECT
         bf.year,
@@ -593,4 +633,14 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE update_workshops()
     SET w.enrolled = (SELECT COUNT(*)
                       FROM yearattending__workshop yw
                       WHERE w.id = yw.workshopid);
+  END;
+
+DROP FUNCTION IF EXISTS isprereg;
+CREATE FUNCTION isprereg (id INT, myyear YEAR)
+  RETURNS FLOAT DETERMINISTIC
+  BEGIN
+    RETURN (SELECT IF(IFNULL(SUM(h.amount),0) + getprogramfee(id, myyear-1) <= 0,ABS(SUM(h.amount)),0.0)
+            FROM years y LEFT JOIN charges h ON h.camperid=id AND h.year=y.year AND h.timestamp<y.end_prereg
+            WHERE y.year=myyear GROUP by h.camperid);
+    -- Only works for 2014 or later
   END;

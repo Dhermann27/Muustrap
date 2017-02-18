@@ -17,7 +17,7 @@ class CreateCampersTable extends Migration
             $table->increments('id');
             $table->integer('familyid')->unsigned()->nullable();
             $table->foreign('familyid')->references('id')->on('families');
-            $table->char('pronounid')->unsigned()->nullable();
+            $table->integer('pronounid')->unsigned()->nullable();
             $table->foreign('pronounid')->references('id')->on('pronouns');
             $table->string('firstname')->nullable();
             $table->string('lastname')->nullable();

@@ -639,7 +639,7 @@ DROP FUNCTION IF EXISTS isprereg;
 CREATE FUNCTION isprereg (id INT, myyear YEAR)
   RETURNS FLOAT DETERMINISTIC
   BEGIN
-    RETURN (SELECT IF(IFNULL(SUM(h.amount),0) + getprogramfee(id, myyear-1) <= 0,ABS(SUM(h.amount)),0.0)
+    RETURN (SELECT IF(IFNULL(SUM(h.amount),0) + 140 <= 0,ABS(SUM(h.amount)),0.0)
             FROM years y LEFT JOIN charges h ON h.camperid=id AND h.year=y.year AND h.timestamp<y.end_prereg
             WHERE y.year=myyear GROUP by h.camperid);
     -- Only works for 2014 or later

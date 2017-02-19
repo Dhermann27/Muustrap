@@ -63,7 +63,7 @@
                 @foreach($rooms as $room) 
                 <rect id="{{ $room->id }}"
                       class="{{ (isset($camper->yearattending->roomid) && $room->id == $camper->yearattending->roomid) || (isset($room->locked) && strpos($room->locked, $camper->lastname) !== false) ? 'active' : '' }}
-                      {{ (isset($camper->yearattending) && $camper->yearattending->is_setbyadmin == '1') || (isset($room->locked) && strpos($room->locked, $camper->lastname) === false && $room->capacity < 10) ?  'unavailable' : 'available' }}"
+                      {{ (isset($camper->yearattending) && $camper->yearattending->is_setbyadmin == '1') || ((isset($room->occupants) || isset($room->locked)) && strpos($room->occupants . $room->locked, $camper->lastname) === false && $room->capacity < 10) ?  'unavailable' : 'available' }}"
                       width="{{ $room->pixelsize }}" height="{{ $room->pixelsize }}" x="{{  $room->xcoord }}"
                       y="{{ $room->ycoord }}" rx="5" ry="5" data-content="{!!  $room->room_name !!}{!! isset($room->occupants) ?
                                     '<br/>' . $room->occupants :

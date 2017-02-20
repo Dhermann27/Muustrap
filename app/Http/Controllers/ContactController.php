@@ -25,15 +25,7 @@ class ContactController extends Controller
             'g-recaptcha-response' => 'required|captcha',
         ], $messages);
 
-        // Multiple comma-delimited email addresses hack
-        $users_temp = explode(',', DB::table('contactboxes')->where('id', $request->mailbox)->first()->emails);
-        $users = [];
-        foreach ($users_temp as $key => $ut) {
-            $ua = [];
-            $ua['email'] = $ut;
-            $ua['name'] = 'MUUSA Planning Council';
-            $users[$key] = (object)$ua;
-        }
+        $users = explode(',', DB::table('contactboxes')->where('id', $request->mailbox)->first()->emails);
 
         Mail::to($users)->send(new ContactUs($request));
 

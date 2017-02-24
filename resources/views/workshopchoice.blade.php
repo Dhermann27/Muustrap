@@ -98,15 +98,7 @@
                                         </div>
                                     @endforeach
                                 @endif
-                                @if($camper == $campers->last())
-                                    <div class="form-group">
-                                        <div class="col-md-2 col-md-offset-8">
-                                            <button type="submit" class="btn btn-primary">
-                                                Save Preferences
-                                            </button>
-                                        </div>
-                                    </div>
-                                @else
+                                @if(count($campers) > 1)
                                     <div class="form-group">
                                         <div class="col-md-2 col-md-offset-8">
                                             <button type="button" class="btn btn-default next">
@@ -115,6 +107,13 @@
                                         </div>
                                     </div>
                                 @endif
+                                <div class="form-group">
+                                    <div class="col-md-2 col-md-offset-8">
+                                        <button type="submit" class="btn btn-primary">
+                                            Save Preferences
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         @endforeach
                     </div>

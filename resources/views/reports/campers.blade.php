@@ -59,6 +59,12 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                                <tfoot>
+                                <tr>
+                                    <td colspan="2" align="right"><strong>Total Campers
+                                            Attending: </strong> {{ $families->sum('count') }}</td>
+                                </tr>
+                                </tfoot>
                             </table>
                         </div>
                     @endforeach

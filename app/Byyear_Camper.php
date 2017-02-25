@@ -28,8 +28,13 @@ class Byyear_Camper extends Model
         return $this->hasOne(Pronoun::class, 'id', 'pronounid');
     }
 
+    public function room()
+    {
+        return $this->hasOne(Room::class, 'id', 'roomid');
+    }
+
     public function yearattending()
     {
-        return $this->belongsTo(Yearattending::class);
+        return $this->hasOne(Yearattending::class, 'id', 'yearattendingid');
     }
 }

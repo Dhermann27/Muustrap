@@ -101,6 +101,7 @@
         </a>
         <ul class="dropdown-menu">
             <li><a href="{{ url('reports/campers') }}">Registered Campers</a></li>
+            <li><a href="{{ url('reports/rooms') }}">Room List</a></li>
         </ul>
     </li>
 </ul>

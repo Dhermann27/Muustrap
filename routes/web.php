@@ -48,6 +48,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'data'], function () {
 
 Route::group(['middleware' => ['role:admin|council|program'], 'prefix' => 'reports'], function () {
     Route::get('campers', 'ReportController@campers');
+    Route::get('rooms', 'ReportController@rooms');
 });
 
 Route::get('/cost', function () {

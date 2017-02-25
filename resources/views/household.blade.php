@@ -190,7 +190,7 @@
 @section('script')
     @if(isset($readonly) && $readonly === true)
         <script>
-            $("input, select").prop("disabled", "true");
+            $("input:not(#camper), select").prop("disabled", "true");
         </script>
     @endif
 @endsection

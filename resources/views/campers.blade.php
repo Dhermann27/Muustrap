@@ -455,7 +455,7 @@
                 $('.nav-tabs a[href="#' + camperCount++ + '"]').trigger('click');
             });
             @if(isset($readonly) && $readonly === true)
-                $("input, select").prop("disabled", "true");
+                $("input:not(#camper), select").prop("disabled", "true");
             @endif
         })
         ;

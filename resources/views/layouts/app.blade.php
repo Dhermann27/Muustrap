@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto:500"/>
     <script src="//use.fontawesome.com/9364904132.js"></script>
 
-@role(['admin', 'program', 'council'])
+@role(['admin', 'council'])
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css"/>
 @endrole
 
@@ -72,12 +72,12 @@
         </div>
     </div>
 </nav>
-@role(['admin', 'program', 'council'])
+@role(['admin', 'council'])
 <ul class="nav nav-pills">
     <li role="presentation">
         <form class="navbar-form navbar-left">
             <div class="form-group">
-                <input type="text" id="camper" class="form-control" placeholder="Camper Name">
+                <input type="text" id="camper" class="form-control camperlist" placeholder="Camper Name">
                 <input id="camperid" type="hidden">
                 {{--<button id="quickregister" class="btn btn-default fa fa-bolt action" data-toggle="tooltip"--}}
                         {{--title="Quick Register!"></button>--}}
@@ -97,11 +97,21 @@
     <li role="presentation" class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
            aria-expanded="false">
+            Administration <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="{{ url('/admin/roles') }}">User Roles</a></li>
+        </ul>
+    </li>
+    <li role="presentation" class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+           aria-expanded="false">
             Reports <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
-            <li><a href="{{ url('reports/campers') }}">Registered Campers</a></li>
-            <li><a href="{{ url('reports/rooms') }}">Room List</a></li>
+            <li><a href="{{ url('/reports/campers') }}">Registered Campers</a></li>
+            <li><a href="{{ url('/reports/rooms') }}">Room List</a></li>
+            <li><a href="{{ url('/reports/staffpositions') }}">Staff Positions</a></li>
         </ul>
     </li>
 </ul>
@@ -115,7 +125,7 @@
         crossorigin="anonymous"></script>
 <script src="/js/bootstrap.min.js"></script>
 
-@role(['admin', 'program', 'council'])
+@role(['admin', 'council'])
 <script
         src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"
         integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
@@ -126,17 +136,19 @@
         e.preventDefault();
         $(this).parents('form').attr('action', '/' + $(this).attr('id') + '/c/' + $("#camperid").val()).submit();
     });
-    $('input#camper').autocomplete({
-        source: "/data/camperlist",
-        minLength: 3,
-        select: function (event, ui) {
-            $(this).val(ui.item.lastname + ", " + ui.item.firstname);
-            $(this).next("input").val(ui.item.id);
-            return false;
-        }
-    }).autocomplete('instance')._renderItem = function (ul, item) {
-        return $("<li>").append("<div>" + item.lastname + ", " + item.firstname + "</div>").appendTo(ul);
-    };
+    $('input.camperlist').each(function() {
+        $(this).autocomplete({
+            source: "/data/camperlist",
+            minLength: 3,
+            select: function (event, ui) {
+                $(this).val(ui.item.lastname + ", " + ui.item.firstname);
+                $(this).next("input").val(ui.item.id);
+                return false;
+            }
+        }).autocomplete('instance')._renderItem = function (ul, item) {
+            return $("<li>").append("<div>" + item.lastname + ", " + item.firstname + "</div>").appendTo(ul);
+        };
+    });
 </script>
 @endrole
 

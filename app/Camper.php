@@ -47,15 +47,19 @@ class Camper extends Model
         return $this->hasOne(Pronoun::class, 'id', 'pronounid');
     }
 
+    public function user() {
+        return $this->hasOne(User::class, 'email', 'email');
+    }
+
     public function yearattending()
     {
         return $this->belongsTo(Yearattending::class);
     }
 
-    public function getFormattedPhoneAttribute() {
-        if(preg_match( '/^(\d{3})(\d{3})(\d{4})$/', $this->phonenbr,  $matches))
-        {
-            $result = $matches[1] . '-' .$matches[2] . '-' . $matches[3];
+    public function getFormattedPhoneAttribute()
+    {
+        if (preg_match('/^(\d{3})(\d{3})(\d{4})$/', $this->phonenbr, $matches)) {
+            $result = $matches[1] . '-' . $matches[2] . '-' . $matches[3];
             return $result;
         }
         return "";
@@ -66,15 +70,18 @@ class Camper extends Model
         return Carbon::parse($this->birthdate)->age;
     }
 
-    public function getGradeAttribute() {
+    public function getGradeAttribute()
+    {
         return $this->age + $this->gradeoffset;
     }
 
-    public function getLoggedInAttribute() {
+    public function getLoggedInAttribute()
+    {
         return $this->email == Auth::user()->email;
     }
 
-    public function getYearattendingidAttribute() {
+    public function getYearattendingidAttribute()
+    {
         $ya = \App\Yearattending::where(['camperid' => $this->id, 'year' => DB::raw('getcurrentyear()')])->first();
         if ($ya) {
             return $ya->id;

@@ -23,6 +23,10 @@ div.jumbotron p {
         padding: 10px;
 }
 
+.navbar {
+    margin-bottom: 0px;
+}
+
 nav a.navbar-brand {
         padding: 0px 15px;
 }

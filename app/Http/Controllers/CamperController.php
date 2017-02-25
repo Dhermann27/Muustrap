@@ -14,14 +14,14 @@ class CamperController extends Controller
     {
         $logged_in = \App\Camper::where('email', Auth::user()->email)->first();
         $campers = $this->getCampers();
-        $emailsToSend = [];
 
-        $messages = ['*-email.distinct' => 'Please do not use the same email address for multiple campers.',
+        $messages = ['*-pronounid.exists' => 'Please choose a preferred pronoun.',
+            '*-email.distinct' => 'Please do not use the same email address for multiple campers.',
             '*-phonenbr.regex' => 'Please enter your ten-digit phone number in 800-555-1212 format.',
             '*-birthdate.regex' => 'Please enter your eight-digit birthdate in 2016-12-31 format.'];
 
         $this->validate($request, [
-            '*-yearattendingid' => 'between:0,99999',
+            '*-days' => 'between:0,7',
             '*-pronounid' => 'exists:pronouns,id',
             '*-firstname' => 'max:255',
             '*-lastname' => 'max:255',
@@ -44,7 +44,7 @@ class CamperController extends Controller
         }
 
         $i = 100;
-        while ($request->input($i . '-yearattendingid') == '1') {
+        while ((int)$request->input($i . '-days') > 0) {
             $camper = new \App\Camper;
             $camper->familyid = $logged_in->familyid;
             $camper = $this->upsertCamper($request, $camper, $i++);
@@ -62,11 +62,6 @@ class CamperController extends Controller
     private function getCampers()
     {
         return \App\Camper::where('familyid', \App\Camper::where('email', Auth::user()->email)->first()->familyid)->orderBy('birthdate')->get();
-    }
-
-    private function getCurrentYear()
-    {
-        return \App\Year::where('is_current', 1)->first();
     }
 
     private function upsertCamper($request, $camper, $id)
@@ -90,24 +85,29 @@ class CamperController extends Controller
 
         $camper->save();
 
-        if ($request->input($id . '-yearattendingid') == '1') {
+        if ((int)$request->input($id . '-days') > 0) {
             $ya = \App\Yearattending::updateOrCreate(['camperid' => $camper->id,
-                'year' => DB::raw('getcurrentyear()')], []);
+                'year' => DB::raw('getcurrentyear()')], ['days' => $request->input($id . '-days')]);
             $camper->yearattendingid = $ya->id;
         } else {
             $ya = \App\Yearattending::where(['camperid' => $camper->id,
                 'year' => DB::raw('getcurrentyear()')])->first();
             if ($ya != null) {
-                if ($request->input($id . '-yearattendingid') == '0') {
+                if ($ya->id == '0') {
                     $ya->delete();
                 } else {
-                    // Just update timestamp for now
+                    $ya->days = $request->input($id . '-days');
                     $ya->update();
                 }
             }
         }
 
         return $camper;
+    }
+
+    private function getCurrentYear()
+    {
+        return \App\Year::where('is_current', 1)->first();
     }
 
     public function index($success = null, $year = null, $campers = null)
@@ -123,7 +123,47 @@ class CamperController extends Controller
             $campers->push($empty);
         }
         return view('campers', ['pronouns' => \App\Pronoun::all(), 'foodoptions' => \App\Foodoption::all(),
-            'year' => $year, 'campers' => $campers, 'success' => $success]);
+            'year' => $year, 'campers' => $campers, 'success' => $success, 'readonly' => null]);
 
+    }
+
+    public function read($i, $id, $success = null) {
+        $year = $this->getCurrentYear();
+        $readonly = \Entrust::can('read') && !\Entrust::can('write');
+        $family = \App\Family::where('id', $this->getFamilyId($i, $id))->first();
+        $campers = \App\Camper::where('familyid', $family->id)->orderBy('birthdate')->get();
+
+        $empty = new \App\Camper();
+        $empty->id = 0;
+        $empty->churchid = 2084;
+        $campers->push($empty);
+
+        return view('campers', ['pronouns' => \App\Pronoun::all(), 'foodoptions' => \App\Foodoption::all(),
+            'year' => $year, 'campers' => $campers, 'success' => $success, 'readonly' => $readonly]);
+    }
+
+    public function write(Request $request, $id) {
+
+        $campers = \App\Camper::where('familyid', $id)->get();
+
+        foreach ($campers as $camper) {
+            $this->upsertCamper($request, $camper, $camper->id);
+        }
+
+        $i = 100;
+        while ((int)$request->input($i . '-days') > 0) {
+            $camper = new \App\Camper;
+            $camper->familyid = $id;
+            $camper = $this->upsertCamper($request, $camper, $i++);
+        }
+
+        DB::statement('CALL generate_charges();');
+
+        return $this->read('f', $id, 'You did it! Need to make see their <a href="' . url('/payment/f/' . $id) . '">statement</a> next?');
+    }
+
+    private function getFamilyId($i, $id)
+    {
+        return $i == 'c' ? \App\Camper::where('id', $id)->first()->familyid : $id;
     }
 }

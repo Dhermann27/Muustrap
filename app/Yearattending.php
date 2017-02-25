@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Yearattending extends Model
 {
     protected $table = "yearsattending";
-    protected $fillable = ['camperid', 'year', 'roomid'];
+    protected $fillable = ['camperid', 'year', 'roomid', 'days'];
 
     public function camper()
     {

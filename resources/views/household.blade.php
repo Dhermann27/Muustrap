@@ -6,7 +6,8 @@
         <div class="panel panel-default">
             <div class="panel-heading">Household Information</div>
             <div class="panel-body">
-                <form id="payment" class="form-horizontal" role="form" method="POST" action="{{ url('/household') }}">
+                <form id="payment" class="form-horizontal" role="form" method="POST" action="{{ url('/household') .
+                (isset($readonly) && $readonly === false ? '/' . $family->id : '') }}">
                     {{ csrf_field() }}
 
                     @if(!empty($message))
@@ -167,20 +168,29 @@
                             @endif
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <div class="col-md-6 col-md-offset-4">
-                            <button type="submit" class="btn btn-primary">
-                                @if($family->id)
-                                    Update Household
-                                @else
-                                    Create Household
-                                @endif
-                            </button>
+                    @if(!isset($readonly) || $readonly === false)
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <button type="submit" class="btn btn-primary">
+                                    @if($family->id)
+                                        Update Household
+                                    @else
+                                        Create Household
+                                    @endif
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </form>
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    @if(isset($readonly) && $readonly === true)
+        <script>
+            $("input, select").prop("disabled", "true");
+        </script>
+    @endif
 @endsection

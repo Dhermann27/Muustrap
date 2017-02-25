@@ -25,7 +25,7 @@ class ContactController extends Controller
             'g-recaptcha-response' => 'required|captcha',
         ], $messages);
 
-        $users = explode(',', DB::table('contactboxes')->where('id', $request->mailbox)->first()->emails);
+        $users = DB::table('contactboxes')->where('id', $request->mailbox)->first()->emails;
 
         Mail::to($users)->send(new ContactUs($request));
 
@@ -34,6 +34,7 @@ class ContactController extends Controller
 
     public function index($success = null)
     {
+        $camper = null;
         if (Auth::check()) {
             $camper = \App\Camper::where('email', Auth::user()->email)->first();
         }

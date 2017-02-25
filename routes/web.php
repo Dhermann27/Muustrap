@@ -22,17 +22,32 @@ Route::post('/contact', 'ContactController@store');
 
 Route::get('/household', 'HouseholdController@index')->middleware('auth');
 Route::post('/household', 'HouseholdController@store')->middleware('auth');
+Route::get('/household/{i}/{id}', 'HouseholdController@read')->middleware('role:admin|council|program');
+Route::post('/household/{id}', 'HouseholdController@write')->middleware('role:admin|council|program');
+
 Route::get('/camper', 'CamperController@index')->middleware('auth');
 Route::post('/camper', 'CamperController@store')->middleware('auth');
+Route::get('/camper/{i}/{id}', 'CamperController@read')->middleware('role:admin|council|program');
+Route::post('/camper/{id}', 'CamperController@write')->middleware('role:admin|council|program');
+
 Route::get('/payment', 'PaymentController@index')->middleware('auth');
 Route::post('/payment', 'PaymentController@store')->middleware('auth');
+Route::get('/payment/{i}/{id}', 'PaymentController@read')->middleware('role:admin|council|program');
+Route::post('/payment/{id}', 'PaymentController@write')->middleware('role:admin|council|program');
+
 Route::get('/workshopchoice', 'WorkshopController@index')->middleware('auth');
 Route::post('/workshopchoice', 'WorkshopController@store')->middleware('auth');
 Route::get('/roomselection', 'RoomSelectionController@index')->middleware('auth');
 Route::post('/roomselection', 'RoomSelectionController@store')->middleware('auth');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'data'], function () {
+    Route::get('camperlist', 'DataController@campers');
     Route::get('churchlist', 'DataController@churches');
+});
+
+
+Route::group(['middleware' => ['role:admin|council|program'], 'prefix' => 'reports'], function () {
+    Route::get('campers', 'ReportController@campers');
 });
 
 Route::get('/cost', function () {

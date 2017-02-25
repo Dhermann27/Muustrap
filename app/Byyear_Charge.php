@@ -10,7 +10,7 @@ class Byyear_Charge extends Model
 
     public function family()
     {
-        return $this->hasOne(Family::class);
+        return $this->hasOne(Family::class, 'id', 'familyid');
     }
 
     public function camper()

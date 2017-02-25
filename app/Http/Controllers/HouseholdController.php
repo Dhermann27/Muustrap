@@ -50,4 +50,27 @@ class HouseholdController extends Controller
         $family = $camper !== null ? $camper->family : new \App\Family();
         return view('household', ['family' => $family, 'statecodes' => \App\Statecode::all()->sortBy('name')]);
     }
+
+    public function write(Request $request, $id)
+    {
+        $family = \App\Family::updateOrCreate(
+            ['id' => $id],
+            $request->only('name', 'address1', 'address2', 'city', 'statecd', 'zipcd', 'country', 'is_ecomm', 'is_scholar'));
+
+        return view('household', ['family' => $family, 'statecodes' => \App\Statecode::all()->sortBy('name'),
+            'message' => 'Nice work! Need to make changes to the <a href="' . url('/camper/f/' . $id) . '">camper</a> next?']);
+    }
+
+    public function read($i, $id)
+    {
+        $readonly = \Entrust::can('read') && !\Entrust::can('write');
+        $family = \App\Family::where('id', $this->getFamilyId($i, $id))->first();
+        return view('household', ['family' => $family,
+            'statecodes' => \App\Statecode::all()->sortBy('name'), 'readonly' => $readonly]);
+    }
+
+    private function getFamilyId($i, $id)
+    {
+        return $i == 'c' ? \App\Camper::where('id', $id)->first()->familyid : $id;
+    }
 }

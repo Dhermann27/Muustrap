@@ -39,7 +39,7 @@ class WorkshopController extends Controller
 
         DB::statement('CALL update_workshops;');
 
-        $success = "Your workshop selections have been updated.";
+        $success = 'Your workshop selections have been updated. Check out available rooms by clicking <a href=\"' . url('/roomselection') . '\">here</a>.';
         return $this->index($success);
     }
 

@@ -12,7 +12,8 @@
         <div class="panel panel-default">
             <div class="panel-heading">Camper Information</div>
             <div class="panel-body">
-                <form class="form-horizontal" role="form" method="POST" action="{{ url('/camper') }}">
+                <form class="form-horizontal" role="form" method="POST" action="{{ url('/camper') .
+                 (isset($readonly) && $readonly === false ? '/' . $campers->first()->familyid : '')}}">
                     {{ csrf_field() }}
 
                     @if(!empty($success))
@@ -42,29 +43,48 @@
                             <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' in active' : '' }}"
                                  id="{{ $camper->id }}">
                                 <p>&nbsp;</p>
-                                <div class="form-group{{ $errors->has($camper->id . '-yearattendingid') ? ' has-error' : '' }}">
-                                    <label for="{{ $camper->id }}-yearattendingid" class="col-md-4 control-label">Attending
+                                <div class="form-group{{ $errors->has($camper->id . '-days') ? ' has-error' : '' }}">
+                                    <label for="{{ $camper->id }}-days" class="col-md-4 control-label">Attending
                                         in {{ $year->year }}?</label>
-                                    <a href="#" class="fa fa-info" data-toggle="tooltip"  data-placement="left"
-                                       data-html="true"  
+                                    <a href="#" class="fa fa-info" data-toggle="tooltip" data-html="true"  
                                        title="<p>Use this dropdown to tell us if a family member is not attending
                                             MUUSA this year.</p><p>If this family member will be registering separately,
                                             please use the Contact Us form and we will split them off to their own
                                             registration form.</p>"></a>
 
                                     <div class="col-md-6">
-                                        <select class="form-control" id="{{ $camper->id }}-yearattendingid"
-                                                name="{{ $camper->id }}-yearattendingid">
-                                            <option value="{{ $camper->yearattendingid != 0 ? $camper->yearattendingid : '1' }}">
-                                                Yes
-                                            </option>
-                                            <option value="0"{{ $camper->yearattendingid == 0 ? ' selected' : '' }}>No
-                                            </option>
-                                        </select>
+                                        @if(isset($readonly))
+                                            <select class="form-control days" id="{{ $camper->id }}-days"
+                                                    name="{{ $camper->id }}-days">
+                                                @for($i=6; $i>0; $i--)
+                                                    <option value="{{ $i }}"
+                                                            {{ $i == old($camper->id . '-days', isset($camper->yearattending) ? $camper->yearattending->days : null) ? ' selected' : '' }}>
+                                                        {{ $i }} nights
+                                                    </option>
+                                                @endfor
+                                                <option value="0"{{ !isset($camper->yearattending) ? ' selected' : '' }}>
+                                                    Not Attending
+                                                </option>
+                                            </select>
+                                            @if($readonly === false)
+                                                <button id="quickme" class="pull-right fa fa-bolt" data-toggle="tooltip"
+                                                        title="Mark everyone as attending 6 nights"></button>
+                                            @endif
+                                        @else
+                                            <select class="form-control" id="{{ $camper->id }}-days"
+                                                    name="{{ $camper->id }}-days">
+                                                <option value="{{ isset($camper->yearattending) && $camper->yearattending->days > 0  ? $camper->yearattending->days : '6' }}">
+                                                    Yes
+                                                </option>
+                                                <option value="0"{{ !isset($camper->yearattending) ? ' selected' : '' }}>
+                                                    No
+                                                </option>
+                                            </select>
+                                        @endif
 
-                                        @if ($errors->has($camper->id . '-yearattendingid'))
+                                        @if ($errors->has($camper->id . '-days'))
                                             <span class="help-block">
-                                                <strong>{{ $errors->first($camper->id . '-yearattendingid') }}</strong>
+                                                <strong>{{ $errors->first($camper->id . '-days') }}</strong>
                                             </span>
                                         @endif
                                     </div>
@@ -348,17 +368,13 @@
                             </div>
                         @endforeach
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-2 col-md-offset-8">
-                            <button type="submit" class="btn btn-primary">
-                                @if($camper->yearattendingid != 0)
-                                    Save Changes
-                                @else
-                                    Complete Registration
-                                @endif
-                            </button>
+                    @if(!isset($readonly) || $readonly === false)
+                        <div class="form-group">
+                            <div class="col-md-2 col-md-offset-8">
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </form>
             </div>
         </div>
@@ -376,11 +392,20 @@
         var camperCount = 100;
 
         $(function () {
+
+            @if(count($errors))
+                $('.nav-tabs a[href="#' + $("span.help-block").first().parents('div.tab-pane').attr('id') + '"]').trigger('click');
+            @endif
+
             $('[data-toggle="tooltip"]').tooltip({
                 content: function () {
                     return this.getAttribute("title");
                 }
             });
+            $('button#quickme').on('click', function (e) {
+                e.preventDefault();
+                $("select.days").val('6');
+            })
             $('.next').click(function () {
                 var next = $('.nav-tabs > .active').next('li').find('a');
                 if (next.attr("id") != 'newcamper') {
@@ -429,6 +454,9 @@
                 emptycamper.before(empty);
                 $('.nav-tabs a[href="#' + camperCount++ + '"]').trigger('click');
             });
+            @if(isset($readonly) && $readonly === true)
+                $("input, select").prop("disabled", "true");
+            @endif
         })
         ;
     </script>

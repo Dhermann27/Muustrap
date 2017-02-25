@@ -94,4 +94,36 @@ class PaymentController extends Controller
                 'token' => $token, 'env' => $env,
                 'charges' => $charges, 'deposit' => $deposit, 'success' => $success, 'error' => $error]);
     }
+
+    public function write(Request $request, $id) {
+        if($request->input('amount') != '') {
+            $charge = new \App\Charge();
+            $charge->camperid = $id;
+            $charge->chargetypeid = $request->input('chargetypeid');
+            $charge->amount = (float)$request->input('amount');
+            $charge->timestamp = $request->input('date');
+            $charge->memo = $request->input('memo');
+            $charge->year = \App\Year::where('is_current', '1')->first()->year;
+            $charge->save();
+        }
+
+        return $this->read('c', $id, 'Rocking it today!'); // What about their <a href="' . url('/workshopchoice/' . $id) . '">workshops</a>?');
+
+    }
+
+    public function read($i, $id, $success = null) {
+
+        $year = \App\Year::where('is_current', 1)->first();
+        $readonly = \Entrust::can('read') && !\Entrust::can('write');
+        $years = \App\Byyear_Charge::where('familyid', $this->getFamilyId($i, $id))
+            ->orderBy('year')->orderBy('timestamp')->get()->groupBy('year');
+
+        return view('paymentadmin', ['chargetypes' => \App\Chargetype::where('is_shown', '1')->orderBy('name')->get(),
+            'year' => $year, 'years' => $years, 'success' => $success, 'readonly' => $readonly]);
+    }
+
+    private function getFamilyId($i, $id)
+    {
+        return $i == 'c' ? \App\Camper::where('id', $id)->first()->familyid : $id;
+    }
 }

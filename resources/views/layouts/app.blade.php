@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto:500"/>
     <script src="//use.fontawesome.com/9364904132.js"></script>
 
+@role(['admin', 'program', 'council'])
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css"/>
+@endrole
+
 @yield('css')
 
 <!-- CSRF Token -->
@@ -39,7 +43,7 @@
             <a class="navbar-brand" href="/">
                 <h4>
                     <img alt="Brand" src="/images/brand.png"> <span class="hidden-xs">Midwest Unitarian
-                    Universalist Summer Assembly
+                        Universalist Summer Assembly</span>
                 </h4>
             </a>
         </div>
@@ -68,6 +72,39 @@
         </div>
     </div>
 </nav>
+@role(['admin', 'program', 'council'])
+<ul class="nav nav-pills">
+    <li role="presentation">
+        <form class="navbar-form navbar-left">
+            <div class="form-group">
+                <input type="text" id="camper" class="form-control" placeholder="Camper Name">
+                <input id="camperid" type="hidden">
+                {{--<button id="quickregister" class="btn btn-default fa fa-bolt action" data-toggle="tooltip"--}}
+                        {{--title="Quick Register!"></button>--}}
+                <button id="household" class="btn btn-default fa fa-home action" data-toggle="tooltip"
+                        title="Household Information"></button>
+                <button id="camper" class="btn btn-default fa fa-group action" data-toggle="tooltip"
+                        title="Camper Listing"></button>
+                <button id="payment" class="btn btn-default fa fa-money action" data-toggle="tooltip"
+                        title="Payment"></button>
+                {{--<button id="workshopchoice" class="btn btn-default fa fa-rocket action" data-toggle="tooltip"--}}
+                        {{--title="Workshop Preferences"></button>--}}
+                {{--<button id="assignroom" class="btn btn-default fa fa-bed action" data-toggle="tooltip"--}}
+                        {{--title="Assign Room"></button>--}}
+            </div>
+        </form>
+    </li>
+    <li role="presentation" class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+           aria-expanded="false">
+            Reports <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="{{ url('reports/campers') }}">Registered Campers</a></li>
+        </ul>
+    </li>
+</ul>
+@endrole
 
 @yield('content')
 
@@ -76,6 +113,31 @@
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
 <script src="/js/bootstrap.min.js"></script>
+
+@role(['admin', 'program', 'council'])
+<script
+        src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+        crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $('[data-toggle="tooltip"]').tooltip();
+    $('button.action').on('click', function (e) {
+        e.preventDefault();
+        $(this).parents('form').attr('action', '/' + $(this).attr('id') + '/c/' + $("#camperid").val()).submit();
+    });
+    $('input#camper').autocomplete({
+        source: "/data/camperlist",
+        minLength: 3,
+        select: function (event, ui) {
+            $(this).val(ui.item.lastname + ", " + ui.item.firstname);
+            $(this).next("input").val(ui.item.id);
+            return false;
+        }
+    }).autocomplete('instance')._renderItem = function (ul, item) {
+        return $("<li>").append("<div>" + item.lastname + ", " + item.firstname + "</div>").appendTo(ul);
+    };
+</script>
+@endrole
 
 @yield('script')
 

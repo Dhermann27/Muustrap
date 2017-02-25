@@ -79,11 +79,12 @@ INSERT INTO muusa.campers (id, familyid, firstname, lastname,
 UPDATE muusa.campers c
 SET c.pronounid = (SELECT n.id
                    FROM
-                     muusa.pronouns n
+                     muusa.pronouns n, muusa_system.muusa_camper cp
                    WHERE
                      n.code
                      =
-                     c.sexcd
+                     cp.sexcd
+  AND c.id=cp.id
                    LIMIT 1);
 UPDATE muusa.campers c
 SET c.phonenbr = (SELECT n.phonenbr
@@ -241,12 +242,12 @@ INSERT INTO muusa.yearattending__volunteer
                                                    FROM
                                                      muusa_system.muusa_yearattending__volunteer;
 
-UPDATE muusa_system.muusa_charge
-SET is_deposited = NULL
-WHERE is_deposited = '0000-00-00';
-UPDATE muusa_system.muusa_charge
-SET timestamp = created_at
-WHERE timestamp = '0000-00-00';
+# UPDATE muusa_system.muusa_charge
+# SET is_deposited = NULL
+# WHERE is_deposited = '0000-00-00';
+# UPDATE muusa_system.muusa_charge
+# SET timestamp = created_at
+# WHERE timestamp = '0000-00-00';
 DELETE r FROM muusa_system.muusa_charge r LEFT JOIN muusa_system.muusa_camper b ON r.camperid = b.id
 WHERE b.id IS NULL;
 DELETE r FROM muusa_system.muusa_charge r LEFT JOIN muusa_system.muusa_chargetype b ON r.chargetypeid = b.id
@@ -395,7 +396,21 @@ CREATE VIEW byyear_charges AS
     NULL,
     hg.memo
   FROM campers c, gencharges hg, chargetypes g
-  WHERE c.id = hg.camperid AND g.id = hg.chargetypeid;
+  WHERE c.id = hg.camperid AND g.id = hg.chargetypeid
+  UNION ALL
+  SELECT
+    0,
+    og.year,
+    c.familyid,
+    og.camperid,
+    og.charge,
+    NULL,
+    g.id,
+    g.name,
+    NULL,
+    og.memo
+  FROM campers c, oldgencharges og, chargetypes g
+  WHERE c.id = og.camperid AND g.id = og.chargetypeid;
 
 DROP VIEW IF EXISTS thisyear_families;
 CREATE VIEW thisyear_families AS
@@ -643,4 +658,22 @@ CREATE FUNCTION isprereg (id INT, myyear YEAR)
             FROM years y LEFT JOIN charges h ON h.camperid=id AND h.year=y.year AND h.timestamp<y.end_prereg
             WHERE y.year=myyear GROUP by h.camperid);
     -- Only works for 2014 or later
+  END;
+
+DROP PROCEDURE IF EXISTS `duplicate`;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `duplicate`(beforeid INT, afterid INT)
+  BEGIN
+    DECLARE family, count INT DEFAULT 0;
+    IF beforeid != 0 AND afterid != 0 THEN
+      SELECT familyid INTO family FROM campers WHERE id=beforeid;
+      UPDATE yearsattending SET camperid=afterid WHERE camperid=beforeid;
+      UPDATE oldgencharges SET camperid=afterid WHERE camperid=beforeid;
+      UPDATE gencharges SET camperid=afterid WHERE camperid=beforeid;
+      UPDATE charges SET camperid=afterid WHERE camperid=beforeid;
+      DELETE FROM campers WHERE id=beforeid;
+      SELECT COUNT(*) INTO count FROM campers WHERE familyid=family;
+      IF count = 0 THEN
+        DELETE FROM families WHERE id=family;
+      END IF;
+    END IF;
   END;

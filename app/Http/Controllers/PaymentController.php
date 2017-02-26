@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Braintree_Gateway;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -81,10 +80,11 @@ class PaymentController extends Controller
         $deposit = 0.0;
         $camper = \App\Camper::where('email', Auth::user()->email)->first();
         if ($camper !== null) {
-            $depositchargetype = DB::select(DB::raw('SELECT getchargetypeid(\'MUUSA Deposit\') FROM users'));
+            $depositchargetype = DB::select('SELECT getchargetypeid(\'MUUSA Deposit\') id FROM users');
             $familyid = $camper->family->id;
             $charges = \App\Thisyear_Charge::where('familyid', $familyid)->orderBy('timestamp')->get();
-            $deposit = $charges->where('chargetypeid', $depositchargetype)->sum('amount');
+            $deposit = $charges->where('amount', '<', 0)->sum('amount') +
+                $charges->where('chargetypeid', $depositchargetype[0]->id)->sum('amount');
         }
 
         $token = env('PAYPAL_CLIENT');
@@ -95,8 +95,9 @@ class PaymentController extends Controller
                 'charges' => $charges, 'deposit' => $deposit, 'success' => $success, 'error' => $error]);
     }
 
-    public function write(Request $request, $id) {
-        if($request->input('amount') != '') {
+    public function write(Request $request, $id)
+    {
+        if ($request->input('amount') != '') {
             $charge = new \App\Charge();
             $charge->camperid = $id;
             $charge->chargetypeid = $request->input('chargetypeid');
@@ -111,7 +112,8 @@ class PaymentController extends Controller
 
     }
 
-    public function read($i, $id, $success = null) {
+    public function read($i, $id, $success = null)
+    {
 
         $year = \App\Year::where('is_current', 1)->first();
         $readonly = \Entrust::can('read') && !\Entrust::can('write');
@@ -124,6 +126,6 @@ class PaymentController extends Controller
 
     private function getFamilyId($i, $id)
     {
-        return $i == 'c' ? \App\Camper::where('id', $id)->first()->familyid : $id;
+        return $i == 'c' ? \App\Camper::find($id)->familyid : $id;
     }
 }

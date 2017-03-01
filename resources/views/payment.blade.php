@@ -114,7 +114,6 @@
 
 @section('script')
     <script src="https://www.paypalobjects.com/api/checkout.js"></script>
-    <script src="/js/payment.js" type="text/javascript"></script>
     <script>
         $(document).on('change', '#donation', function () {
             var total = parseFloat($(this).val());

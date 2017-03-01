@@ -17,8 +17,10 @@ Auth::routes();
 
 Route::get('/workshops', 'WorkshopController@read');
 
-Route::get('/contact', 'ContactController@index');
-Route::post('/contact', 'ContactController@store');
+Route::get('/contact', 'ContactController@contactIndex');
+Route::post('/contact', 'ContactController@contactStore');
+Route::get('/artfair', 'ContactController@artfairIndex');
+Route::post('/artfair', 'ContactController@artfairStore')->middleware('auth');;
 
 Route::get('/household', 'HouseholdController@index')->middleware('auth');
 Route::post('/household', 'HouseholdController@store')->middleware('auth');

@@ -64,13 +64,13 @@ class HouseholdController extends Controller
     public function read($i, $id)
     {
         $readonly = \Entrust::can('read') && !\Entrust::can('write');
-        $family = \App\Family::where('id', $this->getFamilyId($i, $id))->first();
+        $family = \App\Family::find($this->getFamilyId($i, $id));
         return view('household', ['family' => $family,
             'statecodes' => \App\Statecode::all()->sortBy('name'), 'readonly' => $readonly]);
     }
 
     private function getFamilyId($i, $id)
     {
-        return $i == 'c' ? \App\Camper::where('id', $id)->first()->familyid : $id;
+        return $i == 'c' ? \App\Camper::find($id)->familyid : $id;
     }
 }

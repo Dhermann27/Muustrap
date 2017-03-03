@@ -130,7 +130,7 @@ class CamperController extends Controller
     public function read($i, $id, $success = null) {
         $year = $this->getCurrentYear();
         $readonly = \Entrust::can('read') && !\Entrust::can('write');
-        $family = \App\Family::where('id', $this->getFamilyId($i, $id))->first();
+        $family = \App\Family::find($this->getFamilyId($i, $id));
         $campers = \App\Camper::where('familyid', $family->id)->orderBy('birthdate')->get();
 
         $empty = new \App\Camper();
@@ -164,6 +164,6 @@ class CamperController extends Controller
 
     private function getFamilyId($i, $id)
     {
-        return $i == 'c' ? \App\Camper::where('id', $id)->first()->familyid : $id;
+        return $i == 'c' ? \App\Camper::find($id)->familyid : $id;
     }
 }

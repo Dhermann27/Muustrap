@@ -8,13 +8,8 @@ class Building extends Model
 {
     public $timestamps = false;
 
-    public function rate()
+    public function rooms()
     {
-        return $this->belongsTo(Rate::class);
-    }
-
-    public function room()
-    {
-        return $this->belongsTo(Rate::class);
+        return $this->hasMany(Room::class, 'buildingid', 'id');
     }
 }

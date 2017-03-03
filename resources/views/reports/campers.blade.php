@@ -44,7 +44,12 @@
                                                 @foreach($family->campers()->where('year', $thisyear)->orderBy('birthdate')->get() as $camper)
                                                     <tr>
                                                         <td width="25%">{{ $camper->lastname }}
-                                                            , {{ $camper->firstname }}</td>
+                                                            , {{ $camper->firstname }}
+                                                            @if(isset($camper->email))
+                                                                <a href="mailto:{{ $camper->email }}"
+                                                                   class="fa fa-envelope"></a>
+                                                            @endif
+                                                        </td>
                                                         <td width="25%">{{ $camper->birthdate }}</td>
                                                         <td width="25%">{{ $camper->programname }}</td>
                                                         <td width="25%">{{ $camper->room_number }}</td>
@@ -54,6 +59,12 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                                <tfoot>
+                                <tr>
+                                    <td colspan="2" align="right"><strong>Total Campers
+                                            Attending: </strong> {{ $families->sum('count') }}</td>
+                                </tr>
+                                </tfoot>
                             </table>
                         </div>
                     @endforeach

@@ -16,7 +16,7 @@ class RoomSelectionController extends Controller
         $family = \App\Thisyear_Camper::where(['is_program_housing' => '0',
             'familyid' => \App\Thisyear_Camper::where('email', Auth::user()->email)->first()->familyid])->get();
         foreach ($family as $item) {
-            $ya = \App\Yearattending::where('id', $item->yearattendingid)->first();
+            $ya = \App\Yearattending::find($item->yearattendingid);
             $ya->roomid = $request->roomid;
             $ya->save();
         }
@@ -36,7 +36,7 @@ class RoomSelectionController extends Controller
             $camper = \App\Camper::where('email', Auth::user()->email)->first();
             $yaid = DB::select('SELECT IF(ya.id!=0,ya.id,IF(isprereg(c.id, y.year)>0 AND IFNULL(yap.id,0)!=0,yap.id,0)) yaid, isprereg(c.id, y.year) prereg FROM (campers c, years y) LEFT JOIN yearsattending ya ON c.id=ya.camperid AND y.year=ya.year LEFT JOIN yearsattending yap ON c.id=yap.camperid AND y.year-1=yap.year WHERE c.email=? AND y.is_current=1', [$camper->email]);
             if (count($yaid) == 1) {
-                $camper->yearattending = \App\Yearattending::where('id', $yaid[0]->yaid)->first();
+                $camper->yearattending = \App\Yearattending::find($yaid[0]->yaid);
                 $camper->prereg = $yaid[0]->prereg > 0;
             }
         } else {

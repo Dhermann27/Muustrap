@@ -114,8 +114,16 @@
 
 @section('script')
     <script src="https://www.paypalobjects.com/api/checkout.js"></script>
-    <script src="/js/payment.js" type="text/javascript"></script>
     <script>
+        $(document).on('change', '#donation', function () {
+            var total = parseFloat($(this).val());
+            $("#amount").val(Math.max(0, parseFloat($("#amountNow").text().replace('$', '')) + total).toFixed(2));
+            $("td.amount").each(function () {
+                total += parseFloat($(this).text().replace('$', ''));
+            });
+            $("#amountArrival").text("$" + Math.max(0, total).toFixed(2));
+        });
+
         paypal.Button.render({
 
             env: '{{ $env }}', // Specify 'sandbox' for the test environment

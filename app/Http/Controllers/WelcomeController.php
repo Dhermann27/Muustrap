@@ -18,7 +18,7 @@ class WelcomeController extends Controller
                 $payload['updatedFamily'] = $this->isFamilyUpdated($camper, $open);
                 $payload['updatedCamper'] = $this->isCamperUpdated($camper, $open);
 
-                $family = \App\Thisyear_Family::where('id', $camper->family->id)->first();
+                $family = \App\Thisyear_Family::find($camper->family->id);
                 $payload['registered'] = $this->isRegistered($family);
                 $payload['paid'] = $this->isPaid($family);
             }

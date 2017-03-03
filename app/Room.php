@@ -24,11 +24,15 @@ class Room extends Model
     public function getOccupantsAttribute() {
 
         $campers = \App\Thisyear_Camper::where('roomid', $this->id)->orderBy('lastname', 'birthdate')->get();
-        $str = "<br /><i>Current Occupants</i>:";
-        foreach($campers as $camper) {
-            $str .= '<br />' . $camper->firstname . ' ' . $camper->lastname;
+        if(count($campers) > 0) {
+            $str = "<br /><i>Current Occupants</i>:";
+            foreach ($campers as $camper) {
+                $str .= '<br />' . $camper->firstname . ' ' . $camper->lastname;
+            }
+            return $str;
+        } else {
+            return null;
         }
-        return $str;
     }
 
     public function getRoomNameAttribute()
@@ -36,7 +40,7 @@ class Room extends Model
         $roomname = $this->building->name;
         $roomname .= $this->buildingid < 1007 ? ', Room ' . $this->room_number : '';
         if (isset($this->connected_with)) {
-            $connectingroom = \App\Room::where('id', $this->connected_with)->first();
+            $connectingroom = \App\Room::find($this->connected_with);
             $roomname .= ($this->buildingid == 1000 ?
                 '<br /><i>Double Privacy Door with Room ' . $connectingroom->room_number . '</i>' :
                 '<br /><i>Shares common area with Room ' . $connectingroom->room_number . '</i>');

@@ -666,7 +666,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `duplicate`(beforeid INT, afterid IN
     DECLARE family, count INT DEFAULT 0;
     IF beforeid != 0 AND afterid != 0 THEN
       SELECT familyid INTO family FROM campers WHERE id=beforeid;
-      UPDATE yearsattending SET camperid=afterid WHERE camperid=beforeid;
+      UPDATE yearsattending ya SET ya.camperid=afterid WHERE ya.camperid=beforeid AND (SELECT COUNT(*) FROM yearsattending yap WHERE yap.camperid=afterid AND ya.year=yap.year)=0;
       UPDATE oldgencharges SET camperid=afterid WHERE camperid=beforeid;
       UPDATE gencharges SET camperid=afterid WHERE camperid=beforeid;
       UPDATE charges SET camperid=afterid WHERE camperid=beforeid;

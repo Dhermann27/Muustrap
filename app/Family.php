@@ -17,6 +17,6 @@ class Family extends Model
 
     public function statecode()
     {
-        return $this->hasOne(Statecode::class);
+        return $this->hasOne(Statecode::class, 'code', 'statecd');
     }
 }

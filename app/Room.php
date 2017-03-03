@@ -24,11 +24,15 @@ class Room extends Model
     public function getOccupantsAttribute() {
 
         $campers = \App\Thisyear_Camper::where('roomid', $this->id)->orderBy('lastname', 'birthdate')->get();
-        $str = "<br /><i>Current Occupants</i>:";
-        foreach($campers as $camper) {
-            $str .= '<br />' . $camper->firstname . ' ' . $camper->lastname;
+        if(count($campers) > 0) {
+            $str = "<br /><i>Current Occupants</i>:";
+            foreach ($campers as $camper) {
+                $str .= '<br />' . $camper->firstname . ' ' . $camper->lastname;
+            }
+            return $str;
+        } else {
+            return null;
         }
-        return $str;
     }
 
     public function getRoomNameAttribute()

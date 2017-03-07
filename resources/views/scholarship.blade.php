@@ -29,7 +29,7 @@
                         Fax: 573-438- 5752 attn: Nicolle Wright<br/>
                         Email: <a href="mailto:nwright@ymcastlouis.org">Nicolle Wright</a><br/>
                     </li>
-                    <li>Contact the Scholarship Coordinator, John Sandman to say you have completed and submitted both
+                    <li>Contact the Scholarship Coordinator, Bill Pokorny, to say you have completed and submitted both
                         the MUUSA registration and the YMCA Aid Application. To qualify for a scholarship, you must
                         follow all these steps. Again, all information is confidential and no personal financial
                         information that you provide the YMCA is shared with MUUSA.

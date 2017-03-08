@@ -89,8 +89,8 @@
                         title="Payment"></button>
                 {{--<button id="workshopchoice" class="btn btn-default fa fa-rocket action" data-toggle="tooltip"--}}
                         {{--title="Workshop Preferences"></button>--}}
-                {{--<button id="assignroom" class="btn btn-default fa fa-bed action" data-toggle="tooltip"--}}
-                        {{--title="Assign Room"></button>--}}
+                <button id="roomselection" class="btn btn-default fa fa-bed action" data-toggle="tooltip"
+                        title="Assign Room"></button>
             </div>
         </form>
     </li>
@@ -134,7 +134,9 @@
     $('[data-toggle="tooltip"]').tooltip();
     $('button.action').on('click', function (e) {
         e.preventDefault();
-        $(this).parents('form').attr('action', '/' + $(this).attr('id') + '/c/' + $("#camperid").val()).submit();
+        var camperid = $("#camperid");
+        var id = camperid.val() != '' ? '/c/' + camperid.val() : window.location.pathname.replace(/^\/\w+\/(c|w)\/(\d+)/, '/$1/$2')
+        $(this).parents('form').attr('action', '/' + $(this).attr('id') + id).submit();
     });
     $('input.camperlist').each(function() {
         $(this).autocomplete({

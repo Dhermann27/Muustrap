@@ -60,16 +60,16 @@
                                     <label for="address1" class="col-md-4 control-label">Address #1</label>
 
                                     <div class="col-md-6">
-                                        <strong>{{ $camper->family->address1 }}</strong>
+                                        <strong>{{ $camper->address1 }}</strong>
                                     </div>
                                 </div>
 
-                                @if($camper->family->address2 != '')
+                                @if($camper->address2 != '')
                                     <div class="form-group">
                                         <label for="address2" class="col-md-4 control-label">Address #2</label>
 
                                         <div class="col-md-6">
-                                            <strong>{{ $camper->family->address2 }}</strong>
+                                            <strong>{{ $camper->address2 }}</strong>
                                         </div>
                                     </div>
                                 @endif
@@ -78,7 +78,7 @@
                                     <label for="city" class="col-md-4 control-label">City</label>
 
                                     <div class="col-md-6">
-                                        <strong>{{ $camper->family->city }}</strong>
+                                        <strong>{{ $camper->city }}</strong>
                                     </div>
                                 </div>
 
@@ -86,7 +86,7 @@
                                     <label for="statecd" class="col-md-4 control-label">State</label>
 
                                     <div class="col-md-6">
-                                        <strong>{{ $camper->family->statecode->name }}</strong>
+                                        <strong>{{ $camper->statecd }}</strong>
                                     </div>
                                 </div>
 
@@ -94,7 +94,7 @@
                                     <label for="zipcd" class="col-md-4 control-label">Zip Code</label>
 
                                     <div class="col-md-6">
-                                        <strong>{{ $camper->family->zipcd }}</strong>
+                                        <strong>{{ $camper->zipcd }}</strong>
                                     </div>
                                 </div>
 
@@ -104,6 +104,16 @@
 
                                         <div class="col-md-6">
                                             <strong>{{ $camper->formatted_phone }}</strong>
+                                        </div>
+                                    </div>
+                                @endif
+
+                                @if($camper->room_number != '')
+                                    <div class="form-group">
+                                        <label for="address2" class="col-md-4 control-label">Phone Number</label>
+
+                                        <div class="col-md-6">
+                                            <strong>{{ $camper->buildingname }} {{ $camper->room_number }}</strong>
                                         </div>
                                     </div>
                                 @endif
@@ -150,6 +160,23 @@
                                             <span class="help-block">
                                                 <strong>{{ $errors->first('images') }}</strong>
                                             </span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="form-group{{ $errors->has('table') ? ' has-error' : '' }}">
+                                    <label for="table" class="col-md-4 control-label">Presentation Requests: do you
+                                        need a full length (8' long, but narrow) table or would 1/2 a table work? Please
+                                        describe your display needs.</label>
+
+                                    <div class="col-md-6">
+                                    <textarea id="table" class="form-control" name="table"
+                                              required>{{ old('table') }}</textarea>
+
+                                        @if ($errors->has('table'))
+                                            <span class="help-block">
+                                        <strong>{{ $errors->first('table') }}</strong>
+                                    </span>
                                         @endif
                                     </div>
                                 </div>

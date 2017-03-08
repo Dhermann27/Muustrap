@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Camper;
+use App\Thisyear_Camper;
 use Illuminate\Bus\Queueable;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Mailable;
@@ -19,7 +19,7 @@ class ArtFair extends Mailable
      *
      * @return void
      */
-    public function __construct(Request $request, Camper $camper)
+    public function __construct(Request $request, Thisyear_Camper $camper)
     {
         $this->request = $request;
         $this->camper = $camper;

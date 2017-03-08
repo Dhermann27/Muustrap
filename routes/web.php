@@ -25,22 +25,25 @@ Route::post('/artfair', 'ContactController@artfairStore')->middleware('auth');;
 Route::get('/household', 'HouseholdController@index')->middleware('auth');
 Route::post('/household', 'HouseholdController@store')->middleware('auth');
 Route::get('/household/{i}/{id}', 'HouseholdController@read')->middleware('role:admin|council');
-Route::post('/household/{id}', 'HouseholdController@write')->middleware('role:admin|council');
+Route::post('/household/{id}', 'HouseholdController@write')->middleware('role:admin');
 
 Route::get('/camper', 'CamperController@index')->middleware('auth');
 Route::post('/camper', 'CamperController@store')->middleware('auth');
 Route::get('/camper/{i}/{id}', 'CamperController@read')->middleware('role:admin|council');
-Route::post('/camper/{id}', 'CamperController@write')->middleware('role:admin|council');
+Route::post('/camper/{id}', 'CamperController@write')->middleware('role:admin');
 
 Route::get('/payment', 'PaymentController@index')->middleware('auth');
 Route::post('/payment', 'PaymentController@store')->middleware('auth');
 Route::get('/payment/{i}/{id}', 'PaymentController@read')->middleware('role:admin|council');
-Route::post('/payment/{id}', 'PaymentController@write')->middleware('role:admin|council');
+Route::post('/payment/{id}', 'PaymentController@write')->middleware('role:admin');
 
 Route::get('/workshopchoice', 'WorkshopController@index')->middleware('auth');
 Route::post('/workshopchoice', 'WorkshopController@store')->middleware('auth');
+
 Route::get('/roomselection', 'RoomSelectionController@index')->middleware('auth');
 Route::post('/roomselection', 'RoomSelectionController@store')->middleware('auth');
+Route::get('/roomselection/{i}/{id}', 'RoomSelectionController@read')->middleware('role:admin|council');
+Route::post('/roomselection/{id}', 'RoomSelectionController@write')->middleware('role:admin');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'data'], function () {
     Route::get('camperlist', 'DataController@campers');

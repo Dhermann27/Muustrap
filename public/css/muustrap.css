@@ -20,7 +20,7 @@ div.jumbotron {
 }
 
 div.jumbotron p {
-        padding: 10px;
+    padding: 10px;
 }
 
 .navbar {
@@ -28,11 +28,11 @@ div.jumbotron p {
 }
 
 nav a.navbar-brand {
-        padding: 0px 15px;
+    padding: 0px 15px;
 }
 
 nav a.navbar-brand h4 {
-        margin-top: 0px;
+    margin-top: 0px;
 }
 
 div.panel {
@@ -93,6 +93,38 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 
+.carousel img {
+    min-width: 100%;
+}
+
+#carousel-caption1 {
+    top: 0;
+    left: 15%;
+    width: 35%;
+    text-align: left;
+}
+
+#carousel-caption2 {
+    left: 15%;
+    width: 55%;
+    text-align: left;
+    text-shadow: 0;
+    color: #0f0f0f;
+}
+
+#carousel-caption3 {
+    top: 0;
+    bottom: auto;
+    width: 70%;
+}
+
+.carousel-control i {
+    position: absolute;
+    top: 50%;
+    z-index: 5;
+    display: inline-block;
+}
+
 div.alert-info {
     margin-bottom: 0;
 }
@@ -104,52 +136,68 @@ div.alert-info {
     border-top-width: 5px;
     border-radius: 3px;
 }
+
 .bs-callout h4 {
     margin-left: 0;
     margin-bottom: 5px;
 }
+
 .bs-callout p:last-child {
     margin-bottom: 0;
 }
+
 .bs-callout code {
     border-radius: 3px;
 }
-.bs-callout+.bs-callout {
+
+.bs-callout + .bs-callout {
     margin-left: -5px;
 }
+
 .bs-callout-default {
     border-top-color: #777;
 }
+
 .bs-callout-default h4 {
     color: #777;
 }
+
 .bs-callout-primary {
     border-top-color: #428bca;
 }
+
 .bs-callout-primary h4 {
     color: #428bca;
 }
+
 .bs-callout-success {
     border-top-color: #5cb85c;
 }
+
 .bs-callout-success h4 {
     color: #5cb85c;
 }
+
 .bs-callout-danger {
     border-top-color: #d9534f;
 }
+
 .bs-callout-danger h4 {
     color: #d9534f;
 }
+
 .bs-callout-warning {
     border-top-color: #f0ad4e;
 }
+
 .bs-callout-warning h4 {
     color: #f0ad4e;
 }
+
 .bs-callout-info {
     border-top-color: #5bc0de;
 }
+
 .bs-callout-info h4 {
     color: #5bc0de;
 }

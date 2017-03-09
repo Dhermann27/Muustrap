@@ -94,15 +94,18 @@
             </div>
         </form>
     </li>
+    @role(['admin'])
     <li role="presentation" class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
            aria-expanded="false">
             Administration <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
+            <li><a href="{{ url('/admin/positions') }}">Staff Positions</a></li>
             <li><a href="{{ url('/admin/roles') }}">User Roles</a></li>
         </ul>
     </li>
+    @endrole
     <li role="presentation" class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
            aria-expanded="false">
@@ -111,7 +114,15 @@
         <ul class="dropdown-menu">
             <li><a href="{{ url('/reports/campers') }}">Registered Campers</a></li>
             <li><a href="{{ url('/reports/rooms') }}">Room List</a></li>
-            <li><a href="{{ url('/reports/staffpositions') }}">Staff Positions</a></li>
+        </ul>
+    </li>
+    <li role="presentation" class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+           aria-expanded="false">
+            Tools <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="{{ url('/reports/staffpositions') }}">Staff Assignments</a></li>
         </ul>
     </li>
 </ul>

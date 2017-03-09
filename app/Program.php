@@ -11,8 +11,8 @@ class Program extends Model
         return $this->belongsTo(Rate::class);
     }
 
-    public function staffposition()
+    public function staffpositions()
     {
-        return $this->belongsTo(Staffposition::class);
+        return $this->hasMany(Staffposition::class, 'programid', 'id');
     }
 }

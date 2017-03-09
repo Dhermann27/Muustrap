@@ -12,7 +12,7 @@ class AdminController extends Controller
         foreach (\App\Role::all() as $role) {
             if ($request->input($role->id . "-camperid") != '') {
                 $user = \App\Camper::find($request->input($role->id . "-camperid"));
-                if($user->user()->first() !== null) {
+                if ($user->user()->first() !== null) {
                     $user->user()->first()->roles()->attach($role->id);
                 } else {
                     $error .= $user->firstname . " " . $user->lastname . " has not yet regisetered on muusa.org.<br />";
@@ -27,6 +27,32 @@ class AdminController extends Controller
     {
         return view('admin.roles', ['roles' => \App\Role::with('users.camper')->get(),
             'success' => $success, 'error' => $error]);
+    }
+
+    public function positionStore(Request $request)
+    {
+        foreach (\App\Program::all() as $program) {
+            if ($request->input($program->id . "-position") != '') {
+                $position = new \App\Staffposition();
+                $position->name = $request->input($program->id . "-position");
+                $position->compensationlevelid = $request->input($program->id . "-compensationlevel");
+                $position->programid = $program->id;
+                $position->start_year = '1901';
+                $position->end_year = '2100';
+                $position->save();
+            }
+        }
+
+        return $this->positionIndex('You created those positions like a <i>pro</i>.');
+    }
+
+    public function positionIndex($success = null)
+    {
+        $year = \App\Year::where('is_current', '1')->first()->year;
+        return view('admin.positions', ['programs' => \App\Program::where('start_year', '<=', $year)
+            ->where('end_year', '>=', $year)->with('staffpositions.compensationlevel')->orderBy('age_min', 'desc')
+            ->orderBy('grade_min', 'desc')->get(),
+            'year' => $year, 'levels' => \App\Compensationlevel::all(), 'success' => $success]);
     }
 
 }

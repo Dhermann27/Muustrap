@@ -50,15 +50,21 @@ Route::group(['middleware' => 'auth', 'prefix' => 'data'], function () {
     Route::get('churchlist', 'DataController@churches');
 });
 
-
 Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'reports'], function () {
     Route::get('campers', 'ReportController@campers');
     Route::get('rooms', 'ReportController@rooms');
 });
 
+Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'tools'], function () {
+    Route::get('staffpositions', 'ToolsController@staffIndex');
+    Route::post('staffpositions', 'ToolsController@staffStore');
+});
+
 Route::group(['middleware' => ['role:admin'], 'prefix' => 'admin'], function () {
     Route::get('roles', 'AdminController@roleIndex');
     Route::post('roles', 'AdminController@roleStore');
+    Route::get('positions', 'AdminController@positionIndex');
+    Route::post('positions', 'AdminController@positionStore');
 });
 
 Route::get('/cost', function () {

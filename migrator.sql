@@ -534,31 +534,32 @@ CREATE FUNCTION getprogramfee (camperid INT, myyear YEAR)
                                                                 p.grade_min<=grade AND p.grade_max>=grade AND myyear>=p.start_year AND myyear<=p.end_year LIMIT 1);
   END;
 
-DROP VIEW IF EXISTS byyear_staff;
-CREATE VIEW byyear_staff AS
-  SELECT
-    ya.year,
-    c.familyid,
-    c.id                                                                 camperid,
-    ya.id                                                                yearattendingid,
-    c.firstname,
-    c.lastname,
-    IF(COUNT(sp.housing_amount) = 1, sp.name, 'Multiple Credits')        staffpositionname,
-    sp.id                                                                staffpositionid,
-    LEAST(getprogramfee(c.id, ya.year - 1), SUM(sp.registration_amount)) registration_amount,
-    LEAST(IFNULL(getrate(c.id, ya.year), 0), SUM(sp.housing_amount)) +
-    IF(ysp.is_eaf_paid = 1, (SELECT IFNULL(SUM(h.amount), 0)
-                             FROM charges h
-                             WHERE h.camperid IN (SELECT cp.id
-                                                  FROM campers cp
-                                                  WHERE cp.familyid = c.familyid) AND h.year = ya.year AND
-                                   h.chargetypeid = 1014), 0)            housing_amount,
-    sp.programid,
-    ysp.created_at
-  FROM campers c, yearsattending ya, yearattending__staff ysp, staffpositions sp
-  WHERE c.id = ya.camperid AND ya.id = ysp.yearattendingid AND ysp.staffpositionid = sp.id AND
-        ya.year >= sp.start_year AND ya.year <= sp.end_year
-  GROUP BY ya.year, c.id
+  DROP VIEW IF EXISTS byyear_staff;
+  CREATE VIEW byyear_staff AS
+    SELECT
+      ya.year,
+      c.familyid,
+      c.id                                                                 camperid,
+      ya.id                                                                yearattendingid,
+      c.firstname,
+      c.lastname,
+      MAX(sp.name)                                                         staffpositionname,
+      sp.id                                                                staffpositionid,
+      LEAST(getprogramfee(c.id, ya.year - 1) +
+            IFNULL(getrate(c.id, ya.year), 0), SUM(cl.max_compensation)) +
+      IF(ysp.is_eaf_paid = 1, (SELECT IFNULL(SUM(h.amount), 0)
+                               FROM charges h
+                               WHERE h.camperid IN (SELECT cp.id
+                                                    FROM campers cp
+                                                    WHERE cp.familyid = c.familyid) AND h.year = ya.year AND
+                                     h.chargetypeid = getchargetypeid('Early Arrival')), 0)
+                                                                           compensation,
+      sp.programid,
+      ysp.created_at
+    FROM campers c, yearsattending ya, yearattending__staff ysp, staffpositions sp, compensationlevels cl
+    WHERE c.id = ya.camperid AND ya.id = ysp.yearattendingid AND ysp.staffpositionid = sp.id
+          AND sp.compensationlevelid=cl.id AND ya.year >= sp.start_year AND ya.year <= sp.end_year
+    GROUP BY ya.year, c.id
   UNION ALL
   SELECT
     y.year,
@@ -567,16 +568,15 @@ CREATE VIEW byyear_staff AS
     0,
     c.firstname,
     c.lastname,
-    IF(COUNT(sp.housing_amount) = 1, sp.name, 'Multiple Credits'),
+    MAX(sp.name),
     sp.id,
-    LEAST(getprogramfee(c.id, y.year - 1), SUM(sp.registration_amount)),
-    0,
+    LEAST(getprogramfee(c.id, y.year - 1), SUM(cl.max_compensation)),
     sp.programid,
     cs.created_at
-  FROM camper__staff cs, campers c, staffpositions sp, years y
-  WHERE cs.camperid = c.id AND cs.staffpositionid = sp.id AND y.is_current = 1 AND sp.registration_amount > 0 AND
-        y.year >= sp.start_year AND y.year <= sp.end_year
-  GROUP BY c.id &
+  FROM camper__staff cs, campers c, staffpositions sp, compensationlevels cl, years y
+  WHERE cs.camperid = c.id AND cs.staffpositionid = sp.id AND y.is_current = 1 AND
+        sp.compensationlevelid=cl.id AND y.year >= sp.start_year AND y.year <= sp.end_year
+  GROUP BY c.id
 -- No staff position id because of multiple credits line, must be multiple credits due to amount limits
 
 DROP FUNCTION IF EXISTS getrate;

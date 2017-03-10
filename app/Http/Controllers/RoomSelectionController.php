@@ -46,4 +46,35 @@ class RoomSelectionController extends Controller
         return view('roomselection', ['open' => $trueopen, 'is_priority' => $priorityperiod, 'rooms' => $rooms,
             'camper' => $camper, 'success' => $success]);
     }
+
+    public function read($i, $id, $success = null) {
+        $readonly = \Entrust::can('read') && !\Entrust::can('write');
+        $family = \App\Family::find($this->getFamilyId($i, $id));
+        $currentyear = \App\Year::where('is_current', '1')->first()->year;
+        $campers = \App\Byyear_Camper::where('familyid', $family->id)->where('year', '>', $currentyear-5)->orderBy('birthdate')->get()->groupBy('id');
+
+        return view('admin.rooms', ['buildings' => \App\Building::with('rooms')->get(), 'currentyear' => $currentyear,
+            'campers' => $campers, 'success' => $success, 'readonly' => $readonly]);
+    }
+
+    public function write(Request $request, $id) {
+
+        $campers = \App\Thisyear_Camper::where('familyid', $id)->get();
+
+        foreach ($campers as $camper) {
+            $ya = \App\Yearattending::find($camper->yearattendingid);
+            $ya->roomid = $request->input($camper->id . '-roomid');
+            $ya->is_setbyadmin = '1';
+            $ya->save();
+        }
+
+        DB::statement('CALL generate_charges();');
+
+        return $this->read('f', $id, 'Awwwwwwww yeahhhhhhhhh');
+    }
+
+    private function getFamilyId($i, $id)
+    {
+        return $i == 'c' ? \App\Camper::find($id)->familyid : $id;
+    }
 }

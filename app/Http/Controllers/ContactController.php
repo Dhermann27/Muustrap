@@ -54,7 +54,7 @@ class ContactController extends Controller
             'g-recaptcha-response' => 'required|captcha',
         ], $messages);
 
-        Mail::to('karen@karenworks.com')->send(new ArtFair($request, \App\Camper::with('family')->where('email', Auth::user()->email)->first()));
+        Mail::to(env('ARTFAIR_EMAIL'))->send(new ArtFair($request, \App\Thisyear_Camper::where('email', Auth::user()->email)->first()));
 
         return $this->artfairIndex('Message sent! Replies will be sent to all applicants by May 1st.');
     }
@@ -63,7 +63,7 @@ class ContactController extends Controller
     {
         $camper = null;
         if (Auth::check()) {
-            $camper = \App\Camper::with('family')->where('email', Auth::user()->email)->first();
+            $camper = \App\Thisyear_Camper::where('email', Auth::user()->email)->first();
         }
         return view('artfair', ['camper' => $camper, 'success' => $success]);
     }

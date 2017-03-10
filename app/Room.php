@@ -21,6 +21,10 @@ class Room extends Model
         return $this->belongsTo(Yearattending::class);
     }
 
+    public function getOccupantCountAttribute() {
+        return \App\Thisyear_Camper::where('roomid', $this->id)->count();
+    }
+
     public function getOccupantsAttribute() {
 
         $campers = \App\Thisyear_Camper::where('roomid', $this->id)->orderBy('lastname', 'birthdate')->get();

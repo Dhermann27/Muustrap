@@ -116,15 +116,15 @@
             <li><a href="{{ url('/reports/rooms') }}">Room List</a></li>
         </ul>
     </li>
-    <li role="presentation" class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-           aria-expanded="false">
-            Tools <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-            <li><a href="{{ url('/reports/staffpositions') }}">Staff Assignments</a></li>
-        </ul>
-    </li>
+    {{--<li role="presentation" class="dropdown">--}}
+        {{--<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"--}}
+           {{--aria-expanded="false">--}}
+            {{--Tools <span class="caret"></span>--}}
+        {{--</a>--}}
+        {{--<ul class="dropdown-menu">--}}
+            {{--<li><a href="{{ url('/reports/staffpositions') }}">Staff Assignments</a></li>--}}
+        {{--</ul>--}}
+    {{--</li>--}}
 </ul>
 @endrole
 

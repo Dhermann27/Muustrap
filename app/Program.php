@@ -15,4 +15,9 @@ class Program extends Model
     {
         return $this->hasMany(Staffposition::class, 'programid', 'id');
     }
+
+    public function assignments()
+    {
+        return this->$this->hasMany(Thisyea)
+    }
 }

@@ -90,10 +90,9 @@ class CamperController extends Controller
                 'year' => DB::raw('getcurrentyear()')], ['days' => $request->input($id . '-days')]);
             $camper->yearattendingid = $ya->id;
         } else {
-            $ya = \App\Yearattending::where(['camperid' => $camper->id,
-                'year' => DB::raw('getcurrentyear()')])->first();
+            $ya = \App\Yearattending::where(['camperid' => $camper->id, 'year' => DB::raw('getcurrentyear()')])->first();
             if ($ya != null) {
-                if ($ya->id == '0') {
+                if ($request->input($id . '-days') == '0') {
                     $ya->delete();
                 } else {
                     $ya->days = $request->input($id . '-days');
@@ -127,22 +126,8 @@ class CamperController extends Controller
 
     }
 
-    public function read($i, $id, $success = null) {
-        $year = $this->getCurrentYear();
-        $readonly = \Entrust::can('read') && !\Entrust::can('write');
-        $family = \App\Family::find($this->getFamilyId($i, $id));
-        $campers = \App\Camper::where('familyid', $family->id)->orderBy('birthdate')->get();
-
-        $empty = new \App\Camper();
-        $empty->id = 0;
-        $empty->churchid = 2084;
-        $campers->push($empty);
-
-        return view('campers', ['pronouns' => \App\Pronoun::all(), 'foodoptions' => \App\Foodoption::all(),
-            'year' => $year, 'campers' => $campers, 'success' => $success, 'readonly' => $readonly]);
-    }
-
-    public function write(Request $request, $id) {
+    public function write(Request $request, $id)
+    {
 
         $campers = \App\Camper::where('familyid', $id)->get();
 
@@ -160,6 +145,22 @@ class CamperController extends Controller
         DB::statement('CALL generate_charges();');
 
         return $this->read('f', $id, 'You did it! Need to make see their <a href="' . url('/payment/f/' . $id) . '">statement</a> next?');
+    }
+
+    public function read($i, $id, $success = null)
+    {
+        $year = $this->getCurrentYear();
+        $readonly = \Entrust::can('read') && !\Entrust::can('write');
+        $family = \App\Family::find($this->getFamilyId($i, $id));
+        $campers = \App\Camper::where('familyid', $family->id)->orderBy('birthdate')->get();
+
+        $empty = new \App\Camper();
+        $empty->id = 0;
+        $empty->churchid = 2084;
+        $campers->push($empty);
+
+        return view('campers', ['pronouns' => \App\Pronoun::all(), 'foodoptions' => \App\Foodoption::all(),
+            'year' => $year, 'campers' => $campers, 'success' => $success, 'readonly' => $readonly]);
     }
 
     private function getFamilyId($i, $id)

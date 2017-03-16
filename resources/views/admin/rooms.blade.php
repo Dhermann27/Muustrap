@@ -7,7 +7,7 @@
             <div class="panel-heading">Assign Room</div>
             <div class="panel-body">
                 <form class="form-horizontal" role="form" method="POST"
-                      action="{{ url('/roomselection/' . $campers->first()[0]->familyid) }}">
+                      action="{{ url('/roomselection/' . $campers->first()->familyid) }}">
                     {{ csrf_field() }}
 
                     @if(!empty($success))
@@ -16,21 +16,21 @@
                         </div>
                     @endif
                     <div class="tab-content">
-                        @foreach($campers as $id => $years)
-                            <div class="form-group{{ $errors->has($id . '-roomid') ? ' has-error' : '' }}">
-                                <label for="{{ $id }}-roomid" class="col-md-4 control-label">
-                                    {{ $years[0]->firstname }} {{ $years[0]->lastname }}
+                        @foreach($campers as $camper)
+                            <div class="form-group{{ $errors->has($camper->id . '-roomid') ? ' has-error' : '' }}">
+                                <label for="{{ $camper->id }}-roomid" class="col-md-4 control-label">
+                                    {{ $camper->firstname }} {{ $camper->lastname }}
                                 </label>
 
                                 @if($readonly === false)
                                     <div class="col-md-4">
-                                        <select id="{{ $id }}-roomid" class="form-control roomlist"
-                                                name="{{ $id }}-roomid">
+                                        <select id="{{ $camper->id }}-roomid" class="form-control roomlist"
+                                                name="{{ $camper->id }}-roomid">
                                             <option value="0">No Room Selected</option>
                                             @foreach($buildings as $building)
                                                 <optgroup label="{{ $building->name }}">
                                                     @foreach($building->rooms as $room)
-                                                        <option value="{{ $room->id }}"{{ $years->where('year', $currentyear)->first() && $years->where('year', $currentyear)->first()->roomid == $room->id ? ' selected' : '' }}>
+                                                        <option value="{{ $room->id }}"{{ $camper->roomid == $room->id ? ' selected' : '' }}>
                                                             {{ $room->room_number }}
                                                             ({{ $room->occupant_count }}/{{ $room->capacity }})
                                                         </option>
@@ -40,9 +40,9 @@
                                         </select>
                                         <button id="quickme" class="pull-right fa fa-bolt" data-toggle="tooltip"
                                                 title="Assign entire family to this room"></button>
-                                        @if ($errors->has($id . '-roomid'))
+                                        @if ($errors->has($camper->id . '-roomid'))
                                             <span class="help-block">
-                                                <strong>{{ $errors->first($role->id . '-camperid') }}</strong>
+                                                <strong>{{ $errors->first($camper->id . '-camperid') }}</strong>
                                             </span>
                                         @endif
                                     </div>
@@ -57,7 +57,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($years as $year)
+                                    @foreach($camper->history() as $year)
                                         <tr>
                                             <td>{{ $year->year }}</td>
                                             <td>{{ $year->buildingname }}</td>

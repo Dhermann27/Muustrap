@@ -50,10 +50,9 @@ class RoomSelectionController extends Controller
     public function read($i, $id, $success = null) {
         $readonly = \Entrust::can('read') && !\Entrust::can('write');
         $family = \App\Family::find($this->getFamilyId($i, $id));
-        $currentyear = \App\Year::where('is_current', '1')->first()->year;
-        $campers = \App\Byyear_Camper::where('familyid', $family->id)->where('year', '>', $currentyear-5)->orderBy('birthdate')->get()->groupBy('id');
+        $campers = \App\Thisyear_Camper::where('familyid', $family->id)->orderBy('birthdate')->get();
 
-        return view('admin.rooms', ['buildings' => \App\Building::with('rooms')->get(), 'currentyear' => $currentyear,
+        return view('admin.rooms', ['buildings' => \App\Building::with('rooms')->get(),
             'campers' => $campers, 'success' => $success, 'readonly' => $readonly]);
     }
 

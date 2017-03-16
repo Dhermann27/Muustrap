@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Thisyear_Camper extends Model
 {
@@ -25,5 +26,9 @@ class Thisyear_Camper extends Model
 
     public function yearattending() {
         return $this->hasOne(Yearattending::class, 'id', 'yearattendingid');
+    }
+
+    public function history() {
+        return \App\Byyear_Camper::where('id', $this->id)->where('year', '>', DB::raw('getcurrentyear()-5'))->orderBy('year')->get();
     }
 }

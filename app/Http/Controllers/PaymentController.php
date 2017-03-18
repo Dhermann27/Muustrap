@@ -120,7 +120,7 @@ class PaymentController extends Controller
         $years = \App\Byyear_Charge::where('familyid', $this->getFamilyId($i, $id))
             ->orderBy('year')->orderBy('timestamp')->get()->groupBy('year');
 
-        return view('paymentadmin', ['chargetypes' => \App\Chargetype::where('is_shown', '1')->orderBy('name')->get(),
+        return view('admin.payment', ['chargetypes' => \App\Chargetype::where('is_shown', '1')->orderBy('name')->get(),
             'year' => $year, 'years' => $years, 'success' => $success, 'readonly' => $readonly]);
     }
 

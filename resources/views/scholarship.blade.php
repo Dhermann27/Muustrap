@@ -19,17 +19,17 @@
                     <li>Complete the MUUSA registration (either on‐line or by mail). If you cannot pay the deposit,
                         contact the MUUSA registrar using Contact Us form above.
                     </li>
-                    <li>Complete and return the YMCA Aid Application available at <a>YMCAoftheOzarks.org</a>. You will
-                        need to provide personal financial information, including proof of income. This information is
-                        only seen by the YMCA scholarship coordinator and not by MUUSA PC or Scholarship
-                        Coordinator.<br/>
+                    <li>Complete and return the <a href="/Financial_Assistance_Member_Packet.pdf">YMCA Aid
+                            Application</a>. You will need to provide personal financial information, including proof of
+                        income. This information is only seen by the YMCA scholarship coordinator and not by MUUSA PC or
+                        Scholarship Coordinator.<br/>
 
                         Mail or fax form to:<br/>
                         US Mail: YMCA Trout Lodge, 13528 State Highway AA, Potosi, MO 63664, attn: Nicolle Wright<br/>
                         Fax: 573-438- 5752 attn: Nicolle Wright<br/>
                         Email: <a href="mailto:nwright@ymcastlouis.org">Nicolle Wright</a><br/>
                     </li>
-                    <li>Contact the Scholarship Coordinator, John Sandman to say you have completed and submitted both
+                    <li>Contact the Scholarship Coordinator, Bill Pokorny, to say you have completed and submitted both
                         the MUUSA registration and the YMCA Aid Application. To qualify for a scholarship, you must
                         follow all these steps. Again, all information is confidential and no personal financial
                         information that you provide the YMCA is shared with MUUSA.

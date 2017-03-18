@@ -18,6 +18,6 @@ class Program extends Model
 
     public function assignments()
     {
-        return this->$this->hasMany(Thisyea)
+        //return this->$this->hasMany(Thisyea)
     }
 }

@@ -62,7 +62,7 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon">$</span>
                                                     <input type="number" id="amount" class="form-control"
-                                                           name="amount" data-number-to-fixed="2" min="0"
+                                                           name="amount" data-number-to-fixed="2"
                                                            value="{{ old('amount') }}"/>
                                                 </div>
                                             </td>

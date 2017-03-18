@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ArtFair;
+use App\Mail\ContactUs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -29,7 +30,7 @@ class ContactController extends Controller
 
         Mail::to($users)->send(new ContactUs($request));
 
-        return $this->index('Message sent! Please expect a response in 1-3 business days.');
+        return $this->contactIndex('Message sent! Please expect a response in 1-3 business days.');
     }
 
     public function contactIndex($success = null)

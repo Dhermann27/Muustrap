@@ -113,18 +113,19 @@
         </a>
         <ul class="dropdown-menu">
             <li><a href="{{ url('/reports/campers') }}">Registered Campers</a></li>
+            <li><a href="{{ url('/reports/rates') }}">Rates</a></li>
             <li><a href="{{ url('/reports/rooms') }}">Room List</a></li>
         </ul>
     </li>
-    {{--<li role="presentation" class="dropdown">--}}
-        {{--<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"--}}
-           {{--aria-expanded="false">--}}
-            {{--Tools <span class="caret"></span>--}}
-        {{--</a>--}}
-        {{--<ul class="dropdown-menu">--}}
-            {{--<li><a href="{{ url('/reports/staffpositions') }}">Staff Assignments</a></li>--}}
-        {{--</ul>--}}
-    {{--</li>--}}
+    <li role="presentation" class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+           aria-expanded="false">
+            Tools <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="{{ url('/tools/staffpositions') }}">Staff Assignments</a></li>
+        </ul>
+    </li>
 </ul>
 @endrole
 
@@ -146,13 +147,14 @@
     $('button.action').on('click', function (e) {
         e.preventDefault();
         var camperid = $("#camperid");
-        var id = camperid.val() != '' ? '/c/' + camperid.val() : window.location.pathname.replace(/^\/\w+\/(c|w)\/(\d+)/, '/$1/$2')
+        var id = camperid.val() != '' ? '/c/' + camperid.val() : window.location.pathname.replace(/^\/\w+\/(c|f)\/(\d+)/, '/$1/$2')
         $(this).parents('form').attr('action', '/' + $(this).attr('id') + id).submit();
     });
     $('input.camperlist').each(function() {
         $(this).autocomplete({
             source: "/data/camperlist",
             minLength: 3,
+            autoFocus: true,
             select: function (event, ui) {
                 $(this).val(ui.item.lastname + ", " + ui.item.firstname);
                 $(this).next("input").val(ui.item.id);

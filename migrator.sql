@@ -524,16 +524,6 @@ VALUES
          'In recent years, beer has widely become recognized as being really worth appreciating, at least to those who\'ve given it a whirl. Let\'s spend a few nights learning a bit more about nuances that make a beer really great.',
          1, 0, 1, 0, 1, 0, 25, 0, NOW(), NULL);
 
-DROP FUNCTION IF EXISTS getprogramfee;
-CREATE FUNCTION getprogramfee (camperid INT, myyear YEAR)
-  RETURNS FLOAT DETERMINISTIC
-  BEGIN
-    DECLARE age, grade INT DEFAULT 0;
-    SELECT getage(c.birthdate, myyear), getage(c.birthdate, myyear)+c.gradeoffset INTO age, grade FROM campers c WHERE c.id=camperid;
-    RETURN(SELECT p.fee FROM programs p WHERE p.age_min<=age AND p.age_max>=age AND
-                                                                p.grade_min<=grade AND p.grade_max>=grade AND myyear>=p.start_year AND myyear<=p.end_year LIMIT 1);
-  END;
-
   DROP VIEW IF EXISTS byyear_staff;
   CREATE VIEW byyear_staff AS
     SELECT
@@ -545,8 +535,7 @@ CREATE FUNCTION getprogramfee (camperid INT, myyear YEAR)
       c.lastname,
       MAX(sp.name)                                                         staffpositionname,
       sp.id                                                                staffpositionid,
-      LEAST(getprogramfee(c.id, ya.year - 1) +
-            IFNULL(getrate(c.id, ya.year), 0), SUM(cl.max_compensation)) +
+      LEAST(IFNULL(getrate(c.id, ya.year), 0), SUM(cl.max_compensation)) +
       IF(ysp.is_eaf_paid = 1, (SELECT IFNULL(SUM(h.amount), 0)
                                FROM charges h
                                WHERE h.camperid IN (SELECT cp.id
@@ -559,7 +548,7 @@ CREATE FUNCTION getprogramfee (camperid INT, myyear YEAR)
     FROM campers c, yearsattending ya, yearattending__staff ysp, staffpositions sp, compensationlevels cl
     WHERE c.id = ya.camperid AND ya.id = ysp.yearattendingid AND ysp.staffpositionid = sp.id
           AND sp.compensationlevelid=cl.id AND ya.year >= sp.start_year AND ya.year <= sp.end_year
-    GROUP BY ya.year, c.id
+    GROUP BY ya.year, c.id;
   UNION ALL
   SELECT
     y.year,
@@ -576,36 +565,34 @@ CREATE FUNCTION getprogramfee (camperid INT, myyear YEAR)
   FROM camper__staff cs, campers c, staffpositions sp, compensationlevels cl, years y
   WHERE cs.camperid = c.id AND cs.staffpositionid = sp.id AND y.is_current = 1 AND
         sp.compensationlevelid=cl.id AND y.year >= sp.start_year AND y.year <= sp.end_year
-  GROUP BY c.id
+  GROUP BY c.id;
 -- No staff position id because of multiple credits line, must be multiple credits due to amount limits
 
 DROP FUNCTION IF EXISTS getrate;
-CREATE FUNCTION getrate (camperid INT, myyear YEAR)
+CREATE FUNCTION getrate (mycamperid INT, myyear YEAR)
   RETURNS FLOAT DETERMINISTIC
   BEGIN
-    DECLARE age, adults, children, days, staff, programid INT DEFAULT 0;
-    SELECT getage(c.birthdate, year), SUM(IF(getage(cp.birthdate, myyear)>17,1,0)),
-      SUM(IF(muusa_getage(cp.birthdate, myyear)<=17,1,0)), ya.days, IF(ysp.staffpositionid>0,1,0),
-      getprogramidbycamperid(camperid, myyear)
-    INTO age, adults, children, days, staff, programid
+    DECLARE age, occupants, days, staff, programid INT DEFAULT 0;
+    SELECT getage(c.birthdate, myyear), COUNT(*), MAX(ya.days), IF(MAX(ysp.staffpositionid)>0,1,0),
+      getprogramidbycamperid(mycamperid, myyear)
+    INTO age, occupants, days, staff, programid
     FROM (campers c, yearsattending ya, yearsattending yap, campers cp)
       LEFT JOIN yearattending__staff ysp
         ON ysp.yearattendingid=ya.id AND ysp.staffpositionid IN (1023,1025)
-    WHERE c.id=camperid AND c.id=ya.camperid AND ya.year=myyear AND ya.roomid=yap.roomid
+    WHERE c.id=mycamperid AND c.id=ya.camperid AND ya.year=myyear AND ya.roomid=yap.roomid
           AND ya.year=yap.year AND yap.camperid=cp.id;
     IF staff=1 THEN
       RETURN days * 58;
     -- DAH Meyer/Burt Staff Housing Rate $58.00/night
     ELSE
-      RETURN (SELECT FORMAT(IF(age>5, IFNULL(hr.amount*days,0), 0),2)
+      RETURN (SELECT FORMAT(IF(age>5, IFNULL(hr.rate*days,0), 0),2)
               FROM yearsattending ya, rooms r, rates hr
-              WHERE ya.camperid=camperid AND ya.year=year AND r.id=ya.roomid AND
+              WHERE ya.camperid=mycamperid AND ya.year=myyear AND r.id=ya.roomid AND
                     r.buildingid=hr.buildingid AND hr.programid=programid AND
-                    (hr.occupancy_adult=adults OR (hr.occupancy_adult=999 AND adults>0)) AND
-                    (hr.occupancy_children=children OR (hr.occupancy_children=999 AND children>0)) AND
-                    year>=hr.start_year AND year<=hr.end_year);
+                    occupants>=hr.min_occupancy AND occupants<=hr.max_occupancy AND
+                    myyear>=hr.start_year AND myyear<=hr.end_year);
     END IF;
-  END&
+  END;
 
 DROP PROCEDURE IF EXISTS generate_charges;
 CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges()

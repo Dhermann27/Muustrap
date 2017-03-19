@@ -108,7 +108,6 @@
     </div>
 @endsection
 
-
 @section('script')
     <script src="/js/bootstrap-datepicker.min.js"></script>
 @endsection

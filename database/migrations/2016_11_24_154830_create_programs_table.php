@@ -37,12 +37,6 @@ class CreateProgramsTable extends Migration
             SELECT age+c.gradeoffset INTO grade FROM campers c WHERE c.id=id;
             RETURN(SELECT p.id FROM programs p WHERE p.age_min<=age AND p.age_max>=age AND p.grade_min<=grade AND p.grade_max>=grade AND year>=p.start_year AND year<=p.end_year LIMIT 1);
         END');
-        DB::unprepared('CREATE FUNCTION getprogramfee (camperid INT, year INT) RETURNS FLOAT DETERMINISTIC BEGIN
-            DECLARE age, grade INT DEFAULT 0;
-            SELECT getage(c.birthdate, year) INTO age FROM campers c WHERE c.id=id;
-            SELECT age+c.gradeoffset INTO age, grade FROM campers c WHERE c.id=camperid;
-            RETURN(SELECT p.fee FROM programs p WHERE p.age_min<=age AND p.age_max>=age AND p.grade_min<=grade AND p.grade_max>=grade AND year>=p.start_year AND year<=p.end_year LIMIT 1);
-        END');
     }
 
     /**
@@ -54,7 +48,6 @@ class CreateProgramsTable extends Migration
     {
         DB::unprepared('DROP FUNCTION IF EXISTS getprogramidbyname');
         DB::unprepared('DROP FUNCTION IF EXISTS getprogramidbycamperid');
-        DB::unprepared('DROP FUNCTION IF EXISTS getprogramfee');
         Schema::dropIfExists('programs');
     }
 }

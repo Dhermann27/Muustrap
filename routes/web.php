@@ -53,6 +53,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'data'], function () {
 
 Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'reports'], function () {
     Route::get('campers', 'ReportController@campers');
+    Route::get('rates', 'ReportController@rates');
     Route::get('rooms', 'ReportController@rooms');
 });
 

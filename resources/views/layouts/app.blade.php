@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto:500"/>
     <script src="//use.fontawesome.com/9364904132.js"></script>
 
-@role(['admin', 'council'])
+    @role(['admin', 'council'])
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css"/>
 @endrole
 
@@ -80,7 +80,7 @@
                 <input type="text" id="camper" class="form-control camperlist" placeholder="Camper Name">
                 <input id="camperid" type="hidden">
                 {{--<button id="quickregister" class="btn btn-default fa fa-bolt action" data-toggle="tooltip"--}}
-                        {{--title="Quick Register!"></button>--}}
+                {{--title="Quick Register!"></button>--}}
                 <button id="household" class="btn btn-default fa fa-home action" data-toggle="tooltip"
                         title="Household Information"></button>
                 <button id="camper" class="btn btn-default fa fa-group action" data-toggle="tooltip"
@@ -88,9 +88,11 @@
                 <button id="payment" class="btn btn-default fa fa-money action" data-toggle="tooltip"
                         title="Payment"></button>
                 {{--<button id="workshopchoice" class="btn btn-default fa fa-rocket action" data-toggle="tooltip"--}}
-                        {{--title="Workshop Preferences"></button>--}}
+                {{--title="Workshop Preferences"></button>--}}
                 <button id="roomselection" class="btn btn-default fa fa-bed action" data-toggle="tooltip"
                         title="Assign Room"></button>
+                <button id="create" class="btn btn-default fa fa-plus action" data-toggle="tooltip"
+                        title="Create New Family"></button>
             </div>
         </form>
     </li>
@@ -146,11 +148,15 @@
     $('[data-toggle="tooltip"]').tooltip();
     $('button.action').on('click', function (e) {
         e.preventDefault();
-        var camperid = $("#camperid");
-        var id = camperid.val() != '' ? '/c/' + camperid.val() : window.location.pathname.replace(/^\/\w+\/(c|f)\/(\d+)/, '/$1/$2')
-        $(this).parents('form').attr('action', '/' + $(this).attr('id') + id).submit();
+        if ($(this).attr('id') == 'create') {
+            $(this).parents('form').attr('action', '/household/f/0').submit();
+        } else {
+            var camperid = $("#camperid");
+            var id = camperid.val() != '' ? '/c/' + camperid.val() : window.location.pathname.replace(/^\/\w+\/(c|f)\/(\d+)/, '/$1/$2')
+            $(this).parents('form').attr('action', '/' + $(this).attr('id') + id).submit();
+        }
     });
-    $('input.camperlist').each(function() {
+    $('input.camperlist').each(function () {
         $(this).autocomplete({
             source: "/data/camperlist",
             minLength: 3,

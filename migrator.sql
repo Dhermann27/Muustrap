@@ -316,7 +316,8 @@ CREATE VIEW byyear_families AS
     f.statecd,
     f.zipcd,
     f.country,
-    COUNT(ya.id) count
+    COUNT(ya.id) count,
+    SUM(IF(ya.roomid!=0,1,0)) assigned
   FROM families f, campers c, yearsattending ya
   WHERE f.id = c.familyid AND c.id = ya.camperid
   GROUP BY f.id, ya.year;
@@ -423,7 +424,8 @@ CREATE VIEW thisyear_families AS
     yf.statecd,
     yf.zipcd,
     yf.country,
-    yf.count
+    yf.count,
+    yf.assigned
   FROM byyear_families yf, years y
   WHERE yf.year = y.year AND y.is_current = 1;
 
@@ -548,7 +550,7 @@ VALUES
     FROM campers c, yearsattending ya, yearattending__staff ysp, staffpositions sp, compensationlevels cl
     WHERE c.id = ya.camperid AND ya.id = ysp.yearattendingid AND ysp.staffpositionid = sp.id
           AND sp.compensationlevelid=cl.id AND ya.year >= sp.start_year AND ya.year <= sp.end_year
-    GROUP BY ya.year, c.id;
+    GROUP BY ya.year, c.id
   UNION ALL
   SELECT
     y.year,
@@ -559,7 +561,7 @@ VALUES
     c.lastname,
     MAX(sp.name),
     sp.id,
-    LEAST(getprogramfee(c.id, y.year - 1), SUM(cl.max_compensation)),
+    LEAST(150, SUM(cl.max_compensation)),
     sp.programid,
     cs.created_at
   FROM camper__staff cs, campers c, staffpositions sp, compensationlevels cl, years y
@@ -567,6 +569,13 @@ VALUES
         sp.compensationlevelid=cl.id AND y.year >= sp.start_year AND y.year <= sp.end_year
   GROUP BY c.id;
 -- No staff position id because of multiple credits line, must be multiple credits due to amount limits
+
+DROP VIEW IF EXISTS thisyear_staff;
+CREATE VIEW thisyear_staff AS
+  SELECT familyid, camperid, yearattendingid, firstname, lastname,
+    staffpositionname, staffpositionid, programid, compensation
+  FROM byyear_staff bsp, years y
+  WHERE bsp.year=y.year AND y.is_current=1;
 
 DROP FUNCTION IF EXISTS getrate;
 CREATE FUNCTION getrate (mycamperid INT, myyear YEAR)
@@ -585,7 +594,7 @@ CREATE FUNCTION getrate (mycamperid INT, myyear YEAR)
       RETURN days * 58;
     -- DAH Meyer/Burt Staff Housing Rate $58.00/night
     ELSE
-      RETURN (SELECT FORMAT(IF(age>5, IFNULL(hr.rate*days,0), 0),2)
+      RETURN (SELECT IF(age>5, IFNULL(hr.rate*days,0), 0)
               FROM yearsattending ya, rooms r, rates hr
               WHERE ya.camperid=mycamperid AND ya.year=myyear AND r.id=ya.roomid AND
                     r.buildingid=hr.buildingid AND hr.programid=programid AND
@@ -597,18 +606,17 @@ CREATE FUNCTION getrate (mycamperid INT, myyear YEAR)
 DROP PROCEDURE IF EXISTS generate_charges;
 CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges()
   BEGIN
+    SET SQL_MODE='';
     TRUNCATE gencharges;
-#     INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
-#       SELECT
-#         ya.year,
-#         ya.camperid,
-#         getrate(ya.camperid, ya.year) amount,
-#         1000,
-#         d.name
-#       FROM yearsattending ya, campers c, rooms r, buildings d
-#       WHERE ya.roomid != 0 AND ya.camperid = c.id AND ya.roomid = r.id AND r.buildingid = d.id AND
-#             getrate(ya.camperid, ya.year) > 0
-#             AND ya.year = 2017;
+    INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
+      SELECT
+        bc.year,
+        bc.id,
+        getrate(bc.id, bc.year),
+        1000,
+        bc.buildingname
+      FROM byyear_campers bc
+      WHERE bc.roomid != 0 AND bc.year = 2017;
     INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
       SELECT
         bf.year,
@@ -620,11 +628,11 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges()
         1003,
         CONCAT("Deposit for ", bf.year)
       FROM byyear_families bf
-      WHERE bf.year = 2017;
-    #     INSERT INTO gencharges (year, camperid, amount, chargetypeid, memo)
-    #       SELECT bsp.year, bsp.camperid, -(bsp.registration_amount+bsp.housing_amount) amount, 1021, bsp.staffpositionname
-    #       FROM byyear_staff bsp
-    #       WHERE bsp.year=2017;
+      WHERE bf.year = 2017 AND bf.assigned=0;
+    INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
+      SELECT bsp.year, bsp.camperid, -(bsp.compensation) amount, 1021, bsp.staffpositionname
+      FROM byyear_staff bsp
+      WHERE bsp.year=2017;
   END;
 
 

@@ -13,7 +13,7 @@
             <div class="panel-heading">Camper Information</div>
             <div class="panel-body">
                 <form class="form-horizontal" role="form" method="POST" action="{{ url('/camper') .
-                 (isset($readonly) && $readonly === false ? '/' . $campers->first()->familyid : '')}}">
+                 (isset($readonly) && $readonly === false ? '/f/' . $campers->first()->familyid : '')}}">
                     {{ csrf_field() }}
 
                     @if(!empty($success))

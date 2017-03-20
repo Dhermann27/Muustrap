@@ -7,7 +7,7 @@
             <div class="panel-heading">Household Information</div>
             <div class="panel-body">
                 <form id="payment" class="form-horizontal" role="form" method="POST" action="{{ url('/household') .
-                (isset($readonly) && $readonly === false ? '/' . $family->id : '') }}">
+                (isset($readonly) && $readonly === false ? '/f/' . $family->id : '') }}">
                     {{ csrf_field() }}
 
                     @if(!empty($message))

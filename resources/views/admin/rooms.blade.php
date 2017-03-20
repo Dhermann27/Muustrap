@@ -7,7 +7,7 @@
             <div class="panel-heading">Assign Room</div>
             <div class="panel-body">
                 <form class="form-horizontal" role="form" method="POST"
-                      action="{{ url('/roomselection/' . $campers->first()->familyid) }}">
+                      action="{{ url('/roomselection/f/' . $campers->first()->familyid) }}">
                     {{ csrf_field() }}
 
                     @if(!empty($success))

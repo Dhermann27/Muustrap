@@ -6,7 +6,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">Staff Assignments</div>
             <div class="panel-body">
-                <form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/positions') }}">
+                <form class="form-horizontal" role="form" method="POST" action="{{ url('/tools/staffpositions') }}">
                     {{ csrf_field() }}
                     @if(!empty($success))
                         <div class=" alert alert-success">
@@ -29,54 +29,61 @@
                                 <table class="table table-responsive table-condensed">
                                     <thead>
                                     <tr>
+                                        <th>Position</th>
                                         <th>Name</th>
-                                        <th>Compensation Level</th>
-                                        <th>Maximum Compensation</th>
+                                        <th>Current Compensation</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($program->staffpositions->where('start_year', '<=', $year)->where('end_year', '>=', $year)->sortBy('name')->all() as $position)
+                                    @foreach($program->assignments()->orderBy('staffpositionname')->orderBy('lastname')->orderBy('firstname')->get() as $assignment)
                                         <tr>
-                                            <td>{{ $position->name }}</td>
-                                            <td>{{ $position->compensationlevel->name }}</td>
-                                            <td>${{ money_format('%.2n', $position->compensationlevel->max_compensation) }}</td>
+                                            <td>{{ $assignment->staffpositionname }}</td>
+                                            <td>{{ $assignment->lastname }}, {{ $assignment->firstname }}</td>
+                                            <td>${{ money_format('%.2n', $assignment->compensation) }}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="3" align="right"><strong>Total Compensation:</strong>
+                                        ${{ money_format('%.2n', $program->assignments->sum('compensation')) }}</td>
+                                    </tr>
+                                    </tfoot>
                                 </table>
 
-                                <div class="form-group{{ $errors->has($program->id . '-position') ? ' has-error' : '' }}">
-                                    <label for="{{ $program->id }}-position" class="col-md-4 control-label">Add
-                                        New Position</label>
+                                <div class="form-group{{ $errors->has($program->id . '-camperid') ? ' has-error' : '' }}">
+                                    <label for="{{ $program->id }}-camper" class="col-md-4 control-label">Add
+                                        New Assignment</label>
 
                                     <div class="col-md-6">
-                                        <input type="text" id="{{ $program->id }}-position" class="form-control"
-                                               name="{{ $program->id }}-position" placeholder="Position Name">
+                                        <input type="text" id="{{ $program->id }}-camper" class="form-control camperlist"
+                                               placeholder="Camper Name">
+                                        <input id="{{ $program->id }}-camperid" name="{{ $program->id }}-camperid"
+                                               type="hidden">
 
-                                        @if ($errors->has($program->id . '-position'))
+                                        @if ($errors->has($program->id . '-camperid'))
                                             <span class="help-block">
-                                                <strong>{{ $errors->first($program->id . '-position') }}</strong>
+                                                <strong>{{ $errors->first($program->id . '-camperid') }}</strong>
                                             </span>
                                         @endif
                                     </div>
                                 </div>
 
-                                <div class="form-group{{ $errors->has($program->id . '-compensationlevel') ? ' has-error' : '' }}">
-                                    <label for="{{ $program->id }}-compensationlevel" class="col-md-4 control-label">Compensation
-                                        Level</label>
+                                <div class="form-group{{ $errors->has($program->id . '-staffpositionid') ? ' has-error' : '' }}">
+                                    <label for="{{ $program->id }}-staffpositionid" class="col-md-4 control-label">Position</label>
 
                                     <div class="col-md-6">
-                                        <select id="{{ $program->id }}-compensationlevel"
-                                                name="{{ $program->id }}-compensationlevel" class="form-control">
-                                            <option value="0">Choose a compensation level</option>
-                                            @foreach($levels as $level)
-                                                <option value="{{ $level->id }}">{{ $level->name }}</option>
+                                        <select id="{{ $program->id }}-staffpositionid"
+                                                name="{{ $program->id }}-staffpositionid" class="form-control">
+                                            <option value="0">Choose a position</option>
+                                            @foreach($program->staffpositions()->orderBy('name')->get() as $staffposition)
+                                                <option value="{{ $staffposition->id }}">{{ $staffposition->name }} ({{ $staffposition->compensationlevel->name }})</option>
                                             @endforeach
                                         </select>
 
-                                        @if ($errors->has($program->id . '-compensationlevel'))
+                                        @if ($errors->has($program->id . '-staffpositionid'))
                                             <span class="help-block">
-                                                <strong>{{ $errors->first($program->id . '-position') }}</strong>
+                                                <strong>{{ $errors->first($program->id . '-staffpositionid') }}</strong>
                                             </span>
                                         @endif
                                     </div>

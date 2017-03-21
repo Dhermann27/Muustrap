@@ -13,7 +13,7 @@
             <div class="panel-heading">Camper Information</div>
             <div class="panel-body">
                 <form class="form-horizontal" role="form" method="POST" action="{{ url('/camper') .
-                 (isset($readonly) && $readonly === false ? '/' . $campers->first()->familyid : '')}}">
+                 (isset($readonly) && $readonly === false ? '/f/' . $campers->first()->familyid : '')}}">
                     {{ csrf_field() }}
 
                     @if(!empty($success))
@@ -199,7 +199,7 @@
                                 </div>
                                 <div class="form-group{{ $errors->has($camper->id . '-birthdate') ? ' has-error' : '' }}">
                                     <label for="{{ $camper->id }}-birthdate"
-                                           class="col-md-4 control-label">Birthdate</label>
+                                           class="col-md-4 control-label">Birthdate (yyyy-mm-dd)</label>
                                     <div class="col-md-6">
                                         <div class="input-group date" data-provide="datepicker"
                                              data-date-format="yyyy-mm-dd" data-date-autoclose="true">
@@ -258,8 +258,9 @@
                                        you would like to room with them unless contacted with another request.</p>"></a>
 
                                     <div class="col-md-6">
-                                        <input id="{{ $camper->id }}-roommate" type="text" class="form-control"
-                                               name="{{ $camper->id }}-roommate"
+                                        <input id="{{ $camper->id }}-roommate" type="text"
+                                               class="form-control easycamper"
+                                               name="{{ $camper->id }}-roommate" autocomplete="off"
                                                value="{{ old($camper->id . '-roommate', $camper->roommate) }}"
                                                placeholder="First and last name of the camper who has agreed to be your roommate.">
 
@@ -286,8 +287,9 @@
                                        volunteer, and may also be willing to offer transportation.</p>"></a>
 
                                     <div class="col-md-6">
-                                        <input id="{{ $camper->id }}-sponsor" type="text" class="form-control"
-                                               name="{{ $camper->id }}-sponsor"
+                                        <input id="{{ $camper->id }}-sponsor" type="text"
+                                               class="form-control easycamper"
+                                               name="{{ $camper->id }}-sponsor" autocomplete="off"
                                                value="{{ old($camper->id . '-sponsor', $camper->sponsor) }}"
                                                placeholder="First and last name of the camper who has agreed to be your sponsor.">
 
@@ -392,21 +394,43 @@
         var camperCount = 100;
 
         $(function () {
-
             @if(count($errors))
                 $('.nav-tabs a[href="#' + $("span.help-block").first().parents('div.tab-pane').attr('id') + '"]').trigger('click');
             @endif
 
-            $('[data-toggle="tooltip"]').tooltip({
+            bind($("body"));
+
+            $('#0 select, #0 input').prop('disabled', true);
+            $("#newcamper").on('click', function (e) {
+                e.preventDefault();
+                $(this).closest('li').before('<li role="presentation"><a href="#' + camperCount + '" aria-controls="' + camperCount + '" role="tab" data-toggle="tab">New Camper</a></li>');
+                var emptycamper = $("#0");
+                var empty = emptycamper.clone(false).attr("id", camperCount);
+                empty.find("input, select").each(function () {
+                    $(this).attr("id", $(this).attr("id").replace('0', camperCount));
+                    $(this).attr("name", $(this).attr("name").replace('0', camperCount));
+                    $(this).prop('disabled', false);
+                });
+                emptycamper.before(empty);
+                $('.nav-tabs a[href="#' + camperCount++ + '"]').trigger('click');
+                bind(empty);
+            });
+            @if(isset($readonly) && $readonly === true)
+                $("input:not(#camper), select").prop("disabled", "true");
+            @endif
+        });
+
+        function bind(obj) {
+            obj.find("[data-toggle='tooltip']").tooltip({
                 content: function () {
                     return this.getAttribute("title");
                 }
             });
-            $('button#quickme').on('click', function (e) {
+            obj.find("button#quickme").on("click", function (e) {
                 e.preventDefault();
                 $("select.days").val('6');
-            })
-            $('.next').click(function () {
+            });
+            obj.find(".next").click(function () {
                 var next = $('.nav-tabs > .active').next('li').find('a');
                 if (next.attr("id") != 'newcamper') {
                     next.trigger('click');
@@ -420,16 +444,35 @@
                     }, 700);
                 }
             });
-            $('.campername').on('change', function () {
+            obj.find(".campername").on("change", function () {
                 var tab = $(this).parents('div.tab-pane');
                 var name = tab.find("input.campername");
                 if (name.length == 2) {
                     $('a[href="#' + tab.attr('id') + '"]').text(name[0].value + " " + name[1].value);
                 }
             });
-            $('.churchlist').autocomplete({
+            obj.find(".easycamper").autocomplete({
+                source: "/data/camperlist",
+                minLength: 3,
+                autoFocus: true,
+                select: function (event, ui) {
+                    $(".nav-pane").each(function () {
+                        var names = $(this).find("input.campername");
+                        if (names.length == 2 && names[0].val() == ui.item.lastname && names[1].val() == ui.item.firstname) {
+                            alert("No need to specify a family member as a roommate/sponsor.");
+                            return false;
+                        }
+                    });
+                    $(this).val(ui.item.lastname + ", " + ui.item.firstname);
+                    return false;
+                }
+            }).autocomplete('instance')._renderItem = function (ul, item) {
+                return $("<li>").append("<div>" + item.lastname + ", " + item.firstname + "</div>").appendTo(ul);
+            };
+            obj.find(".churchlist").autocomplete({
                 source: "/data/churchlist",
                 minLength: 3,
+                autoFocus: true,
                 select: function (event, ui) {
                     $(this).val(ui.item.name);
                     $(this).next("input").val(ui.item.id);
@@ -440,24 +483,6 @@
                     .append("<div>" + item.name + " (" + item.city + ", " + item.statecd + ")</div>")
                     .appendTo(ul);
             };
-            $('#0 select, #0 input').prop('disabled', true);
-            $("#newcamper").on('click', function (e) {
-                e.preventDefault();
-                $(this).closest('li').before('<li role="presentation"><a href="#' + camperCount + '" aria-controls="' + camperCount + '" role="tab" data-toggle="tab">New Camper</a></li>');
-                var emptycamper = $("#0");
-                var empty = emptycamper.clone(true, true).attr("id", camperCount);
-                empty.find("input, select").each(function () {
-                    $(this).attr("id", $(this).attr("id").replace('0', camperCount));
-                    $(this).attr("name", $(this).attr("name").replace('0', camperCount));
-                    $(this).prop('disabled', false);
-                });
-                emptycamper.before(empty);
-                $('.nav-tabs a[href="#' + camperCount++ + '"]').trigger('click');
-            });
-            @if(isset($readonly) && $readonly === true)
-                $("input:not(#camper), select").prop("disabled", "true");
-            @endif
-        })
-        ;
+        }
     </script>
 @endsection

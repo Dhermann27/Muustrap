@@ -55,9 +55,9 @@
                                                             <td>{{ $camper->firstname }} {{ $camper->lastname }}</td>
                                                             <td>{{ $camper->programname }}</td>
                                                             <td>{{ $camper->birthdate }}</td>
-                                                            <td><a href="{{ url('/household/c/' . $camper->id) }}" class="fa fa-home"></a>
-                                                                <a href="{{ url('/camper/c/' . $camper->id) }}" class="fa fa-group"></a>
-                                                                <a href="{{ url('/payment/c/' . $camper->id) }}" class="fa fa-money"></a></td>
+                                                            <td>
+                                                                @include('admin.controls', ['id' => 'c/' . $camper->id])
+                                                            </td>
                                                         </tr>
                                                     @endforeach
                                                     </tbody>

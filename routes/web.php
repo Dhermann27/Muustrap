@@ -16,7 +16,7 @@ Route::get('/home', 'HomeController@index');
 
 Auth::routes();
 
-Route::get('/workshops', 'WorkshopController@read');
+Route::get('/workshops', 'WorkshopController@display');
 
 Route::get('/contact', 'ContactController@contactIndex');
 Route::post('/contact', 'ContactController@contactStore');
@@ -26,25 +26,27 @@ Route::post('/artfair', 'ContactController@artfairStore')->middleware('auth');;
 Route::get('/household', 'HouseholdController@index')->middleware('auth');
 Route::post('/household', 'HouseholdController@store')->middleware('auth');
 Route::get('/household/{i}/{id}', 'HouseholdController@read')->middleware('role:admin|council');
-Route::post('/household/{id}', 'HouseholdController@write')->middleware('role:admin');
+Route::post('/household/f/{id}', 'HouseholdController@write')->middleware('role:admin');
 
 Route::get('/camper', 'CamperController@index')->middleware('auth');
 Route::post('/camper', 'CamperController@store')->middleware('auth');
 Route::get('/camper/{i}/{id}', 'CamperController@read')->middleware('role:admin|council');
-Route::post('/camper/{id}', 'CamperController@write')->middleware('role:admin');
+Route::post('/camper/f/{id}', 'CamperController@write')->middleware('role:admin');
 
 Route::get('/payment', 'PaymentController@index')->middleware('auth');
 Route::post('/payment', 'PaymentController@store')->middleware('auth');
 Route::get('/payment/{i}/{id}', 'PaymentController@read')->middleware('role:admin|council');
-Route::post('/payment/{id}', 'PaymentController@write')->middleware('role:admin');
+Route::post('/payment/c/{id}', 'PaymentController@write')->middleware('role:admin');
 
 Route::get('/workshopchoice', 'WorkshopController@index')->middleware('auth');
 Route::post('/workshopchoice', 'WorkshopController@store')->middleware('auth');
+Route::get('/workshopchoice/{i}/{id}', 'WorkshopController@read')->middleware('role:admin|council');
+Route::post('/workshopchoice/f/{id}', 'WorkshopController@write')->middleware('role:admin');
 
 Route::get('/roomselection', 'RoomSelectionController@index')->middleware('auth');
 Route::post('/roomselection', 'RoomSelectionController@store')->middleware('auth');
 Route::get('/roomselection/{i}/{id}', 'RoomSelectionController@read')->middleware('role:admin|council');
-Route::post('/roomselection/{id}', 'RoomSelectionController@write')->middleware('role:admin');
+Route::post('/roomselection/f/{id}', 'RoomSelectionController@write')->middleware('role:admin');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'data'], function () {
     Route::get('camperlist', 'DataController@campers');
@@ -55,6 +57,7 @@ Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'reports'], fu
     Route::get('campers', 'ReportController@campers');
     Route::get('rates', 'ReportController@rates');
     Route::get('rooms', 'ReportController@rooms');
+    Route::get('workshops', 'ReportController@workshops');
 });
 
 Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'tools'], function () {

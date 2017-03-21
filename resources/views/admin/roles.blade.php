@@ -47,12 +47,9 @@
                                             <td>{{ $user->camper->firstname }} {{ $user->camper->lastname }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>{{ $user->camper->birthdate }}</td>
-                                            <td><a href="{{ url('/household/c/' . $user->camper->id) }}"
-                                                   class="fa fa-home"></a>
-                                                <a href="{{ url('/camper/c/' . $user->camper->id) }}"
-                                                   class="fa fa-group"></a>
-                                                <a href="{{ url('/payment/c/' . $user->camper->id) }}"
-                                                   class="fa fa-money"></a></td>
+                                            <td>
+                                                @include('admin.controls', ['id' => 'c/' . $user->camper->id])
+                                            </td>
                                         </tr>
                                     @endforeach
                                     </tbody>

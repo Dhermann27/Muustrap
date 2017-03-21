@@ -57,14 +57,22 @@ class HouseholdController extends Controller
             ['id' => $id],
             $request->only('name', 'address1', 'address2', 'city', 'statecd', 'zipcd', 'country', 'is_ecomm', 'is_scholar'));
 
+        \App\Camper::updateOrCreate(
+            ['familyid' => $family->id],
+            ['familyid' => $family->id, 'updated_at' => null]);
+
         return view('household', ['family' => $family, 'statecodes' => \App\Statecode::all()->sortBy('name'),
-            'message' => 'Nice work! Need to make changes to the <a href="' . url('/camper/f/' . $id) . '">camper</a> next?']);
+            'message' => 'Nice work! Need to make changes to the <a href="' . url('/camper/f/' . $family->id) . '">camper</a> next?']);
     }
 
     public function read($i, $id)
     {
         $readonly = \Entrust::can('read') && !\Entrust::can('write');
         $family = \App\Family::find($this->getFamilyId($i, $id));
+        if (empty($family)) {
+            $family = new \App\Family();
+            $family->id = 0;
+        }
         return view('household', ['family' => $family,
             'statecodes' => \App\Statecode::all()->sortBy('name'), 'readonly' => $readonly]);
     }

@@ -7,7 +7,7 @@
             <div class="panel-heading">{{ $years->first()->first()->family->name }} Statement</div>
             <div class="panel-body">
                 <form id="payment" class="form-horizontal" role="form" method="POST"
-                      action="{{ url('/payment') . '/' . $years->first()->first()->camperid }}">
+                      action="{{ url('/payment') . '/c/' . $years->first()->first()->camperid }}">
                     {{ csrf_field() }}
 
                     @if(!empty($success))

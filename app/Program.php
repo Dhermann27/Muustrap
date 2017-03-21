@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Program extends Model
 {
+    public function assignments() {
+        return $this->hasMany(Thisyear_Staff::class, 'programid', 'id');
+    }
+
     public function rate()
     {
         return $this->belongsTo(Rate::class);
@@ -14,10 +18,5 @@ class Program extends Model
     public function staffpositions()
     {
         return $this->hasMany(Staffposition::class, 'programid', 'id');
-    }
-
-    public function assignments()
-    {
-        //return this->$this->hasMany(Thisyea)
     }
 }

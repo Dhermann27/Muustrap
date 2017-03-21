@@ -10,9 +10,9 @@ class Family extends Model
     protected $fillable = ['name', 'address1', 'address2', 'city', 'statecd', 'zipcd', 'country',
         'is_address_current', 'is_scholar', 'is_ecomm'];
 
-    public function camper()
+    public function campers()
     {
-        return $this->belongsTo(Camper::class);
+        return $this->hasMany(Camper::class, 'familyid', 'id');
     }
 
     public function statecode()

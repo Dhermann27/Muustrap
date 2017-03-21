@@ -25,4 +25,10 @@ class ReportController extends Controller
             ->whereNotNull('roomid')->orderBy('year')->orderBy('room_number')->get()->groupBy('year');
         return view('reports.rooms', ['years' => $years, 'buildings' => \App\Building::all()]);
     }
+
+    public function workshops()
+    {
+        return view('reports.workshops', ['timeslots' => \App\Timeslot::with('workshops.choices.yearattending.camper')->get()]);
+
+    }
 }

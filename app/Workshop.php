@@ -16,6 +16,10 @@ class Workshop extends Model
         return $this->belongsTo(Timeslot::class);
     }
 
+    public function choices() {
+        return $this->hasMany(Yearattending__Workshop::class, 'workshopid', 'id');
+    }
+
     public function getDisplayDaysAttribute()
     {
         $days = "";

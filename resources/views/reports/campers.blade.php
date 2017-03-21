@@ -23,19 +23,20 @@
                                 <tr>
                                     <th>Family</th>
                                     <th>Location</th>
+                                    <th>Controls</th>
                                 </tr>
                                 </thead>
                                 @foreach($families as $family)
                                     <tr>
-                                        <td><a href="{{ url('/household/f/' . $family->id) }}" class="fa fa-home"></a>
-                                            <a href="{{ url('/camper/f/' . $family->id) }}" class="fa fa-group"></a>
-                                            <a href="{{ url('/payment/f/' . $family->id) }}" class="fa fa-money"></a>
-                                            {{ $family->name }}</td>
+                                        <td>{{ $family->name }}</td>
                                         <td>{{ $family->city }}, {{ $family->statecd }}
                                             @if($family->is_scholar == '1')
                                                 <i class="fa fa-universal-access" data-toggle="tooltip"
                                                    title="This family has indicated that they are applying for a scholarship."></i>
                                             @endif
+                                        </td>
+                                        <td>
+                                            @include('admin.controls', ['id' => 'f/' . $family->id])
                                         </td>
                                     </tr>
                                     <tr>
@@ -62,7 +63,7 @@
                                 <tfoot>
                                 <tr>
                                     <td colspan="2" align="right"><strong>Total Campers
-                                            Attending: </strong> {{ $families->sum('count') }}</td>
+                                            Attending: </strong> {{ $families->sum('count'  ) }}</td>
                                 </tr>
                                 </tfoot>
                             </table>

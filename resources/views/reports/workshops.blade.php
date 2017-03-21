@@ -28,21 +28,21 @@
                                 <thead>
                                 <tr>
                                     <th>Name</th>
+                                    <th>Sign Up Date</th>
                                     <th>Controls</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @if(count($workshop->choices) > 0)
-                                    @foreach($workshop->choices as $choice)
+                                    @foreach($workshop->choices()->orderBy('created_at')->get() as $choice)
                                         <tr>
                                             <td>{{ $choice->yearattending->camper->lastname }}
                                                 , {{ $choice->yearattending->camper->firstname }}</td>
+                                            <td>{{ $choice->created_at }}</td>
                                             <td>
                                                 @include('admin.controls', ['id' => 'c/' . $choice->yearattending->camper->id])
                                             </td>
                                         </tr>
                                     @endforeach
-                                @endif
                                 </tbody>
                             </table>
                         @endforeach

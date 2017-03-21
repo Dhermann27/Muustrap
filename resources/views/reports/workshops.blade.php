@@ -32,15 +32,17 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($workshop->choices as $choice)
-                                    <tr>
-                                        <td>{{ $choice->yearattending->camper->lastname }}
-                                            , {{ $choice->yearattending->camper->firstname }}</td>
-                                        <td>
-                                            @include('admin.controls', ['id' => 'c/' . $choice->yearattending->camper->id])
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                @if(count($workshop->choices) > 0)
+                                    @foreach($workshop->choices as $choice)
+                                        <tr>
+                                            <td>{{ $choice->yearattending->camper->lastname }}
+                                                , {{ $choice->yearattending->camper->firstname }}</td>
+                                            <td>
+                                                @include('admin.controls', ['id' => 'c/' . $choice->yearattending->camper->id])
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                                 </tbody>
                             </table>
                         @endforeach

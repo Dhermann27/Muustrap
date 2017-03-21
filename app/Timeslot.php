@@ -12,6 +12,6 @@ class Timeslot extends Model
 
     public function workshops()
     {
-        return $this->hasMany(Workshop::class, 'timeslotid');
+        return $this->hasMany(Workshop::class, 'timeslotid', 'id');
     }
 }

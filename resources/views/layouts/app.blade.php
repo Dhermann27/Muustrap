@@ -87,8 +87,8 @@
                         title="Camper Listing"></button>
                 <button id="payment" class="btn btn-default fa fa-money action" data-toggle="tooltip"
                         title="Payment"></button>
-                {{--<button id="workshopchoice" class="btn btn-default fa fa-rocket action" data-toggle="tooltip"--}}
-                {{--title="Workshop Preferences"></button>--}}
+                <button id="workshopchoice" class="btn btn-default fa fa-rocket action" data-toggle="tooltip"
+                        title="Workshop Preferences"></button>
                 <button id="roomselection" class="btn btn-default fa fa-bed action" data-toggle="tooltip"
                         title="Assign Room"></button>
                 <button id="create" class="btn btn-default fa fa-plus action" data-toggle="tooltip"

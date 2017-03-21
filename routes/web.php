@@ -16,7 +16,7 @@ Route::get('/home', 'HomeController@index');
 
 Auth::routes();
 
-Route::get('/workshops', 'WorkshopController@read');
+Route::get('/workshops', 'WorkshopController@display');
 
 Route::get('/contact', 'ContactController@contactIndex');
 Route::post('/contact', 'ContactController@contactStore');
@@ -40,6 +40,8 @@ Route::post('/payment/c/{id}', 'PaymentController@write')->middleware('role:admi
 
 Route::get('/workshopchoice', 'WorkshopController@index')->middleware('auth');
 Route::post('/workshopchoice', 'WorkshopController@store')->middleware('auth');
+Route::get('/workshopchoice/{i}/{id}', 'WorkshopController@read')->middleware('role:admin|council');
+Route::post('/workshopchoice/f/{id}', 'WorkshopController@write')->middleware('role:admin');
 
 Route::get('/roomselection', 'RoomSelectionController@index')->middleware('auth');
 Route::post('/roomselection', 'RoomSelectionController@store')->middleware('auth');

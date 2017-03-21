@@ -11,7 +11,8 @@
             <div class="panel-heading">Workshop Preferences</div>
             <div class="panel-body">
                 <form id="workshops" class="form-horizontal" role="form" method="POST"
-                      action="{{ url('/workshopchoice') }}">
+                      action="{{ url('/workshopchoice' .
+                      (isset($readonly) && $readonly === false ? '/f/' . $campers->first()->familyid : '')) }}">
                     {{ csrf_field() }}
 
                     @if(!empty($success))
@@ -107,13 +108,15 @@
                                         </div>
                                     </div>
                                 @endif
-                                <div class="form-group">
-                                    <div class="col-md-2 col-md-offset-8">
-                                        <button type="submit" class="btn btn-primary">
-                                            Save Preferences
-                                        </button>
+                                @if(!isset($readonly) || $readonly === false)
+                                    <div class="form-group">
+                                        <div class="col-md-2 col-md-offset-8">
+                                            <button type="submit" class="btn btn-primary">
+                                                Save Preferences
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                             </div>
                         @endforeach
                     </div>

@@ -646,6 +646,10 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE update_workshops()
     SET w.enrolled = (SELECT COUNT(*)
                       FROM yearattending__workshop yw
                       WHERE w.id = yw.workshopid);
+    UPDATE yearattending__workshop yw, thisyear_campers tc, workshops w
+      SET yw.is_leader = 1
+    WHERE yw.workshopid=w.id AND yw.yearattendingid=tc.yearattendingid
+          AND w.led_by LIKE CONCAT('%', tc.firstname, ' ', tc.lastname, '%');
   END;
 
 DROP FUNCTION IF EXISTS isprereg;

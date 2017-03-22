@@ -45,6 +45,17 @@
                 Your payment has not yet been processed. Either visit the Payment screen by clicking the link below or
                 mail your check to the address on the same page.
             </div>
+        @elseif($signedup == 0)
+            <div class="alert alert-warning" role="alert">
+                You are all paid up, but have not yet chosen any workshops. Use the button below to select any in which
+                you might be interested.
+            </div>
+        @elseif($roomid == null)
+            <div class="alert alert-warning" role="alert">
+                You are all paid up, but have not yet selected your room. Use the Room Selection Tool below to lock in a
+                housing option or the Contact Us form above to reach out to the Registrar for assistance finding
+                housing.
+            </div>
         @endif
         <div class="row">
             <div class="col-md-12">
@@ -315,8 +326,8 @@
 
 @section('script')
     <script>
-        $(".alert").fadeTo(2000, 500).slideUp(500, function () {
-            $(".alert").slideUp(500);
+        $(".alert").fadeTo(5000, 1000).slideUp(1000, function () {
+            $(".alert").slideUp(1000);
         });
     </script>
 @endsection

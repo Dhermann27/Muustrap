@@ -32,6 +32,7 @@
                                         <th>Position</th>
                                         <th>Name</th>
                                         <th>Current Compensation</th>
+                                        <th>Controls</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -39,14 +40,23 @@
                                         <tr>
                                             <td>{{ $assignment->staffpositionname }}</td>
                                             <td>{{ $assignment->lastname }}, {{ $assignment->firstname }}</td>
-                                            <td>${{ money_format('%.2n', $assignment->compensation) }}</td>
+                                            <td>
+                                                @if($assignment->compensation > 0)
+                                                    ${{ money_format('%.2n', $assignment->compensation) }}
+                                                @else
+                                                    Registered but not assigned
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @include('admin.controls', ['id' => 'c/' . $assignment->id])
+                                            </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
                                     <tfoot>
                                     <tr>
                                         <td colspan="3" align="right"><strong>Total Compensation:</strong>
-                                        ${{ money_format('%.2n', $program->assignments->sum('compensation')) }}</td>
+                                            ${{ money_format('%.2n', $program->assignments->sum('compensation')) }}</td>
                                     </tr>
                                     </tfoot>
                                 </table>
@@ -56,7 +66,8 @@
                                         New Assignment</label>
 
                                     <div class="col-md-6">
-                                        <input type="text" id="{{ $program->id }}-camper" class="form-control camperlist"
+                                        <input type="text" id="{{ $program->id }}-camper"
+                                               class="form-control camperlist"
                                                placeholder="Camper Name">
                                         <input id="{{ $program->id }}-camperid" name="{{ $program->id }}-camperid"
                                                type="hidden">
@@ -77,7 +88,9 @@
                                                 name="{{ $program->id }}-staffpositionid" class="form-control">
                                             <option value="0">Choose a position</option>
                                             @foreach($program->staffpositions()->orderBy('name')->get() as $staffposition)
-                                                <option value="{{ $staffposition->id }}">{{ $staffposition->name }} ({{ $staffposition->compensationlevel->name }})</option>
+                                                <option value="{{ $staffposition->id }}">{{ $staffposition->name }}
+                                                    ({{ $staffposition->compensationlevel->name }})
+                                                </option>
                                             @endforeach
                                         </select>
 

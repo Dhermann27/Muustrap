@@ -33,17 +33,26 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($workshop->choices()->orderBy('created_at')->get() as $choice)
-                                        <tr>
-                                            <td>{{ $choice->yearattending->camper->lastname }}
-                                                , {{ $choice->yearattending->camper->firstname }}</td>
-                                            <td>{{ $choice->created_at }}</td>
-                                            <td>
-                                                @include('admin.controls', ['id' => 'c/' . $choice->yearattending->camper->id])
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                @foreach($workshop->choices()->orderBy('created_at')->get() as $choice)
+                                    <tr
+                                            @if($loop->index == 20)
+                                                style="border-top: 2px dashed indianred;"
+                                            @endif
+                                    >
+                                        <td>{{ $choice->yearattending->camper->lastname }}, {{ $choice->yearattending->camper->firstname }}</td>
+                                        <td>{{ $choice->created_at }}</td>
+                                        <td>
+                                            @include('admin.controls', ['id' => 'c/' . $choice->yearattending->camper->id])
+                                        </td>
+                                    </tr>
+                                @endforeach
                                 </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="3">Distribution list: {{ $workshop->emails }}
+                                    </td>
+                                </tr>
+                                </tfoot>
                             </table>
                         @endforeach
                     </div>

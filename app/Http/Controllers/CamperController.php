@@ -93,6 +93,8 @@ class CamperController extends Controller
             $ya = \App\Yearattending::where(['camperid' => $camper->id, 'year' => DB::raw('getcurrentyear()')])->first();
             if ($ya != null) {
                 if ($request->input($id . '-days') == '0') {
+                    $workshops = \App\Yearattending__Workshop::where('yearattendingid', $ya->id)->delete();
+                    $staff = \App\Yearattending__Staff::where('yearattendingid', $ya->id)->delete();
                     $ya->delete();
                 } else {
                     $ya->days = $request->input($id . '-days');

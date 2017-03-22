@@ -357,7 +357,6 @@ CREATE VIEW byyear_campers AS
     u.city                                       churchcity,
     u.statecd                                    churchstatecd,
     ya.id                                        yearattendingid,
-    ya.paydate,
     ya.days,
     ya.roomid,
     r.room_number,
@@ -478,7 +477,6 @@ CREATE VIEW thisyear_campers AS
     churchcity,
     churchstatecd,
     yearattendingid,
-    paydate,
     days,
     roomid,
     room_number,
@@ -537,7 +535,7 @@ VALUES
       c.lastname,
       MAX(sp.name)                                                         staffpositionname,
       sp.id                                                                staffpositionid,
-      LEAST(IFNULL(getrate(c.id, ya.year), 0), SUM(cl.max_compensation)) +
+      LEAST(IFNULL(getrate(c.id, ya.year), 150), SUM(cl.max_compensation)) +
       IF(ysp.is_eaf_paid = 1, (SELECT IFNULL(SUM(h.amount), 0)
                                FROM charges h
                                WHERE h.camperid IN (SELECT cp.id
@@ -606,6 +604,7 @@ CREATE FUNCTION getrate (mycamperid INT, myyear YEAR)
 DROP PROCEDURE IF EXISTS generate_charges;
 CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges()
   BEGIN
+    DECLARE thisyear INT DEFAULT getcurrentyear();
     SET SQL_MODE='';
     TRUNCATE gencharges;
     INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
@@ -616,7 +615,7 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges()
         1000,
         bc.buildingname
       FROM byyear_campers bc
-      WHERE bc.roomid != 0 AND bc.year = 2017;
+      WHERE bc.roomid!=0 AND bc.year=thisyear;
     INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
       SELECT
         bf.year,
@@ -628,11 +627,15 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges()
         1003,
         CONCAT("Deposit for ", bf.year)
       FROM byyear_families bf
-      WHERE bf.year = 2017 AND bf.assigned=0;
+      WHERE bf.year=thisyear AND bf.assigned=0;
     INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
       SELECT bsp.year, bsp.camperid, -(bsp.compensation) amount, 1021, bsp.staffpositionname
       FROM byyear_staff bsp
-      WHERE bsp.year=2017;
+      WHERE bsp.year=thisyear;
+    INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
+      SELECT thisyear, ya.camperid, w.fee, 1002, w.name
+      FROM workshops w, yearattending__workshop yw, yearsattending ya
+      WHERE w.fee > 0 AND w.id=yw.workshopid AND yw.yearattendingid=ya.id;
   END;
 
 

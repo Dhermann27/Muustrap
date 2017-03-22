@@ -44,7 +44,7 @@
                                     <tbody>
                                     @foreach($role->users()->get() as $user)
                                         <tr>
-                                            <td>{{ $user->camper->firstname }} {{ $user->camper->lastname }}</td>
+                                            <td>{{ $user->camper->lastname }}, {{ $user->camper->firstname }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>{{ $user->camper->birthdate }}</td>
                                             <td>

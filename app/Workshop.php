@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Workshop extends Model
 {
@@ -29,5 +30,13 @@ class Workshop extends Model
         if ($this->th == '1') $days .= 'Th';
         if ($this->f == '1') $days .= 'F';
         return $days;
+    }
+
+    public function getEmailsAttribute() {
+        return DB::table('yearattending__workshop')
+            ->join('yearsattending', 'yearsattending.id', '=', 'yearattending__workshop.yearattendingid')
+            ->join('campers', 'campers.id', '=', 'yearsattending.camperid')
+            ->where('yearattending__workshop.workshopid', $this->id)->where('campers.email', '!=', null)
+            ->implode('email', '; ');
     }
 }

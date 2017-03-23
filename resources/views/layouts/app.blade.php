@@ -117,7 +117,7 @@
             <li><a href="{{ url('/reports/campers') }}">Registered Campers</a></li>
             <li><a href="{{ url('/reports/rates') }}">Rates</a></li>
             <li><a href="{{ url('/reports/rooms') }}">Rooms</a></li>
-            <li><a href="{{ url('/reports/workshops') }}">Workshops</a></li>
+            <li><a href="{{ url('/reports/workshops') }}">Workshop Attendees</a></li>
         </ul>
     </li>
     <li role="presentation" class="dropdown">
@@ -127,6 +127,7 @@
         </a>
         <ul class="dropdown-menu">
             <li><a href="{{ url('/tools/staffpositions') }}">Staff Assignments</a></li>
+            <li><a href="{{ url('/tools/workshops') }}">Workshops</a></li>
         </ul>
     </li>
 </ul>

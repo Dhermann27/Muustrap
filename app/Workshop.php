@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\DB;
 
 class Workshop extends Model
 {
-    public function roomid()
+    public function room()
     {
-        return $this->hasOne(Room::class);
+        return $this->hasOne(Room::class, 'id', 'roomid');
     }
 
     public function timeslot()

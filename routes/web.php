@@ -20,6 +20,11 @@ Route::get('/workshops', 'WorkshopController@display');
 
 Route::get('/contact', 'ContactController@contactIndex');
 Route::post('/contact', 'ContactController@contactStore');
+
+Route::get('/confirm', 'ConfirmController@index');
+Route::get('/confirm/{i}/{id}', 'ConfirmController@read')->middleware('role:admin|council');
+Route::get('/confirm/all', 'ConfirmController@all')->middleware('role:admin');
+
 Route::get('/artfair', 'ContactController@artfairIndex');
 Route::post('/artfair', 'ContactController@artfairStore')->middleware('auth');;
 

@@ -7,8 +7,8 @@
     <title>Midwest Unitarian Universalist Summer Assembly</title>
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/css/muustrap.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/muustrap.css" type="text/css"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto:500"/>
     <script src="//use.fontawesome.com/9364904132.js"></script>
 
@@ -91,6 +91,8 @@
                         title="Workshop Preferences"></button>
                 <button id="roomselection" class="btn btn-default fa fa-bed action" data-toggle="tooltip"
                         title="Assign Room"></button>
+                <button id="confirm" class="btn btn-default fa fa-envelope action" data-toggle="tooltip"
+                        title="View Confirmation Letter"></button>
                 <button id="create" class="btn btn-default fa fa-plus action" data-toggle="tooltip"
                         title="Create New Family"></button>
             </div>
@@ -103,6 +105,7 @@
             Administration <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
+            <li><a href="{{ url('/confirm/all') }}">Invoices (full)</a></li>
             <li><a href="{{ url('/admin/positions') }}">Staff Positions</a></li>
             <li><a href="{{ url('/admin/roles') }}">User Roles</a></li>
         </ul>

@@ -88,7 +88,10 @@
                             <p>&nbsp;</p>
                             <i class="fa fa-envelope-o fa-5x"></i><br/>
                             <h4>Confirmation Letter</h4>
-                            <p>Coming soon!</p>
+                            <p>See the current status of your registration and fill out extra forms for your family.</p>
+                            <a class="booty" href="{{ url('/confirm') }}">See Letter <i
+                                        class="fa fa-arrow-right"></i>
+                            </a>
                         </div>
                     </div>
                 </div>

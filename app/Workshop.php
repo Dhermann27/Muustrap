@@ -14,7 +14,7 @@ class Workshop extends Model
 
     public function timeslot()
     {
-        return $this->belongsTo(Timeslot::class);
+        return $this->hasOne(Timeslot::class, 'id', 'timeslotid');
     }
 
     public function choices() {

@@ -66,6 +66,8 @@ Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'reports'], fu
 });
 
 Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'tools'], function () {
+    Route::get('programs', 'ToolsController@programIndex');
+    Route::post('programs', 'ToolsController@programStore');
     Route::get('staffpositions', 'ToolsController@positionIndex');
     Route::post('staffpositions', 'ToolsController@positionStore');
     Route::get('workshops', 'ToolsController@workshopIndex');

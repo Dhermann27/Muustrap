@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Program extends Model
 {
+    protected $fillable = ['link', 'blurb'];
+
     public function assignments() {
         return $this->hasMany(Thisyear_Staff::class, 'programid', 'id');
     }

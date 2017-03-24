@@ -42,6 +42,28 @@ class ToolsController extends Controller
             'year' => $year, 'success' => $success]);
     }
 
+
+    public function programStore(Request $request)
+    {
+        foreach (\App\Program::all() as $program) {
+            if ($request->input($program->id . "-blurb") != '') {
+                $program->blurb = $request->input($program->id . "-blurb");
+                $program->link = $request->input($program->id . "-link") != '' ? $request->input($program->id . "-link") : null;
+                $program->save();
+            }
+        }
+
+        return $this->programIndex('Psssssh, great job updating your program. Yeah, you\'re a big deal now, I\'m sure. Whatever.');
+    }
+
+    public function programIndex($success = null)
+    {
+        $year = \App\Year::where('is_current', '1')->first()->year;
+        return view('tools.programs', ['programs' => \App\Program::where('start_year', '<=', $year)
+            ->where('end_year', '>=', $year)->orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get(),
+            'year' => $year, 'success' => $success]);
+    }
+
     public function workshopStore(Request $request)
     {
         foreach (\App\Timeslot::all() as $timeslot) {

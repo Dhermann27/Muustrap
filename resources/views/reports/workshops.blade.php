@@ -4,6 +4,7 @@
     <p>&nbsp;</p>
     <div class="container">
         <div class="row">
+            <button class="fa fa-print fa-2x pull-right" data-toggle="tooltip" title="Print Signup Sheets"></button>
             <h2>Workshop Attendees</h2>
         </div>
         <div>
@@ -56,10 +57,16 @@
                                 @endforeach
                                 </tbody>
                                 <tfoot>
-                                <tr>
+                                <tr class="hidden-print">
                                     <td colspan="3">Distribution list: {{ $workshop->emails }}
                                     </td>
                                 </tr>
+                                @for($i=count($workshop->choices); $i<min($workshop->capacity, count($workshop->choices)+5); $i++)
+                                    <tr class="visible-print">
+                                        <td colspan="2" style="border-bottom: 1px solid black;">&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                @endfor
                                 </tfoot>
                             </table>
                         @endforeach
@@ -68,4 +75,12 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        $("button.fa-print").on('click', function () {
+            window.print();
+        });
+    </script>
 @endsection

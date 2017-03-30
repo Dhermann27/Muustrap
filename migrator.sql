@@ -532,38 +532,38 @@ VALUES
       ya.year,
       c.familyid,
       c.id                                                                 camperid,
-      ya.id                                                                yearattendingid,
+      MAX(ya.id)                                                           yearattendingid,
       c.firstname,
       c.lastname,
       MAX(sp.name)                                                         staffpositionname,
-      sp.id                                                                staffpositionid,
+      MAX(sp.id)                                                           staffpositionid,
       LEAST(IFNULL(getrate(c.id, ya.year), 150), SUM(cl.max_compensation)) +
-      IF(ysp.is_eaf_paid = 1, (SELECT IFNULL(SUM(h.amount), 0)
+      IF(MAX(ysp.is_eaf_paid) = 1, (SELECT IFNULL(SUM(h.amount), 0)
                                FROM charges h
                                WHERE h.camperid IN (SELECT cp.id
                                                     FROM campers cp
                                                     WHERE cp.familyid = c.familyid) AND h.year = ya.year AND
                                      h.chargetypeid = getchargetypeid('Early Arrival')), 0)
                                                                            compensation,
-      sp.programid,
-      ysp.created_at
+      MAX(sp.programid)                                                    programid,
+      MAX(ysp.created_at)
     FROM campers c, yearsattending ya, yearattending__staff ysp, staffpositions sp, compensationlevels cl
     WHERE c.id = ya.camperid AND ya.id = ysp.yearattendingid AND ysp.staffpositionid = sp.id
           AND sp.compensationlevelid=cl.id AND ya.year >= sp.start_year AND ya.year <= sp.end_year
     GROUP BY ya.year, c.id
   UNION ALL
   SELECT
-    y.year,
+    MAX(y.year),
     c.familyid,
     c.id camperid,
     0,
     c.firstname,
     c.lastname,
     MAX(sp.name),
-    sp.id,
+    MAX(sp.id),
     LEAST(150, SUM(cl.max_compensation)),
-    sp.programid,
-    cs.created_at
+    MAX(sp.programid),
+    MAX(cs.created_at)
   FROM camper__staff cs, campers c, staffpositions sp, compensationlevels cl, years y
   WHERE cs.camperid = c.id AND cs.staffpositionid = sp.id AND y.is_current = 1 AND
         sp.compensationlevelid=cl.id AND y.year >= sp.start_year AND y.year <= sp.end_year

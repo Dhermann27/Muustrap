@@ -154,11 +154,11 @@
     $('[data-toggle="tooltip"]').tooltip();
     $('button.action').on('click', function (e) {
         e.preventDefault();
-        if ($(this).attr('id') == 'create') {
+        if ($(this).attr('id') === 'create') {
             $(this).parents('form').attr('action', '/household/f/0').submit();
         } else {
             var camperid = $("#camperid");
-            var id = camperid.val() != '' ? '/c/' + camperid.val() : window.location.pathname.replace(/^\/\w+\/(c|f)\/(\d+)/, '/$1/$2')
+            var id = camperid.val() !== '' ? '/c/' + camperid.val() : window.location.pathname.replace(/^\/\w+\/(c|f)\/(\d+)/, '/$1/$2')
             $(this).parents('form').attr('action', '/' + $(this).attr('id') + id).submit();
         }
     });
@@ -176,6 +176,23 @@
             return $("<li>").append("<div>" + item.lastname + ", " + item.firstname + "</div>").appendTo(ul);
         };
     });
+    @role(['admin'])
+    $('table.editable td').on('click', function () {
+        var tr = $(this).parent('tr');
+        var index = tr.children().index($(this));
+        var th = $(this).parents('table').find('thead th')[index];
+        if (th.id !== "") {
+            if(th.className === "") {
+                $(this).html('<input type="text" name="' + tr.attr('id') + '-' + th.id + '" value="' + $(this).text() + '" />');
+            } else if(th.className === 'select' && $("select." + th.id).length > 0) {
+                var select = $(this).parents("div.tab-pane").find("select." + th.id).clone();
+                select.attr('id', '').attr('name', tr.attr('id') + '-' + th.id).removeClass(th.id);
+                $(this).html(select);
+            }
+            $(this).off('click');
+        }
+    });
+    @endrole
 </script>
 @endrole
 

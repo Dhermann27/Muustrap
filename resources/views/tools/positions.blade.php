@@ -33,6 +33,7 @@
                                         <th>Name</th>
                                         <th>Current Compensation</th>
                                         <th>Controls</th>
+                                        <th>Delete?</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -49,6 +50,11 @@
                                             </td>
                                             <td>
                                                 @include('admin.controls', ['id' => 'c/' . $assignment->id])
+                                            </td>
+                                            <td class="btn-group" data-toggle="buttons">
+                                                <label class="btn btn-default">
+                                                    <input type="checkbox" name="{{ $assignment->camperid }}-{{ $assignment->staffpositionid }}-delete" autocomplete="off"/> Delete
+                                                </label>
                                             </td>
                                         </tr>
                                     @endforeach

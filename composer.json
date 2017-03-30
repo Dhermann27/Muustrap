@@ -9,7 +9,6 @@
         "laravel/framework": "5.3.*",
         "anhskohbo/no-captcha": "^2.2",
         "guzzlehttp/guzzle": "^6.2",
-        "braintree/braintree_php" : "3.20.0",
         "barryvdh/laravel-ide-helper": "v2.2.2"
     },
     "require-dev": {

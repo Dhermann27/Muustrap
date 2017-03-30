@@ -8,12 +8,25 @@ use Illuminate\Support\Facades\DB;
 class ToolsController extends Controller
 {
 
-
     public function positionStore(Request $request)
     {
+        foreach ($request->all() as $key => $value) {
+            $matches = array();
+            if (preg_match('/(\d+)-(\d+)-delete/', $key, $matches)) {
+                $ya = \App\Thisyear_Camper::find($matches[1]);
+                if ($ya) {
+                    $assignment = \App\Yearattending__Staff::where('yearattendingid', $ya->yearattendingid)->where('staffpositionid', $matches[2]);
+                } else {
+                    $assignment = \App\Camper__Staff::where('camperid', $matches[1])->where('staffpositionid', $matches[2]);
+                }
+                if ($value == 'on') {
+                    $assignment->delete();
+                }
+            }
+        }
         foreach (\App\Program::all() as $program) {
             if ($request->input($program->id . "-camperid") != '' && $request->input($program->id . "-staffpositionid") != '') {
-                $ya = \App\Yearattending::where('camperid', $request->input($program->id . "-camperid"))->where('year', DB::raw('getcurrentyear()'))->first();
+                $ya = \App\Thisyear_Camper::find($request->input($program->id . "-camperid"));
                 if (!empty($ya)) {
                     $assignment = new \App\Yearattending__Staff();
                     $assignment->yearattendingid = $ya->id;
@@ -90,8 +103,7 @@ class ToolsController extends Controller
         return $this->workshopIndex('That sounds interesting; think I\'ll sign up for that one.');
     }
 
-    public
-    function workshopIndex($success = null)
+    public function workshopIndex($success = null)
     {
         return view('tools.workshops', ['timeslots' => \App\Timeslot::all(),
             'rooms' => \App\Room::where('is_workshop', '1')->get(), 'success' => $success]);

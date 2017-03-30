@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -31,6 +32,23 @@ class AdminController extends Controller
 
     public function positionStore(Request $request)
     {
+        foreach ($request->all() as $key => $value) {
+            $matches = array();
+            if (preg_match('/(\d+)-(delete|name|compensationlevelid)/', $key, $matches)) {
+                $position = \App\Staffposition::findOrFail($matches[1]);
+                if ($matches[2] == 'delete') {
+                    if ($value == 'on') {
+                        \App\Yearattending__Staff::where('staffpositionid', $key)->delete();
+
+                        $position->end_year = DB::raw('getcurrentyear()-1');
+                        $position->save();
+                    }
+                } else {
+                    $position->{$matches[2]} = $value;
+                    $position->save();
+                }
+            }
+        }
         foreach (\App\Program::all() as $program) {
             if ($request->input($program->id . "-position") != '') {
                 $position = new \App\Staffposition();

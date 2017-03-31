@@ -41,8 +41,7 @@
                                             style="border-top: 2px dashed indianred;"
                                             @endif
                                     >
-                                        <td>{{ $choice->yearattending->camper->lastname }}
-                                            , {{ $choice->yearattending->camper->firstname }}</td>
+                                        <td>{{ $choice->yearattending->camper->lastname }}, {{ $choice->yearattending->camper->firstname }}</td>
                                         <td>
                                             @if($choice->is_leader == '1')
                                                 <strong>Leader</strong>

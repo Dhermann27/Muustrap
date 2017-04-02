@@ -41,7 +41,7 @@ Route::post('/camper/f/{id}', 'CamperController@write')->middleware('role:admin'
 Route::get('/payment', 'PaymentController@index')->middleware('auth');
 Route::post('/payment', 'PaymentController@store')->middleware('auth');
 Route::get('/payment/{i}/{id}', 'PaymentController@read')->middleware('role:admin|council');
-Route::post('/payment/c/{id}', 'PaymentController@write')->middleware('role:admin');
+Route::post('/payment/f/{id}', 'PaymentController@write')->middleware('role:admin');
 
 Route::get('/workshopchoice', 'WorkshopController@index')->middleware('auth');
 Route::post('/workshopchoice', 'WorkshopController@store')->middleware('auth');

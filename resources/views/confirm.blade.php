@@ -106,7 +106,7 @@
             @endif
             <footer style="text-align: center;"><h4>See you next week!</h4></footer>
             @foreach($family->campers()->where('age', '<', '18')->get() as $camper)
-                @if(!empty($camper->program->letter))
+                @if(count($families) == 1 && !empty($camper->program->letter))
                     <p style="page-break-before: always">&nbsp;</p>
                     <h4>{{ $camper->firstname }} {{ $camper->lastname }}</h4>
                     {!! $camper->program->letter !!}

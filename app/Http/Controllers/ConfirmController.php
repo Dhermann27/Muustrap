@@ -23,7 +23,7 @@ class ConfirmController extends Controller
 
     public function all() {
         return view('confirm', ['year' => \App\Year::where('is_current', '1')->first(),
-            'families' => \App\Thisyear_Family::with('campers.yearattending.workshops.workshop')->all()]);
+            'families' => \App\Thisyear_Family::with('campers.yearattending.workshops.workshop')->get()]);
 
     }
 

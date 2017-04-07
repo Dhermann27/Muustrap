@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Program extends Model
 {
-    public function assignments() {
+    protected $fillable = ['link', 'blurb', 'form', 'letter'];
+
+    public function assignments()
+    {
         return $this->hasMany(Thisyear_Staff::class, 'programid', 'id');
     }
 

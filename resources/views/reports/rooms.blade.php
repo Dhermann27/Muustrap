@@ -24,6 +24,16 @@
                                     <div class="panel panel-default">
                                         <div class="panel-heading" role="tab"
                                              id="heading-{{ $thisyear }}-{{ $building->id }}">
+                                            <span class="pull-right">
+                                                {{ count($campers->filter(function ($value) use ($thisyear, $building) {
+                                                    return $value->year==$thisyear && $value->buildingid==$building->id && $value->age>17;
+                                                })) }}
+                                                <i class="fa fa-male"></i>
+                                                {{ count($campers->filter(function ($value) use ($thisyear, $building) {
+                                                    return $value->year==$thisyear && $value->buildingid==$building->id && $value->age<=17 && $value->age>5;
+                                                })) }}
+                                                <i class="fa fa-child"></i>
+                                            </span>
                                             <h4 class="panel-title">
                                                 <a role="button" data-toggle="collapse"
                                                    data-parent="#{{ $thisyear }}-accordion"
@@ -49,7 +59,9 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    @foreach($campers->where('year', $thisyear)->where('buildingid', $building->id) as $camper)
+                                                    @foreach($campers->filter(function ($value) use ($thisyear, $building) {
+                                                        return $value->year==$thisyear && $value->buildingid==$building->id;
+                                                    }) as $camper)
                                                         <tr>
                                                             <td>{{ $camper->room_number }}</td>
                                                             <td>{{ $camper->firstname }} {{ $camper->lastname }}</td>

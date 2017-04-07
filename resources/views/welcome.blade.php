@@ -1,10 +1,4 @@
 @extends('layouts.app')
-@if(Auth::guest())
-    <div class="alert alert-info" role="alert">Due to the site upgrade, all campers will need to create a new
-        account using their preferred email address. Historical information will be attached to the account
-        automatically.
-    </div>
-@endif
 
 @section('content')
     <div class="jumbotron">
@@ -37,7 +31,32 @@
             </div>
         </div>
     </div>
-    @if(Auth::check() && $registered == '1')
+    @if(Auth::guest())
+        <div class="alert alert-info" role="alert">Welcome to muusa.org! If you're interested in beginning the
+            registration process, please start by logging in or creating a website account in the upper-right.
+        </div>
+    @elseif($registered == '0')
+        <div class="alert alert-info" role="alert">Ready to register for MUUSA {{ $year->year }}? Start the 3-step
+            process by clicking the Register button below.
+        </div>
+    @elseif($registered == '1')
+        @if($paid == '0')
+            <div class="alert alert-warning" role="alert">
+                Your payment has not yet been processed. Either visit the Payment screen by clicking the link below or
+                mail your check to the address on the same page.
+            </div>
+        @elseif($signedup == 0)
+            <div class="alert alert-warning" role="alert">
+                You are all paid up, but have not yet chosen any workshops. Use the button below to select any in which
+                you might be interested.
+            </div>
+        @elseif($roomid == null)
+            <div class="alert alert-warning" role="alert">
+                You are all paid up, but have not yet selected your room. Use the Room Selection Tool below to lock in a
+                housing option or the Contact Us form above to reach out to the Registrar for assistance finding
+                housing.
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-primary">
@@ -45,41 +64,36 @@
                         <h3 class="panel-title">You're registered!</h3>
                     </div>
                     <div class="panel-body">
-                        @if ($paid == '0')
-                            <div class="col-md-6 text-center">
-                                Please pay your deposit by clicking on the <a href="{{ url('/payment') }}">payment</a>,
-                                or
-                                you will need to wait until your check is processed via mail.
-                            </div>
-                        @else
-                            <div class="col-md-4 text-center">
-                                <p>&nbsp;</p>
-                                <i class="fa fa-rocket fa-5x"></i><br/>
-                                <h4>Workshop Preferences</h4>
-                                <p>Sign up from a wide variety of entertaining and intriguing seminars,
-                                    organized by our Adult Programming Committee.</p>
-                                <a class="booty" href="{{ url('/workshopchoice') }}">Add Choices <i
-                                            class="fa fa-arrow-right"></i>
-                                </a>
-                            </div>
-                            <div class="col-md-4 text-center">
-                                <p>&nbsp;</p>
-                                <i class="fa fa-bed fa-5x"></i><br/>
-                                <h4>Room Selection</h4>
-                                <p>Find the right place for you and your family to stay, and who might be your
-                                    neighbors.</p>
-                                <a class="booty" href="{{ url('/roomselection') }}">Choose Room <i
-                                            class="fa fa-arrow-right"></i>
-                                </a>
-                            </div>
-                            <div class="col-md-4 text-center">
-                                <p>&nbsp;</p>
-                                <i class="fa fa-envelope-o fa-5x"></i><br/>
-                                <h4>Confirmation Letter</h4>
-                                <p>Coming soon!</p>
-                            </div>
+                        <div class="col-md-4 text-center">
+                            <p>&nbsp;</p>
+                            <i class="fa fa-rocket fa-5x"></i><br/>
+                            <h4>Workshop Preferences</h4>
+                            <p>Sign up from a wide variety of entertaining and intriguing seminars,
+                                organized by our Adult Programming Committee.</p>
+                            <a class="booty" href="{{ url('/workshopchoice') }}">Add Choices <i
+                                        class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <p>&nbsp;</p>
+                            <i class="fa fa-bed fa-5x"></i><br/>
+                            <h4>Room Selection</h4>
+                            <p>Find the right place for you and your family to stay, and who might be your
+                                neighbors.</p>
+                            <a class="booty" href="{{ url('/roomselection') }}">Choose Room <i
+                                        class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <p>&nbsp;</p>
+                            <i class="fa fa-envelope-o fa-5x"></i><br/>
+                            <h4>Confirmation Letter</h4>
+                            <p>See the current status of your registration and fill out extra forms for your family.</p>
+                            <a class="booty" href="{{ url('/confirm') }}">See Letter <i
+                                        class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
                     </div>
-                    @endif
                 </div>
             </div>
         </div>
@@ -99,15 +113,21 @@
                         <p>A few years ago, UUA President, Peter Morales, suggested we can find common ground with
                             others, not so much by sharing our beliefs and opinions, but by sharing with one another
                             what we love. UU theologian Thandeka proclaims that in our tradi- tion we "love beyond
-                            belief." The covenant in many UU congregations says "Love is the spirit of our church" and
+                            belief." The covenant in many UU congregations says "Love is the spirit of our church"
+                            and
                             we "seek the truth in love." Dr. Martin Luther King Jr. said that we do not have to like
-                            someone to love them. He also said that "power without love is reckless and abusive and love
+                            someone to love them. He also said that "power without love is reckless and abusive and
+                            love
                             without power is sentimental and anemic."</p>
-                        <p>What is this thing called love that seems to be so transforming and important? We often talk
-                            about "falling in love" as if it is an accident like falling down the stairs. It would seem
-                            sometimes like love is something that should just happen and as if it is simply a feeling
+                        <p>What is this thing called love that seems to be so transforming and important? We often
+                            talk
+                            about "falling in love" as if it is an accident like falling down the stairs. It would
+                            seem
+                            sometimes like love is something that should just happen and as if it is simply a
+                            feeling
                             that one experiences. What does love require of us? How can we love ourselves and our
-                            neighbors? Is it possible to love our enemies? At camp this year we are going to make this A
+                            neighbors? Is it possible to love our enemies? At camp this year we are going to make
+                            this A
                             Summer of Love. Worship each day will be an opportunity for us to explore the depths and
                             experience the heights of this thing called love.</p>
                     </div>
@@ -128,8 +148,10 @@
                     <img src="/images/5k.jpg" alt="2017 MUUSA 5k Run/Walk">
                     <div id="carousel-caption3" class="carousel-caption">
                         <h3>MUUSA 5k Walk/Run</h3>
-                        <p>Join your fellow campers on Thursday at 7am for the 7th Annual MUUSA 5K (3.1 miles) Walk/Run.
-                            There will be prizes for everyone! All are welcome and no one is too fast or too slow, too
+                        <p>Join your fellow campers on Thursday at 7am for the 7th Annual MUUSA 5K (3.1 miles)
+                            Walk/Run.
+                            There will be prizes for everyone! All are welcome and no one is too fast or too slow,
+                            too
                             young or too old. Be a part of a healthy annual tradition!</p>
                     </div>
                 </div>
@@ -159,6 +181,16 @@
                         <div class="col-md-6">
                             <a class="booty" href="{{ url('/register') }}">Create Account</a></div>
                     </div>
+                @elseif($registered == '0')
+                    <div class="panel-body">
+                        <div class="col-md-3 col-md-offset-5 text-center">
+                            <p>&nbsp;</p>
+                            <a href="{{ url('/household') }}">
+                                <div class="pulse-button">Register<br/>Now</div>
+                            </a>
+                            <p>Got 5 minutes? Let's begin the 3-step registration process!</p>
+                        </div>
+                    </div>
                 @else
                     <div class="panel-body">
                         <div class="col-md-4 text-center bs-callout bs-callout-{{ $updatedFamily == '1' ? 'success' : 'warning' }}">
@@ -174,8 +206,7 @@
                             <p>&nbsp;</p>
                             <i class="fa fa-group fa-5x"></i><br/>
                             <h4>Camper Listing</h4>
-                            <p>This page can help you update your information specific to {{ $year->year }} and
-                                actually
+                            <p>This page can help you update your information specific to {{ $year->year }} and actually
                                 perform the registation.</p>
                             <a class="booty" href="{{ url('/camper') }}">Update Campers <i
                                         class="fa fa-arrow-right"></i>
@@ -185,8 +216,7 @@
                             <p>&nbsp;</p>
                             <i class="fa fa-money fa-5x"></i><br/>
                             <h4>Payment</h4>
-                            <p>After completing your registration, go to this page to check your balance and
-                                make a
+                            <p>After completing your registration, go to this page to check your balance and make a
                                 payment.</p>
                             <a class="booty" href="{{ url('/payment') }}">View Statement <i
                                         class="fa fa-arrow-right"></i>
@@ -295,4 +325,12 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        $(".alert").fadeTo(5000, 1000).slideUp(1000, function () {
+            $(".alert").slideUp(1000);
+        });
+    </script>
 @endsection

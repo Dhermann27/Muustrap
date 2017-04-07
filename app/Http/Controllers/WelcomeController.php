@@ -21,6 +21,8 @@ class WelcomeController extends Controller
                 $family = \App\Thisyear_Family::find($camper->family->id);
                 $payload['registered'] = $this->isRegistered($family);
                 $payload['paid'] = $this->isPaid($family);
+                $payload['signedup'] = $this->isSignedup($family);
+                $payload['roomid'] = \App\Thisyear_Camper::find($camper->id)->roomid;
             }
         }
         return view('welcome', $payload);
@@ -46,6 +48,17 @@ class WelcomeController extends Controller
         return $family != null &&
             \App\Thisyear_Charge::where('familyid', $family->id)->where('chargetypeid', 1003)->
             where('chargetypeid', 1003)->orWhere('amount', '<', '0')->get()->sum('amount') <= 0;
+    }
+
+    private function isSignedup($family) {
+        if($family != null) {
+            return DB::table('thisyear_campers')->where('familyid', $family->id)
+                ->join('yearsattending', 'yearsattending.camperid', '=', 'thisyear_campers.id')
+                ->join('yearattending__workshop', 'yearattending__workshop.yearattendingid', '=', 'yearsattending.id')
+                ->count();
+        } else {
+            return 0;
+        }
     }
 
 }

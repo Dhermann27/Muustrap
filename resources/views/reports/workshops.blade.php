@@ -4,6 +4,7 @@
     <p>&nbsp;</p>
     <div class="container">
         <div class="row">
+            <button class="fa fa-print fa-2x pull-right" data-toggle="tooltip" title="Print Signup Sheets"></button>
             <h2>Workshop Attendees</h2>
         </div>
         <div>
@@ -19,11 +20,12 @@
                 @foreach($timeslots as $timeslot)
                     <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' in active' : '' }}"
                          id="{{ $timeslot->id }}">
-                        <h4>{{ $timeslot->start_time->format('g:i A') }}
-                            - {{ $timeslot->end_time->format('g:i A') }}</h4>
+                        @if($timeslot->id != '1005')
+                            <h5>{{ $timeslot->start_time->format('g:i A') }}
+                                - {{ $timeslot->end_time->format('g:i A') }}</h5>
+                        @endif
                         @foreach($timeslot->workshops as $workshop)
                             <h4>{{ $workshop->name }} ({{ count($workshop->choices) }} / {{ $workshop->capacity }})</h4>
-                            <h5>Led by {{ $workshop->led_by }}</h5>
                             <table class="table table-responsive table-condensed">
                                 <thead>
                                 <tr>
@@ -33,17 +35,38 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($workshop->choices()->orderBy('created_at')->get() as $choice)
-                                        <tr>
-                                            <td>{{ $choice->yearattending->camper->lastname }}
-                                                , {{ $choice->yearattending->camper->firstname }}</td>
-                                            <td>{{ $choice->created_at }}</td>
-                                            <td>
-                                                @include('admin.controls', ['id' => 'c/' . $choice->yearattending->camper->id])
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                @foreach($workshop->choices()->orderBy('is_leader', 'desc')->orderBy('created_at')->get() as $choice)
+                                    <tr
+                                            @if($loop->index == 20)
+                                            style="border-top: 2px dashed indianred;"
+                                            @endif
+                                    >
+                                        <td>{{ $choice->yearattending->camper->lastname }}, {{ $choice->yearattending->camper->firstname }}</td>
+                                        <td>
+                                            @if($choice->is_leader == '1')
+                                                <strong>Leader</strong>
+                                            @else
+                                                {{ $choice->created_at }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @include('admin.controls', ['id' => 'c/' . $choice->yearattending->camper->id])
+                                        </td>
+                                    </tr>
+                                @endforeach
                                 </tbody>
+                                <tfoot>
+                                <tr class="hidden-print">
+                                    <td colspan="3">Distribution list: {{ $workshop->emails }}
+                                    </td>
+                                </tr>
+                                @for($i=count($workshop->choices); $i<min($workshop->capacity, count($workshop->choices)+5); $i++)
+                                    <tr class="visible-print">
+                                        <td colspan="2" style="border-bottom: 1px solid black;">&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                @endfor
+                                </tfoot>
                             </table>
                         @endforeach
                     </div>
@@ -51,4 +74,12 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        $("button.fa-print").on('click', function () {
+            window.print();
+        });
+    </script>
 @endsection

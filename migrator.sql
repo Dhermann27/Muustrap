@@ -341,6 +341,7 @@ CREATE VIEW byyear_campers AS
     c.firstname,
     c.lastname,
     c.email,
+    c.phonenbr,
     c.birthdate,
     DATE_FORMAT(c.birthdate, '%m/%d/%Y')         birthday,
     getage(c.birthdate, ya.year)                 age,
@@ -357,7 +358,6 @@ CREATE VIEW byyear_campers AS
     u.city                                       churchcity,
     u.statecd                                    churchstatecd,
     ya.id                                        yearattendingid,
-    ya.paydate,
     ya.days,
     ya.roomid,
     r.room_number,
@@ -462,6 +462,7 @@ CREATE VIEW thisyear_campers AS
     firstname,
     lastname,
     email,
+    phonenbr,
     birthdate,
     birthday,
     age,
@@ -478,7 +479,6 @@ CREATE VIEW thisyear_campers AS
     churchcity,
     churchstatecd,
     yearattendingid,
-    paydate,
     days,
     roomid,
     room_number,
@@ -532,38 +532,38 @@ VALUES
       ya.year,
       c.familyid,
       c.id                                                                 camperid,
-      ya.id                                                                yearattendingid,
+      MAX(ya.id)                                                           yearattendingid,
       c.firstname,
       c.lastname,
       MAX(sp.name)                                                         staffpositionname,
-      sp.id                                                                staffpositionid,
-      LEAST(IFNULL(getrate(c.id, ya.year), 0), SUM(cl.max_compensation)) +
-      IF(ysp.is_eaf_paid = 1, (SELECT IFNULL(SUM(h.amount), 0)
+      MAX(sp.id)                                                           staffpositionid,
+      LEAST(IFNULL(getrate(c.id, ya.year), 150), SUM(cl.max_compensation)) +
+      IF(MAX(ysp.is_eaf_paid) = 1, (SELECT IFNULL(SUM(h.amount), 0)
                                FROM charges h
                                WHERE h.camperid IN (SELECT cp.id
                                                     FROM campers cp
                                                     WHERE cp.familyid = c.familyid) AND h.year = ya.year AND
                                      h.chargetypeid = getchargetypeid('Early Arrival')), 0)
                                                                            compensation,
-      sp.programid,
-      ysp.created_at
+      MAX(sp.programid)                                                    programid,
+      MAX(ysp.created_at)
     FROM campers c, yearsattending ya, yearattending__staff ysp, staffpositions sp, compensationlevels cl
     WHERE c.id = ya.camperid AND ya.id = ysp.yearattendingid AND ysp.staffpositionid = sp.id
           AND sp.compensationlevelid=cl.id AND ya.year >= sp.start_year AND ya.year <= sp.end_year
     GROUP BY ya.year, c.id
   UNION ALL
   SELECT
-    y.year,
+    MAX(y.year),
     c.familyid,
     c.id camperid,
     0,
     c.firstname,
     c.lastname,
     MAX(sp.name),
-    sp.id,
+    MAX(sp.id),
     LEAST(150, SUM(cl.max_compensation)),
-    sp.programid,
-    cs.created_at
+    MAX(sp.programid),
+    MAX(cs.created_at)
   FROM camper__staff cs, campers c, staffpositions sp, compensationlevels cl, years y
   WHERE cs.camperid = c.id AND cs.staffpositionid = sp.id AND y.is_current = 1 AND
         sp.compensationlevelid=cl.id AND y.year >= sp.start_year AND y.year <= sp.end_year
@@ -606,6 +606,7 @@ CREATE FUNCTION getrate (mycamperid INT, myyear YEAR)
 DROP PROCEDURE IF EXISTS generate_charges;
 CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges()
   BEGIN
+    DECLARE thisyear INT DEFAULT getcurrentyear();
     SET SQL_MODE='';
     TRUNCATE gencharges;
     INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
@@ -616,7 +617,7 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges()
         1000,
         bc.buildingname
       FROM byyear_campers bc
-      WHERE bc.roomid != 0 AND bc.year = 2017;
+      WHERE bc.roomid!=0 AND bc.year=thisyear;
     INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
       SELECT
         bf.year,
@@ -628,11 +629,15 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges()
         1003,
         CONCAT("Deposit for ", bf.year)
       FROM byyear_families bf
-      WHERE bf.year = 2017 AND bf.assigned=0;
+      WHERE bf.year=thisyear AND bf.assigned=0;
     INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
       SELECT bsp.year, bsp.camperid, -(bsp.compensation) amount, 1021, bsp.staffpositionname
       FROM byyear_staff bsp
-      WHERE bsp.year=2017;
+      WHERE bsp.year=thisyear;
+    INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
+      SELECT thisyear, ya.camperid, w.fee, 1002, w.name
+      FROM workshops w, yearattending__workshop yw, yearsattending ya
+      WHERE w.fee > 0 AND w.id=yw.workshopid AND yw.yearattendingid=ya.id;
   END;
 
 
@@ -643,6 +648,10 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE update_workshops()
     SET w.enrolled = (SELECT COUNT(*)
                       FROM yearattending__workshop yw
                       WHERE w.id = yw.workshopid);
+    UPDATE yearattending__workshop yw, thisyear_campers tc, workshops w
+      SET yw.is_leader = 1
+    WHERE yw.workshopid=w.id AND yw.yearattendingid=tc.yearattendingid
+          AND w.led_by LIKE CONCAT('%', tc.firstname, ' ', tc.lastname, '%');
   END;
 
 DROP FUNCTION IF EXISTS isprereg;

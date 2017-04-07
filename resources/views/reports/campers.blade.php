@@ -40,7 +40,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2">
+                                        <td colspan="3">
                                             <table class="table table-responsive table-condensed">
                                                 @foreach($family->campers()->where('year', $thisyear)->orderBy('birthdate')->get() as $camper)
                                                     <tr>

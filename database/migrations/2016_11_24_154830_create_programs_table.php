@@ -29,7 +29,7 @@ class CreateProgramsTable extends Migration
         });
 
         DB::unprepared('CREATE FUNCTION getprogramidbyname (programname VARCHAR(1024), year INT) RETURNS INT DETERMINISTIC 	BEGIN
- 			RETURN(SELECT p.id FROM programs p WHERE p.name LIKE CONCAT(\'%\', programname, \'%\') AND year>=p.start_year AND year<=p.end_year LIMIT 1);
+ 			RETURN(SELECT p.id FROM programs p WHERE p.name LIKE CONCAT(\'%\', programname, \'%\') AND year>=p.start_year AND year<=p.end_year ORDER BY age_min DESC LIMIT 1);
  		END');
         DB::unprepared('CREATE FUNCTION getprogramidbycamperid (id INT, year INT) RETURNS INT DETERMINISTIC BEGIN
             DECLARE age, grade INT DEFAULT 0;

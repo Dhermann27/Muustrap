@@ -26,20 +26,28 @@
                             <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' in active' : '' }}"
                                  id="{{ $program->id }}">
                                 <p>&nbsp;</p>
-                                <table class="table table-responsive table-condensed">
+                                <table class="table table-responsive table-condensed editable">
                                     <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Compensation Level</th>
+                                        <th id="name">Name</th>
+                                        <th id="compensationlevelid" class="select">Compensation Level</th>
                                         <th>Maximum Compensation</th>
+                                        <th>Delete?</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($program->staffpositions->where('start_year', '<=', $year)->where('end_year', '>=', $year)->sortBy('name')->all() as $position)
-                                        <tr>
+                                        <tr id="{{ $position->id }}">
                                             <td>{{ $position->name }}</td>
                                             <td>{{ $position->compensationlevel->name }}</td>
-                                            <td>${{ money_format('%.2n', $position->compensationlevel->max_compensation) }}</td>
+                                            <td>
+                                                ${{ money_format('%.2n', $position->compensationlevel->max_compensation) }}
+                                            </td>
+                                            <td class="btn-group" data-toggle="buttons">
+                                                <label class="btn btn-default">
+                                                    <input type="checkbox" name="{{ $position->id }}-delete" autocomplete="off"/> Delete
+                                                </label>
+                                            </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -67,7 +75,8 @@
 
                                     <div class="col-md-6">
                                         <select id="{{ $program->id }}-compensationlevel"
-                                                name="{{ $program->id }}-compensationlevel" class="form-control">
+                                                name="{{ $program->id }}-compensationlevel"
+                                                class="form-control compensationlevelid">
                                             <option value="0">Choose a compensation level</option>
                                             @foreach($levels as $level)
                                                 <option value="{{ $level->id }}">{{ $level->name }}</option>
@@ -94,3 +103,4 @@
         </div>
     </div>
 @endsection
+

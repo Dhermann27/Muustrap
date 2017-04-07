@@ -97,9 +97,10 @@ class PaymentController extends Controller
 
     public function write(Request $request, $id)
     {
+        $camper = \App\Camper::where('familyid', $id)->first();
         if ($request->input('amount') != '') {
             $charge = new \App\Charge();
-            $charge->camperid = $id;
+            $charge->camperid = $camper->id;
             $charge->chargetypeid = $request->input('chargetypeid');
             $charge->amount = (float)$request->input('amount');
             $charge->timestamp = $request->input('date');
@@ -108,7 +109,7 @@ class PaymentController extends Controller
             $charge->save();
         }
 
-        return $this->read('c', $id, 'Rocking it today!'); // What about their <a href="' . url('/workshopchoice/' . $id) . '">workshops</a>?');
+        return $this->read('f', $id, 'Rocking it today! What about their <a href="' . url('/workshopchoice/f/' . $id) . '">workshops</a>?');
 
     }
 
@@ -117,11 +118,12 @@ class PaymentController extends Controller
 
         $year = \App\Year::where('is_current', 1)->first();
         $readonly = \Entrust::can('read') && !\Entrust::can('write');
-        $years = \App\Byyear_Charge::where('familyid', $this->getFamilyId($i, $id))
+        $family = \App\Family::find($this->getFamilyId($i, $id));
+        $years = \App\Byyear_Charge::where('familyid', $family->id)
             ->orderBy('year')->orderBy('timestamp')->get()->groupBy('year');
 
         return view('admin.payment', ['chargetypes' => \App\Chargetype::where('is_shown', '1')->orderBy('name')->get(),
-            'year' => $year, 'years' => $years, 'success' => $success, 'readonly' => $readonly]);
+            'year' => $year, 'years' => $years, 'success' => $success, 'readonly' => $readonly, 'family' => $family]);
     }
 
     private function getFamilyId($i, $id)

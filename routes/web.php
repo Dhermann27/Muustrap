@@ -20,6 +20,11 @@ Route::get('/workshops', 'WorkshopController@display');
 
 Route::get('/contact', 'ContactController@contactIndex');
 Route::post('/contact', 'ContactController@contactStore');
+
+Route::get('/confirm', 'ConfirmController@index');
+Route::get('/confirm/{i}/{id}', 'ConfirmController@read')->middleware('role:admin|council');
+Route::get('/confirm/all', 'ConfirmController@all')->middleware('role:admin');
+
 Route::get('/artfair', 'ContactController@artfairIndex');
 Route::post('/artfair', 'ContactController@artfairStore')->middleware('auth');;
 
@@ -36,7 +41,7 @@ Route::post('/camper/f/{id}', 'CamperController@write')->middleware('role:admin'
 Route::get('/payment', 'PaymentController@index')->middleware('auth');
 Route::post('/payment', 'PaymentController@store')->middleware('auth');
 Route::get('/payment/{i}/{id}', 'PaymentController@read')->middleware('role:admin|council');
-Route::post('/payment/c/{id}', 'PaymentController@write')->middleware('role:admin');
+Route::post('/payment/f/{id}', 'PaymentController@write')->middleware('role:admin');
 
 Route::get('/workshopchoice', 'WorkshopController@index')->middleware('auth');
 Route::post('/workshopchoice', 'WorkshopController@store')->middleware('auth');
@@ -61,8 +66,12 @@ Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'reports'], fu
 });
 
 Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'tools'], function () {
+    Route::get('programs', 'ToolsController@programIndex');
+    Route::post('programs', 'ToolsController@programStore');
     Route::get('staffpositions', 'ToolsController@positionIndex');
     Route::post('staffpositions', 'ToolsController@positionStore');
+    Route::get('workshops', 'ToolsController@workshopIndex');
+    Route::post('workshops', 'ToolsController@workshopStore');
 });
 
 Route::group(['middleware' => ['role:admin'], 'prefix' => 'admin'], function () {

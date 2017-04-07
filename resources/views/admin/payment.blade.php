@@ -4,10 +4,10 @@
     <p>&nbsp;</p>
     <div class="container">
         <div class="panel panel-default">
-            <div class="panel-heading">{{ $years->first()->first()->family->name }} Statement</div>
+            <div class="panel-heading">{{ $family->name }} Statement</div>
             <div class="panel-body">
                 <form id="payment" class="form-horizontal" role="form" method="POST"
-                      action="{{ url('/payment') . '/c/' . $years->first()->first()->camperid }}">
+                      action="{{ url('/payment/f/' . $family->id) }}">
                     {{ csrf_field() }}
 
                     @if(!empty($success))

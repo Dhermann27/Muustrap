@@ -7,8 +7,8 @@
     <title>Midwest Unitarian Universalist Summer Assembly</title>
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/css/muustrap.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/muustrap.css" type="text/css"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto:500"/>
     <script src="//use.fontawesome.com/9364904132.js"></script>
 
@@ -91,6 +91,8 @@
                         title="Workshop Preferences"></button>
                 <button id="roomselection" class="btn btn-default fa fa-bed action" data-toggle="tooltip"
                         title="Assign Room"></button>
+                <button id="confirm" class="btn btn-default fa fa-envelope action" data-toggle="tooltip"
+                        title="View Confirmation Letter"></button>
                 <button id="create" class="btn btn-default fa fa-plus action" data-toggle="tooltip"
                         title="Create New Family"></button>
             </div>
@@ -103,6 +105,7 @@
             Administration <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
+            <li><a href="{{ url('/confirm/all') }}">Invoices (full)</a></li>
             <li><a href="{{ url('/admin/positions') }}">Staff Positions</a></li>
             <li><a href="{{ url('/admin/roles') }}">User Roles</a></li>
         </ul>
@@ -117,7 +120,7 @@
             <li><a href="{{ url('/reports/campers') }}">Registered Campers</a></li>
             <li><a href="{{ url('/reports/rates') }}">Rates</a></li>
             <li><a href="{{ url('/reports/rooms') }}">Rooms</a></li>
-            <li><a href="{{ url('/reports/workshops') }}">Workshops</a></li>
+            <li><a href="{{ url('/reports/workshops') }}">Workshop Attendees</a></li>
         </ul>
     </li>
     <li role="presentation" class="dropdown">
@@ -126,7 +129,9 @@
             Tools <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
+            <li><a href="{{ url('/tools/programs') }}">Programs</a></li>
             <li><a href="{{ url('/tools/staffpositions') }}">Staff Assignments</a></li>
+            <li><a href="{{ url('/tools/workshops') }}">Workshops</a></li>
         </ul>
     </li>
 </ul>
@@ -149,11 +154,11 @@
     $('[data-toggle="tooltip"]').tooltip();
     $('button.action').on('click', function (e) {
         e.preventDefault();
-        if ($(this).attr('id') == 'create') {
+        if ($(this).attr('id') === 'create') {
             $(this).parents('form').attr('action', '/household/f/0').submit();
         } else {
             var camperid = $("#camperid");
-            var id = camperid.val() != '' ? '/c/' + camperid.val() : window.location.pathname.replace(/^\/\w+\/(c|f)\/(\d+)/, '/$1/$2')
+            var id = camperid.val() !== '' ? '/c/' + camperid.val() : window.location.pathname.replace(/^\/\w+\/(c|f)\/(\d+)/, '/$1/$2')
             $(this).parents('form').attr('action', '/' + $(this).attr('id') + id).submit();
         }
     });
@@ -171,6 +176,23 @@
             return $("<li>").append("<div>" + item.lastname + ", " + item.firstname + "</div>").appendTo(ul);
         };
     });
+    @role(['admin'])
+    $('table.editable td').on('click', function () {
+        var tr = $(this).parent('tr');
+        var index = tr.children().index($(this));
+        var th = $(this).parents('table').find('thead th')[index];
+        if (th.id !== "") {
+            if(th.className === "") {
+                $(this).html('<input type="text" name="' + tr.attr('id') + '-' + th.id + '" value="' + $(this).text() + '" />');
+            } else if(th.className === 'select' && $("select." + th.id).length > 0) {
+                var select = $(this).parents("div.tab-pane").find("select." + th.id).clone();
+                select.attr('id', '').attr('name', tr.attr('id') + '-' + th.id).removeClass(th.id);
+                $(this).html(select);
+            }
+            $(this).off('click');
+        }
+    });
+    @endrole
 </script>
 @endrole
 

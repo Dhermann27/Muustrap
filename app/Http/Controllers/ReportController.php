@@ -21,7 +21,7 @@ class ReportController extends Controller
     }
 
     public function rooms() {
-        $years = \App\Byyear_Camper::where('year', '>', DB::raw('getcurrentyear()-8'))
+        $years = \App\Byyear_Camper::where('year', '>', DB::raw('getcurrentyear()-5'))
             ->whereNotNull('roomid')->orderBy('year')->orderBy('room_number')->get()->groupBy('year');
         return view('reports.rooms', ['years' => $years, 'buildings' => \App\Building::all()]);
     }

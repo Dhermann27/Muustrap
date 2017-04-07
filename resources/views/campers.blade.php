@@ -451,38 +451,42 @@
                     $('a[href="#' + tab.attr('id') + '"]').text(name[0].value + " " + name[1].value);
                 }
             });
-            obj.find(".easycamper").autocomplete({
-                source: "/data/camperlist",
-                minLength: 3,
-                autoFocus: true,
-                select: function (event, ui) {
-                    $(".nav-pane").each(function () {
-                        var names = $(this).find("input.campername");
-                        if (names.length == 2 && names[0].val() == ui.item.lastname && names[1].val() == ui.item.firstname) {
-                            alert("No need to specify a family member as a roommate/sponsor.");
-                            return false;
-                        }
-                    });
-                    $(this).val(ui.item.lastname + ", " + ui.item.firstname);
-                    return false;
+            obj.find(".easycamper").each(function () {
+                $(this).autocomplete({
+                    source: "/data/camperlist",
+                    minLength: 3,
+                    autoFocus: true,
+                    select: function (event, ui) {
+                        $(".nav-pane").each(function () {
+                            var names = $(this).find("input.campername");
+                            if (names.length == 2 && names[0].val() == ui.item.lastname && names[1].val() == ui.item.firstname) {
+                                alert("No need to specify a family member as a roommate/sponsor.");
+                                return false;
+                            }
+                        });
+                        $(this).val(ui.item.firstname + " " + ui.item.lastname);
+                        return false;
+                    }
+                }).autocomplete('instance')._renderItem = function (ul, item) {
+                    return $("<li>").append("<div>" + item.lastname + ", " + item.firstname + "</div>").appendTo(ul);
                 }
-            }).autocomplete('instance')._renderItem = function (ul, item) {
-                return $("<li>").append("<div>" + item.lastname + ", " + item.firstname + "</div>").appendTo(ul);
-            };
-            obj.find(".churchlist").autocomplete({
-                source: "/data/churchlist",
-                minLength: 3,
-                autoFocus: true,
-                select: function (event, ui) {
-                    $(this).val(ui.item.name);
-                    $(this).next("input").val(ui.item.id);
-                    return false;
-                }
-            }).autocomplete('instance')._renderItem = function (ul, item) {
-                return $("<li>")
-                    .append("<div>" + item.name + " (" + item.city + ", " + item.statecd + ")</div>")
-                    .appendTo(ul);
-            };
+            });
+            obj.find(".churchlist").each(function() {
+                $(this).autocomplete({
+                    source: "/data/churchlist",
+                    minLength: 3,
+                    autoFocus: true,
+                    select: function (event, ui) {
+                        $(this).val(ui.item.name);
+                        $(this).next("input").val(ui.item.id);
+                        return false;
+                    }
+                }).autocomplete('instance')._renderItem = function (ul, item) {
+                    return $("<li>")
+                        .append("<div>" + item.name + " (" + item.city + ", " + item.statecd + ")</div>")
+                        .appendTo(ul);
+                };
+            });
         }
     </script>
 @endsection

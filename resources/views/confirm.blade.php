@@ -71,7 +71,7 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                    <td colspan="3" align="right"><strong>Amount Due:</strong></td>
+                    <td colspan="3" align="right"><strong>Amount Due on {{ $year->start_date }}:</strong></td>
                     <td>${{ money_format('%.2n', $family->charges->sum('amount')) }}</td>
                 </tr>
                 </tfoot>

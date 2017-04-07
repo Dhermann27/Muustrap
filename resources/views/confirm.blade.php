@@ -111,6 +111,7 @@
                     <h4>{{ $camper->firstname }} {{ $camper->lastname }}</h4>
                     {!! $camper->program->letter !!}
                     @if(!empty($camper->program->form))
+                        <p style="page-break-before: always">&nbsp;</p>
                         @include('form', ['form' => json_decode($camper->program->form), 'camperid' => $camper->id, 'campername' => $camper->firstname . " " .$camper->lastname])
                     @endif
                     <p style="page-break-before: always">&nbsp;</p>

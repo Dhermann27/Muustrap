@@ -116,7 +116,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-2 col-md-offset-8">
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <button type="submit" class="btn btn-primary">Save Changes (slow)</button>
                         </div>
                     </div>
                 </form>

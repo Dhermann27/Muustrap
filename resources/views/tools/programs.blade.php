@@ -1,12 +1,16 @@
 @extends('layouts.app')
 
+@section('css')
+    <link href="/css/summernote.css" rel="stylesheet">
+@endsection
+
 @section('content')
     <p>&nbsp;</p>
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading">Programs</div>
             <div class="panel-body">
-                <form class="form-horizontal" role="form" method="POST" action="{{ url('/tools/programs') }}">
+                <form id="programs" class="form-horizontal" role="form" method="POST" action="{{ url('/tools/programs') }}">
                     {{ csrf_field() }}
                     @if(!empty($success))
                         <div class=" alert alert-success">
@@ -31,11 +35,13 @@
                                 <p>&nbsp;</p>
 
                                 <div class="form-group{{ $errors->has($program->id . '-blurb') ? ' has-error' : '' }}">
-                                    <label for="{{ $program->id }}-blurb" class="col-md-4 control-label">Blurb for Programs Page</label>
+                                    <label for="{{ $program->id }}-blurb" class="col-md-4 control-label">Blurb for
+                                        Programs Page</label>
 
                                     <div class="col-md-6">
-                                    <textarea id="{{ $program->id }}-blurb" class="form-control"
-                                              name="{{ $program->id }}-blurb">{!! $program->blurb !!}</textarea>
+                                        <div class="summernote">{!! $program->blurb !!}</div>
+                                        <input type="hidden" id="{{ $program->id }}-blurb"
+                                               name="{{ $program->id }}-blurb"/>
 
                                         @if ($errors->has($program->id . '-blurb'))
                                             <span class="help-block">
@@ -50,14 +56,14 @@
                                         @if($program->id == '1008')
                                             Medical Form Link (for all children <18)
                                         @else
-                                            Program Letter Link (leave blank for no form)
+                                            Program Form Link (leave blank for no form)
                                         @endif
                                     </label>
 
                                     <div class="col-md-6">
                                         <input type="text" id="{{ $program->id }}-link"
                                                class="form-control" name="{{ $program->id }}-link"
-                                               placeholder="https://docs.google.com/forms/.../viewform?usp=sf_link"
+                                               placeholder="https://docs.google.com/forms/.../edit"
                                                value="{{ old($program->id . '-link', $program->link) }}">
 
                                         @if ($errors->has($program->id . '-link'))
@@ -67,6 +73,25 @@
                                         @endif
                                     </div>
                                 </div>
+
+                                @if($program->id != '1008')
+                                    <div class="form-group{{ $errors->has($program->id . '-letter') ? ' has-error' : '' }}">
+                                        <label for="{{ $program->id }}-letter" class="col-md-4 control-label">Text of
+                                            Letter to Include for Each Camper</label>
+
+                                        <div class="col-md-6">
+                                            <div class="summernote">{!! $program->letter !!}</div>
+                                            <input type="hidden" id="{{ $program->id }}-letter"
+                                                   name="{{ $program->id }}-letter"/>
+
+                                            @if ($errors->has($program->id . '-letter'))
+                                                <span class="help-block">
+                                                    <strong>{{ $errors->first($program->id . '-letter') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         @endforeach
                         <div role="tabpanel" class="tab-pane fade" id="100">
@@ -98,4 +123,30 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script src="/js/summernote.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.summernote').summernote({
+                height: 150,
+                minHeight: null,
+                maxHeight: null,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']]
+                ]
+            });
+
+            $("#programs").on("submit", function (e) {
+                $('.summernote').each(function() {
+                   $(this).next().next().val($(this).summernote('code'));
+                });
+                return true;
+            });
+        });
+    </script>
 @endsection

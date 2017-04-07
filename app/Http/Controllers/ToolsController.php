@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use GuzzleHttp;
 
 class ToolsController extends Controller
 {
@@ -59,9 +60,19 @@ class ToolsController extends Controller
     public function programStore(Request $request)
     {
         foreach (\App\Program::all() as $program) {
-            if ($request->input($program->id . "-blurb") != '') {
+            if ($request->input($program->id . "-blurb") != '<p><br></p>') {
                 $program->blurb = $request->input($program->id . "-blurb");
-                $program->link = $request->input($program->id . "-link") != '' ? $request->input($program->id . "-link") : null;
+                $program->letter = $request->input($program->id . "-letter");
+                if($request->input($program->id . "-link") != '') {
+                    $program->link = $request->input($program->id . "-link");
+                    $client = new GuzzleHttp\Client();
+                    $res = $client->request('GET', env('GOOGLE_SCRIPT') . $program->link);
+                    if ($res->getStatusCode() == '200') {
+                        $program->form = $res->getBody();
+                    } else {
+                        $program->form = "Error: " . $res->getStatusCode();
+                    }
+                }
                 $program->save();
             }
         }

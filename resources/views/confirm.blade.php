@@ -104,8 +104,62 @@
                     </tbody>
                 </table>
             @endif
+            <footer style="text-align: center;"><h4>See you next week!</h4></footer>
+            @foreach($family->campers()->where('age', '<', '18')->get() as $camper)
+                @if(!empty($camper->program->letter))
+                    <p style="page-break-before: always">&nbsp;</p>
+                    <h4>{{ $camper->firstname }} {{ $camper->lastname }}</h4>
+                    {!! $camper->program->letter !!}
+                    @if(!empty($camper->program->form))
+                        @include('form', ['form' => json_decode($camper->program->form)])
+                    @endif
+                    <p style="page-break-before: always">&nbsp;</p>
+                    @include('form', ['form' => json_decode($medical), 'camperid' => $camper->id, 'campername' => $camper->firstname . " " .$camper->lastname])
+                @endif
+            @endforeach
         </div>
-        <footer align="center"><h4>See you next week!</h4></footer>
     @endforeach
+@endsection
+
+@section('script')
+    <script>
+        var ca = $(".copyAnswers");
+        ca.first().hide();
+        ca.on('click', function () {
+            var myform = $(this).parents("form");
+            var first = $("." + $(this).className).first();
+            var elements = myform.find("input, textarea");
+            first.find("input, textarea").each(function (index) {
+                elements[index].value = $(this).val();
+                elements[index].checked = $(this).val() === elements[index].value;
+            });
+        });
+//        $(".postToGoogle").on('click', function (e) {
+//            e.preventDefault();
+//            $(this).prop('disabled', true).text('Submitting...');
+//            var myform = $(this).parents("form");
+//            $.ajax({
+//                url: myform.attr('action').slice(0, -9) + "/formResponse",
+//                beforeSend: function (xhr) {
+//                    xhr.setRequestHeader('Access-Control-Allow-Origin', '');
+//                    xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT');
+//                },
+//                data: myform.serializeArray(),
+//                dataType: "html",
+//                statusCode: {
+//                    0: function () {
+//                        $(this).removeClass('btn-default').addClass('btn-success').val('Submitted!');
+//                    },
+//                    200: function () {
+//                        $(this).removeClass('btn-default').addClass('btn-success').val('Submitted!');
+//                    },
+//                    405: function() {
+//                        $(this).removeClass('btn-default').addClass('btn-warning').val('Form Error');
+//                    }
+//                }
+//            });
+//            return false;
+//        });
+    </script>
 @endsection
 

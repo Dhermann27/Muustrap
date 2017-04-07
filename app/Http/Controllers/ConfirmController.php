@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ConfirmController extends Controller
 {
@@ -14,13 +15,14 @@ class ConfirmController extends Controller
     public function index()
     {
         return view('confirm', ['year' => \App\Year::where('is_current', '1')->first(),
-            'families' => \App\Thisyear_Family::where('id', \App\Camper::where('email', Auth::user()->email)->first()->familyid)])->get();
+            'families' => \App\Thisyear_Family::where('id', \App\Camper::where('email', Auth::user()->email)->first()->familyid)->get(),
+            'medical' => \App\Program::find(DB::raw('getprogramidbyname("Adult", getcurrentyear())'))->form]);
 
     }
 
     public function all() {
         return view('confirm', ['year' => \App\Year::where('is_current', '1')->first(),
-            'families' => \App\Thisyear_Family::with('campers.yearattending.workshops.workshop')->get()]);
+            'families' => \App\Thisyear_Family::with('campers.yearattending.workshops.workshop')->all()]);
 
     }
 

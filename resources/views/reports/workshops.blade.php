@@ -37,7 +37,7 @@
                                 <tbody>
                                 @foreach($workshop->choices()->orderBy('is_leader', 'desc')->orderBy('created_at')->get() as $choice)
                                     <tr
-                                            @if($loop->index == 20)
+                                            @if($loop->index == $workshop->capacity)
                                             style="border-top: 2px dashed indianred;"
                                             @endif
                                     >

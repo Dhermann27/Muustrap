@@ -50,7 +50,7 @@
                 You are all paid up, but have not yet chosen any workshops. Use the button below to select any in which
                 you might be interested.
             </div>
-        @elseif($roomid == null)
+        @elseif($roomid == null || $roomid->roomid == null)
             <div class="alert alert-warning" role="alert">
                 You are all paid up, but have not yet selected your room. Use the Room Selection Tool below to lock in a
                 housing option or the Contact Us form above to reach out to the Registrar for assistance finding

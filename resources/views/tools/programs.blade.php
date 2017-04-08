@@ -10,7 +10,8 @@
         <div class="panel panel-default">
             <div class="panel-heading">Programs</div>
             <div class="panel-body">
-                <form id="programs" class="form-horizontal" role="form" method="POST" action="{{ url('/tools/programs') }}">
+                <form id="programs" class="form-horizontal" role="form" method="POST"
+                      action="{{ url('/tools/programs') }}">
                     {{ csrf_field() }}
                     @if(!empty($success))
                         <div class=" alert alert-success">
@@ -106,10 +107,9 @@
                                 <li>Fill out the questions you need answered as best you can. Please keep it as simple
                                     as possible.
                                 </li>
-                                <li>When finished, progress is automatically saved. Click the "Send" button, choose the
-                                    Link tab, and copy the link into the appropriate program form on this page. Your
-                                    form will automtically be imported to each relevant camper's confirmation letter in
-                                    your program.
+                                <li>When finished, progress is automatically saved. Copy and paste the URL of the form
+                                    (it should end in "/edit") into this page. Your form will automtically be imported
+                                    to each relevant camper's confirmation letter in your program.
                                 </li>
                             </ul>
                         </div>
@@ -142,8 +142,8 @@
             });
 
             $("#programs").on("submit", function (e) {
-                $('.summernote').each(function() {
-                   $(this).next().next().val($(this).summernote('code'));
+                $('.summernote').each(function () {
+                    $(this).next().next().val($(this).summernote('code'));
                 });
                 return true;
             });

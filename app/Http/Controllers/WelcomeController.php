@@ -22,7 +22,7 @@ class WelcomeController extends Controller
                 $payload['registered'] = $this->isRegistered($family);
                 $payload['paid'] = $this->isPaid($family);
                 $payload['signedup'] = $this->isSignedup($family);
-                $payload['roomid'] = \App\Thisyear_Camper::find($camper->id)->roomid;
+                $payload['roomid'] = \App\Thisyear_Camper::where('id', $camper->id)->first()->roomid;
             }
         }
         return view('welcome', $payload);

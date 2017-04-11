@@ -42,7 +42,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($role->users()->get() as $user)
+                                    @foreach($role->users()->orderBy('email')->get() as $user)
                                         <tr>
                                             <td>{{ $user->camper->lastname }}, {{ $user->camper->firstname }}</td>
                                             <td>{{ $user->email }}</td>

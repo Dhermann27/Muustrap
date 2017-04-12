@@ -67,12 +67,12 @@ class Camper extends Model
 
     public function getAgeAttribute()
     {
-        return Carbon::parse($this->birthdate)->age;
+        return DB::table('users')->value(DB::raw("getage('" . $this->birthdate . "',getcurrentyear())"));
     }
 
     public function getGradeAttribute()
     {
-        return $this->age + $this->gradeoffset;
+        return $this->getAgeAttribute() + $this->gradeoffset;
     }
 
     public function getLoggedInAttribute()

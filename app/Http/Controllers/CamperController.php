@@ -77,6 +77,7 @@ class CamperController extends Controller
             $camper->phonenbr = str_replace('-', '', $request->input($id . '-phonenbr'));
         }
         $camper->birthdate = $request->input($id . '-birthdate');
+        $camper->gradeoffset = DB::raw("(SELECT " . $request->input($id . '-gradeoffset') . "-getage('" . $camper->birthdate . "',getcurrentyear()))");
         $camper->roommate = $request->input($id . '-roommate');
         $camper->sponsor = $request->input($id . '-sponsor');
         $camper->churchid = $request->input($id . '-churchid');

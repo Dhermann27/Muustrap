@@ -6,7 +6,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">{{ $family->name }} Statement</div>
             <div class="panel-body">
-                <form id="payment" class="form-horizontal" role="form" method="POST"
+                <form id="paymentadmin" class="form-horizontal" role="form" method="POST"
                       action="{{ url('/payment/f/' . $family->id) }}">
                     {{ csrf_field() }}
 
@@ -110,4 +110,17 @@
 
 @section('script')
     <script src="/js/bootstrap-datepicker.min.js"></script>
+    <script>
+        $("#paymentadmin").on('submit', function(e) {
+            e.preventDefault();
+            var amount = $("#amount");
+            if($("#chargetypeid option:selected").text().includes("Payment") && parseFloat(amount.val())>0) {
+                var r = confirm("You have entered a positive credit!\nWant me to switch this to negative?");
+                if (r) {
+                    amount.value = parseFloat(amount.value) * -1;
+                }
+            }
+            return true;
+        });
+    </script>
 @endsection

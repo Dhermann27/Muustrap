@@ -56,7 +56,7 @@
                                                         }) as $charge)
                                                             <tr>
                                                                 <td>{{ $charge->camper->firstname }} {{ $charge->camper->lastname }}</td>
-                                                                <td>{{ money_format('$%.2n', abs($charge->amount)) }}</td>
+                                                                <td>{{ money_format('$%.2n', $charge->amount) }}</td>
                                                                 <td>{{ $charge->timestamp }}</td>
                                                                 <td>{{ $charge->memo }}</td>
                                                                 <td>

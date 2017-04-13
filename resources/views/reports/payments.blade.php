@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('css')
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.13/datatables.min.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/v/bs/dt-1.10.13/b-1.2.4/b-html5-1.2.4/b-print-1.2.4/r-2.1.1/datatables.min.css"/>
 @endsection
 
 @section('content')
@@ -61,10 +62,15 @@
 @endsection
 
 @section('script')
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.13/datatables.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdn.datatables.net/v/bs/dt-1.10.13/b-1.2.4/b-html5-1.2.4/b-print-1.2.4/r-2.1.1/datatables.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('table.table').DataTable();
+            $('table.table').DataTable({
+                buttons: [
+                    'csv'
+                ]
+            });
         });
     </script>
 @endsection

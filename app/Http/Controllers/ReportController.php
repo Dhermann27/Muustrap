@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
@@ -14,7 +14,14 @@ class ReportController extends Controller
         return view('reports.campers', ['years' => $years]);
     }
 
-    public function depositsMark($id) {
+    public function chart()
+    {
+        return view('reports.chart', ['dates' => \App\Staticdate::all(),
+            \App\Yearattending::select(DB::raw('DATE_FORMAT(created_at, \'%y%m%d\')'))]);
+    }
+
+    public function depositsMark($id)
+    {
         \App\Charge::where('chargetypeid', $id)->where('deposited_date', null)
             ->update(['deposited_date' => Carbon::now()->toDateString()]);
         return $this->deposits();
@@ -26,6 +33,13 @@ class ReportController extends Controller
         return view('reports.deposits', ['chargetypes' => $chargetypes,
             'charges' => \App\Thisyear_Charge::whereIn('chargetypeid', $chargetypes->pluck('id')->toArray())
                 ->orderBy('deposited_date')->orderBy('timestamp', 'desc')->get()->groupBy('deposited_date')
+        ]);
+    }
+
+    public function payments()
+    {
+        return view('reports.payments', ['years' => \App\Byyear_Charge::where('amount', '!=', '0.0')
+            ->where('year', '>', DB::raw('getcurrentyear()-5'))->with('camper')->with('family')->get()->groupBy('year')
         ]);
     }
 

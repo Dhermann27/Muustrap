@@ -26,7 +26,7 @@
                             <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' in active' : '' }}"
                                  id="{{ $program->id }}">
                                 <p>&nbsp;</p>
-                                <table class="table table-responsive table-condensed editable">
+                                <table class="table table-responsive table-condensed">
                                     <thead>
                                     <tr>
                                         <th id="name">Name</th>
@@ -35,7 +35,7 @@
                                         <th>Delete?</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="editable">
                                     @foreach($program->staffpositions->where('start_year', '<=', $year)->where('end_year', '>=', $year)->sortBy('name')->all() as $position)
                                         <tr id="{{ $position->id }}">
                                             <td>{{ $position->name }}</td>

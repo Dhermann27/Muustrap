@@ -30,25 +30,44 @@
                                 <table class="table table-responsive table-striped table-bordered">
                                     <thead>
                                     <tr>
-                                        <th><label for="chargetypeid">Charge Type</label></th>
-                                        <th align="right"><label for="amount">Amount</label></th>
-                                        <th align="center"><label for="date">Date</label></th>
-                                        <th><label for="memo">Memo</label></th>
+                                        <th id="chargetypeid" class="select"><label for="chargetypeid">Charge
+                                                Type</label></th>
+                                        <th id="amount" align="right"><label for="amount">Amount</label></th>
+                                        <th id="timestamp" align="center"><label for="date">Date</label></th>
+                                        <th id="memo"><label for="memo">Memo</label></th>
+                                        @if($readonly === false)
+                                            <th>Delete?</th>
+                                        @endif
                                     </tr>
                                     </thead>
+                                    <tbody class="editable">
                                     @foreach($charges as $charge)
-                                        <tr>
+                                        <tr id="{{ $charge->id }}">
                                             <td>{{ $charge->chargetypename }}</td>
                                             <td class="amount"
                                                 align="right">{{ money_format('%.2n', $charge->amount) }}</td>
                                             <td align="center">{{ $charge->timestamp }}</td>
                                             <td>{{ $charge->memo }}</td>
+                                            @if($readonly === false)
+                                                @if(!empty($charge->timestamp))
+                                                    <td class="btn-group" data-toggle="buttons">
+                                                        <label class="btn btn-default">
+                                                            <input type="checkbox" name="{{ $charge->id }}-delete"
+                                                                   autocomplete="off"/> Delete
+                                                        </label>
+                                                    </td>
+                                                @else
+                                                    <td>&nbsp;</td>
+                                                @endif
+                                            @endif
                                         </tr>
                                     @endforeach
+                                    </tbody>
                                     @if($loop->last && $readonly === false)
+                                        <tfoot>
                                         <tr>
                                             <td>
-                                                <select class="form-control" id="chargetypeid"
+                                                <select class="form-control chargetypeid" id="newchargetypeid"
                                                         name="chargetypeid">
                                                     @foreach($chargetypes as $chargetype)
                                                         <option value="{{ $chargetype->id }}"
@@ -70,25 +89,26 @@
                                                 <div class="input-group date" data-provide="datepicker"
                                                      data-date-format="yyyy-mm-dd" data-date-autoclose="true">
                                                     <input id="date" type="text" class="form-control"
-                                                           name="date" value="{{ old('date') }}" required>
+                                                           name="date" value="{{ old('date') }}">
                                                     <div class="input-group-addon">
                                                         <span class="fa fa-calendar"></span>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
+                                            <td colspan="2">
                                                 <input id="memo" class="form-control" name="memo"
                                                        value="{{ old('memo') }}">
                                             </td>
                                         </tr>
-                                    @endif
-                                    <tr align="right">
-                                        <td><strong>Amount Due:</strong></td>
-                                        <td id="amountNow" align="right">
-                                            ${{ money_format('%.2n', $charges->sum('amount')) }}
-                                        </td>
-                                        <td colspan="2"></td>
-                                    </tr>
+                                        @endif
+                                        <tr align="right">
+                                            <td><strong>Amount Due:</strong></td>
+                                            <td id="amountNow" align="right">
+                                                ${{ money_format('%.2n', $charges->sum('amount')) }}
+                                            </td>
+                                            <td colspan="{{ $readonly === false ? '3' : '2' }}">&nbsp;</td>
+                                        </tr>
+                                        </tfoot>
                                 </table>
                                 @if($loop->last && $readonly === false)
                                     <div class="form-group">
@@ -111,10 +131,9 @@
 @section('script')
     <script src="/js/bootstrap-datepicker.min.js"></script>
     <script>
-        $("#paymentadmin").on('submit', function(e) {
-            e.preventDefault();
+        $("#paymentadmin").on('submit', function (e) {
             var amount = $("#amount");
-            if($("#chargetypeid option:selected").text().includes("Payment") && parseFloat(amount.val())>0) {
+            if ($("#chargetypeid option:selected").text().includes("Payment") && parseFloat(amount.val()) > 0) {
                 var r = confirm("You have entered a positive credit!\nWant me to switch this to negative?");
                 if (r) {
                     amount.value = parseFloat(amount.value) * -1;

@@ -56,7 +56,7 @@
                                                         }) as $charge)
                                                             <tr>
                                                                 <td>{{ $charge->camper->firstname }} {{ $charge->camper->lastname }}</td>
-                                                                <td>{{ money_format('%.2n', $charge->amount) }}</td>
+                                                                <td>{{ money_format('$%.2n', abs($charge->amount)) }}</td>
                                                                 <td>{{ $charge->timestamp }}</td>
                                                                 <td>{{ $charge->memo }}</td>
                                                                 <td>
@@ -65,9 +65,15 @@
                                                             </tr>
                                                         @endforeach
                                                         </tbody>
+                                                        <tfoot>
+                                                        <tr>
+                                                            <td colspan="5" align="right">Total Deposit: {{ money_format('$%.2n', abs($dcharges->filter(function ($value) use ($chargetype) {
+                                                            return $value->chargetypeid == $chargetype->id;
+                                                        })->sum('amount'))) }}
+                                                            </td>
+                                                        </tr>
                                                         @role(['admin'])
                                                         @if(empty($ddate))
-                                                            <tfoot>
                                                             <tr>
                                                                 <td colspan="5" align="right">
                                                                     <form role="form" method="POST"
@@ -82,9 +88,9 @@
                                                                     </form>
                                                                 </td>
                                                             </tr>
-                                                            </tfoot>
                                                         @endif
                                                         @endrole
+                                                        </tfoot>
                                                     </table>
                                                 </div>
                                             </div>

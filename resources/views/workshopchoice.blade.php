@@ -43,27 +43,7 @@
                                                     - {{ $timeslot->end_time->format('g:i A') }})
                                                 @endif
                                             </h5>
-                                            <div class="workshoplist">
-                                                @foreach($timeslot->workshops as $workshop)
-                                                    <button type="button" data-content="{{ $workshop->id }}"
-                                                            class="list-group-item
-                                                            @foreach($camper->yearattending->workshops as $choice)
-                                                            @if($choice->workshopid == $workshop->id)
-                                                                    active
-                                                                    @endif
-                                                            @endforeach
-                                                            @if($workshop->enrolled >= $workshop->capacity)
-                                                                    list-group-item-danger disabled
-                                                                @elseif($workshop->enrolled >= ($workshop->capacity * .75))
-                                                                    list-group-item-warning
-                                                                @else
-                                                                    list-group-item
-                                                                @endif
-                                                                    ">{{ $workshop->name }}
-                                                        ({{ $workshop->display_days }})
-                                                    </button>
-                                                @endforeach
-                                            </div>
+                                            @include('workshopchoicelist', ['timeslot' => $timeslot, 'camperid' => $camper->id])
                                         </div>
                                     @endforeach
                                 @else
@@ -75,27 +55,7 @@
                                     @foreach($timeslots->where('id', '1005') as $timeslot)
                                         <div class="list-group col-md-4 col-sm-6">
                                             <h5>{{ $timeslot->name }}</h5>
-                                            <div class="workshoplist">
-                                                @foreach($timeslot->workshops as $workshop)
-                                                    <button type="button" data-content="{{ $workshop->id }}"
-                                                            class="list-group-item
-                                                            @foreach($camper->yearattending->workshops as $choice)
-                                                            @if($choice->workshopid == $workshop->id)
-                                                                    active
-                                                                    @endif
-                                                            @endforeach
-                                                            @if($workshop->enrolled >= $workshop->capacity)
-                                                                    list-group-item-danger
-                                                                @elseif($workshop->enrolled >= ($workshop->capacity * .75))
-                                                                    list-group-item-warning
-                                                                @else
-                                                                    list-group-item
-                                                                @endif
-                                                                    ">{{ $workshop->name }}
-                                                        ({{ $workshop->display_days }})
-                                                    </button>
-                                                @endforeach
-                                            </div>
+                                            @include('workshopchoicelist', ['timeslot' => $timeslot, 'camperid' => $camper->id])
                                         </div>
                                     @endforeach
                                 @endif
@@ -129,7 +89,12 @@
 @section('script')
     <script type="text/javascript">
         $(function () {
-            $(".workshoplist button").on("click", function (e) {
+            @foreach($campers as $camper)
+            @foreach($camper->yearattending->workshops as $choice)
+            $("#{{ $camper->id }}-{{ $choice->workshopid }}").addClass("active");
+            @endforeach
+            @endforeach
+$(".workshoplist button").on("click", function (e) {
                 e.preventDefault();
                 $(this).toggleClass("active");
             });

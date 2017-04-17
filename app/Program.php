@@ -13,6 +13,10 @@ class Program extends Model
         return $this->hasMany(Thisyear_Staff::class, 'programid', 'id');
     }
 
+    public function participants() {
+        return $this->hasMany(Thisyear_Camper::class, 'programid', 'id');
+    }
+
     public function rate()
     {
         return $this->belongsTo(Rate::class);

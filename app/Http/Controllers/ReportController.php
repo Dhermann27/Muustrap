@@ -43,6 +43,14 @@ class ReportController extends Controller
         ]);
     }
 
+    public function programs()
+    {
+        $year = \App\Year::where('is_current', 1)->first()->year;
+        return view('reports.programs', ['programs' => \App\Program::where('start_year', '<=', $year)
+            ->where('end_year', '>=', $year)->with('participants')
+            ->orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get()]);
+    }
+
     public function rates()
     {
         $year = \App\Year::where('is_current', 1)->first()->year;

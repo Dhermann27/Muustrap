@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-datepicker.min.css" />
     <link rel="stylesheet" type="text/css"
           href="https://cdn.datatables.net/v/bs/dt-1.10.13/b-1.2.4/b-html5-1.2.4/b-print-1.2.4/r-2.1.1/datatables.min.css"/>
 @endsection
@@ -11,6 +12,13 @@
         <div class="panel panel-default">
             <div class="panel-heading">Payments & Credits</div>
             <div class="panel-body">
+                <label class="control-label visible-print" for="fini">From:</label>
+                <div class="input-group input-daterange">
+                    <input type="text" id="fini" class="form-control"/>
+                    <span class="input-group-addon">to</span>
+                    <input type="text" id="ffin" class="form-control">
+                </div>
+                <label class="control-label visible-print" for="ffin">To:</label>
                 <ul class="nav nav-tabs" role="tablist">
                     @foreach($years as $thisyear => $charges)
                         <li role="presentation"{!! $loop->last ? ' class="active"' : '' !!}>
@@ -51,6 +59,7 @@
                                         @endforeach
                                         </tbody>
                                     </table>
+
                                 </div>
                             </div>
                         </div>
@@ -62,14 +71,23 @@
 @endsection
 
 @section('script')
+    <script src="/js/bootstrap-datepicker.min.js"></script>
     <script type="text/javascript"
-            src="https://cdn.datatables.net/v/bs/dt-1.10.13/b-1.2.4/b-html5-1.2.4/b-print-1.2.4/r-2.1.1/datatables.min.js"></script>
+            src="//cdn.datatables.net/v/bs/dt-1.10.13/b-1.2.4/b-html5-1.2.4/b-print-1.2.4/r-2.1.1/datatables.min.js"></script>
+    <script type="text/javascript"
+            src="/js/range_dates.js"></script>
     <script>
         $(document).ready(function () {
-            $('table.table').DataTable({
+            var table = $('table.table').DataTable({
                 buttons: [
                     'csv'
                 ]
+            });
+            $('div.input-daterange').datepicker({
+                autoclose: true,
+                format: 'yyyy-mm-dd'
+            }).on('changeDate', function (e) {
+                table.draw();
             });
         });
     </script>

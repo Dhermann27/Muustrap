@@ -12,6 +12,7 @@
                         <th>Camper Name</th>
                         <th>Roommate Preference</th>
                         <th>Current Assignment</th>
+                        <th>Controls</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -20,6 +21,9 @@
                             <td>{{ $camper->lastname }}, {{ $camper->firstname }}</td>
                             <td>{{ $camper->roommate }}</td>
                             <td>{{ !empty($camper->roomid) ? $camper->yearattending->room->room_number : 'Unassigned' }}</td>
+                            <td>
+                                @include('admin.controls', ['id' => 'c/' . $camper->id])
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

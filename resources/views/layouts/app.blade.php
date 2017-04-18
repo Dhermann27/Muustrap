@@ -51,7 +51,6 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{{ url('/MUUSA_2017_Brochure.pdf') }}">Web Brochure</a></li>
                 <li><a href="{{ url('/contact') }}">Contact Us</a></li>
-                <!-- Authentication Links -->
                 @if (Auth::guest())
                     <li><a href="{{ url('/login') }}">Login</a></li>
                     <li><a href="{{ url('/register') }}">Create Account</a></li>
@@ -91,6 +90,8 @@
                         title="Workshop Preferences"></button>
                 <button id="roomselection" class="btn btn-default fa fa-bed action" data-toggle="tooltip"
                         title="Assign Room"></button>
+                <button id="volunteer" class="btn btn-default fa fa-handshake-o action" data-toggle="tooltip"
+                        title="Volunteer Opportunities"></button>
                 <button id="confirm" class="btn btn-default fa fa-envelope action" data-toggle="tooltip"
                         title="View Confirmation Letter"></button>
                 <button id="create" class="btn btn-default fa fa-plus action" data-toggle="tooltip"

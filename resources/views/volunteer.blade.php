@@ -8,10 +8,10 @@
     <p>&nbsp;</p>
     <div class="container">
         <div class="panel panel-default">
-            <div class="panel-heading">Workshop Preferences</div>
+            <div class="panel-heading">Volunteer Opportunities</div>
             <div class="panel-body">
-                <form id="workshops" class="form-horizontal" role="form" method="POST"
-                      action="{{ url('/workshopchoice' .
+                <form id="volunteerform" class="form-horizontal" role="form" method="POST"
+                      action="{{ url('/volunteer' .
                       (isset($readonly) && $readonly === false ? '/f/' . $campers->first()->familyid : '')) }}">
                     {{ csrf_field() }}
 
@@ -32,33 +32,20 @@
                         @foreach($campers as $camper)
                             <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' in active' : '' }}"
                                  id="{{ $camper->id }}">
-                                <input type="hidden" id="{{ $camper->id }}-workshops"
-                                       name="{{ $camper->id }}-workshops" class="workshop-choices"/>
-                                @if(in_array($camper->programid, ['1008', '1009', '1006']) )
-                                    @foreach($timeslots as $timeslot)
-                                        <div class="list-group col-md-4 col-sm-6">
-                                            <h5>{{ $timeslot->name }}
-                                                @if($timeslot->id != 1005)
-                                                    ({{ $timeslot->start_time->format('g:i A') }}
-                                                    - {{ $timeslot->end_time->format('g:i A') }})
-                                                @endif
-                                            </h5>
-                                            @include('workshopchoicelist', ['timeslot' => $timeslot, 'camperid' => $camper->id])
-                                        </div>
-                                    @endforeach
-                                @else
-                                    <div class="col-md-8 col-sm-6">
-                                        <p>&nbsp;</p>
-                                        Camper has been automatically enrolled in
-                                        <strong>{{ $camper->programname }}</strong> programming.
+                                <input type="hidden" id="{{ $camper->id }}-volunteer"
+                                       name="{{ $camper->id }}-volunteer" class="volunteer-choices"/>
+                                <div class="list-group col-md-4 col-sm-6">
+                                    <h5>Available Positions</h5>
+                                    <div class="workshoplist">
+                                        @foreach($positions as $position)
+                                            <button type="button" data-content="{{ $position->id }}"
+                                                    id="{{ $camper->id }}-{{ $position->id }}"
+                                                    class="list-group-item">
+                                                {{ $position->name }}
+                                            </button>
+                                        @endforeach
                                     </div>
-                                    @foreach($timeslots->where('id', '1005') as $timeslot)
-                                        <div class="list-group col-md-4 col-sm-6">
-                                            <h5>{{ $timeslot->name }}</h5>
-                                            @include('workshopchoicelist', ['timeslot' => $timeslot, 'camperid' => $camper->id])
-                                        </div>
-                                    @endforeach
-                                @endif
+                                </div>
                                 @if(count($campers) > 1)
                                     <div class="form-group">
                                         <div class="col-md-2 col-md-offset-8">
@@ -90,21 +77,21 @@
     <script type="text/javascript">
         $(function () {
             @foreach($campers as $camper)
-            @foreach($camper->yearattending->workshops as $choice)
-            $("#{{ $camper->id }}-{{ $choice->workshopid }}").addClass("active");
+            @foreach($camper->yearattending->volunteers as $choice)
+            $("#{{ $camper->id }}-{{ $choice->volunteerpositionid }}").addClass("active");
             @endforeach
             @endforeach
             $(".workshoplist button").on("click", function (e) {
                 e.preventDefault();
                 $(this).toggleClass("active");
             });
-            $("#workshops").on("submit", function (e) {
+            $("#volunteerform").on("submit", function (e) {
                 $("div.tab-pane").each(function () {
                     var ids = new Array();
                     $(this).find("button.active").each(function () {
                         ids.push($(this).attr("data-content"));
                     });
-                    $("#" + $(this).attr("id") + "-workshops").val(ids.join(","));
+                    $("#" + $(this).attr("id") + "-volunteer").val(ids.join(","));
                 });
                 return true;
             });

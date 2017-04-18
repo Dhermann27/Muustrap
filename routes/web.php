@@ -22,36 +22,41 @@ Route::get('/contact', 'ContactController@contactIndex');
 Route::post('/contact', 'ContactController@contactStore');
 
 Route::get('/confirm', 'ConfirmController@index');
-Route::get('/confirm/{i}/{id}', 'ConfirmController@read')->middleware('role:admin|council');
-Route::get('/confirm/all', 'ConfirmController@all')->middleware('role:admin');
+Route::get('/confirm/{i}/{id}', 'ConfirmController@read')->middleware('auth', 'role:admin|council');
+Route::get('/confirm/all', 'ConfirmController@all')->middleware('auth', 'role:admin');
 
 Route::get('/artfair', 'ContactController@artfairIndex');
 Route::post('/artfair', 'ContactController@artfairStore')->middleware('auth');;
 
 Route::get('/household', 'HouseholdController@index')->middleware('auth');
 Route::post('/household', 'HouseholdController@store')->middleware('auth');
-Route::get('/household/{i}/{id}', 'HouseholdController@read')->middleware('role:admin|council');
-Route::post('/household/f/{id}', 'HouseholdController@write')->middleware('role:admin');
+Route::get('/household/{i}/{id}', 'HouseholdController@read')->middleware('auth', 'role:admin|council');
+Route::post('/household/f/{id}', 'HouseholdController@write')->middleware('auth', 'role:admin');
 
 Route::get('/camper', 'CamperController@index')->middleware('auth');
 Route::post('/camper', 'CamperController@store')->middleware('auth');
-Route::get('/camper/{i}/{id}', 'CamperController@read')->middleware('role:admin|council');
-Route::post('/camper/f/{id}', 'CamperController@write')->middleware('role:admin');
+Route::get('/camper/{i}/{id}', 'CamperController@read')->middleware('auth', 'role:admin|council');
+Route::post('/camper/f/{id}', 'CamperController@write')->middleware('auth', 'role:admin');
 
 Route::get('/payment', 'PaymentController@index')->middleware('auth');
 Route::post('/payment', 'PaymentController@store')->middleware('auth');
-Route::get('/payment/{i}/{id}', 'PaymentController@read')->middleware('role:admin|council');
-Route::post('/payment/f/{id}', 'PaymentController@write')->middleware('role:admin');
+Route::get('/payment/{i}/{id}', 'PaymentController@read')->middleware('auth', 'role:admin|council');
+Route::post('/payment/f/{id}', 'PaymentController@write')->middleware('auth', 'role:admin');
 
 Route::get('/workshopchoice', 'WorkshopController@index')->middleware('auth');
 Route::post('/workshopchoice', 'WorkshopController@store')->middleware('auth');
-Route::get('/workshopchoice/{i}/{id}', 'WorkshopController@read')->middleware('role:admin|council');
-Route::post('/workshopchoice/f/{id}', 'WorkshopController@write')->middleware('role:admin');
+Route::get('/workshopchoice/{i}/{id}', 'WorkshopController@read')->middleware('auth', 'role:admin|council');
+Route::post('/workshopchoice/f/{id}', 'WorkshopController@write')->middleware('auth', 'role:admin');
+
+Route::get('/volunteer', 'VolunteerController@index')->middleware('auth');
+Route::post('/volunteer', 'VolunteerController@store')->middleware('auth');
+Route::get('/volunteer/{i}/{id}', 'VolunteerController@read')->middleware('auth', 'role:admin|council');
+Route::post('/volunteer/f/{id}', 'VolunteerController@write')->middleware('auth', 'role:admin');
 
 Route::get('/roomselection', 'RoomSelectionController@index')->middleware('auth');
 Route::post('/roomselection', 'RoomSelectionController@store')->middleware('auth');
-Route::get('/roomselection/{i}/{id}', 'RoomSelectionController@read')->middleware('role:admin|council');
-Route::post('/roomselection/f/{id}', 'RoomSelectionController@write')->middleware('role:admin');
+Route::get('/roomselection/{i}/{id}', 'RoomSelectionController@read')->middleware('auth', 'role:admin|council');
+Route::post('/roomselection/f/{id}', 'RoomSelectionController@write')->middleware('auth', 'role:admin');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'data'], function () {
     Route::get('camperlist', 'DataController@campers');
@@ -62,7 +67,7 @@ Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'reports'], fu
     Route::get('campers', 'ReportController@campers');
     Route::get('chart', 'ReportController@chart');
     Route::get('deposits', 'ReportController@deposits');
-    Route::post('deposits/{id}', 'ReportController@depositsMark')->middleware('role:admin');
+    Route::post('deposits/{id}', 'ReportController@depositsMark')->middleware('auth', 'role:admin');
     Route::get('payments', 'ReportController@payments');
     Route::get('programs', 'ReportController@programs');
     Route::get('rates', 'ReportController@rates');

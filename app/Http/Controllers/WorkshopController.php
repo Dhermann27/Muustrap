@@ -89,7 +89,7 @@ class WorkshopController extends Controller
         DB::statement('CALL update_workshops;');
 
         $success = 'Green means good! Yayyyyyy';
-        return $this->index($success);
+        return $this->read('f', $id, $success);
     }
 
     public function read($i, $id, $success = null)

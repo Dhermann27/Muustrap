@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-datepicker.min.css"/>
     <link rel="stylesheet" type="text/css"
           href="https://cdn.datatables.net/v/bs/dt-1.10.13/b-1.2.4/b-html5-1.2.4/b-print-1.2.4/r-2.1.1/datatables.min.css"/>
 @endsection
@@ -45,6 +45,16 @@
                                             <th>Memo</th>
                                         </tr>
                                         </thead>
+                                        <tfoot>
+                                        <tr>
+                                            <th>Family Name</th>
+                                            <th>Camper Name</th>
+                                            <th>Chargetype</th>
+                                            <th>Amount</th>
+                                            <th>Date</th>
+                                            <th>Memo</th>
+                                        </tr>
+                                        </tfoot>
                                         <tbody>
                                         @foreach($charges as $charge)
                                             <tr>
@@ -81,7 +91,27 @@
             var table = $('table.table').DataTable({
                 buttons: [
                     'csv'
-                ]
+                ],
+                initComplete: function () {
+                    this.api().columns().every(function () {
+                        var column = this;
+                        var select = $('<select><option value=""></option></select>')
+                            .appendTo($(column.footer()).empty())
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+
+                        column.data().unique().sort().each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>')
+                        });
+                    });
+                }
             });
             $('div.input-daterange').datepicker({
                 autoclose: true,

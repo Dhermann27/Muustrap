@@ -25,8 +25,7 @@
                                         <thead>
                                         <tr>
                                             <th>Pronoun</th>
-                                            <th>First Name</th>
-                                            <th>Last Name</th>
+                                            <th>Name</th>
                                             <th>Age</th>
                                             @if($program->participants->first()->age<18)
                                                 <th>Grade</th>
@@ -39,8 +38,13 @@
                                         @foreach($program->participants as $participant)
                                             <tr>
                                                 <td>{{ $participant->pronounname }}</td>
-                                                <td>{{ $participant->firstname }}</td>
-                                                <td>{{ $participant->lastname }}</td>
+                                                <td>
+                                                    {{ $participant->lastname }}, {{ $participant->firstname }}
+                                                    @if(isset($participant->email))
+                                                        <a href="mailto:{{ $camper->email }}"
+                                                           class="fa fa-envelope"></a>
+                                                    @endif
+                                                </td>
                                                 <td>{{ $participant->age }}</td>
                                                 @if($program->participants->first()->age<18)
                                                     <td>{{ max($participant->grade, 0) }}</td>
@@ -54,8 +58,14 @@
                                         </tbody>
                                         <tfoot>
                                         <tr>
-                                            <td colspan="7" align="right"><strong>Total
+                                            <td colspan="{{ $program->participants->first()->age<18 ? '6' : '4' }}"
+                                                align="right"><strong>Total
                                                     Campers: </strong> {{ count($program->participants) }}</td>
+                                        </tr>
+                                        <tr class="hidden-print">
+                                            <td colspan="{{ $program->participants->first()->age<18 ? '6' : '4' }}">
+                                                Distribution list: {{ $program->emails }}
+                                            </td>
                                         </tr>
                                         </tfoot>
                                     </table>

@@ -16,7 +16,7 @@ class Yearattending extends Model
 
     public function room()
     {
-        return $this->hasOne(Room::class);
+        return $this->hasOne(Room::class, 'id', 'roomid');
     }
 
     public function scholarship()

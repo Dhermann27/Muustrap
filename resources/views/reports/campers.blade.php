@@ -44,8 +44,7 @@
                                             <table class="table table-responsive table-condensed">
                                                 @foreach($family->campers()->where('year', $thisyear)->orderBy('birthdate')->get() as $camper)
                                                     <tr>
-                                                        <td width="25%">{{ $camper->lastname }}
-                                                            , {{ $camper->firstname }}
+                                                        <td width="25%">{{ $camper->lastname }}, {{ $camper->firstname }}
                                                             @if(isset($camper->email))
                                                                 <a href="mailto:{{ $camper->email }}"
                                                                    class="fa fa-envelope"></a>

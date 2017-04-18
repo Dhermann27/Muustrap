@@ -64,7 +64,7 @@
                                                     }) as $camper)
                                                         <tr>
                                                             <td>{{ $camper->room_number }}</td>
-                                                            <td>{{ $camper->firstname }} {{ $camper->lastname }}</td>
+                                                            <td>{{ $camper->lastname }}, {{ $camper->firstname }}</td>
                                                             <td>{{ $camper->programname }}</td>
                                                             <td>{{ $camper->birthdate }}</td>
                                                             <td>

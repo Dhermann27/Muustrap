@@ -67,6 +67,11 @@ class ReportController extends Controller
         return view('reports.rooms', ['years' => $years, 'buildings' => \App\Building::all()]);
     }
 
+    public function roommates()
+    {
+        return view('reports.roommates', ['campers' => \App\Thisyear_Camper::where('roommate', '!=', '')->get()]);
+    }
+
     public function workshops()
     {
         return view('reports.workshops', ['timeslots' => \App\Timeslot::with('workshops.choices.yearattending.camper')->get()]);

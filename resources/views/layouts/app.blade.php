@@ -124,6 +124,7 @@
             <li><a href="{{ url('/reports/rates') }}">Rates</a></li>
             <li><a href="{{ url('/reports/campers') }}">Registered Campers</a></li>
             <li><a href="{{ url('/reports/chart') }}">Registration Chart</a></li>
+            <li><a href="{{ url('/reports/roommates') }}">Roommates</a></li>
             <li><a href="{{ url('/reports/rooms') }}">Rooms</a></li>
             <li><a href="{{ url('/reports/workshops') }}">Workshop Attendees</a></li>
         </ul>

@@ -71,6 +71,7 @@ Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'reports'], fu
     Route::get('payments', 'ReportController@payments');
     Route::get('programs', 'ReportController@programs');
     Route::get('rates', 'ReportController@rates');
+    Route::get('roommates', 'ReportController@roommates');
     Route::get('rooms', 'ReportController@rooms');
     Route::get('workshops', 'ReportController@workshops');
 });

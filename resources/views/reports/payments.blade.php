@@ -59,8 +59,7 @@
                                         @foreach($charges as $charge)
                                             <tr>
                                                 <td>{{ $charge->family->name }}</td>
-                                                <td>{{ $charge->camper->lastname }}
-                                                    , {{ $charge->camper->firstname }}</td>
+                                                <td>{{ $charge->camper->lastname }}, {{ $charge->camper->firstname }}</td>
                                                 <td>{{ $charge->chargetypename }}</td>
                                                 <td>{{ money_format('%.2n', $charge->amount) }}</td>
                                                 <td>{{ $charge->timestamp }}</td>

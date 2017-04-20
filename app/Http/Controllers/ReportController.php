@@ -16,8 +16,25 @@ class ReportController extends Controller
 
     public function chart()
     {
-        return view('reports.chart', ['dates' => \App\Staticdate::all(),
-            \App\Yearattending::select(DB::raw('DATE_FORMAT(created_at, \'%y%m%d\')'))]);
+        $mergeddates = array();
+        $dates = DB::select(DB::raw("SELECT LEFT(DATE(ya.created_at),4) AS theleft, RIGHT(DATE(ya.created_at),5) AS theright, DATE(ya.created_at)AS thedate, 
+            (SELECT COUNT(*) FROM yearsattending yap WHERE yap.year=MAX(ya.year) AND DATE(yap.created_at) <= thedate) AS total
+            FROM yearsattending ya WHERE ya.year>2014
+            GROUP BY DATE(ya.created_at) ORDER BY RIGHT(DATE(ya.created_at), 5)"));
+        $summaries = DB::select(DB::raw("SELECT ya.year, 
+            COUNT(*) total, SUM(IF((SELECT COUNT(*) FROM yearsattending yap WHERE ya.year>yap.year AND c.id=yap.camperid)=0, 1, 0)) newcampers, 
+            SUM(IF((SELECT COUNT(*) FROM yearsattending yap WHERE ya.year-1=yap.year AND c.id=yap.camperid)=0 AND (SELECT COUNT(*) FROM yearsattending yap WHERE ya.year-2=yap.year AND c.id=yap.camperid)=1,1,0)) oldcampers, 
+            SUM(IF((SELECT COUNT(*) FROM yearsattending yap WHERE ya.year-3<yap.year AND yap.year<ya.year AND c.id=yap.camperid)=0 AND (SELECT COUNT(*) FROM yearsattending yap WHERE ya.year-3>=yap.year AND c.id=yap.camperid)>0,1,0)) voldcampers, 
+            (SELECT COUNT(*) FROM yearsattending yap WHERE ya.year-1=yap.year AND (SELECT COUNT(*) FROM yearsattending yaq WHERE ya.year=yaq.year AND yap.camperid=yaq.camperid)=0) lostcampers 
+            FROM campers c, yearsattending ya WHERE c.id=ya.camperid AND ya.year>2008 GROUP BY ya.year ORDER BY ya.year"));
+        foreach ($dates as $date) {
+            if (!array_has($mergeddates, $date->theright)) {
+                $mergeddates[$date->theright] = array();
+            }
+            $mergeddates[$date->theright][$date->theleft] = $date->total;
+        }
+        return view('reports.chart', ['years' => \App\Year::pluck('year'), 'summaries' => $summaries,
+            'dates' => $mergeddates]);
     }
 
     public function depositsMark($id)

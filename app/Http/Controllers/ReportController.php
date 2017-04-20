@@ -11,7 +11,7 @@ class ReportController extends Controller
     {
         $years = \App\Byyear_Family::with('campers')->where('year', '>', DB::raw('getcurrentyear()-8'))
             ->orderBy('year')->orderBy('name')->get()->groupBy('year');
-        return view('reports.campers', ['years' => $years]);
+        return view('reports.campers', ['title' => 'Registered Campers', 'years' => $years]);
     }
 
     public function chart()
@@ -51,6 +51,13 @@ class ReportController extends Controller
             'charges' => \App\Thisyear_Charge::whereIn('chargetypeid', $chargetypes->pluck('id')->toArray())
                 ->orderBy('deposited_date')->orderBy('timestamp', 'desc')->get()->groupBy('deposited_date')
         ]);
+    }
+
+    public function firsttime()
+    {
+        $years = ['1' => \App\Thisyear_Family::where(DB::raw("(SELECT COUNT(*) FROM byyear_families bf WHERE thisyear_families.id=bf.id AND bf.year!=getcurrentyear())"), 0)
+            ->with('campers')->orderBy('name')->get()];
+        return view('reports.campers', ['title' => 'First-time Campers', 'years' => $years]);
     }
 
     public function payments()

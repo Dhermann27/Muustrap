@@ -68,6 +68,7 @@ Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'reports'], fu
     Route::get('chart', 'ReportController@chart');
     Route::get('deposits', 'ReportController@deposits');
     Route::post('deposits/{id}', 'ReportController@depositsMark')->middleware('auth', 'role:admin');
+    Route::get('firsttime', 'ReportController@firsttime');
     Route::get('payments', 'ReportController@payments');
     Route::get('programs', 'ReportController@programs');
     Route::get('rates', 'ReportController@rates');

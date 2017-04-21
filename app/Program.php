@@ -16,7 +16,7 @@ class Program extends Model
 
     public function participants()
     {
-        return $this->hasMany(Thisyear_Camper::class, 'programid', 'id');
+        return $this->hasMany(Thisyear_Camper::class, 'programid', 'id')->orderBy("lastname")->orderBy("firstname");
     }
 
     public function rate()

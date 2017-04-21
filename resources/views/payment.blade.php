@@ -43,7 +43,7 @@
                                 <div class="input-group">
                                     <span class="input-group-addon">$</span>
                                     <input type="number" id="donation" class="form-control"
-                                           name="donation" data-number-to-fixed="2" min="0"
+                                           step="any" name="donation" data-number-to-fixed="2" min="0"
                                            placeholder="Enter Donation Here"
                                            value="{{ old('donation') }}"/>
                                 </div>
@@ -88,7 +88,7 @@
                                 <div class="input-group">
                                     <span class="input-group-addon">$</span>
                                     <input type="number" id="amount"
-                                           class="form-control" name="amount"
+                                           step="any" class="form-control" name="amount"
                                            data-number-to-fixed="2" min="0" placeholder="Enter Another Amount"
                                            value="{{ number_format(max(count($charges) > 0 ? $charges->sum('amount') : 0.0, 0.0), 2) }}"/>
                                 </div>

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Program extends Model
 {
@@ -15,7 +16,7 @@ class Program extends Model
 
     public function participants()
     {
-        return $this->hasMany(Thisyear_Camper::class, 'programid', 'id');
+        return $this->hasMany(Thisyear_Camper::class, 'programid', 'id')->orderBy("lastname")->orderBy("firstname");
     }
 
     public function rate()
@@ -30,7 +31,7 @@ class Program extends Model
 
     public function getEmailsAttribute()
     {
-        return DB::table('Thisyear_Camper')->where('programid', $this->id)->where('email', '!=', null)
+        return DB::table('thisyear_campers')->where('programid', $this->id)->where('email', '!=', null)
             ->implode('email', '; ');
     }
 }

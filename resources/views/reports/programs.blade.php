@@ -41,7 +41,7 @@
                                                 <td>
                                                     {{ $participant->lastname }}, {{ $participant->firstname }}
                                                     @if(isset($participant->email))
-                                                        <a href="mailto:{{ $camper->email }}"
+                                                        <a href="mailto:{{ $participant->email }}"
                                                            class="fa fa-envelope"></a>
                                                     @endif
                                                 </td>

@@ -109,6 +109,16 @@ class ReportController extends Controller
         return view('reports.states', ['years' => $years, 'churches' => $churches]);
     }
 
+    public function volunteers()
+    {
+        $years = \App\Byyear_Camper::where("year", ">", DB::raw("getcurrentyear()-4"))
+            ->join("yearattending__volunteer", "byyear_campers.yearattendingid", "yearattending__volunteer.yearattendingid")
+            ->join("volunteerpositions", "yearattending__volunteer.volunteerpositionid", "volunteerpositions.id")
+            ->orderBy("byyear_campers.year")->orderBy("byyear_campers.lastname")->orderBy("byyear_campers.firstname")->get()
+            ->groupBy("year");
+        return view('reports.volunteers', ['years' => $years, 'positions' => \App\Volunteerposition::orderBy("name")->get()]);
+    }
+
     public function workshops()
     {
         return view('reports.workshops', ['timeslots' => \App\Timeslot::with('workshops.choices.yearattending.camper')->get()]);

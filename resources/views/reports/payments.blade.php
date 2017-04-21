@@ -34,7 +34,7 @@
                             <div class="panel-group" id="{{ $thisyear }}-accordion" role="tablist"
                                  aria-multiselectable="true">
                                 <div class="panel-body">
-                                    <table class="table">
+                                    <table class="table table-responsive">
                                         <thead>
                                         <tr>
                                             <th>Family Name</th>

@@ -128,6 +128,7 @@
             <li><a href="{{ url('/reports/roommates') }}">Roommates</a></li>
             <li><a href="{{ url('/reports/rooms') }}">Rooms</a></li>
             <li><a href="{{ url('/reports/states') }}">States &amp; Churches</a></li>
+            <li><a href="{{ url('/reports/volunteers') }}">Volunteers</a></li>
             <li><a href="{{ url('/reports/workshops') }}">Workshop Attendees</a></li>
         </ul>
     </li>

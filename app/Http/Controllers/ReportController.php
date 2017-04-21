@@ -93,7 +93,8 @@ class ReportController extends Controller
 
     public function roommates()
     {
-        return view('reports.roommates', ['campers' => \App\Thisyear_Camper::where('roommate', '!=', '')->get()]);
+        return view('reports.roommates', ['campers' => \App\Thisyear_Camper::where('roommate', '!=', '')
+            ->orderBy('lastname')->orderBy('firstname')->get()]);
     }
 
     public function states()

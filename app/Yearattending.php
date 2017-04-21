@@ -16,7 +16,7 @@ class Yearattending extends Model
 
     public function room()
     {
-        return $this->hasOne(Room::class);
+        return $this->hasOne(Room::class, 'id', 'roomid');
     }
 
     public function scholarship()
@@ -24,7 +24,13 @@ class Yearattending extends Model
         return $this->belongsTo(Scholarship::class);
     }
 
-    public function workshops() {
+    public function volunteers()
+    {
+        return $this->hasMany(Yearattending__Volunteer::class, 'yearattendingid', 'id');
+    }
+
+    public function workshops()
+    {
         return $this->hasMany(Yearattending__Workshop::class, 'yearattendingid', 'id');
     }
 }

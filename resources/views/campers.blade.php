@@ -228,7 +228,7 @@
                                             <option value="0">Kindergarten or earlier</option>
                                             @for($i=1; $i<13; $i++)
                                                 <option value="{{ $i }}"
-                                                        {{ $i == old($camper->grade . '-grade', $camper->grade) ? ' selected' : '' }}>
+                                                        {{ $i == old($camper->id . '-grade', $camper->grade) ? ' selected' : '' }}>
                                                     @if($i == 1)
                                                         1st
                                                     @elseif($i == 2)

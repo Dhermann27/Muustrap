@@ -15,11 +15,11 @@ class Byyear_Charge extends Model
 
     public function camper()
     {
-        return $this->hasOne(Camper::class);
+        return $this->hasOne(Camper::class, 'id', 'camperid');
     }
 
     public function chargetype()
     {
-        return $this->hasOne(Chargetype::class);
+        return $this->hasOne(Chargetype::class, 'id', 'chargetypeid');
     }
 }

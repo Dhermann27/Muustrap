@@ -98,6 +98,20 @@ class PaymentController extends Controller
     public function write(Request $request, $id)
     {
         $camper = \App\Camper::where('familyid', $id)->first();
+        foreach ($request->all() as $key => $value) {
+            $matches = array();
+            if (preg_match('/(\d+)-(delete|chargetypeid|amount|timestamp|memo)/', $key, $matches)) {
+                $charge = \App\Charge::findOrFail($matches[1]);
+                if ($matches[2] == 'delete') {
+                    if ($value == 'on') {
+                        $charge->delete();
+                    }
+                } else {
+                    $charge->{$matches[2]} = $value;
+                    $charge->save();
+                }
+            }
+        }
         if ($request->input('amount') != '') {
             $charge = new \App\Charge();
             $charge->camperid = $camper->id;

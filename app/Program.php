@@ -13,6 +13,11 @@ class Program extends Model
         return $this->hasMany(Thisyear_Staff::class, 'programid', 'id');
     }
 
+    public function participants()
+    {
+        return $this->hasMany(Thisyear_Camper::class, 'programid', 'id');
+    }
+
     public function rate()
     {
         return $this->belongsTo(Rate::class);
@@ -21,5 +26,11 @@ class Program extends Model
     public function staffpositions()
     {
         return $this->hasMany(Staffposition::class, 'programid', 'id');
+    }
+
+    public function getEmailsAttribute()
+    {
+        return DB::table('Thisyear_Camper')->where('programid', $this->id)->where('email', '!=', null)
+            ->implode('email', '; ');
     }
 }

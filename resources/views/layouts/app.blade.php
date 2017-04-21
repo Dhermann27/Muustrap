@@ -51,7 +51,6 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{{ url('/MUUSA_2017_Brochure.pdf') }}">Web Brochure</a></li>
                 <li><a href="{{ url('/contact') }}">Contact Us</a></li>
-                <!-- Authentication Links -->
                 @if (Auth::guest())
                     <li><a href="{{ url('/login') }}">Login</a></li>
                     <li><a href="{{ url('/register') }}">Create Account</a></li>
@@ -91,6 +90,8 @@
                         title="Workshop Preferences"></button>
                 <button id="roomselection" class="btn btn-default fa fa-bed action" data-toggle="tooltip"
                         title="Assign Room"></button>
+                <button id="volunteer" class="btn btn-default fa fa-handshake-o action" data-toggle="tooltip"
+                        title="Volunteer Opportunities"></button>
                 <button id="confirm" class="btn btn-default fa fa-envelope action" data-toggle="tooltip"
                         title="View Confirmation Letter"></button>
                 <button id="create" class="btn btn-default fa fa-plus action" data-toggle="tooltip"
@@ -118,9 +119,15 @@
         </a>
         <ul class="dropdown-menu">
             <li><a href="{{ url('/reports/deposits') }}">Bank Deposits</a></li>
+            <li><a href="{{ url('/reports/firsttime') }}">First-time Campers</a></li>
+            <li><a href="{{ url('/reports/payments') }}">Ledger</a></li>
+            <li><a href="{{ url('/reports/programs') }}">Program Participants</a></li>
             <li><a href="{{ url('/reports/rates') }}">Rates</a></li>
             <li><a href="{{ url('/reports/campers') }}">Registered Campers</a></li>
+            <li><a href="{{ url('/reports/chart') }}">Registration Chart</a></li>
+            <li><a href="{{ url('/reports/roommates') }}">Roommates</a></li>
             <li><a href="{{ url('/reports/rooms') }}">Rooms</a></li>
+            <li><a href="{{ url('/reports/states') }}">States &amp; Churches</a></li>
             <li><a href="{{ url('/reports/workshops') }}">Workshop Attendees</a></li>
         </ul>
     </li>
@@ -178,7 +185,7 @@
         };
     });
     @role(['admin'])
-    $('table.editable td').on('click', function () {
+    $('tbody.editable td').on('click', function () {
         var tr = $(this).parent('tr');
         var index = tr.children().index($(this));
         var th = $(this).parents('table').find('thead th')[index];

@@ -14,6 +14,10 @@ class Thisyear_Camper extends Model
         return $this->hasOne(Church::class, 'id', 'churchid');
     }
 
+    public function family() {
+        return $this->hasOne(Thisyear_Family::class, 'id', 'familyid');
+    }
+
     public function foodoption()
     {
         return $this->hasOne(Foodoption::class, 'id', 'foodoptionid');
@@ -46,5 +50,23 @@ class Thisyear_Camper extends Model
             return $result;
         }
         return "";
+    }
+
+    public function getParentAttribute()
+    {
+        if ($this->age < 18) {
+            if (!empty($this->sponsor)) {
+                return $this->sponsor;
+            } else {
+                $parents = $this->family->campers->where('age', '>', 17)->sortBy('age');
+                if (count($parents) > 0) {
+                    return $parents->first()->firstname . " " . $parents->first()->lastname;
+                } else {
+                    return "Unsponsored Minor";
+                }
+            }
+        } else {
+            return "";
+        }
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -47,7 +46,8 @@ class Camper extends Model
         return $this->hasOne(Pronoun::class, 'id', 'pronounid');
     }
 
-    public function user() {
+    public function user()
+    {
         return $this->hasOne(User::class, 'email', 'email');
     }
 
@@ -67,12 +67,12 @@ class Camper extends Model
 
     public function getAgeAttribute()
     {
-        return Carbon::parse($this->birthdate)->age;
+        return DB::table('users')->value(DB::raw("getage('" . $this->birthdate . "',getcurrentyear())"));
     }
 
     public function getGradeAttribute()
     {
-        return $this->age + $this->gradeoffset;
+        return DB::table('users')->value(DB::raw("getage('" . $this->birthdate . "',getcurrentyear())+" . $this->gradeoffset)) ;
     }
 
     public function getLoggedInAttribute()

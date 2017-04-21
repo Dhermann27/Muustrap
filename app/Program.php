@@ -31,7 +31,7 @@ class Program extends Model
 
     public function getEmailsAttribute()
     {
-        return DB::table('Thisyear_Campers')->where('programid', $this->id)->where('email', '!=', null)
+        return DB::table('thisyear_campers')->where('programid', $this->id)->where('email', '!=', null)
             ->implode('email', '; ');
     }
 }

@@ -33,7 +33,7 @@ class ReportController extends Controller
             }
             $mergeddates[$date->theright][$date->theleft] = $date->total;
         }
-        return view('reports.chart', ['years' => \App\Year::where('year', '>', '2008')->pluck('year'), 'summaries' => $summaries,
+        return view('reports.chart', ['years' => \App\Year::where('year', '>', DB::raw("getcurrentyear()-6"))->pluck('year'), 'summaries' => $summaries,
             'dates' => $mergeddates]);
     }
 

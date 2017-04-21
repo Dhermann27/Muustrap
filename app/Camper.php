@@ -67,12 +67,20 @@ class Camper extends Model
 
     public function getAgeAttribute()
     {
-        return DB::table('users')->value(DB::raw("getage('" . $this->birthdate . "',getcurrentyear())"));
+        if ($this->birtdate != '') {
+            return DB::table('users')->value(DB::raw("getage('" . $this->birthdate . "',getcurrentyear())"));
+        } else {
+            return "";
+        }
     }
 
     public function getGradeAttribute()
     {
-        return DB::table('users')->value(DB::raw("getage('" . $this->birthdate . "',getcurrentyear())+" . $this->gradeoffset)) ;
+        if ($this->birthdate != '' && $this->gradeoffset != '') {
+            return DB::table('users')->value(DB::raw("getage('" . $this->birthdate . "',getcurrentyear())+" . $this->gradeoffset));
+        } else {
+            return "0";
+        }
     }
 
     public function getLoggedInAttribute()

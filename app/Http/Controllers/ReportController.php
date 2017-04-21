@@ -19,7 +19,7 @@ class ReportController extends Controller
         $mergeddates = array();
         $dates = DB::select(DB::raw("SELECT LEFT(DATE(ya.created_at),4) AS theleft, RIGHT(DATE(ya.created_at),5) AS theright, DATE(ya.created_at)AS thedate, 
             (SELECT COUNT(*) FROM yearsattending yap WHERE yap.year=MAX(ya.year) AND DATE(yap.created_at) <= thedate) AS total
-            FROM yearsattending ya WHERE ya.year>2014
+            FROM yearsattending ya WHERE ya.year>2008
             GROUP BY DATE(ya.created_at) ORDER BY RIGHT(DATE(ya.created_at), 5)"));
         $summaries = DB::select(DB::raw("SELECT ya.year, 
             COUNT(*) total, SUM(IF((SELECT COUNT(*) FROM yearsattending yap WHERE ya.year>yap.year AND c.id=yap.camperid)=0, 1, 0)) newcampers, 
@@ -33,7 +33,7 @@ class ReportController extends Controller
             }
             $mergeddates[$date->theright][$date->theleft] = $date->total;
         }
-        return view('reports.chart', ['years' => \App\Year::pluck('year'), 'summaries' => $summaries,
+        return view('reports.chart', ['years' => \App\Year::where('year', '>', '2008')->pluck('year'), 'summaries' => $summaries,
             'dates' => $mergeddates]);
     }
 

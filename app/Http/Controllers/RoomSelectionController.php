@@ -21,7 +21,7 @@ class RoomSelectionController extends Controller
             $ya->save();
         }
 
-        DB::statement('CALL generate_charges();');
+        DB::statement('CALL generate_charges(getcurrentyear());');
 
         return $this->index('Room selection complete! Your room is locked in for the ' . count($family) . ' eligible members of your household.');
     }
@@ -67,7 +67,7 @@ class RoomSelectionController extends Controller
             $ya->save();
         }
 
-        DB::statement('CALL generate_charges();');
+        DB::statement('CALL generate_charges(getcurrentyear());');
 
         return $this->read('f', $id, 'Awwwwwwww yeahhhhhhhhh');
     }

@@ -42,7 +42,7 @@ class ToolsController extends Controller
                 }
             }
         }
-        DB::statement('CALL generate_charges();');
+        DB::statement('CALL generate_charges(getcurrentyear());');
 
         return $this->positionIndex('Assigned. Suckers! No backsies.');
     }

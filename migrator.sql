@@ -609,7 +609,7 @@ DROP PROCEDURE IF EXISTS generate_charges;
 CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges(myyear YEAR)
   BEGIN
     SET SQL_MODE='';
-    TRUNCATE gencharges;
+    DELETE FROM gencharges WHERE year=myyear;
     INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
       SELECT
         bc.year,

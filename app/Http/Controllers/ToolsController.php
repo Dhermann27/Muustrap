@@ -50,9 +50,10 @@ class ToolsController extends Controller
     public function positionIndex($success = null)
     {
         $year = \App\Year::where('is_current', '1')->first()->year;
-        return view('tools.positions', ['programs' => \App\Program::where('start_year', '<=', $year)
-            ->where('end_year', '>=', $year)->orderBy('age_min', 'desc')->with('staffpositions.compensationlevel')
-            ->with('assignments')->orderBy('grade_min', 'desc')->get(),
+        return view('tools.positions', ['programs' => \App\Program::with(['staffpositions' => function($query) use ($year) {
+            $query->where('start_year', '<=', $year)->where('end_year', '>=', $year);
+        }])->with('assignments')
+            ->orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get(),
             'year' => $year, 'success' => $success]);
     }
 
@@ -83,9 +84,8 @@ class ToolsController extends Controller
     public function programIndex($success = null)
     {
         $year = \App\Year::where('is_current', '1')->first()->year;
-        return view('tools.programs', ['programs' => \App\Program::where('start_year', '<=', $year)
-            ->where('end_year', '>=', $year)->orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get(),
-            'year' => $year, 'success' => $success]);
+        return view('tools.programs', ['programs' => \App\Program::orderBy('age_min', 'desc')
+            ->orderBy('grade_min', 'desc')->get(), 'year' => $year, 'success' => $success]);
     }
 
     public function workshopStore(Request $request)

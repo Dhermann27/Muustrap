@@ -36,7 +36,7 @@
                                     </tr>
                                     </thead>
                                     <tbody class="editable">
-                                    @foreach($program->staffpositions->where('start_year', '<=', $year)->where('end_year', '>=', $year)->sortBy('name')->all() as $position)
+                                    @foreach($program->staffpositions()->get()->load('compensationlevel') as $position)
                                         <tr id="{{ $position->id }}">
                                             <td>{{ $position->name }}</td>
                                             <td>{{ $position->compensationlevel->name }}</td>

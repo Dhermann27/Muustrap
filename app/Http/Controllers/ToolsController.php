@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use GuzzleHttp;
 
 class ToolsController extends Controller
 {
@@ -50,11 +50,16 @@ class ToolsController extends Controller
     public function positionIndex($success = null)
     {
         $year = \App\Year::where('is_current', '1')->first()->year;
-        return view('tools.positions', ['programs' => \App\Program::with(['staffpositions' => function($query) use ($year) {
+        return view('tools.positions', ['programs' => \App\Program::with(['staffpositions' => function ($query) use ($year) {
             $query->where('start_year', '<=', $year)->where('end_year', '>=', $year);
         }])->with('assignments')
             ->orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get(),
             'year' => $year, 'success' => $success]);
+    }
+
+    public function nametags()
+    {
+        return view('tools.nametags', ['campers' => \App\Thisyear_Camper::all()]);
     }
 
 
@@ -64,7 +69,7 @@ class ToolsController extends Controller
             if ($request->input($program->id . "-blurb") != '<p><br></p>') {
                 $program->blurb = $request->input($program->id . "-blurb");
                 $program->letter = $request->input($program->id . "-letter");
-                if($request->input($program->id . "-link") != '') {
+                if ($request->input($program->id . "-link") != '') {
                     $program->link = $request->input($program->id . "-link");
                     $client = new GuzzleHttp\Client();
                     $res = $client->request('GET', env('GOOGLE_SCRIPT') . $program->link);

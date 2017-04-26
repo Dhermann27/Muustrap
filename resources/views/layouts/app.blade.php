@@ -141,6 +141,7 @@
             Tools <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
+            <li><a href="{{ url('/tools/nametags') }}">Nametags (all)</a></li>
             <li><a href="{{ url('/tools/programs') }}">Programs</a></li>
             <li><a href="{{ url('/tools/staffpositions') }}">Staff Assignments</a></li>
             <li><a href="{{ url('/tools/workshops') }}">Workshops</a></li>

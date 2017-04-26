@@ -58,6 +58,11 @@ Route::post('/roomselection', 'RoomSelectionController@store')->middleware('auth
 Route::get('/roomselection/{i}/{id}', 'RoomSelectionController@read')->middleware('auth', 'role:admin|council');
 Route::post('/roomselection/f/{id}', 'RoomSelectionController@write')->middleware('auth', 'role:admin');
 
+Route::get('/nametag', 'NametagController@index')->middleware('auth');
+Route::post('/nametag', 'NametagController@store')->middleware('auth');
+Route::get('/nametag/{i}/{id}', 'NametagController@read')->middleware('auth', 'role:admin|council');
+Route::post('/nametag/f/{id}', 'NametagController@write')->middleware('auth', 'role:admin');
+
 Route::group(['middleware' => 'auth', 'prefix' => 'data'], function () {
     Route::get('camperlist', 'DataController@campers');
     Route::get('churchlist', 'DataController@churches');

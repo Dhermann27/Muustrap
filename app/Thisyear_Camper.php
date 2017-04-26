@@ -54,15 +54,16 @@ class Thisyear_Camper extends Model
 
     public function getParentAttribute()
     {
+        $icon = "<i class='fa fa-male'></i> ";
         if ($this->age < 18) {
             if (!empty($this->sponsor)) {
                 return $this->sponsor;
             } else {
-                $parents = $this->family->campers->where('age', '>', 17)->sortBy('age');
+                $parents = $this->family->campers->where('age', '>', 17)->sortBy('birthdate');
                 if (count($parents) > 0) {
-                    return $parents->first()->firstname . " " . $parents->first()->lastname;
+                    return $icon . $parents->first()->firstname . " " . $parents->first()->lastname;
                 } else {
-                    return "Unsponsored Minor";
+                    return "<i>Unsponsored Minor</i>";
                 }
             }
         } else {

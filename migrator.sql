@@ -316,6 +316,7 @@ CREATE VIEW byyear_families AS
     f.statecd,
     f.zipcd,
     f.country,
+    f.is_ecomm,
     COUNT(ya.id) count,
     SUM(IF(ya.roomid!=0,1,0)) assigned
   FROM families f, campers c, yearsattending ya
@@ -335,6 +336,7 @@ CREATE VIEW byyear_campers AS
     f.statecd,
     f.zipcd,
     f.country,
+    f.is_ecomm,
     c.id,
     c.pronounid,
     o.name                                       pronounname,

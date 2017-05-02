@@ -108,6 +108,7 @@
             Administration <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
+            <li><a href="{{ url('/admin/distlist') }}">Distribution Lists</a></li>
             <li><a href="{{ url('/confirm/all') }}">Invoices (full)</a></li>
             <li><a href="{{ url('/admin/positions') }}">Staff Positions</a></li>
             <li><a href="{{ url('/admin/roles') }}">User Roles</a></li>

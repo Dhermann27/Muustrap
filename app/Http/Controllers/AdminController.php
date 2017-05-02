@@ -7,6 +7,63 @@ use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
+
+    public function distlistStore(Request $request)
+    {
+        $programs = \App\Program::orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get();
+        $columns = ['email'];
+
+        if ($request->input("family-name") == "on") {
+            array_push($columns, 'familyname');
+        }
+        if ($request->input("family-address") == "on") {
+            array_push($columns, 'address1', 'address2', 'city', 'statecd', 'zipcd', 'country');
+        }
+        if ($request->input("camper-firstname") == "on") {
+            array_push($columns, 'firstname');
+        }
+        if ($request->input("camper-lastname") == "on") {
+            array_push($columns, 'lastname');
+        }
+
+        $rows = \App\Byyear_Camper::select($columns);
+        if ($request->input("campers") == "reg") {
+            $rows->where('year', DB::raw('getcurrentyear()'));
+        } elseif ($request->input("campers") == "prereg") {
+            $rows->where('year', DB::raw('getcurrentyear()'));
+            $rows->where(DB::raw('isprereg(id, year) > 0'));
+        } elseif ($request->input("campers") == "threeyears") {
+            $rows->where('year', '>', DB::raw('getcurrentyear()-3'));
+            $rows->groupBy('email');
+        }
+
+        if ($request->input("email") == "1") {
+            $rows->where('email', '!=', '\'\'');
+        }
+        if ($request->input("ecomm") == "1") {
+            $rows->where('is_ecomm', '1');
+        }
+
+        $programids = array();
+        foreach ($programs as $program) {
+            if ($request->input("program-" . $program->id) == "on") {
+                array_push($programids, $program->id);
+            }
+        }
+        if (count($programids) > 0) {
+            $rows->whereIn(DB::raw('getprogramidbycamperid(id, year)'), $programids);
+        }
+
+        return view('admin.distlist', ['programs' => $programs, 'rows' => $rows->get(), 'columns' => $columns,
+            'request' => $request]);
+    }
+
+    public function distlistIndex()
+    {
+        return view('admin.distlist', ['programs' => \App\Program::orderBy('age_min', 'desc')
+            ->orderBy('grade_min', 'desc')->get()]);
+    }
+
     public function roleStore(Request $request)
     {
         $error = "";

@@ -58,6 +58,11 @@ Route::post('/roomselection', 'RoomSelectionController@store')->middleware('auth
 Route::get('/roomselection/{i}/{id}', 'RoomSelectionController@read')->middleware('auth', 'role:admin|council');
 Route::post('/roomselection/f/{id}', 'RoomSelectionController@write')->middleware('auth', 'role:admin');
 
+Route::get('/nametag', 'NametagController@index')->middleware('auth');
+Route::post('/nametag', 'NametagController@store')->middleware('auth');
+Route::get('/nametag/{i}/{id}', 'NametagController@read')->middleware('auth', 'role:admin|council');
+Route::post('/nametag/f/{id}', 'NametagController@write')->middleware('auth', 'role:admin');
+
 Route::group(['middleware' => 'auth', 'prefix' => 'data'], function () {
     Route::get('camperlist', 'DataController@campers');
     Route::get('churchlist', 'DataController@churches');
@@ -75,10 +80,12 @@ Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'reports'], fu
     Route::get('roommates', 'ReportController@roommates');
     Route::get('rooms', 'ReportController@rooms');
     Route::get('states', 'ReportController@states');
+    Route::get('volunteers', 'ReportController@volunteers');
     Route::get('workshops', 'ReportController@workshops');
 });
 
 Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'tools'], function () {
+    Route::get('nametags', 'ToolsController@nametags');
     Route::get('programs', 'ToolsController@programIndex');
     Route::post('programs', 'ToolsController@programStore');
     Route::get('staffpositions', 'ToolsController@positionIndex');
@@ -88,6 +95,8 @@ Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'tools'], func
 });
 
 Route::group(['middleware' => ['role:admin'], 'prefix' => 'admin'], function () {
+    Route::get('distlist', 'AdminController@distlistIndex');
+    Route::post('distlist', 'AdminController@distlistStore');
     Route::get('roles', 'AdminController@roleIndex');
     Route::post('roles', 'AdminController@roleStore');
     Route::get('positions', 'AdminController@positionIndex');

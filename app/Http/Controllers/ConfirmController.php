@@ -10,14 +10,14 @@ class ConfirmController extends Controller
     public function read($i, $id) {
         return view('confirm', ['year' => \App\Year::where('is_current', '1')->first(),
             'families' => \App\Thisyear_Family::where('id', $this->getFamilyId($i, $id))->get(),
-            'medical' => \App\Program::find(DB::raw('getprogramidbyname("Adult", getcurrentyear())'))->form]);
+            'medical' => \App\Program::find(DB::raw('getprogramidbyname("Adult")'))->form]);
     }
 
     public function index()
     {
         return view('confirm', ['year' => \App\Year::where('is_current', '1')->first(),
             'families' => \App\Thisyear_Family::where('id', \App\Camper::where('email', Auth::user()->email)->first()->familyid)->get(),
-            'medical' => \App\Program::find(DB::raw('getprogramidbyname("Adult", getcurrentyear())'))->form]);
+            'medical' => \App\Program::find(DB::raw('getprogramidbyname("Adult")'))->form]);
 
     }
 

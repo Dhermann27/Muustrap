@@ -50,10 +50,10 @@ class CamperController extends Controller
             $camper = $this->upsertCamper($request, $camper, $i++);
         }
 
-
-        DB::statement('CALL generate_charges();');
-
         $year = $this->getCurrentYear();
+
+        DB::statement('CALL generate_charges(' . $year . ');');
+
         Mail::to(Auth::user()->email)->send(new Confirm($year, $campers));
 
         return $this->index('You have successfully saved your changes and registered. Click <a href="/payment">here</a> to remit payment.', $year, $campers);
@@ -145,7 +145,7 @@ class CamperController extends Controller
             $camper = $this->upsertCamper($request, $camper, $i++);
         }
 
-        DB::statement('CALL generate_charges();');
+        DB::statement('CALL generate_charges(getcurrentyear());');
 
         return $this->read('f', $id, 'You did it! Need to make see their <a href="' . url('/payment/f/' . $id) . '">statement</a> next?');
     }

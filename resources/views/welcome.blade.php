@@ -64,17 +64,17 @@
                         <h3 class="panel-title">You're registered!</h3>
                     </div>
                     <div class="panel-body">
-                        <div class="col-md-4 text-center">
+                        <div class="col-md-3 text-center">
                             <p>&nbsp;</p>
                             <i class="fa fa-rocket fa-5x"></i><br/>
                             <h4>Workshop Preferences</h4>
-                            <p>Sign up from a wide variety of entertaining and intriguing seminars,
+                            <p>Sign up for a variety of entertaining and intriguing seminars,
                                 organized by our Adult Programming Committee.</p>
                             <a class="booty" href="{{ url('/workshopchoice') }}">Add Choices <i
                                         class="fa fa-arrow-right"></i>
                             </a>
                         </div>
-                        <div class="col-md-4 text-center">
+                        <div class="col-md-3 text-center">
                             <p>&nbsp;</p>
                             <i class="fa fa-bed fa-5x"></i><br/>
                             <h4>Room Selection</h4>
@@ -84,7 +84,17 @@
                                         class="fa fa-arrow-right"></i>
                             </a>
                         </div>
-                        <div class="col-md-4 text-center">
+                        <div class="col-md-3 text-center">
+                            <p>&nbsp;</p>
+                            <i class="fa fa-id-card fa-5x"></i><br/>
+                            <h4>Custom Nametags</h4>
+                            <p>Choose the best fields and format for the information that will be displayed on your name
+                                tag at camp.</p>
+                            <a class="booty" href="{{ url('/nametag') }}">Customize <i
+                                        class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div class="col-md-3 text-center">
                             <p>&nbsp;</p>
                             <i class="fa fa-envelope-o fa-5x"></i><br/>
                             <h4>Confirmation Letter</h4>
@@ -111,7 +121,8 @@
                     <img src="/images/volunteer.jpg" alt="Dana Cable, George Peck, et al">
                     <div id="carousel-caption4" class="carousel-caption">
                         <h3>Campers! We need you!</h3>
-                        <p>Please consider helping out by taking advantage of one of our many volunteer opportunities.<br />
+                        <p>Please consider helping out by taking advantage of one of our many volunteer
+                            opportunities.<br/>
                             Coordinators will contact you with expectations and details before camp begins.<br/><br/>
                             <a class="booty" href="{{ url('/volunteer') }}">Volunteer Now <i
                                         class="fa fa-arrow-right"></i>

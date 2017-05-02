@@ -70,18 +70,15 @@ class ReportController extends Controller
     public function programs()
     {
         $year = \App\Year::where('is_current', 1)->first()->year;
-        return view('reports.programs', ['programs' => \App\Program::where('start_year', '<=', $year)
-            ->where('end_year', '>=', $year)->where('name', '!=', 'Adult')->with('participants')
-            ->orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get()]);
+        return view('reports.programs', ['programs' => \App\Program::where('name', '!=', 'Adult')
+            ->with('participants')->orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get()]);
     }
 
     public function rates()
     {
-        $year = \App\Year::where('is_current', 1)->first()->year;
-        return view('reports.rates', ['buildings' => \App\Building::all(),
-            'programs' => \App\Program::where('start_year', '<=', $year)->where('end_year', '>=', $year)
-                ->orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get(),
-            'rates' => \App\Rate::where('start_year', '<=', $year)->where('end_year', '>=', $year)->get()]);
+        return view('reports.rates', ['years' => \App\Year::where('year', '>', 2014)->get(),
+            'buildings' => \App\Building::all(), 'rates' => \App\Rate::all(),
+            'programs' => \App\Program::orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get()]);
     }
 
     public function rooms()
@@ -108,6 +105,16 @@ class ReportController extends Controller
             ->where("churchid", "!=", "2084")->groupBy("year", "churchid")
             ->orderBy("total", "desc")->get();
         return view('reports.states', ['years' => $years, 'churches' => $churches]);
+    }
+
+    public function volunteers()
+    {
+        $years = \App\Byyear_Camper::where("year", ">", DB::raw("getcurrentyear()-4"))
+            ->join("yearattending__volunteer", "byyear_campers.yearattendingid", "yearattending__volunteer.yearattendingid")
+            ->join("volunteerpositions", "yearattending__volunteer.volunteerpositionid", "volunteerpositions.id")
+            ->orderBy("byyear_campers.year")->orderBy("byyear_campers.lastname")->orderBy("byyear_campers.firstname")->get()
+            ->groupBy("year");
+        return view('reports.volunteers', ['years' => $years, 'positions' => \App\Volunteerposition::orderBy("name")->get()]);
     }
 
     public function workshops()

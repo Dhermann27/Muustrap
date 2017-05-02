@@ -94,6 +94,8 @@
                         title="Volunteer Opportunities"></button>
                 <button id="confirm" class="btn btn-default fa fa-envelope action" data-toggle="tooltip"
                         title="View Confirmation Letter"></button>
+                <button id="nametag" class="btn btn-default fa fa-id-card action" data-toggle="tooltip"
+                        title="Customize Nametags"></button>
                 <button id="create" class="btn btn-default fa fa-plus action" data-toggle="tooltip"
                         title="Create New Family"></button>
             </div>
@@ -106,6 +108,7 @@
             Administration <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
+            <li><a href="{{ url('/admin/distlist') }}">Distribution Lists</a></li>
             <li><a href="{{ url('/confirm/all') }}">Invoices (full)</a></li>
             <li><a href="{{ url('/admin/positions') }}">Staff Positions</a></li>
             <li><a href="{{ url('/admin/roles') }}">User Roles</a></li>
@@ -121,6 +124,7 @@
             <li><a href="{{ url('/reports/deposits') }}">Bank Deposits</a></li>
             <li><a href="{{ url('/reports/firsttime') }}">First-time Campers</a></li>
             <li><a href="{{ url('/reports/payments') }}">Ledger</a></li>
+            <li><a href="{{ url('/reports/nametags') }}">Nametags (full)</a></li>
             <li><a href="{{ url('/reports/programs') }}">Program Participants</a></li>
             <li><a href="{{ url('/reports/rates') }}">Rates</a></li>
             <li><a href="{{ url('/reports/campers') }}">Registered Campers</a></li>
@@ -128,6 +132,7 @@
             <li><a href="{{ url('/reports/roommates') }}">Roommates</a></li>
             <li><a href="{{ url('/reports/rooms') }}">Rooms</a></li>
             <li><a href="{{ url('/reports/states') }}">States &amp; Churches</a></li>
+            <li><a href="{{ url('/reports/volunteers') }}">Volunteers</a></li>
             <li><a href="{{ url('/reports/workshops') }}">Workshop Attendees</a></li>
         </ul>
     </li>
@@ -137,6 +142,7 @@
             Tools <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
+            <li><a href="{{ url('/tools/nametags') }}">Nametags (all)</a></li>
             <li><a href="{{ url('/tools/programs') }}">Programs</a></li>
             <li><a href="{{ url('/tools/staffpositions') }}">Staff Assignments</a></li>
             <li><a href="{{ url('/tools/workshops') }}">Workshops</a></li>

@@ -55,8 +55,21 @@
             @endforeach
             <p>&nbsp;</p>
             <div class="form-group">
-                Please print this page and bring it with you to camp.
+                <div class="form-group">
+                    <div class="col-md-2 col-md-offset-8">
+                        <button type="submit" class="btn btn-primary">Submit Answers</button>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
 </div>
+
+@section('script')
+    <script>
+        $(".{{ $form->metadata->id }}").on("submit", function (e) {
+            console.log($(this).serializeArray());
+            return false;
+        });
+    </script>
+@endsection

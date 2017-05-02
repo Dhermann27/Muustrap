@@ -316,6 +316,7 @@ CREATE VIEW byyear_families AS
     f.statecd,
     f.zipcd,
     f.country,
+    f.is_ecomm,
     COUNT(ya.id) count,
     SUM(IF(ya.roomid!=0,1,0)) assigned
   FROM families f, campers c, yearsattending ya
@@ -335,6 +336,7 @@ CREATE VIEW byyear_campers AS
     f.statecd,
     f.zipcd,
     f.country,
+    f.is_ecomm,
     c.id,
     c.pronounid,
     o.name                                       pronounname,
@@ -606,11 +608,10 @@ CREATE FUNCTION getrate (mycamperid INT, myyear YEAR)
   END;
 
 DROP PROCEDURE IF EXISTS generate_charges;
-CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges()
+CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges(myyear YEAR)
   BEGIN
-    DECLARE thisyear INT DEFAULT getcurrentyear();
     SET SQL_MODE='';
-    TRUNCATE gencharges;
+    DELETE FROM gencharges WHERE year=myyear;
     INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
       SELECT
         bc.year,
@@ -619,7 +620,7 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges()
         1000,
         bc.buildingname
       FROM byyear_campers bc
-      WHERE bc.roomid!=0 AND bc.year=thisyear;
+      WHERE bc.roomid!=0 AND bc.year=myyear;
     INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
       SELECT
         bf.year,
@@ -631,13 +632,13 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges()
         1003,
         CONCAT("Deposit for ", bf.year)
       FROM byyear_families bf
-      WHERE bf.year=thisyear AND bf.assigned=0;
+      WHERE bf.year=myyear AND bf.assigned=0;
     INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
       SELECT bsp.year, bsp.camperid, -(bsp.compensation) amount, 1021, bsp.staffpositionname
       FROM byyear_staff bsp
-      WHERE bsp.year=thisyear;
+      WHERE bsp.year=myyear;
     INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
-      SELECT thisyear, ya.camperid, w.fee, 1002, w.name
+      SELECT myyear, ya.camperid, w.fee, 1002, w.name
       FROM workshops w, yearattending__workshop yw, yearsattending ya
       WHERE w.fee > 0 AND w.id=yw.workshopid AND yw.yearattendingid=ya.id;
   END;

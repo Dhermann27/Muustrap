@@ -347,6 +347,12 @@
             </div>
         </div>
     </div>
+    <a href="https://www.facebook.com/{{ Auth::guest() ? 'Muusa2013/' : 'groups/Muusans/'}}" id="fb"
+       class="social fa fa-facebook-official fa-3x"></a>
+    <a href="https://twitter.com/muusa1" id="twtr" class="social fa fa-twitter-square fa-3x"></a>
+    @if(Auth::check())
+        <a href="{{ url('/directory') }}" id="od" class="social fa fa-address-book fa-3x"></a>
+    @endif
 @endsection
 
 @section('script')

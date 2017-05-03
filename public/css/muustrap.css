@@ -228,6 +228,26 @@ input::-webkit-inner-spin-button {
     display: inline-block;
 }
 
+.social {
+    position: fixed;
+    right: 0;
+    z-index: auto;
+}
+
+#fb {
+    bottom: 50px;
+}
+#twtr {
+    bottom: 100px;
+}
+#od {
+    bottom: 150px;
+}
+
+tr.family {
+    font-size: 1.2em;
+}
+
 div.alert-info {
     margin-bottom: 0;
 }

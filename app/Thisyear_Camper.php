@@ -57,7 +57,7 @@ class Thisyear_Camper extends Model
         $icon = "<i class='fa fa-male'></i> ";
         if ($this->age < 18) {
             if (!empty($this->sponsor)) {
-                return "<i class='fa fa-id-badge'></i>" . $this->sponsor;
+                return "<i class='fa fa-id-badge'></i> " . $this->sponsor;
             } else {
                 $parents = $this->family->campers->where('age', '>', 17)->sortBy('birthdate');
                 if (count($parents) > 0) {

@@ -124,6 +124,7 @@
             <li><a href="{{ url('/reports/deposits') }}">Bank Deposits</a></li>
             <li><a href="{{ url('/reports/firsttime') }}">First-time Campers</a></li>
             <li><a href="{{ url('/reports/payments') }}">Ledger</a></li>
+            <li><a href="{{ url('/reports/outstanding') }}">Outstanding Balances</a></li>
             <li><a href="{{ url('/reports/programs') }}">Program Participants</a></li>
             <li><a href="{{ url('/reports/rates') }}">Rates</a></li>
             <li><a href="{{ url('/reports/campers') }}">Registered Campers</a></li>

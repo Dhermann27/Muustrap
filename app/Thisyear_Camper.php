@@ -64,8 +64,8 @@ class Thisyear_Camper extends Model
                 if (count($parents) == 1) {
                     return $icon . $parents->first()->firstname . " " . $parents->first()->lastname;
                 } elseif (count($parents) > 1) {
-                    $first = $parents->first();
-                    $second = $parents->get(0);
+                    $first = $parents->shift();
+                    $second = $parents->shift();
                     if ($first->lastname == $second->lastname) {
                         return $icon . $first->firstname . " & " . $second->firstname . " " . $first->lastname;
                     } else {

@@ -14,7 +14,8 @@ class Thisyear_Camper extends Model
         return $this->hasOne(Church::class, 'id', 'churchid');
     }
 
-    public function family() {
+    public function family()
+    {
         return $this->hasOne(Thisyear_Family::class, 'id', 'familyid');
     }
 
@@ -60,8 +61,16 @@ class Thisyear_Camper extends Model
                 return "<i class='fa fa-id-badge'></i> " . $this->sponsor;
             } else {
                 $parents = $this->family->campers->where('age', '>', 17)->sortBy('birthdate');
-                if (count($parents) > 0) {
+                if (count($parents) == 1) {
                     return $icon . $parents->first()->firstname . " " . $parents->first()->lastname;
+                } elseif (count($parents) > 1) {
+                    $first = $parents->first();
+                    $second = $parents->get(0);
+                    if ($first->lastname == $second->lastname) {
+                        return $icon . $first->firstname . " & " . $second->firstname . " " . $first->lastname;
+                    } else {
+                        return $icon . $first->firstname . " " . $first->lastname . " & " . $second->firstname . " " . $second->lastname;
+                    }
                 } else {
                     return "<i>Unsponsored Minor</i>";
                 }

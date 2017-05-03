@@ -52,7 +52,7 @@ class CamperController extends Controller
 
         $year = $this->getCurrentYear();
 
-        DB::statement('CALL generate_charges(' . $year . ');');
+        DB::statement('CALL generate_charges(' . $year->year . ');');
 
         Mail::to(Auth::user()->email)->send(new Confirm($year, $campers));
 

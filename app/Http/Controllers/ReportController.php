@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
@@ -58,6 +59,31 @@ class ReportController extends Controller
         $years = ['1' => \App\Thisyear_Family::where(DB::raw("(SELECT COUNT(*) FROM byyear_families bf WHERE thisyear_families.id=bf.id AND bf.year!=getcurrentyear())"), 0)
             ->with('campers')->orderBy('name')->get()];
         return view('reports.campers', ['title' => 'First-time Campers', 'years' => $years]);
+    }
+
+    public function outstandingMark(Request $request, $id)
+    {
+        $charge = new \App\Charge();
+        $charge->camperid = $id;
+        $charge->amount = $request->input('amount');
+        $charge->memo = $request->input('memo');
+        $charge->chargetypeid = $request->input('chargetypeid');
+        $charge->timestamp = Carbon::now()->toDateString();
+        $charge->year = DB::raw('getcurrentyear()');
+        $charge->save();
+
+        return $this->outstanding('This payment was totally ignored, but the green message still seems congratulatory.');
+    }
+
+    public function outstanding($success = null)
+    {
+        $chargetypes = \App\Chargetype::where('is_shown', '1')->orderBy('name')->get();
+        return view('reports.outstanding', ['chargetypes' => $chargetypes,
+            'readonly' => \Entrust::can('read') && !\Entrust::can('write'),
+            'charges' => \App\Thisyear_Charge::select(DB::raw('MAX(`familyid`) AS familyid'), DB::raw('MAX(`camperid`) AS camperid'), DB::raw('SUM(`amount`) as amount'))
+                ->groupBy('familyid')->having(DB::raw('SUM(`amount`)'), '!=', '0.0')
+                ->join('families', 'families.id', 'thisyear_charges.familyid')->orderBy('families.name')->get()
+        ]);
     }
 
     public function payments()

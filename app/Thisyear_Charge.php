@@ -10,7 +10,7 @@ class Thisyear_Charge extends Model
 
     public function family()
     {
-        return $this->hasOne(Family::class);
+        return $this->hasOne(Family::class, 'id', 'familyid');
     }
 
     public function camper()
@@ -20,6 +20,6 @@ class Thisyear_Charge extends Model
 
     public function chargetype()
     {
-        return $this->hasOne(Chargetype::class);
+        return $this->hasOne(Chargetype::class, 'id', 'chargetypeid');
     }
 }

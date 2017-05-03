@@ -59,8 +59,8 @@ class ToolsController extends Controller
 
     public function nametags()
     {
-        return view('tools.nametags', ['campers' => \App\Thisyear_Camper::orderBy('familyid')
-            ->orderBy('birthdate')->get()]);
+        return view('tools.nametags', ['campers' => \App\Thisyear_Camper::join('families', 'families.id', 'thisyear_campers.familyid')
+            ->orderBy('families.name')->orderBy('thisyear_campers.birthdate')->get()]);
     }
 
 

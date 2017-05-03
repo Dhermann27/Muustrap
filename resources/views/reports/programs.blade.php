@@ -48,7 +48,7 @@
                                                 <td>{{ $participant->age }}</td>
                                                 @if($program->participants->first()->age<18)
                                                     <td>{{ max($participant->grade, 0) }}</td>
-                                                    <td>{{ $participant->parent }}</td>
+                                                    <td>{!! $participant->parent !!}</td>
                                                 @endif
                                                 <td>
                                                     @include('admin.controls', ['id' => 'c/' . $participant->id])

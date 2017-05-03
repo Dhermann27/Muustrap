@@ -61,7 +61,7 @@ class AdminController extends Controller
     public function distlistIndex()
     {
         return view('admin.distlist', ['programs' => \App\Program::orderBy('age_min', 'desc')
-            ->orderBy('grade_min', 'desc')->get()]);
+            ->orderBy('grade_min', 'desc')->get(), 'request' => new Request()]);
     }
 
     public function roleStore(Request $request)

@@ -36,7 +36,7 @@
                                     </tr>
                                     </thead>
                                     <tbody class="editable">
-                                    @foreach($program->staffpositions()->get()->load('compensationlevel') as $position)
+                                    @foreach($program->staffpositions()->orderBy('name')->get()->load('compensationlevel') as $position)
                                         <tr id="{{ $position->id }}">
                                             <td>{{ $position->name }}</td>
                                             <td>{{ $position->compensationlevel->name }}</td>

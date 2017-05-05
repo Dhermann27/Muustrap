@@ -124,9 +124,8 @@ class AdminController extends Controller
     public function positionIndex($success = null)
     {
         $year = \App\Year::where('is_current', '1')->first()->year;
-        $programs = \App\Program::with(['staffpositions' => function ($query) use ($year) {
-            $query->where('start_year', '<=', $year)->where('end_year', '>=', $year);
-        }])->orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get();
+        $programs = \App\Program::with('staffpositions')
+            ->orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get();
         return view('admin.positions', ['programs' => $programs, 'year' => $year,
             'levels' => \App\Compensationlevel::all(), 'success' => $success]);
     }

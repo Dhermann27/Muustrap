@@ -148,9 +148,7 @@
         commit: true,
 
             onAuthorize: function (data, actions) {
-                $.getJSON("http://api.sandbox.paypal.com/v1/payments/payment/" + data.paymentID, function(json) {
-                    console.log( "JSON Data: " + json );
-                });
+                $("#txn").val(data.paymentID);
             return actions.payment.execute().then(function(data) {
                 $("#payment").submit();
             });

@@ -56,9 +56,7 @@
             <p>&nbsp;</p>
             <div class="form-group">
                 <div class="form-group">
-                    <div class="col-md-2 col-md-offset-8">
-                        <button type="submit" class="btn btn-primary">Submit Answers</button>
-                    </div>
+                    Please print this page and bring it with you to camp.
                 </div>
             </div>
         </form>

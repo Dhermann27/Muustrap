@@ -97,7 +97,13 @@
                                 <td>{{ $signup->workshop->name }}</td>
                                 <td>{{ $signup->workshop->timeslot->name }}</td>
                                 <td>{{ $signup->workshop->display_days }}</td>
-                                <td>{{ $signup->workshop->room->room_number }}</td>
+                                <td>
+                                    @if($signup->is_enrolled = '1')
+                                        {{ $signup->workshop->room->room_number }}
+                                    @else
+                                        <i>Waiting List</i>
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     @endforeach
@@ -135,32 +141,32 @@
                 elements[index].checked = $(this).val() === elements[index].value;
             });
         });
-//        $(".postToGoogle").on('click', function (e) {
-//            e.preventDefault();
-//            $(this).prop('disabled', true).text('Submitting...');
-//            var myform = $(this).parents("form");
-//            $.ajax({
-//                url: myform.attr('action').slice(0, -9) + "/formResponse",
-//                beforeSend: function (xhr) {
-//                    xhr.setRequestHeader('Access-Control-Allow-Origin', '');
-//                    xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT');
-//                },
-//                data: myform.serializeArray(),
-//                dataType: "html",
-//                statusCode: {
-//                    0: function () {
-//                        $(this).removeClass('btn-default').addClass('btn-success').val('Submitted!');
-//                    },
-//                    200: function () {
-//                        $(this).removeClass('btn-default').addClass('btn-success').val('Submitted!');
-//                    },
-//                    405: function() {
-//                        $(this).removeClass('btn-default').addClass('btn-warning').val('Form Error');
-//                    }
-//                }
-//            });
-//            return false;
-//        });
+        //        $(".postToGoogle").on('click', function (e) {
+        //            e.preventDefault();
+        //            $(this).prop('disabled', true).text('Submitting...');
+        //            var myform = $(this).parents("form");
+        //            $.ajax({
+        //                url: myform.attr('action').slice(0, -9) + "/formResponse",
+        //                beforeSend: function (xhr) {
+        //                    xhr.setRequestHeader('Access-Control-Allow-Origin', '');
+        //                    xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT');
+        //                },
+        //                data: myform.serializeArray(),
+        //                dataType: "html",
+        //                statusCode: {
+        //                    0: function () {
+        //                        $(this).removeClass('btn-default').addClass('btn-success').val('Submitted!');
+        //                    },
+        //                    200: function () {
+        //                        $(this).removeClass('btn-default').addClass('btn-success').val('Submitted!');
+        //                    },
+        //                    405: function() {
+        //                        $(this).removeClass('btn-default').addClass('btn-warning').val('Form Error');
+        //                    }
+        //                }
+        //            });
+        //            return false;
+        //        });
     </script>
 @endsection
 

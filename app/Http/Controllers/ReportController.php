@@ -145,6 +145,7 @@ class ReportController extends Controller
 
     public function workshops()
     {
+        DB::raw('CALL enroll_workshops()');
         return view('reports.workshops', ['timeslots' => \App\Timeslot::with('workshops.choices.yearattending.camper')->get()]);
 
     }

@@ -30,7 +30,7 @@ class ToolsController extends Controller
                 $ya = \App\Thisyear_Camper::find($request->input($program->id . "-camperid"));
                 if (!empty($ya)) {
                     $assignment = new \App\Yearattending__Staff();
-                    $assignment->yearattendingid = $ya->id;
+                    $assignment->yearattendingid = $ya->yearattendingid;
                     $assignment->staffpositionid = $request->input($program->id . "-staffpositionid");
                     $assignment->is_eaf_paid = 1;
                     $assignment->save();

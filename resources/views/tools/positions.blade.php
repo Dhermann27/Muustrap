@@ -61,7 +61,7 @@
                                     </tbody>
                                     <tfoot>
                                     <tr>
-                                        <td colspan="3" align="right"><strong>Total Compensation:</strong>
+                                        <td colspan="5" align="right"><strong>Total Compensation:</strong>
                                             ${{ money_format('%.2n', $program->assignments->sum('compensation')) }}</td>
                                     </tr>
                                     </tfoot>

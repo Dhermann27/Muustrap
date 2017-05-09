@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class Program extends Model
 {
-    protected $fillable = ['link', 'blurb', 'form', 'letter'];
+    protected $fillable = ['link', 'blurb', 'form', 'letter', 'calendar'];
 
     public function assignments()
     {

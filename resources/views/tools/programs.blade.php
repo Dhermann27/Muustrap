@@ -75,6 +75,25 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group{{ $errors->has($program->id . '-calendar') ? ' has-error' : '' }}">
+                                    <label for="{{ $program->id }}-calendar" class="col-md-4 control-label">
+                                        Program Event Calendar
+                                    </label>
+
+                                    <div class="col-md-6">
+                                        <input type="text" id="{{ $program->id }}-calendar"
+                                               class="form-control" name="{{ $program->id }}-calendar"
+                                               placeholder="abcd1234@group.calendar.google.com"
+                                               value="{{ old($program->id . '-calendar', $program->calendar) }}">
+
+                                        @if ($errors->has($program->id . '-calendar'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first($program->id . '-calendar') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+
                                 @if($program->id != '1008')
                                     <div class="form-group{{ $errors->has($program->id . '-letter') ? ' has-error' : '' }}">
                                         <label for="{{ $program->id }}-letter" class="col-md-4 control-label">Text of

@@ -70,6 +70,7 @@ class ToolsController extends Controller
             if ($request->input($program->id . "-blurb") != '<p><br></p>') {
                 $program->blurb = $request->input($program->id . "-blurb");
                 $program->letter = $request->input($program->id . "-letter");
+                $program->calendar = $request->input($program->id . "-calendar");
                 if ($request->input($program->id . "-link") != '') {
                     $program->link = $request->input($program->id . "-link");
                     $client = new GuzzleHttp\Client();

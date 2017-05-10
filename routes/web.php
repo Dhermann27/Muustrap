@@ -63,6 +63,7 @@ Route::post('/nametag', 'NametagController@store')->middleware('auth');
 Route::get('/nametag/{i}/{id}', 'NametagController@read')->middleware('auth', 'role:admin|council');
 Route::post('/nametag/f/{id}', 'NametagController@write')->middleware('auth', 'role:admin');
 
+Route::get('/calendar', 'CalendarController@index')->middleware('auth');
 Route::get('/directory', 'DirectoryController@index')->middleware('auth');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'data'], function () {

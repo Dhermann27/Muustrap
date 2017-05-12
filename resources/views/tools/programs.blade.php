@@ -127,7 +127,7 @@
                                     as possible.
                                 </li>
                                 <li>When finished, progress is automatically saved. Copy and paste the URL of the form
-                                    (it should end in "/edit") into this page. Your form will automtically be imported
+                                    (it should end in "/edit") into this page. Your form will automatically be imported
                                     to each relevant camper's confirmation letter in your program.
                                 </li>
                             </ul>

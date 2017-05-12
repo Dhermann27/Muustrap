@@ -352,6 +352,9 @@
     <a href="https://twitter.com/muusa1" id="twtr" class="social fa fa-twitter-square fa-3x"></a>
     @if(Auth::check())
         <a href="{{ url('/directory') }}" id="od" class="social fa fa-address-book fa-3x"></a>
+        @if($registered == '1')
+            <a href="{{ url('/calendar') }}" id="cal" class="social fa fa-calendar fa-3x"></a>
+        @endif
     @endif
 @endsection
 

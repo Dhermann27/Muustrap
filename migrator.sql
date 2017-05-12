@@ -657,6 +657,38 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE update_workshops()
           AND w.led_by LIKE CONCAT('%', tc.firstname, ' ', tc.lastname, '%');
   END;
 
+DROP PROCEDURE IF EXISTS enroll_workshops;
+CREATE DEFINER =`root`@`localhost` PROCEDURE enroll_workshops()
+  BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE myid, mycapacity INT;
+    DECLARE cur CURSOR FOR SELECT id, capacity-1 FROM workshops;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done=TRUE;
+
+    UPDATE yearattending__workshop SET is_enrolled=0;
+
+    OPEN cur;
+
+    read_loop: LOOP
+      FETCH cur INTO myid, mycapacity;
+      IF done THEN
+        LEAVE read_loop;
+      END IF;
+      UPDATE yearattending__workshop yw
+      SET yw.is_enrolled=1
+      WHERE yw.workshopid=myid AND (yw.is_leader=1 OR
+            yw.created_at<=(SELECT MAX(created_at) FROM
+              (SELECT ywp.created_at
+               FROM yearattending__workshop ywp
+               WHERE ywp.workshopid=myid
+               ORDER BY created_at
+               LIMIT mycapacity)
+                AS t1));
+      END LOOP;
+
+    CLOSE cur;
+  END;
+
 DROP FUNCTION IF EXISTS isprereg;
 CREATE FUNCTION isprereg (id INT, myyear YEAR)
   RETURNS FLOAT DETERMINISTIC

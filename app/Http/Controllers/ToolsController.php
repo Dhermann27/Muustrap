@@ -30,7 +30,7 @@ class ToolsController extends Controller
                 $ya = \App\Thisyear_Camper::find($request->input($program->id . "-camperid"));
                 if (!empty($ya)) {
                     $assignment = new \App\Yearattending__Staff();
-                    $assignment->yearattendingid = $ya->id;
+                    $assignment->yearattendingid = $ya->yearattendingid;
                     $assignment->staffpositionid = $request->input($program->id . "-staffpositionid");
                     $assignment->is_eaf_paid = 1;
                     $assignment->save();
@@ -70,6 +70,7 @@ class ToolsController extends Controller
             if ($request->input($program->id . "-blurb") != '<p><br></p>') {
                 $program->blurb = $request->input($program->id . "-blurb");
                 $program->letter = $request->input($program->id . "-letter");
+                $program->calendar = $request->input($program->id . "-calendar");
                 if ($request->input($program->id . "-link") != '') {
                     $program->link = $request->input($program->id . "-link");
                     $client = new GuzzleHttp\Client();

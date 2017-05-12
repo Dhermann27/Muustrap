@@ -37,8 +37,8 @@
                                 <tbody>
                                 @foreach($workshop->choices()->orderBy('is_leader', 'desc')->orderBy('created_at')->get() as $choice)
                                     <tr
-                                            @if($loop->index == $workshop->capacity)
-                                            style="border-top: 2px dashed indianred;"
+                                            @if($choice->is_enrolled == '0')
+                                            style="background-color: indianred;"
                                             @endif
                                     >
                                         <td>{{ $choice->yearattending->camper->lastname }}, {{ $choice->yearattending->camper->firstname }}</td>

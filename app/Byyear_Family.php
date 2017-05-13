@@ -10,6 +10,10 @@ class Byyear_Family extends Model
 
     public function campers()
     {
+        return $this->hasMany(Byyear_Camper::class, 'familyid', 'id');
+    }
+
+    public function allcampers() {
         return $this->hasMany(Camper::class, 'familyid', 'id');
     }
 

@@ -48,7 +48,7 @@
                         <tr>
                             <td colspan="3">
                                 <table class="table table-responsive table-condensed">
-                                    @foreach($family->campers()->orderBy('birthdate')->get() as $camper)
+                                    @foreach($family->allcampers()->orderBy('birthdate')->get() as $camper)
                                         <tr>
                                             <td width="33%">{{ $camper->lastname }}, {{ $camper->firstname }}
                                                 @if(isset($camper->email))

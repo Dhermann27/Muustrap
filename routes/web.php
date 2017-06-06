@@ -65,6 +65,7 @@ Route::post('/nametag/f/{id}', 'NametagController@write')->middleware('auth', 'r
 
 Route::get('/calendar', 'CalendarController@index')->middleware('auth');
 Route::get('/directory', 'DirectoryController@index')->middleware('auth');
+Route::get('/av', 'WelcomeController@time')->middleware('auth');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'data'], function () {
     Route::get('camperlist', 'DataController@campers');
@@ -106,6 +107,10 @@ Route::group(['middleware' => ['role:admin'], 'prefix' => 'admin'], function () 
     Route::post('roles', 'AdminController@roleStore');
     Route::get('positions', 'AdminController@positionIndex');
     Route::post('positions', 'AdminController@positionStore');
+});
+
+Route::get('/themuse', function() {
+    return redirect('/muses/20170601.pdf');
 });
 
 Route::get('/cost', function () {

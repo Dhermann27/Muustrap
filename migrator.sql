@@ -598,7 +598,7 @@ CREATE FUNCTION getrate (mycamperid INT, myyear YEAR)
       RETURN days * 58;
     -- DAH Meyer/Burt Staff Housing Rate $58.00/night
     ELSE
-      RETURN (SELECT IF(age>5, IFNULL(hr.rate*days,0), 0)
+      RETURN (SELECT IFNULL(hr.rate*days,0)
               FROM yearsattending ya, rooms r, rates hr
               WHERE ya.camperid=mycamperid AND ya.year=myyear AND r.id=ya.roomid AND
                     r.buildingid=hr.buildingid AND hr.programid=programid AND

@@ -5,4 +5,6 @@
     <a href="{{ url('/workshopchoice/' . $id) }}" class="fa fa-rocket"></a>
     <a href="{{ url('/roomselection/' . $id) }}" class="fa fa-bed"></a>
     <a href="{{ url('/volunteer/' . $id) }}" class="fa fa-handshake-o"></a>
+    <a href="{{ url('/confirm/' . $id) }}" class="fa fa-envelope"></a>
+    <a href="{{ url('/nametag/' . $id) }}" class="fa fa-id-card"></a>
 </span>

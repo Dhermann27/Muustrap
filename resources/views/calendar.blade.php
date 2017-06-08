@@ -58,7 +58,7 @@
             defaultDate: '{{  $year->start_date }}',
             @if(!empty($camper->program->calendar))
             events: {
-                googleCalendarId: '{{ $camper->program->calendar }}',
+                googleCalendarId: '{{ $camper->each_calendar }}',
                 color: 'indianred'
             },
             @endif

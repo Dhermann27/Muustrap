@@ -2,12 +2,14 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class Thisyear_Camper extends Model
 {
     protected $table = "thisyear_campers";
+    protected $dates = ['birthdate'];
 
     public function church()
     {
@@ -77,6 +79,22 @@ class Thisyear_Camper extends Model
             }
         } else {
             return "";
+        }
+    }
+
+    public function getEachCalendarAttribute() {
+        $cal = explode(';', $this->program->calendar);
+        if(count($cal) == 3) {
+            $age = $this->birthdate->diffInYears(Carbon::now());
+            if($age < 8) {
+                return $cal[0];
+            } elseif ($age > 9) {
+                return $cal[2];
+            } else {
+                return $cal[1];
+            }
+        } else {
+            return $cal[0];
         }
     }
 }

@@ -96,6 +96,8 @@
                         title="View Confirmation Letter"></button>
                 <button id="nametag" class="btn btn-default fa fa-id-card action" data-toggle="tooltip"
                         title="Customize Nametags"></button>
+                <button id="calendar" class="btn btn-default fa fa-calendar action" data-toggle="tooltip"
+                        title="Calendar"></button>
                 <button id="create" class="btn btn-default fa fa-plus action" data-toggle="tooltip"
                         title="Create New Family"></button>
             </div>

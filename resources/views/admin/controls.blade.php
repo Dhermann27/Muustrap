@@ -7,4 +7,5 @@
     <a href="{{ url('/volunteer/' . $id) }}" class="fa fa-handshake-o"></a>
     <a href="{{ url('/confirm/' . $id) }}" class="fa fa-envelope"></a>
     <a href="{{ url('/nametag/' . $id) }}" class="fa fa-id-card"></a>
+    <a href="{{ url('/calendar/' . $id) }}" class="fa fa-calendar"></a>
 </span>

@@ -64,6 +64,7 @@ Route::get('/nametag/{i}/{id}', 'NametagController@read')->middleware('auth', 'r
 Route::post('/nametag/f/{id}', 'NametagController@write')->middleware('auth', 'role:admin');
 
 Route::get('/calendar', 'CalendarController@index')->middleware('auth');
+Route::get('/calendar/c/{id}', 'CalendarController@read')->middleware('auth', 'role:admin|council');
 Route::get('/directory', 'DirectoryController@index')->middleware('auth');
 Route::get('/av', 'WelcomeController@time')->middleware('auth');
 

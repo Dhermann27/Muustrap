@@ -47,15 +47,15 @@
         @foreach($campers as $camper)
         $('#calendar-{{ $camper->id }}').fullCalendar({
             header: {
-                left: '', center: '', right: ''
+                left: '', center: $(window).width() < 768 ? 'prev,today,next' : '', right: ''
             },
             googleCalendarApiKey: '{{ env('GOOGLE_API_KEY') }}',
             theme: true,
             showNonCurrentDates: false,
             allDaySlot: false,
             minTime: '06:00:00',
-            defaultView: 'agendaWeek',
-            defaultDate: '{{  $year->start_date }}',
+            defaultView: $(window).width() < 768 ? 'agendaDay' : 'agendaWeek',
+            defaultDate: $(window).width() < 768 ? '{{ $year->next_day }}' : '{{  $year->start_date }}',
             @if(!empty($camper->program->calendar))
             events: {
                 googleCalendarId: '{{ $camper->each_calendar }}',

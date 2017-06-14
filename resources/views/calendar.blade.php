@@ -59,7 +59,7 @@
             @if(!empty($camper->program->calendar))
             events: {
                 googleCalendarId: '{{ $camper->each_calendar }}',
-                color: '#5cb85c'
+                color: '#b3dc6c'
             },
             @endif
             eventSources: [

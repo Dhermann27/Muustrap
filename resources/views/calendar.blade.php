@@ -60,8 +60,8 @@
             events: {
                 googleCalendarId: '{{ $camper->each_calendar }}',
                 backgroundColor: '#b3dc6c',
-                borderColor: 'black',
-                textColor: 'black'
+                borderColor: '#93c00b',
+                textColor: '#1d1d1d'
             },
             @endif
             eventSources: [
@@ -76,7 +76,10 @@
                         },
                         @endforeach
                         @endforeach
-                    ]
+                    ],
+                    backgroundColor: '#337ab7',
+                    borderColor: '#373ad7',
+                    textColor: '#1d1d1d'
                 }
             ]
 

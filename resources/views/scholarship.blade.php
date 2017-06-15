@@ -8,6 +8,9 @@
         </div>
         <div class="row">
             <div class="col-md-10">
+                <div class="alert alert-warning">
+                    Unfortunately, all 2017 scholarship funds have been awarded. Please check back in 2018.
+                </div>
                 <p>In order to help with camp costs, Scholarships are awarded on a need basis. Applicants fill out YMCA
                     provided forms and the YMCA reviews your application to confirm your financial needs. Based on this
                     assessment the YMCA and MUUSA together provide the grant. Both MUUSA and the YMCA are committed to

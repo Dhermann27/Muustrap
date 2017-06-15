@@ -78,11 +78,13 @@
                             <p>&nbsp;</p>
                             <i class="fa fa-bed fa-5x"></i><br/>
                             <h4>Room Selection</h4>
-                            <p>Find the right place for you and your family to stay, and who might be your
-                                neighbors.</p>
-                            <a class="booty" href="{{ url('/roomselection') }}">Choose Room <i
-                                        class="fa fa-arrow-right"></i>
-                            </a>
+                            {{--<p>Find the right place for you and your family to stay, and who might be your--}}
+                            {{--neighbors.</p>--}}
+                            {{--<a class="booty" href="{{ url('/roomselection') }}">Choose Room <i--}}
+                            {{--class="fa fa-arrow-right"></i>--}}
+                            {{--</a>--}}
+                            <p>This close to camp, all housing will be assigned by the Registrar. Please use the Contact
+                                Us form.</p>
                         </div>
                         <div class="col-md-3 text-center">
                             <p>&nbsp;</p>

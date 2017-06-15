@@ -53,8 +53,8 @@ Route::post('/volunteer', 'VolunteerController@store')->middleware('auth');
 Route::get('/volunteer/{i}/{id}', 'VolunteerController@read')->middleware('auth', 'role:admin|council');
 Route::post('/volunteer/f/{id}', 'VolunteerController@write')->middleware('auth', 'role:admin');
 
-Route::get('/roomselection', 'RoomSelectionController@index')->middleware('auth');
-Route::post('/roomselection', 'RoomSelectionController@store')->middleware('auth');
+//Route::get('/roomselection', 'RoomSelectionController@index')->middleware('auth');
+//Route::post('/roomselection', 'RoomSelectionController@store')->middleware('auth');
 Route::get('/roomselection/{i}/{id}', 'RoomSelectionController@read')->middleware('auth', 'role:admin|council');
 Route::post('/roomselection/f/{id}', 'RoomSelectionController@write')->middleware('auth', 'role:admin');
 

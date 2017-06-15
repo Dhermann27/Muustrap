@@ -14,17 +14,16 @@
         }
 
         @page {
-            margin: 0.50in 0px 0px 0px;
+            margin: 1in 0px 0px 0px;
         }
 
         .label {
-            width: 4.025in;
-            height: 3.025in;
+            width: 3.65in;
+            height: 2.875in;
             padding: .125in .3in 0;
-            margin-right: .125in;
+            margin-right: 0in;
             float: left;
             overflow: hidden;
-            outline: 1px dotted;
         }
 
         .page-break {

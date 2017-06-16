@@ -40,7 +40,7 @@ class WorkshopController extends Controller
         DB::statement('CALL update_workshops();');
         DB::statement('CALL generate_charges(getcurrentyear());');
 
-        $success = 'Your workshop selections have been updated. Check out available rooms by clicking <a href="' . url('/roomselection') . '">here</a>.';
+        $success = 'Your workshop selections have been updated.';// Check out available rooms by clicking <a href="' . url('/roomselection') . '">here</a>.';
         return $this->index($success);
     }
 

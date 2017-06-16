@@ -82,11 +82,12 @@ class Thisyear_Camper extends Model
         }
     }
 
-    public function getEachCalendarAttribute() {
+    public function getEachCalendarAttribute()
+    {
         $cal = explode(';', $this->program->calendar);
-        if(count($cal) == 3) {
+        if (count($cal) == 3) {
             $age = $this->birthdate->diffInYears(Carbon::now());
-            if($age < 8) {
+            if ($age < 8) {
                 return $cal[0];
             } elseif ($age > 9) {
                 return $cal[2];
@@ -95,6 +96,42 @@ class Thisyear_Camper extends Model
             }
         } else {
             return $cal[0];
+        }
+    }
+
+    public function getNametagBackAttribute()
+    {
+        switch ($this->programid) {
+            case 1001:
+                return "Leader: ________________________________<br /><br />________________________________<br />________________________________<br />________________________________<br />________________________________<br />________________________________<br />________________________________";
+                break;
+            case 1002:
+            case 1007:
+                $parents = "";
+                foreach ($this->family->campers()->where('age', '>', '17')->orderBy('birthdate')->get() as $parent) {
+                    $parents .= "<u>" . $parent->firstname . " " . $parent->lastname . "</u><br />";
+                    $parents .= "Room: " . $parent->buildingname . " " . $parent->room_number . "<br />";
+                    if (count($parent->yearattending->workshops) > 0) {
+                        foreach ($parent->yearattending->workshops as $workshop) {
+                            if ($workshop->workshop->timeslotid == 1001 || $workshop->workshop->timeslotid == 1002) {
+                                $parents .= $workshop->workshop->timeslot->name . " (" . $workshop->workshop->display_days . ") " . $workshop->workshop->room->room_number . "<br />";
+                            }
+                        }
+                    }
+                }
+                return $parents;
+                break;
+            default:
+                $parents = "";
+                if (count($this->yearattending->workshops) > 0) {
+                    foreach ($this->yearattending->workshops as $workshop) {
+                        if ($workshop->workshop->timeslotid == 1001 || $workshop->workshop->timeslotid == 1002) {
+                            $parents .= $workshop->workshop->timeslot->name . " (" . $workshop->workshop->display_days . "): " . $workshop->workshop->name . " in " . $workshop->workshop->room->room_number . "<br />";
+                        }
+                    }
+                }
+                return $parents;
+                break;
         }
     }
 }

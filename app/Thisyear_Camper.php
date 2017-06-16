@@ -111,8 +111,8 @@ class Thisyear_Camper extends Model
                 foreach ($this->family->campers()->where('age', '>', '17')->orderBy('birthdate')->get() as $parent) {
                     $parents .= "<u>" . $parent->firstname . " " . $parent->lastname . "</u><br />";
                     $parents .= "Room: " . $parent->buildingname . " " . $parent->room_number . "<br />";
-                    if (count($parent->yearattending->workshops) > 0) {
-                        foreach ($parent->yearattending->workshops as $workshop) {
+                    if (count($parent->yearattending->workshops()->where('is_enrolled', '1')->get()) > 0) {
+                        foreach ($parent->yearattending->workshops()->where('is_enrolled', '1')->get() as $workshop) {
                             if ($workshop->workshop->timeslotid == 1001 || $workshop->workshop->timeslotid == 1002) {
                                 $parents .= $workshop->workshop->timeslot->name . " (" . $workshop->workshop->display_days . ") " . $workshop->workshop->room->room_number . "<br />";
                             }
@@ -123,8 +123,8 @@ class Thisyear_Camper extends Model
                 break;
             default:
                 $parents = "";
-                if (count($this->yearattending->workshops) > 0) {
-                    foreach ($this->yearattending->workshops as $workshop) {
+                if (count($this->yearattending->workshops()->where('is_enrolled', '1')->get()) > 0) {
+                    foreach ($this->yearattending->workshops()->where('is_enrolled', '1')->get() as $workshop) {
                         if ($workshop->workshop->timeslotid == 1001 || $workshop->workshop->timeslotid == 1002) {
                             $parents .= $workshop->workshop->timeslot->name . " (" . $workshop->workshop->display_days . "): " . $workshop->workshop->name . " in " . $workshop->workshop->room->room_number . "<br />";
                         }

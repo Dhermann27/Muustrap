@@ -49,7 +49,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @include('admin.controls', ['id' => 'c/' . $assignment->id])
+                                                @include('admin.controls', ['id' => 'c/' . $assignment->camperid])
                                             </td>
                                             <td class="btn-group" data-toggle="buttons">
                                                 <label class="btn btn-default">

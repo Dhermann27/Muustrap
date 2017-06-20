@@ -680,7 +680,7 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE enroll_workshops()
             yw.created_at<=(SELECT MAX(created_at) FROM
               (SELECT ywp.created_at
                FROM yearattending__workshop ywp
-               WHERE ywp.workshopid=myid
+               WHERE ywp.workshopid=myid AND ywp.is_leader=0
                ORDER BY created_at
                LIMIT mycapacity)
                 AS t1));

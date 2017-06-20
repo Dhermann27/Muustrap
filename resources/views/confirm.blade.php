@@ -98,7 +98,7 @@
                                 <td>{{ $signup->workshop->timeslot->name }}</td>
                                 <td>{{ $signup->workshop->display_days }}</td>
                                 <td>
-                                    @if($signup->is_enrolled = '1')
+                                    @if($signup->is_enrolled=='1')
                                         {{ $signup->workshop->room->room_number }}
                                     @else
                                         <i>Waiting List</i>

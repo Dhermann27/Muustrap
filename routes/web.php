@@ -16,6 +16,8 @@ Route::get('/confirm/all', 'ConfirmController@all')->middleware('auth', 'role:ad
 
 Route::get('/artfair', 'ContactController@artfairIndex');
 Route::post('/artfair', 'ContactController@artfairStore')->middleware('auth');
+Route::get('/museupload', 'ContactController@museIndex')->middleware('auth', 'role:admin|council');
+Route::post('/museupload', 'ContactController@museStore')->middleware('auth', 'role:admin|council');
 
 Route::get('/household', 'HouseholdController@index')->middleware('auth');
 //Route::post('/household', 'HouseholdController@store')->middleware('auth');

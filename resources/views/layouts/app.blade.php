@@ -82,8 +82,6 @@
             <div class="form-group">
                 <input type="text" id="camper" class="form-control camperlist" placeholder="Camper Name">
                 <input id="camperid" type="hidden">
-                {{--<button id="quickregister" class="btn btn-default fa fa-bolt action" data-toggle="tooltip"--}}
-                {{--title="Quick Register!"></button>--}}
                 <button id="household" class="btn btn-default fa fa-home action" data-toggle="tooltip"
                         title="Household Information"></button>
                 <button id="camper" class="btn btn-default fa fa-group action" data-toggle="tooltip"

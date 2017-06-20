@@ -67,4 +67,26 @@ class ContactController extends Controller
         }
         return view('artfair', ['camper' => $camper, 'success' => $success]);
     }
+
+    public function museStore(Request $request)
+    {
+        $messages = [
+            'date.regex' => 'Please enter the eight-digit date in 2016-12-31 format.',
+            'g-recaptcha-response.required' => 'Please check the CAPTCHA box and follow any additional instructions.',
+        ];
+
+        $this->validate($request, [
+            'date' => 'regex:/^\d{4}-\d{2}-\d{2}$/',
+            'g-recaptcha-response' => 'required|captcha'
+        ], $messages);
+
+        $request->pdf->storeAs('public/muses', str_replace('-', '', $request->input('date')) . '.pdf');
+
+        return $this->museIndex('Muse uploaded! Check the homepage "Latest Muse" link to ensure it is correct.');
+    }
+
+    public function museIndex($success = null)
+    {
+        return view('admin.muse', ['success' => $success]);
+    }
 }

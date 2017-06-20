@@ -17,7 +17,18 @@ class WelcomeController extends Controller
         } else {
             $client = new GuzzleHttp\Client();
             $res = $client->request('GET', env('GOOGLE_CAL_SCRIPT') . env('COFFEEHOUSE_CALENDAR') . "&date=" . $year->next_weekday->toDateString());
-            return view('crunch', ['year' => $year, 'muse' => true,
+            $av = false;
+            if (Auth::check()) {
+                $camper = \App\Thisyear_Camper::where('email', Auth::user()->email)->first();
+                if ($camper) {
+                    foreach ($camper->yearattending->positions as $position) {
+                        if ($position->staffpositionid == '1117' || $position->staffpositionid == '1103') {
+                            $av = true;
+                        }
+                    }
+                }
+            }
+            return view('crunch', ['year' => $year, 'muse' => true, 'av' => $av,
                 'day' => $year->next_weekday->format('l F jS'), 'list' => json_decode($res->getBody())]);
         }
     }

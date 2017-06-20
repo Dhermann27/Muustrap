@@ -25,7 +25,11 @@
                         <p>
                             @foreach($list as $item)
                                 @if(empty($item->colorId))
-                                    {{ $item->summary }}<br/>
+                                    {{ $item->summary }}
+                                    @if($av && isset($item->description))
+                                        ({{ $item->description }})
+                                    @endif
+                                    <br/>
                                 @endif
                             @endforeach
                         </p>

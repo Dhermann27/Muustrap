@@ -95,15 +95,15 @@
                             <tr>
                                 <td>{{ $camper->firstname }} {{ $camper->lastname }}</td>
                                 <td>{{ $signup->workshop->name }}</td>
-                                <td>{{ $signup->workshop->timeslot->name }}</td>
-                                <td>{{ $signup->workshop->display_days }}</td>
-                                <td>
-                                    @if($signup->is_enrolled=='1')
-                                        {{ $signup->workshop->room->room_number }}
-                                    @else
+                                @if($signup->is_enrolled=='1')
+                                    <td>{{ $signup->workshop->timeslot->name }}</td>
+                                    <td>{{ $signup->workshop->display_days }}</td>
+                                    <td>{{ $signup->workshop->room->room_number }}</td>
+                                @else
+                                    <td colspan="3" align="center">
                                         <i>Waiting List</i>
-                                    @endif
-                                </td>
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
                     @endforeach

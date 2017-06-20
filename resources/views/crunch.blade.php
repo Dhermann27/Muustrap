@@ -41,6 +41,12 @@
                             class="fa fa-arrow-right"></i>
                 </a>
                 <p>&nbsp;</p>
+                <div>
+                    <span class="fa fa-clock-o fa-4x"></span>
+                </div>
+                <h3>Check-In</h3>
+                <p>Sunday July 2, 2 PM</p>
+                <p>&nbsp;</p>
             </div>
             <div class="col-md-4">
                 <div>

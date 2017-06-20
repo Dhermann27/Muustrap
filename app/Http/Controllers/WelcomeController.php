@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use GuzzleHttp;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -9,8 +11,20 @@ class WelcomeController extends Controller
 {
     public function index()
     {
-        $payload = ['updatedFamily' => '0', 'updatedCamper' => 0, 'registered' => 0, 'paid' => 0];
-        $payload['year'] = \App\Year::where('is_current', '1')->first();
+        $year = \App\Year::where('is_current', '1')->first();
+        if (Carbon::now()->lte(Carbon::createFromFormat('Y-m-d', $year->start_date)->subWeeks(2))) {
+            return $this->normal($year);
+        } else {
+            $client = new GuzzleHttp\Client();
+            $res = $client->request('GET', env('GOOGLE_CAL_SCRIPT') . env('COFFEEHOUSE_CALENDAR') . "&date=" . $year->next_weekday->toDateString());
+            return view('crunch', ['year' => $year, 'muse' => true,
+                'day' => $year->next_weekday->format('l F jS'), 'list' => json_decode($res->getBody())]);
+        }
+    }
+
+    public function normal($year)
+    {
+        $payload = ['updatedFamily' => '0', 'updatedCamper' => 0, 'registered' => 0, 'paid' => 0, 'year' => $year];
         if (Auth::check()) {
             $open = new \DateTime(\App\Year::where('year', DB::raw('getcurrentyear()-1'))->first()->start_date);
             $camper = \App\Camper::where('email', Auth::user()->email)->first();
@@ -50,8 +64,9 @@ class WelcomeController extends Controller
             where('chargetypeid', 1003)->orWhere('amount', '<', '0')->get()->sum('amount') <= 0;
     }
 
-    private function isSignedup($family) {
-        if($family != null) {
+    private function isSignedup($family)
+    {
+        if ($family != null) {
             return DB::table('thisyear_campers')->where('familyid', $family->id)
                 ->join('yearsattending', 'yearsattending.camperid', '=', 'thisyear_campers.id')
                 ->join('yearattending__workshop', 'yearattending__workshop.yearattendingid', '=', 'yearsattending.id')

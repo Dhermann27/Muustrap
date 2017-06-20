@@ -49,7 +49,11 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{{ url('/MUUSA_2017_Brochure.pdf') }}">Web Brochure</a></li>
+                @if(isset($muse))
+                    <li><a href="{{ url('/themuse') }}">Latest MUUSA Muse</a></li>
+                @else
+                    <li><a href="{{ url('/MUUSA_2017_Brochure.pdf') }}">Web Brochure</a></li>
+                @endif
                 <li><a href="{{ url('/contact') }}">Contact Us</a></li>
                 @if (Auth::guest())
                     <li><a href="{{ url('/login') }}">Login</a></li>
@@ -198,9 +202,9 @@
         var index = tr.children().index($(this));
         var th = $(this).parents('table').find('thead th')[index];
         if (th.id !== "") {
-            if(th.className === "") {
+            if (th.className === "") {
                 $(this).html('<input type="text" name="' + tr.attr('id') + '-' + th.id + '" value="' + $(this).text() + '" />');
-            } else if(th.className === 'select' && $("select." + th.id).length > 0) {
+            } else if (th.className === 'select' && $("select." + th.id).length > 0) {
                 var select = $(this).parents("div.tab-pane").find("select." + th.id).clone();
                 select.attr('id', '').attr('name', tr.attr('id') + '-' + th.id).removeClass(th.id);
                 $(this).html(select);

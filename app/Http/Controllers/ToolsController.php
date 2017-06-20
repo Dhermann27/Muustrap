@@ -74,7 +74,7 @@ class ToolsController extends Controller
                 if ($request->input($program->id . "-link") != '') {
                     $program->link = $request->input($program->id . "-link");
                     $client = new GuzzleHttp\Client();
-                    $res = $client->request('GET', env('GOOGLE_SCRIPT') . $program->link);
+                    $res = $client->request('GET', env('GOOGLE_FORM_SCRIPT') . $program->link);
                     if ($res->getStatusCode() == '200') {
                         $program->form = $res->getBody();
                     } else {
@@ -97,6 +97,16 @@ class ToolsController extends Controller
 
     public function workshopStore(Request $request)
     {
+        foreach ($request->all() as $key => $value) {
+            $matches = array();
+            if (preg_match('/(\d+)-(name|led_by|roomid|order|capacity)/', $key, $matches)) {
+                $charge = \App\Workshop::find($matches[1]);
+                if (isset($charge)) {
+                    $charge->{$matches[2]} = $value;
+                    $charge->save();
+                }
+            }
+        }
         foreach (\App\Timeslot::all() as $timeslot) {
             if ($request->input($timeslot->id . "-name") != '') {
                 $workshop = new \App\Workshop();

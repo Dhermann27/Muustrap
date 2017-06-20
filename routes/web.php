@@ -1,16 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| This file is where you may define all of the routes that are handled
-| by your application. Just tell Laravel the URIs it should respond
-| to using a Closure or controller method. Build something great!
-|
-*/
-
 Route::get('/', 'WelcomeController@index');
 Route::get('/home', 'HomeController@index');
 
@@ -110,8 +99,10 @@ Route::group(['middleware' => ['role:admin'], 'prefix' => 'admin'], function () 
     Route::post('positions', 'AdminController@positionStore');
 });
 
-Route::get('/themuse', function() {
-    return redirect('/muses/20170601.pdf');
+Route::get('/themuse', function () {
+    $muses = Storage::files('public/muses');
+    $muse = array_pop($muses);
+    return redirect('/muses/' . substr($muse, strpos($muse, '/20') + 1));
 });
 
 Route::get('/cost', function () {

@@ -33,21 +33,23 @@
                                 <table class="table table-responsive">
                                     <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Led By</th>
-                                        <th>Room</th>
-                                        <th>Order</th>
+                                        <th id="name">Name</th>
+                                        <th id="led_by">Led By</th>
+                                        <th id="roomid" class="select">Room</th>
+                                        <th id="order">Order</th>
                                         <th>Blurb</th>
+                                        <th id="capacity">Capacity</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="editable">
                                     @foreach($timeslot->workshops()->orderBy('order')->get() as $workshop)
-                                        <tr>
+                                        <tr id="{{ $workshop->id }}">
                                             <td>{{ $workshop->name }}</td>
                                             <td>{{ $workshop->led_by}}</td>
                                             <td>{{ $workshop->room->room_number }}</td>
                                             <td>{{ $workshop->order }}</td>
                                             <td>{{ $workshop->blurb }}</td>
+                                            <td>{{ $workshop->capacity }}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -91,7 +93,7 @@
 
                                     <div class="col-md-6">
                                         <select id="{{ $timeslot->id }}-roomid" name="{{ $timeslot->id }}-roomid"
-                                                class="form-control">
+                                                class="form-control roomid">
                                             <option value="0">Choose a room</option>
                                             @foreach($rooms as $room)
                                                 <option value="{{ $room->id }}">{{ $room->room_number}}</option>
@@ -173,8 +175,7 @@
 
                                     <div class="col-md-6">
                                     <textarea id="{{ $timeslot->id }}-blurb" class="form-control"
-                                              name="{{ $timeslot->id }}-blurb"
-                                              required></textarea>
+                                              name="{{ $timeslot->id }}-blurb"></textarea>
 
                                         @if ($errors->has($timeslot->id . '-blurb'))
                                             <span class="help-block">

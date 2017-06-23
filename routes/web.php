@@ -20,17 +20,17 @@ Route::get('/museupload', 'ContactController@museIndex')->middleware('auth', 'ro
 Route::post('/museupload', 'ContactController@museStore')->middleware('auth', 'role:admin|council');
 
 Route::get('/household', 'HouseholdController@index')->middleware('auth');
-//Route::post('/household', 'HouseholdController@store')->middleware('auth');
+Route::post('/household', 'HouseholdController@store')->middleware('auth');
 Route::get('/household/{i}/{id}', 'HouseholdController@read')->middleware('auth', 'role:admin|council');
 Route::post('/household/f/{id}', 'HouseholdController@write')->middleware('auth', 'role:admin');
 
 Route::get('/camper', 'CamperController@index')->middleware('auth');
-//Route::post('/camper', 'CamperController@store')->middleware('auth');
+Route::post('/camper', 'CamperController@store')->middleware('auth');
 Route::get('/camper/{i}/{id}', 'CamperController@read')->middleware('auth', 'role:admin|council');
 Route::post('/camper/f/{id}', 'CamperController@write')->middleware('auth', 'role:admin');
 
 Route::get('/payment', 'PaymentController@index')->middleware('auth');
-//Route::post('/payment', 'PaymentController@store')->middleware('auth');
+Route::post('/payment', 'PaymentController@store')->middleware('auth');
 Route::get('/payment/{i}/{id}', 'PaymentController@read')->middleware('auth', 'role:admin|council');
 Route::post('/payment/f/{id}', 'PaymentController@write')->middleware('auth', 'role:admin');
 

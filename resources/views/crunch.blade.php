@@ -37,19 +37,21 @@
                 </div>
             @endif
             <div class="col-md-4">
-                <div>
-                    <span class="fa fa-envelope-o fa-4x"></span>
-                </div>
-                <h3>Confirmation Letter</h3>
-                <a class="booty" href="{{ url('/confirm') }}">View Confirmation Letter <i
-                            class="fa fa-arrow-right"></i>
-                </a>
-                <p>&nbsp;</p>
+                @if(isset($camper))
+                    <div>
+                        <span class="fa fa-envelope-o fa-4x"></span>
+                    </div>
+                    <h3>Confirmation Letter</h3>
+                    <a class="booty" href="{{ url('/confirm') }}">View Confirmation Letter <i
+                                class="fa fa-arrow-right"></i>
+                    </a>
+                    <p>&nbsp;</p>
+                @endif
                 <div>
                     <span class="fa fa-clock-o fa-4x"></span>
                 </div>
                 <h3>Check-In</h3>
-                <p>Sunday July 2, 2 PM</p>
+                <p>Sunday July 2nd, 2:00 PM</p>
                 <p>&nbsp;</p>
             </div>
             <div class="col-md-4">

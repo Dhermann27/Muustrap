@@ -22,11 +22,11 @@ class CamperController extends Controller
         $this->validate($request, [
             'days.*' => 'between:0,7',
             'pronounid.*' => 'exists:pronouns,id',
-            'firstname.*' => 'max:255',
-            'lastname.*' => 'max:255',
-            'email.*' => 'email|max:255|distinct',
+            'firstname.*' => 'required|max:255',
+            'lastname.*' => 'required|max:255',
+            'email.*' => 'email|required|max:255|distinct',
             'phonenbr.*' => 'regex:/^\d{3}-\d{3}-\d{4}$/',
-            'birthdate.*' => 'regex:/^\d{4}-\d{2}-\d{2}$/',
+            'birthdate.*' => 'required|regex:/^\d{4}-\d{2}-\d{2}$/',
             'roommate.*' => 'max:255',
             'sponsor.*' => 'max:255',
             'churchid.*' => 'exists:churches,id',
@@ -43,7 +43,7 @@ class CamperController extends Controller
                 Auth::user()->save();
             }
             if ($id == 0 || $camper->familyid == $logged_in->familyid) {
-                array_push($campers, $this->upsertCamper($request, $i));
+                array_push($campers, $this->upsertCamper($request, $i, $logged_in->familyid));
             }
         }
 
@@ -56,13 +56,14 @@ class CamperController extends Controller
         return $this->index('You have successfully saved your changes and registered. Click <a href="' . url('/payment') . '">here</a> to remit payment.', $year, $campers);
     }
 
-    private function upsertCamper(Request $request, $i)
+    private function upsertCamper(Request $request, $i, $familyid)
     {
         if($request->input('id')[$i] != '0' ) {
             $camper = \App\Camper::findOrFail($request->input('id')[$i]);
         } else {
             $camper = new \App\Camper;
         }
+        $camper->familyid = $familyid;
         $camper->pronounid = $request->input('pronounid')[$i];
         $camper->firstname = $request->input('firstname')[$i];
         $camper->lastname = $request->input('lastname')[$i];
@@ -135,7 +136,7 @@ class CamperController extends Controller
     {
 
         for ($i = 0; $i < count($request->input('id')); $i++) {
-            $this->upsertCamper($request, $i);
+            $this->upsertCamper($request, $i, $id);
         }
 
         DB::statement('CALL generate_charges(getcurrentyear());');

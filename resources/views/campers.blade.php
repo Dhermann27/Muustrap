@@ -45,7 +45,7 @@
                             <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' in active' : '' }}"
                                  id="{{ $camper->id }}">
                                 <p>&nbsp;</p>
-                                <input type="hidden" name="id[]" value="{{ $camper->id }}"/>
+                                <input type="hidden" id="{{ $camper->id }}-id" name="id[]" value="{{ $camper->id }}"/>
                                 <div class="form-group{{ $errors->has('days.' . $loop->index) ? ' has-error' : '' }}">
                                     <label for="{{ $camper->id }}-days" class="col-md-4 control-label">Attending
                                         in {{ $year->year }}?</label>
@@ -137,8 +137,7 @@
                                     <div class="col-md-6">
                                         <input id="{{ $camper->id }}-firstname" class="form-control campername"
                                                name="firstname[]"
-                                               value="{{ old('firstname.' . $loop->index, $camper->firstname) }}"
-                                               required>
+                                               value="{{ old('firstname.' . $loop->index, $camper->firstname) }}">
 
                                         @if ($errors->has('firstname.' . $loop->index))
                                             <span class="help-block">
@@ -153,8 +152,7 @@
                                     <div class="col-md-6">
                                         <input id="{{ $camper->id }}-lastname" class="form-control campername"
                                                name="lastname[]"
-                                               value="{{ old('lastname.' . $loop->index, $camper->lastname) }}"
-                                               required>
+                                               value="{{ old('lastname.' . $loop->index, $camper->lastname) }}">
 
                                         @if ($errors->has('lastname.' . $loop->index))
                                             <span class="help-block">
@@ -208,8 +206,7 @@
                                              data-date-format="yyyy-mm-dd" data-date-autoclose="true">
                                             <input id="{{ $camper->id }}-birthdate" type="text" class="form-control"
                                                    name="birthdate[]"
-                                                   value="{{ old('birthdate.' . $loop->index, $camper->birthdate) }}"
-                                                   required>
+                                                   value="{{ old('birthdate.' . $loop->index, $camper->birthdate) }}">
                                             <div class="input-group-addon">
                                                 <span class="fa fa-calendar"></span>
                                             </div>
@@ -417,6 +414,7 @@
                 $('.nav-tabs a[href="#' + camperCount++ + '"]').trigger('click');
                 bind(empty);
             });
+
             @if(isset($readonly) && $readonly === true)
                 $("input:not(#camper), select").prop("disabled", "true");
             @endif

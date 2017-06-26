@@ -1,8 +1,5 @@
 @extends('layouts.app')
-<div class="alert alert-info" role="alert">Due to the site upgrade, all campers will need to create a new
-    account using their preferred email address. Historical information will be attached to the account
-    automatically.
-</div>
+
 @section('content')
     <p>&nbsp;</p>
     <div class="container">

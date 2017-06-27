@@ -29,9 +29,9 @@
                             <table class="table table-responsive table-condensed">
                                 <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Sign Up Date</th>
-                                    <th>Controls</th>
+                                    <th width="50%">Name</th>
+                                    <th width="25%">Sign Up Date</th>
+                                    <th width="25%">Controls</th>
                                 </tr>
                                 </thead>
                                 <tbody>

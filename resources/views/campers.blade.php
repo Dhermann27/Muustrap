@@ -11,7 +11,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">Camper Information</div>
             <div class="panel-body">
-                <form id="camperinfo" class="form-horizontal" role="form" method="POST" action="{{ url('/savecamper') .
+                <form id="camperinfo" class="form-horizontal" role="form" method="POST" action="{{ url('/camper') .
                  (isset($readonly) && $readonly === false ? '/f/' . $campers->first()->familyid : '')}}">
                     {{ csrf_field() }}
 
@@ -29,7 +29,7 @@
                     <ul class="nav nav-tabs" role="tablist">
                         @foreach($campers as $camper)
                             @if($camper->id != '0')
-                                <li role="presentation"{!! $loop->index == 1 ? ' class="active"' : '' !!}>
+                                <li role="presentation"{!! $loop->first ? ' class="active"' : '' !!}>
                                     <a href="#{{ $camper->id }}" aria-controls="{{ $camper->id }}" role="tab"
                                        data-toggle="tab">{{ old('firstname.' . $loop->index, $camper->firstname) }}
                                         {{ old('lastname.' . $loop->index, $camper->lastname) }}
@@ -44,7 +44,7 @@
 
                     <div class="tab-content">
                         @foreach($campers as $camper)
-                            @include('snippet.camper', ['camper' => $camper, 'loop' => $loop])
+                            @include('snippet.camper', ['camper' => $camper, 'looper' => $loop])
                         @endforeach
                     </div>
                     @if(!isset($readonly) || $readonly === false)
@@ -60,7 +60,7 @@
     </div>
     <div id="empty" class="hidden">
         @foreach($empties as $empty)
-            @include('snippet.camper', ['camper' => $empty, 'loop' => $loop])
+            @include('snippet.camper', ['camper' => $empty, 'looper' => $loop])
         @endforeach
     </div>
 @endsection
@@ -119,11 +119,12 @@
                         }, 700);
                     },
                     error: function (data) {
+                        var errorCount = data !== undefined ? Object.keys(data.responseJSON).length : '';
                         $.each(data.responseJSON, function (k, v) {
                             $("#" + k.replace(".", "-")).parents(".form-group").addClass("has-error").find("div:first")
                                 .append("<span class=\"help-block\"><strong>" + v + "</strong></span>");
                         });
-                        $(".nav-tabs").before("<div class='alert alert-danger'>You have " + Object.keys(data.responseJSON).length + " error(s) in your form. Please adjust your entries and resubmit.</div>");
+                        $(".nav-tabs").before("<div class='alert alert-danger'>You have " + errorCount + " error(s) in your form. Please adjust your entries and resubmit.</div>");
                         $('.nav-tabs a[href="#' + $("span.help-block:first").parents('div.tab-pane').attr('id') + '"]').trigger('click');
                         button.html("<span class='btn-label'><i class='fa fa-times'></i></span> Resubmit")
                             .addClass("btn-labeled btn-danger").prop("disabled", false);

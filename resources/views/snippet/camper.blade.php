@@ -1,8 +1,8 @@
-<div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' in active' : '' }}" id="{{ $camper->id }}">
+<div role="tabpanel" class="tab-pane fade{{ $looper->first ? ' in active' : '' }}" id="{{ $camper->id }}">
     <p>&nbsp;</p>
-    <input type="hidden" id="id-{{ $loop->index }}" name="id[]" value="{{ $camper->id }}"/>
-    <div class="form-group{{ $errors->has('days.' . $loop->index) ? ' has-error' : '' }}">
-        <label for="days-{{ $loop->index }}" class="col-md-4 control-label">Attending
+    <input type="hidden" id="id-{{ $looper->index }}" name="id[]" value="{{ $camper->id }}"/>
+    <div class="form-group{{ $errors->has('days.' . $looper->index) ? ' has-error' : '' }}">
+        <label for="days-{{ $looper->index }}" class="col-md-4 control-label">Attending
             in {{ $year->year }}?</label>
         <a href="#" class="fa fa-info" data-toggle="tooltip" data-html="true"  
            title="<p>Use this dropdown to tell us if a family member is not attending
@@ -12,10 +12,10 @@
 
         <div class="col-md-6">
             @if(isset($readonly))
-                <select class="form-control days" id="days-{{ $loop->index }}" name="days[]">
+                <select class="form-control days" id="days-{{ $looper->index }}" name="days[]">
                     @for($i=7; $i>0; $i--)
                         <option value="{{ $i }}"
-                                {{ $i == old('days.' . $loop->parent->index, isset($camper->yearattending) ? $camper->yearattending->days : null) ? ' selected' : '' }}>
+                                {{ $i == old('days.' . $looper->index) ? ' selected' : '' }}>
                             {{ $i }} nights
                         </option>
                     @endfor
@@ -28,7 +28,7 @@
                             title="Mark everyone as attending 6 nights"></button>
                 @endif
             @else
-                <select class="form-control" id="days-{{ $loop->index }}" name="days[]">
+                <select class="form-control" id="days-{{ $looper->index }}" name="days[]">
                     <option value="{{ isset($camper->yearattending) && $camper->yearattending->days > 0 ? $camper->yearattending->days : '6' }}">
                         Yes
                     </option>
@@ -38,15 +38,15 @@
                 </select>
             @endif
 
-            @if ($errors->has('days.' . $loop->index))
+            @if ($errors->has('days.' . $looper->index))
                 <span class="help-block">
-                    <strong>{{ $errors->first('days.' . $loop->index) }}</strong>
+                    <strong>{{ $errors->first('days.' . $looper->index) }}</strong>
                 </span>
             @endif
         </div>
     </div>
-    <div class="form-group{{ $errors->has('pronounid.' . $loop->index) ? ' has-error' : '' }}">
-        <label for="pronounid-{{ $loop->index }}" class="col-md-4 control-label">Pronoun Preference</label>
+    <div class="form-group{{ $errors->has('pronounid.' . $looper->index) ? ' has-error' : '' }}">
+        <label for="pronounid-{{ $looper->index }}" class="col-md-4 control-label">Pronoun Preference</label>
         <a href="#" class="fa fa-info" data-toggle="tooltip"
            data-placement="left" data-html="true"
            title="<strong>Why do we ask?</strong>
@@ -65,117 +65,117 @@
                                   social media or your church community.</p>"></a>
 
         <div class="col-md-6">
-            <select class="form-control" id="pronounid-{{ $loop->index }}"
+            <select class="form-control" id="pronounid-{{ $looper->index }}"
                     name="pronounid[]">
                 <option value="0">Choose a pronoun</option>
                 @foreach($pronouns as $pronoun)
                     <option value="{{ $pronoun->id }}"
-                            {{ $pronoun->id == old('pronounid.' . $loop->parent->index, $camper->pronounid) ? ' selected' : '' }}>
+                            {{ $pronoun->id == old('pronounid.' . $looper->index, $camper->pronounid) ? ' selected' : '' }}>
                         {{ $pronoun->name }}
                     </option>
                 @endforeach
             </select>
 
-            @if ($errors->has('pronounid.' . $loop->index))
+            @if ($errors->has('pronounid.' . $looper->index))
                 <span class="help-block">
-                    <strong>{{ $errors->first('pronounid.' . $loop->index) }}</strong>
+                    <strong>{{ $errors->first('pronounid.' . $looper->index) }}</strong>
                 </span>
             @endif
         </div>
     </div>
-    <div class="form-group{{ $errors->has('firstname.' . $loop->index) ? ' has-error' : '' }}">
-        <label for="firstname-{{ $loop->index }}" class="col-md-4 control-label">First
+    <div class="form-group{{ $errors->has('firstname.' . $looper->index) ? ' has-error' : '' }}">
+        <label for="firstname-{{ $looper->index }}" class="col-md-4 control-label">First
             Name</label>
         <div class="col-md-6">
-            <input id="firstname-{{ $loop->index }}" class="form-control campername" name="firstname[]"
-                   value="{{ old('firstname.' . $loop->index, $camper->firstname) }}">
+            <input id="firstname-{{ $looper->index }}" class="form-control campername" name="firstname[]"
+                   value="{{ old('firstname.' . $looper->index, $camper->firstname) }}">
 
-            @if ($errors->has('firstname.' . $loop->index))
+            @if ($errors->has('firstname.' . $looper->index))
                 <span class="help-block">
-                    <strong>{{ $errors->first('firstname.' . $loop->index) }}</strong>
+                    <strong>{{ $errors->first('firstname.' . $looper->index) }}</strong>
                 </span>
             @endif
         </div>
     </div>
-    <div class="form-group{{ $errors->has('lastname.' . $loop->index) ? ' has-error' : '' }}">
-        <label for="lastname-{{ $loop->index }}" class="col-md-4 control-label">Last
+    <div class="form-group{{ $errors->has('lastname.' . $looper->index) ? ' has-error' : '' }}">
+        <label for="lastname-{{ $looper->index }}" class="col-md-4 control-label">Last
             Name</label>
         <div class="col-md-6">
-            <input id="lastname-{{ $loop->index }}" class="form-control campername" name="lastname[]"
-                   value="{{ old('lastname.' . $loop->index, $camper->lastname) }}">
+            <input id="lastname-{{ $looper->index }}" class="form-control campername" name="lastname[]"
+                   value="{{ old('lastname.' . $looper->index, $camper->lastname) }}">
 
-            @if ($errors->has('lastname.' . $loop->index))
+            @if ($errors->has('lastname.' . $looper->index))
                 <span class="help-block">
-                    <strong>{{ $errors->first('lastname.' . $loop->index) }}</strong>
+                    <strong>{{ $errors->first('lastname.' . $looper->index) }}</strong>
                 </span>
             @endif
         </div>
     </div>
-    <div class="form-group{{ $errors->has('email.' . $loop->index) ? ' has-error' : '' }}">
-        <label for="email-{{ $loop->index }}" class="col-md-4 control-label">Email</label>
+    <div class="form-group{{ $errors->has('email.' . $looper->index) ? ' has-error' : '' }}">
+        <label for="email-{{ $looper->index }}" class="col-md-4 control-label">Email</label>
         <div class="col-md-6">
             <div class="input-group">
-                <input id="email-{{ $loop->index }}" class="form-control" name="email[]"
-                       value="{{ old('email.' . $loop->index, $camper->email) }}"
-                       aria-describedby="email-addon-{{ $loop->index }}">
-                <span class="input-group-addon" id="email-addon-{{ $loop->index }}">@</span>
+                <input id="email-{{ $looper->index }}" class="form-control" name="email[]"
+                       value="{{ old('email.' . $looper->index, $camper->email) }}"
+                       aria-describedby="email-addon-{{ $looper->index }}">
+                <span class="input-group-addon" id="email-addon-{{ $looper->index }}">@</span>
             </div>
             @if($camper->logged_in)
                 <span class="label label-warning">
                     Changing this value will also change your muusa.org login.
                 </span>
             @endif
-            @if ($errors->has('email.' . $loop->index))
+            @if ($errors->has('email.' . $looper->index))
                 <span class="help-block">
-                    <strong>{{ $errors->first('email.' . $loop->index) }}</strong>
+                    <strong>{{ $errors->first('email.' . $looper->index) }}</strong>
                 </span>
             @endif
         </div>
     </div>
-    <div class="form-group{{ $errors->has('phonenbr.' . $loop->index) ? ' has-error' : '' }}">
-        <label for="phonenbr-{{ $loop->index }}" class="col-md-4 control-label">Phone
+    <div class="form-group{{ $errors->has('phonenbr.' . $looper->index) ? ' has-error' : '' }}">
+        <label for="phonenbr-{{ $looper->index }}" class="col-md-4 control-label">Phone
             Number</label>
         <div class="col-md-6">
-            <input id="phonenbr-{{ $loop->index }}" class="form-control phonemask"
+            <input id="phonenbr-{{ $looper->index }}" class="form-control phonemask"
                    name="phonenbr[]" data-mask="999-999-9999"
-                   value="{{ old('phonenbr.' . $loop->index, $camper->formatted_phone) }}">
+                   value="{{ old('phonenbr.' . $looper->index, $camper->formatted_phone) }}">
 
-            @if ($errors->has('phonenbr.' . $loop->index))
+            @if ($errors->has('phonenbr.' . $looper->index))
                 <span class="help-block">
-                    <strong>{{ $errors->first('phonenbr.' . $loop->index) }}</strong>
+                    <strong>{{ $errors->first('phonenbr.' . $looper->index) }}</strong>
                 </span>
             @endif
         </div>
     </div>
-    <div class="form-group{{ $errors->has('birthdate.' . $loop->index) ? ' has-error' : '' }}">
-        <label for="birthdate-{{ $loop->index }}" class="col-md-4 control-label">Birthdate
+    <div class="form-group{{ $errors->has('birthdate.' . $looper->index) ? ' has-error' : '' }}">
+        <label for="birthdate-{{ $looper->index }}" class="col-md-4 control-label">Birthdate
             (yyyy-mm-dd)</label>
         <div class="col-md-6">
             <div class="input-group date" data-provide="datepicker"
                  data-date-format="yyyy-mm-dd" data-date-autoclose="true">
-                <input id="birthdate-{{ $loop->index }}" type="text" class="form-control" name="birthdate[]"
-                       value="{{ old('birthdate.' . $loop->index, $camper->birthdate) }}">
+                <input id="birthdate-{{ $looper->index }}" type="text" class="form-control" name="birthdate[]"
+                       value="{{ old('birthdate.' . $looper->index, $camper->birthdate) }}">
                 <div class="input-group-addon">
                     <span class="fa fa-calendar"></span>
                 </div>
             </div>
-            @if ($errors->has('birthdate.' . $loop->index))
+            @if ($errors->has('birthdate.' . $looper->index))
                 <span class="help-block">
-                    <strong>{{ $errors->first('birthdate.' . $loop->index) }}</strong>
+                    <strong>{{ $errors->first('birthdate.' . $looper->index) }}</strong>
                 </span>
             @endif
         </div>
     </div>
-    <div class="form-group{{ $errors->has('gradeoffset.' . $loop->index) ? ' has-error' : '' }}">
-        <label for="gradeoffset-{{ $loop->index }}" class="col-md-4 control-label">Grade
+    <div class="form-group{{ $errors->has('gradeoffset.' . $looper->index) ? ' has-error' : '' }}">
+        <label for="gradeoffset-{{ $looper->index }}" class="col-md-4 control-label">Grade
             Entering in Fall {{ $year->year }}</label>
         <div class="col-md-6">
-            <select class="form-control" id="gradeoffset-{{ $loop->index }}" name="gradeoffset[]">
+            <select class="form-control" id="gradeoffset-{{ $looper->index }}" name="gradeoffset[]">
                 <option value="13">Not Applicable</option>
                 <option value="0">Kindergarten or earlier</option>
                 @for($i=1; $i<13; $i++)
                     <option value="{{ $i }}"
-                            {{ $i == old('grade.' . $loop->index, $camper->grade) ? ' selected' : '' }}>
+                            {{ $i == old('grade.' . $looper->index, $camper->grade) ? ' selected' : '' }}>
                         @if($i == 1)
                             1st
                         @elseif($i == 2)
@@ -189,34 +189,34 @@
                 @endfor
             </select>
 
-            @if ($errors->has('gradeoffset.' . $loop->index))
+            @if ($errors->has('gradeoffset.' . $looper->index))
                 <span class="help-block">
-                    <strong>{{ $errors->first('gradeoffset.' . $loop->index) }}</strong>
+                    <strong>{{ $errors->first('gradeoffset.' . $looper->index) }}</strong>
                 </span>
             @endif
         </div>
     </div>
-    <div class="form-group{{ $errors->has('roommate.' . $loop->index) ? ' has-error' : '' }}">
-        <label for="roommate-{{ $loop->index }}" class="col-md-4 control-label">Roommate Preference</label>
+    <div class="form-group{{ $errors->has('roommate.' . $looper->index) ? ' has-error' : '' }}">
+        <label for="roommate-{{ $looper->index }}" class="col-md-4 control-label">Roommate Preference</label>
         <a href="#" class="fa fa-info" data-toggle="tooltip"   data-placement="left" data-html="true"  
            title="<p>There is no need to add family members to this field; we assume that
                    you would like to room with them unless contacted with another request.</p>"></a>
 
         <div class="col-md-6">
-            <input id="roommate-{{ $loop->index }}" type="text"
+            <input id="roommate-{{ $looper->index }}" type="text"
                    class="form-control easycamper" name="roommate[]" autocomplete="off"
-                   value="{{ old('roommate.' . $loop->index, $camper->roommate) }}"
+                   value="{{ old('roommate.' . $looper->index, $camper->roommate) }}"
                    placeholder="First and last name of the camper who has agreed to be your roommate.">
 
-            @if ($errors->has('roommate.' . $loop->index))
+            @if ($errors->has('roommate.' . $looper->index))
                 <span class="help-block">
-                    <strong>{{ $errors->first('roommate.' . $loop->index) }}</strong>
+                    <strong>{{ $errors->first('roommate.' . $looper->index) }}</strong>
                 </span>
             @endif
         </div>
     </div>
-    <div class="form-group{{ $errors->has('sponsor.' . $loop->index) ? ' has-error' : '' }}">
-        <label for="sponsor-{{ $loop->index }}" class="col-md-4 control-label">Sponsor (if
+    <div class="form-group{{ $errors->has('sponsor.' . $looper->index) ? ' has-error' : '' }}">
+        <label for="sponsor-{{ $looper->index }}" class="col-md-4 control-label">Sponsor (if
             necessary)</label>
         <a href="#" class="fa fa-info" data-toggle="tooltip"   data-placement="left"
            data-html="true"  
@@ -231,69 +231,69 @@
                    volunteer, and may also be willing to offer transportation.</p>"></a>
 
         <div class="col-md-6">
-            <input id="sponsor-{{ $loop->index }}" type="text" class="form-control easycamper"
-                   name="sponsor[]" autocomplete="off" value="{{ old('sponsor.' . $loop->index, $camper->sponsor) }}"
+            <input id="sponsor-{{ $looper->index }}" type="text" class="form-control easycamper"
+                   name="sponsor[]" autocomplete="off" value="{{ old('sponsor.' . $looper->index, $camper->sponsor) }}"
                    placeholder="First and last name of the camper who has agreed to be your sponsor.">
 
-            @if ($errors->has('sponsor.' . $loop->index))
+            @if ($errors->has('sponsor.' . $looper->index))
                 <span class="help-block">
-                    <strong>{{ $errors->first('sponsor.' . $loop->index) }}</strong>
+                    <strong>{{ $errors->first('sponsor.' . $looper->index) }}</strong>
                 </span>
             @endif
         </div>
     </div>
-    <div class="form-group{{ $errors->has('churchid.' . $loop->index) ? ' has-error' : '' }}">
-        <label for="churchid-{{ $loop->index }}" class="col-md-4 control-label">Church
+    <div class="form-group{{ $errors->has('churchid.' . $looper->index) ? ' has-error' : '' }}">
+        <label for="churchid-{{ $looper->index }}" class="col-md-4 control-label">Church
             Affiliation</label>
         <div class="col-md-6">
-            <input id="churchname-{{ $loop->index }}" type="text" class="form-control churchlist" name="churchname[]"
-                   value="{{ old('churchname.' . $loop->index, $camper->church->name) }}"
+            <input id="churchname-{{ $looper->index }}" type="text" class="form-control churchlist" name="churchname[]"
+                   value="{{ old('churchname.' . $looper->index, $camper->church->name) }}"
                    placeholder="Begin typing the name or city of your church.">
-            <input id="churchid-{{ $loop->index }}" type="hidden" name="churchid[]"
-                   value="{{ old('churchid.' . $loop->index, $camper->churchid) }}">
+            <input id="churchid-{{ $looper->index }}" type="hidden" name="churchid[]"
+                   value="{{ old('churchid.' . $looper->index, $camper->churchid) }}">
 
-            @if ($errors->has('churchid.' . $loop->index))
+            @if ($errors->has('churchid.' . $looper->index))
                 <span class="help-block">
-                    <strong>{{ $errors->first('churchid.' . $loop->index) }}</strong>
+                    <strong>{{ $errors->first('churchid.' . $looper->index) }}</strong>
                 </span>
             @endif
         </div>
     </div>
-    <div class="form-group{{ $errors->has('is_handicap.' . $loop->index) ? ' has-error' : '' }}">
-        <label for="is_handicap-{{ $loop->index }}" class="col-md-8 control-label">Do you
+    <div class="form-group{{ $errors->has('is_handicap.' . $looper->index) ? ' has-error' : '' }}">
+        <label for="is_handicap-{{ $looper->index }}" class="col-md-8 control-label">Do you
             require a room accessible by the physically disabled?</label>
         <div class="col-md-2">
-            <select class="form-control" id="is_handicap-{{ $loop->index }}" name="is_handicap[]">
+            <select class="form-control" id="is_handicap-{{ $looper->index }}" name="is_handicap[]">
                 <option value="0">No</option>
                 <option value="1"{{ $camper->is_handicap == 1 ? ' selected' : '' }}>
                     Yes
                 </option>
             </select>
 
-            @if ($errors->has('is_handicap.' . $loop->index))
+            @if ($errors->has('is_handicap.' . $looper->index))
                 <span class="help-block">
-                    <strong>{{ $errors->first('is_handicap.' . $loop->index) }}</strong>
+                    <strong>{{ $errors->first('is_handicap.' . $looper->index) }}</strong>
                 </span>
             @endif
         </div>
     </div>
-    <div class="form-group{{ $errors->has('foodoptionid.' . $loop->index) ? ' has-error' : '' }}">
-        <label for="foodoptionid-{{ $loop->index }}" class="col-md-8 control-label">What
+    <div class="form-group{{ $errors->has('foodoptionid.' . $looper->index) ? ' has-error' : '' }}">
+        <label for="foodoptionid-{{ $looper->index }}" class="col-md-8 control-label">What
             option best describes your food restrictions?</label>
         <div class="col-md-2">
-            <select class="form-control" id="foodoptionid-{{ $loop->index }}"
+            <select class="form-control" id="foodoptionid-{{ $looper->index }}"
                     name="foodoptionid[]">
                 @foreach($foodoptions as $foodoption)
                     <option value="{{ $foodoption->id }}"
-                            {{ $foodoption->id == old('foodoptionid.' . $loop->parent->index, $camper->foodoptionid) ? ' selected' : '' }}>
+                            {{ $foodoption->id == old('foodoptionid.' . $looper->index, $camper->foodoptionid) ? ' selected' : '' }}>
                         {{ $foodoption->name }}
                     </option>
                 @endforeach
             </select>
 
-            @if ($errors->has('foodoptionid.' . $loop->index))
+            @if ($errors->has('foodoptionid.' . $looper->index))
                 <span class="help-block">
-                    <strong>{{ $errors->first('foodoptionid.' . $loop->index) }}</strong>
+                    <strong>{{ $errors->first('foodoptionid.' . $looper->index) }}</strong>
                 </span>
             @endif
         </div>

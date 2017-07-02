@@ -77,34 +77,14 @@
 </nav>
 @role(['admin', 'council'])
 <ul class="nav nav-pills">
-    <li role="presentation">
-        <form class="navbar-form navbar-left">
-            <div class="form-group">
-                <input type="text" id="camper" class="form-control camperlist" placeholder="Camper Name">
-                <input id="camperid" type="hidden">
-                <button id="household" class="btn btn-default fa fa-home action" data-toggle="tooltip"
-                        title="Household Information"></button>
-                <button id="camper" class="btn btn-default fa fa-group action" data-toggle="tooltip"
-                        title="Camper Listing"></button>
-                <button id="payment" class="btn btn-default fa fa-money action" data-toggle="tooltip"
-                        title="Payment"></button>
-                <button id="workshopchoice" class="btn btn-default fa fa-rocket action" data-toggle="tooltip"
-                        title="Workshop Preferences"></button>
-                <button id="roomselection" class="btn btn-default fa fa-bed action" data-toggle="tooltip"
-                        title="Assign Room"></button>
-                <button id="volunteer" class="btn btn-default fa fa-handshake-o action" data-toggle="tooltip"
-                        title="Volunteer Opportunities"></button>
-                <button id="confirm" class="btn btn-default fa fa-envelope action" data-toggle="tooltip"
-                        title="View Confirmation Letter"></button>
-                <button id="nametag" class="btn btn-default fa fa-id-card action" data-toggle="tooltip"
-                        title="Customize Nametags"></button>
-                <button id="calendar" class="btn btn-default fa fa-calendar action" data-toggle="tooltip"
-                        title="Calendar"></button>
-                <button id="create" class="btn btn-default fa fa-plus action" data-toggle="tooltip"
-                        title="Create New Family"></button>
+    <div class="col-lg-3" style="padding-top: 5px;">
+        <div class="input-group">
+            <input type="text" id="camper" class="form-control camperlist" placeholder="Camper Name" />
+            <div class="input-group-btn">
+    @include('admin.controls', ['id' =>  (preg_match('/\/(c|f)\/\d+$/', $_SERVER['REQUEST_URI'], $matches) ? substr($_SERVER['REQUEST_URI'], -6) : 'c/0')])
             </div>
-        </form>
-    </li>
+        </div>
+    </div>
     @role(['admin'])
     <li role="presentation" class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
@@ -170,16 +150,6 @@
         crossorigin="anonymous"></script>
 <script type="text/javascript">
     $('[data-toggle="tooltip"]').tooltip();
-    $('button.action').on('click', function (e) {
-        e.preventDefault();
-        if ($(this).attr('id') === 'create') {
-            $(this).parents('form').attr('action', '/household/f/0').submit();
-        } else {
-            var camperid = $("#camperid");
-            var id = camperid.val() !== '' ? '/c/' + camperid.val() : window.location.pathname.replace(/^\/\w+\/(c|f)\/(\d+)/, '/$1/$2')
-            $(this).parents('form').attr('action', '/' + $(this).attr('id') + id).submit();
-        }
-    });
     $('input.camperlist').each(function () {
         $(this).autocomplete({
             source: "/data/camperlist",
@@ -187,7 +157,9 @@
             autoFocus: true,
             select: function (event, ui) {
                 $(this).val(ui.item.lastname + ", " + ui.item.firstname);
-                $(this).next("input").val(ui.item.id);
+                $(this).next().find("a.fa").each(function () {
+                    $(this).attr("href", $(this).attr("href").replace(/\/c\/\d+$/, "/c/" + ui.item.id));
+                });
                 return false;
             }
         }).autocomplete('instance')._renderItem = function (ul, item) {

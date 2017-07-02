@@ -63,6 +63,13 @@ class ToolsController extends Controller
             ->orderBy('families.name')->orderBy('thisyear_campers.birthdate')->get()]);
     }
 
+    public function nametagsFamily($i, $id)
+    {
+        return view('tools.nametags', ['campers' => \App\Thisyear_Camper::where('familyid', $this->getFamilyId($i, $id))
+            ->join('families', 'families.id', 'thisyear_campers.familyid')
+            ->orderBy('families.name')->orderBy('thisyear_campers.birthdate')->get()]);
+    }
+
 
     public function programStore(Request $request)
     {
@@ -135,5 +142,10 @@ class ToolsController extends Controller
     {
         return view('tools.workshops', ['timeslots' => \App\Timeslot::all(),
             'rooms' => \App\Room::where('is_workshop', '1')->get(), 'success' => $success]);
+    }
+
+    private function getFamilyId($i, $id)
+    {
+        return $i == 'c' ? \App\Camper::find($id)->familyid : $id;
     }
 }

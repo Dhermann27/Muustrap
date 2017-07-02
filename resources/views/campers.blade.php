@@ -7,12 +7,11 @@
 @endsection
 
 @section('content')
-    <p>&nbsp;</p>
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading">Camper Information</div>
             <div class="panel-body">
-                <form class="form-horizontal" role="form" method="POST" action="{{ url('/camper') .
+                <form id="camperinfo" class="form-horizontal" role="form" method="POST" action="{{ url('/savecamper') .
                  (isset($readonly) && $readonly === false ? '/f/' . $campers->first()->familyid : '')}}">
                     {{ csrf_field() }}
 
@@ -28,352 +27,30 @@
                         </div>
                     @endif
                     <ul class="nav nav-tabs" role="tablist">
-                        @foreach($campers->where('id', '!=', '0') as $camper)
-                            <li role="presentation"{!! $loop->first ? ' class="active"' : '' !!}>
-                                <a href="#{{ $camper->id }}" aria-controls="{{ $camper->id }}" role="tab"
-                                   data-toggle="tab">{{ $camper->firstname }} {{ $camper->lastname }}</a></li>
+                        @foreach($campers as $camper)
+                            @if($camper->id != '0')
+                                <li role="presentation"{!! $loop->index == 1 ? ' class="active"' : '' !!}>
+                                    <a href="#{{ $camper->id }}" aria-controls="{{ $camper->id }}" role="tab"
+                                       data-toggle="tab">{{ old('firstname.' . $loop->index, $camper->firstname) }}
+                                        {{ old('lastname.' . $loop->index, $camper->lastname) }}
+                                    </a>
+                                </li>
+                            @endif
                         @endforeach
                         <li>
-                            <a id="newcamper" href="#0" role="tab">Create New Camper <i class="fa fa-plus"></i></a>
+                            <a id="newcamper" href="#" role="tab">Create New Camper <i class="fa fa-plus"></i></a>
                         </li>
                     </ul>
 
                     <div class="tab-content">
                         @foreach($campers as $camper)
-                            <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' in active' : '' }}"
-                                 id="{{ $camper->id }}">
-                                <p>&nbsp;</p>
-                                <div class="form-group{{ $errors->has($camper->id . '-days') ? ' has-error' : '' }}">
-                                    <label for="{{ $camper->id }}-days" class="col-md-4 control-label">Attending
-                                        in {{ $year->year }}?</label>
-                                    <a href="#" class="fa fa-info" data-toggle="tooltip" data-html="true"  
-                                       title="<p>Use this dropdown to tell us if a family member is not attending
-                                            MUUSA this year.</p><p>If this family member will be registering separately,
-                                            please use the Contact Us form and we will split them off to their own
-                                            registration form.</p>"></a>
-
-                                    <div class="col-md-6">
-                                        @if(isset($readonly))
-                                            <select class="form-control days" id="{{ $camper->id }}-days"
-                                                    name="{{ $camper->id }}-days">
-                                                @for($i=6; $i>0; $i--)
-                                                    <option value="{{ $i }}"
-                                                            {{ $i == old($camper->id . '-days', isset($camper->yearattending) ? $camper->yearattending->days : null) ? ' selected' : '' }}>
-                                                        {{ $i }} nights
-                                                    </option>
-                                                @endfor
-                                                <option value="0"{{ !isset($camper->yearattending) ? ' selected' : '' }}>
-                                                    Not Attending
-                                                </option>
-                                            </select>
-                                            @if($readonly === false)
-                                                <button id="quickme" class="pull-right fa fa-bolt" data-toggle="tooltip"
-                                                        title="Mark everyone as attending 6 nights"></button>
-                                            @endif
-                                        @else
-                                            <select class="form-control" id="{{ $camper->id }}-days"
-                                                    name="{{ $camper->id }}-days">
-                                                <option value="{{ isset($camper->yearattending) && $camper->yearattending->days > 0  ? $camper->yearattending->days : '6' }}">
-                                                    Yes
-                                                </option>
-                                                <option value="0"{{ !isset($camper->yearattending) ? ' selected' : '' }}>
-                                                    No
-                                                </option>
-                                            </select>
-                                        @endif
-
-                                        @if ($errors->has($camper->id . '-days'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first($camper->id . '-days') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="form-group{{ $errors->has($camper->id . '-pronounid') ? ' has-error' : '' }}">
-                                    <label for="{{ $camper->id }}-pronounid" class="col-md-4 control-label">Pronoun
-                                        Preference</label>
-                                    <a href="#" class="fa fa-info" data-toggle="tooltip"
-                                       data-placement="left" data-html="true"
-                                       title="<strong>Why do we ask?</strong>
-                                                <p>MUUSA is an intentionally inclusive community that
-                                                              welcomes everyone regardless of their biological sex or gender
-                                                              identification. We ask that you include your preferred pronoun
-                                                              for two reasons:</p>
-                                                       <p>For lodging purposes, we segregate our Junior High
-                                                              campers into one of two cabins in accordance with Missouri
-                                                              state law. Please contact us to make special arrangements for
-                                                              any camper who would prefer alternatives.</p>
-                                                       <p>If you are a single camper and have not found a roommate,
-                                                              our Registrar attempts to match you with someone of the same
-                                                              pronoun preference and age range. If this applies to you, we
-                                                              strongly suggest that you seek out your own roommate using
-                                                              social media or your church community.</p>"></a>
-
-                                    <div class="col-md-6">
-                                        <select class="form-control" id="{{ $camper->id }}-pronounid"
-                                                name="{{ $camper->id }}-pronounid">
-                                            <option value="0">Choose a pronoun</option>
-                                            @foreach($pronouns as $pronoun)
-                                                <option value="{{ $pronoun->id }}"
-                                                        {{ $pronoun->id == old($camper->id . '-pronounid', $camper->pronounid) ? ' selected' : '' }}>
-                                                    {{ $pronoun->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-
-                                        @if ($errors->has($camper->id . '-pronounid'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first($camper->id . '-pronounid') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="form-group{{ $errors->has($camper->id . '-firstname') ? ' has-error' : '' }}">
-                                    <label for="{{ $camper->id }}-firstname" class="col-md-4 control-label">First
-                                        Name</label>
-                                    <div class="col-md-6">
-                                        <input id="{{ $camper->id }}-firstname" class="form-control campername"
-                                               name="{{ $camper->id }}-firstname"
-                                               value="{{ old($camper->id . '-firstname', $camper->firstname) }}"
-                                               required>
-
-                                        @if ($errors->has($camper->id . '-firstname'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first($camper->id . '-firstname') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="form-group{{ $errors->has($camper->id . '-lastname') ? ' has-error' : '' }}">
-                                    <label for="{{ $camper->id }}-lastname" class="col-md-4 control-label">Last
-                                        Name</label>
-                                    <div class="col-md-6">
-                                        <input id="{{ $camper->id }}-lastname" class="form-control campername"
-                                               name="{{ $camper->id }}-lastname"
-                                               value="{{ old($camper->id . '-lastname', $camper->lastname) }}"
-                                               required>
-
-                                        @if ($errors->has($camper->id . '-lastname'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first($camper->id . '-lastname') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="form-group{{ $errors->has($camper->id . '-email') ? ' has-error' : '' }}">
-                                    <label for="{{ $camper->id }}-email" class="col-md-4 control-label">Email</label>
-                                    <div class="col-md-6">
-                                        <div class="input-group">
-                                            <input id="{{ $camper->id }}-email" class="form-control"
-                                                   name="{{ $camper->id }}-email"
-                                                   value="{{ old($camper->id . '-email', $camper->email) }}"
-                                                   aria-describedby="{{ $camper->id }}-email-addon">
-                                            <span class="input-group-addon" id="{{ $camper->id }}-email-addon">@</span>
-                                        </div>
-                                        @if($camper->logged_in)
-                                            <span class="label label-warning">Changing this value will also change your
-                                                muusa.org login.
-                                            </span>
-                                        @endif
-                                        @if ($errors->has($camper->id . '-email'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first($camper->id . '-email') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="form-group{{ $errors->has($camper->id . '-phonenbr') ? ' has-error' : '' }}">
-                                    <label for="{{ $camper->id }}-phonenbr" class="col-md-4 control-label">Phone
-                                        Number</label>
-                                    <div class="col-md-6">
-                                        <input id="{{ $camper->id }}-phonenbr" class="form-control phonemask"
-                                               name="{{ $camper->id }}-phonenbr" data-mask="999-999-9999"
-                                               value="{{ old($camper->id . '-phonenbr', $camper->formatted_phone) }}">
-
-                                        @if ($errors->has($camper->id . '-phonenbr'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first($camper->id . '-phonenbr') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="form-group{{ $errors->has($camper->id . '-birthdate') ? ' has-error' : '' }}">
-                                    <label for="{{ $camper->id }}-birthdate"
-                                           class="col-md-4 control-label">Birthdate (yyyy-mm-dd)</label>
-                                    <div class="col-md-6">
-                                        <div class="input-group date" data-provide="datepicker"
-                                             data-date-format="yyyy-mm-dd" data-date-autoclose="true">
-                                            <input id="{{ $camper->id }}-birthdate" type="text" class="form-control"
-                                                   name="{{ $camper->id }}-birthdate"
-                                                   value="{{ old($camper->id . '-birthdate', $camper->birthdate) }}"
-                                                   required>
-                                            <div class="input-group-addon">
-                                                <span class="fa fa-calendar"></span>
-                                            </div>
-                                        </div>
-                                        @if ($errors->has($camper->id . '-birthdate'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first($camper->id . '-birthdate') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="form-group{{ $errors->has($camper->id . '-gradeoffset') ? ' has-error' : '' }}">
-                                    <label for="{{ $camper->id }}-gradeoffset" class="col-md-4 control-label">Grade
-                                        Entering in Fall {{ $year->year }}</label>
-                                    <div class="col-md-6">
-                                        <select class="form-control" id="{{ $camper->id }}-gradeoffset"
-                                                name="{{ $camper->id }}-gradeoffset">
-                                            <option value="13">Not Applicable</option>
-                                            <option value="0">Kindergarten or earlier</option>
-                                            @for($i=1; $i<13; $i++)
-                                                <option value="{{ $i }}"
-                                                        {{ $i == old($camper->id . '-grade', $camper->grade) ? ' selected' : '' }}>
-                                                    @if($i == 1)
-                                                        1st
-                                                    @elseif($i == 2)
-                                                        2nd
-                                                    @elseif($i == 3)
-                                                        3rd
-                                                    @else
-                                                        {{ $i }}th
-                                                    @endif
-                                                </option>
-                                            @endfor
-                                        </select>
-
-                                        @if ($errors->has($camper->id . '-gradeoffset'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first($camper->id . '-gradeoffset') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="form-group{{ $errors->has($camper->id . '-roommate') ? ' has-error' : '' }}">
-                                    <label for="{{ $camper->id }}-roommate" class="col-md-4 control-label">Roommate
-                                        Preference</label>
-                                    <a href="#" class="fa fa-info" data-toggle="tooltip"   data-placement="left"
-                                       data-html="true"  
-                                       title="<p>There is no need to add family members to this field; we assume that
-                                       you would like to room with them unless contacted with another request.</p>"></a>
-
-                                    <div class="col-md-6">
-                                        <input id="{{ $camper->id }}-roommate" type="text"
-                                               class="form-control easycamper"
-                                               name="{{ $camper->id }}-roommate" autocomplete="off"
-                                               value="{{ old($camper->id . '-roommate', $camper->roommate) }}"
-                                               placeholder="First and last name of the camper who has agreed to be your roommate.">
-
-                                        @if ($errors->has($camper->id . '-roommate'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first($camper->id . '-roommate') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="form-group{{ $errors->has($camper->id . '-sponsor') ? ' has-error' : '' }}">
-                                    <label for="{{ $camper->id }}-sponsor"
-                                           class="col-md-4 control-label">Sponsor (if necessary)</label>
-                                    <a href="#" class="fa fa-info" data-toggle="tooltip"   data-placement="left"
-                                       data-html="true"  
-                                       title="<strong>When is a sponsor required?</strong> 
-                                       <p>A sponsor is required if the camper will be under the age  of 18 on the first
-                                       day of camp and a parent or legal guardian is not attending for the entire length
-                                       of time that the camper will be on YMCA property. A sponsor is asked to attend
-                                       the informational meetings in the parents' stead, and if the camper is asked to
-                                       leave for any reason, the sponsor will be required to assist the camper home.</p>
-                                       <p>If you are having difficulty finding a sponsor, please let us know using the
-                                       Contact Us form above. Oftentimes, we have adults in your area who are willing to
-                                       volunteer, and may also be willing to offer transportation.</p>"></a>
-
-                                    <div class="col-md-6">
-                                        <input id="{{ $camper->id }}-sponsor" type="text"
-                                               class="form-control easycamper"
-                                               name="{{ $camper->id }}-sponsor" autocomplete="off"
-                                               value="{{ old($camper->id . '-sponsor', $camper->sponsor) }}"
-                                               placeholder="First and last name of the camper who has agreed to be your sponsor.">
-
-                                        @if ($errors->has($camper->id . '-sponsor'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first($camper->id . '-sponsor') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="form-group{{ $errors->has($camper->id . '-churchid') ? ' has-error' : '' }}">
-                                    <label for="{{ $camper->id }}-churchid"
-                                           class="col-md-4 control-label">Church Affiliation</label>
-
-                                    <div class="col-md-6">
-                                        <input id="{{ $camper->id }}-churchname" type="text"
-                                               class="form-control churchlist" name="{{ $camper->id }}-churchname"
-                                               value="{{ old($camper->id . '-churchname', $camper->church->name) }}"
-                                               placeholder="Begin typing the name or city of your church.">
-                                        <input id="{{ $camper->id }}-churchid" type="hidden"
-                                               name="{{ $camper->id }}-churchid"
-                                               value="{{ old($camper->id . '-churchid', $camper->churchid) }}">
-
-                                        @if ($errors->has($camper->id . '-churchid'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first($camper->id . '-churchid') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="form-group{{ $errors->has($camper->id . '-is_handicap') ? ' has-error' : '' }}">
-                                    <label for="{{ $camper->id }}-is_handicap" class="col-md-8 control-label">Do you
-                                        require a room accessible by the physically disabled?</label>
-                                    <div class="col-md-2">
-                                        <select class="form-control" id="{{ $camper->id }}-is_handicap"
-                                                name="{{ $camper->id }}-is_handicap">
-                                            <option value="0">No</option>
-                                            <option value="1"{{ $camper->is_handicap == 1 ? ' selected' : '' }}>
-                                                Yes
-                                            </option>
-                                        </select>
-
-                                        @if ($errors->has($camper->id . '-is_handicap'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first($camper->id . '-is_handicap') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="form-group{{ $errors->has($camper->id . '-foodoptionid') ? ' has-error' : '' }}">
-                                    <label for="{{ $camper->id }}-foodoptionid" class="col-md-8 control-label">What
-                                        option best describes your food restrictions?</label>
-                                    <div class="col-md-2">
-                                        <select class="form-control" id="{{ $camper->id }}-foodoptionid"
-                                                name="{{ $camper->id }}-foodoptionid">
-                                            @foreach($foodoptions as $foodoption)
-                                                <option value="{{ $foodoption->id }}"
-                                                        {{ $foodoption->id == old($camper->id . '-foodoptionid', $camper->foodoptionid) ? ' selected' : '' }}>
-                                                    {{ $foodoption->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-
-                                        @if ($errors->has($camper->id . '-foodoptionid'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first($camper->id . '-foodoptionid') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-2 col-md-offset-8">
-                                        <button type="button" class="btn btn-default next">
-                                            Next Camper
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                            @include('snippet.camper', ['camper' => $camper, 'loop' => $loop])
                         @endforeach
                     </div>
                     @if(!isset($readonly) || $readonly === false)
                         <div class="form-group">
                             <div class="col-md-2 col-md-offset-8">
-                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                                <button id="submit" type="button" class="btn btn-primary">Save Changes</button>
                             </div>
                         </div>
                     @endif
@@ -381,17 +58,20 @@
             </div>
         </div>
     </div>
+    <div id="empty" class="hidden">
+        @foreach($empties as $empty)
+            @include('snippet.camper', ['camper' => $empty, 'loop' => $loop])
+        @endforeach
+    </div>
 @endsection
 
 @section('script')
-    <script
-            src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-            crossorigin="anonymous"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous">
+    </script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
     <script src="/js/bootstrap-datepicker.min.js"></script>
     <script type="text/javascript">
-        var camperCount = 100;
 
         $(function () {
             @if(count($errors))
@@ -400,21 +80,57 @@
 
             bind($("body"));
 
-            $('#0 select, #0 input').prop('disabled', true);
+            $('div#empty select, div#empty  input').prop('disabled', true);
             $("#newcamper").on('click', function (e) {
                 e.preventDefault();
+                var camperCount = $(".tab-content div.tab-pane").length;
                 $(this).closest('li').before('<li role="presentation"><a href="#' + camperCount + '" aria-controls="' + camperCount + '" role="tab" data-toggle="tab">New Camper</a></li>');
-                var emptycamper = $("#0");
+                var emptycamper = $("div#empty .tab-pane");
                 var empty = emptycamper.clone(false).attr("id", camperCount);
                 empty.find("input, select").each(function () {
-                    $(this).attr("id", $(this).attr("id").replace('0', camperCount));
-                    $(this).attr("name", $(this).attr("name").replace('0', camperCount));
+                    $(this).attr("id", $(this).attr("id").replace(/\d+$/, camperCount));
                     $(this).prop('disabled', false);
                 });
-                emptycamper.before(empty);
-                $('.nav-tabs a[href="#' + camperCount++ + '"]').trigger('click');
+                empty.find("label").each(function () {
+                    $(this).attr("for", $(this).attr("for").replace(/\d+$/, camperCount));
+                });
+                $(".tab-content").append(empty);
+                $('.nav-tabs a[href="#' + camperCount + '"]').trigger('click');
                 bind(empty);
             });
+
+            $('button#submit').on('click', function (e) {
+                var form = $("#camperinfo");
+                var button = $("button.btn-primary").html("<i class='fa fa-spinner fa-spin'></i> Saving...")
+                    .removeClass("btn-labeled btn-danger").prop("disabled", true);
+                $(".has-error").removeClass("has-error").find(".help-block").remove();
+                $("div.alert").remove();
+                $.ajax({
+                    url: form.attr("action"),
+                    type: 'post',
+                    data: form.serialize(),
+                    async: false,
+                    success: function (data) {
+                        $(".nav-tabs").before("<div class='alert alert-success'>" + data + "</div>");
+                        button.html("<span class='btn-label'><i class='fa fa-check'></i></span> Saved")
+                            .addClass("btn-labeled btn-success");
+                        $('html,body').animate({
+                            scrollTop: 0
+                        }, 700);
+                    },
+                    error: function (data) {
+                        $.each(data.responseJSON, function (k, v) {
+                            $("#" + k.replace(".", "-")).parents(".form-group").addClass("has-error").find("div:first")
+                                .append("<span class=\"help-block\"><strong>" + v + "</strong></span>");
+                        });
+                        $(".nav-tabs").before("<div class='alert alert-danger'>You have " + Object.keys(data.responseJSON).length + " error(s) in your form. Please adjust your entries and resubmit.</div>");
+                        $('.nav-tabs a[href="#' + $("span.help-block:first").parents('div.tab-pane').attr('id') + '"]').trigger('click');
+                        button.html("<span class='btn-label'><i class='fa fa-times'></i></span> Resubmit")
+                            .addClass("btn-labeled btn-danger").prop("disabled", false);
+                    }
+                });
+            });
+
             @if(isset($readonly) && $readonly === true)
                 $("input:not(#camper), select").prop("disabled", "true");
             @endif
@@ -432,13 +148,13 @@
             });
             obj.find(".next").click(function () {
                 var next = $('.nav-tabs > .active').next('li').find('a');
-                if (next.attr("id") != 'newcamper') {
+                if (next.attr("id") !== 'newcamper') {
                     next.trigger('click');
                     $('html,body').animate({
                         scrollTop: 0
                     }, 700);
                 } else {
-                    $('button[type="submit"]').trigger("focus");
+                    $('button#submit').trigger("focus");
                     $('html,body').animate({
                         scrollTop: 9999
                     }, 700);
@@ -447,7 +163,7 @@
             obj.find(".campername").on("change", function () {
                 var tab = $(this).parents('div.tab-pane');
                 var name = tab.find("input.campername");
-                if (name.length == 2) {
+                if (name.length === 2) {
                     $('a[href="#' + tab.attr('id') + '"]').text(name[0].value + " " + name[1].value);
                 }
             });
@@ -459,7 +175,7 @@
                     select: function (event, ui) {
                         $(".nav-pane").each(function () {
                             var names = $(this).find("input.campername");
-                            if (names.length == 2 && names[0].val() == ui.item.lastname && names[1].val() == ui.item.firstname) {
+                            if (names.length === 2 && names[0].val() === ui.item.lastname && names[1].val() === ui.item.firstname) {
                                 alert("No need to specify a family member as a roommate/sponsor.");
                                 return false;
                             }
@@ -471,7 +187,7 @@
                     return $("<li>").append("<div>" + item.lastname + ", " + item.firstname + "</div>").appendTo(ul);
                 }
             });
-            obj.find(".churchlist").each(function() {
+            obj.find(".churchlist").each(function () {
                 $(this).autocomplete({
                     source: "/data/churchlist",
                     minLength: 3,

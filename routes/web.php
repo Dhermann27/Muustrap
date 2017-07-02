@@ -25,7 +25,7 @@ Route::get('/household/{i}/{id}', 'HouseholdController@read')->middleware('auth'
 Route::post('/household/f/{id}', 'HouseholdController@write')->middleware('auth', 'role:admin');
 
 Route::get('/camper', 'CamperController@index')->middleware('auth');
-Route::post('/savecamper', 'CamperController@store')->middleware('auth');
+Route::post('/camper', 'CamperController@store')->middleware('auth');
 Route::get('/camper/{i}/{id}', 'CamperController@read')->middleware('auth', 'role:admin|council');
 Route::post('/camper/f/{id}', 'CamperController@write')->middleware('auth', 'role:admin');
 

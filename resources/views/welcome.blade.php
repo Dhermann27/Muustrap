@@ -19,7 +19,7 @@
                     <span class="fa fa-calendar fa-4x"></span>
                 </div>
                 <h3>Scheduled</h3>
-                <p>Sunday, July 2nd through Saturday, July 8th 2017</p>
+                <p>{{ $year->first_day }} through {{ $year->last_day }} {{ $year->year }}</p>
             </div>
             <div class="col-md-4">
                 <div>

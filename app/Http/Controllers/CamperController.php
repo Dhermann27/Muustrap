@@ -39,6 +39,7 @@ class CamperController extends Controller
             'foodoptionid.*' => 'exists:foodoptions,id',
         ], $messages);
 
+        $campers = array();
         for ($i = 0; $i < count($request->input('id')); $i++) {
             $id = $request->input('id')[$i];
             $camper = \App\Camper::find($id);
@@ -47,15 +48,15 @@ class CamperController extends Controller
                 Auth::user()->save();
             }
             if ($id == 0 || $camper->familyid == $logged_in->familyid) {
-                $this->upsertCamper($request, $i, $logged_in->familyid);
+                array_push($campers, $this->upsertCamper($request, $i, $logged_in->familyid));
             }
         }
 
-//        $year = $this->getCurrentYear();
-//
-//        DB::statement('CALL generate_charges(' . $this->getCurrentYear()->year . ');');
-//
-//        Mail::to(Auth::user()->email)->send(new Confirm($year, $campers));
+        $year = $this->getCurrentYear();
+
+        DB::statement('CALL generate_charges(' . $this->getCurrentYear()->year . ');');
+
+        Mail::to(Auth::user()->email)->send(new Confirm($year, $campers));
 
         return 'You have successfully saved your changes and registered. Click <a href="' . url('/payment') . '">here</a> to remit payment.';
     }
@@ -114,19 +115,16 @@ class CamperController extends Controller
         return \App\Year::where('is_current', 1)->first();
     }
 
-    public function index($success = null, $year = null, $campers = null)
+    public function index()
     {
-        if ($year == null) {
-            $year = $this->getCurrentYear();
-        }
-        if ($campers == null) {
-            $campers = $this->getCampers();
-        }
+        $year = $this->getCurrentYear();
+        $campers = $this->getCampers();
+
         $empty = new \App\Camper();
         $empty->id = 0;
         $empty->churchid = 2084;
         return view('campers', ['pronouns' => \App\Pronoun::all(), 'foodoptions' => \App\Foodoption::all(),
-            'year' => $year, 'campers' => $campers, 'empties' => array($empty), 'success' => $success, 'readonly' => null]);
+            'year' => $year, 'campers' => $campers, 'empties' => array($empty), 'readonly' => null]);
 
     }
 
@@ -144,10 +142,10 @@ class CamperController extends Controller
 
         DB::statement('CALL generate_charges(getcurrentyear());');
 
-        return $this->read('f', $id, 'You did it! Need to make see their <a href="' . url('/payment/f/' . $id) . '">statement</a> next?');
+        return 'You did it! Need to make see their <a href="' . url('/payment/f/' . $id) . '">statement</a> next?';
     }
 
-    public function read($i, $id, $success = null)
+    public function read($i, $id)
     {
         $year = $this->getCurrentYear();
         $readonly = \Entrust::can('read') && !\Entrust::can('write');
@@ -157,10 +155,9 @@ class CamperController extends Controller
         $empty = new \App\Camper();
         $empty->id = 0;
         $empty->churchid = 2084;
-        $campers->push($empty);
 
         return view('campers', ['pronouns' => \App\Pronoun::all(), 'foodoptions' => \App\Foodoption::all(),
-            'year' => $year, 'campers' => $campers, 'success' => $success, 'readonly' => $readonly]);
+            'year' => $year, 'campers' => $campers, 'empties' => array($empty), 'readonly' => $readonly]);
     }
 
     private function getFamilyId($i, $id)

@@ -157,7 +157,7 @@
             autoFocus: true,
             select: function (event, ui) {
                 $(this).val(ui.item.lastname + ", " + ui.item.firstname);
-                $(this).next().find("a.fa").each(function () {
+                $(this).next().find(".camperdetails a").each(function () {
                     $(this).attr("href", $(this).attr("href").replace(/\/c\/\d+$/, "/c/" + ui.item.id));
                 });
                 return false;

@@ -15,7 +15,7 @@
                 <select class="form-control days" id="days-{{ $looper->index }}" name="days[]">
                     @for($i=7; $i>0; $i--)
                         <option value="{{ $i }}"
-                                {{ $i == old('days.' . $looper->index) ? ' selected' : '' }}>
+                                {{ $i == old('days.' . $looper->index, isset($camper->yearattending) ? $camper->yearattending->days : null) ? ' selected' : '' }}>
                             {{ $i }} nights
                         </option>
                     @endfor

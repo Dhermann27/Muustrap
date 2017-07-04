@@ -17,21 +17,21 @@ class Year extends Model
 
     public function getFirstDayAttribute()
     {
-        return Carbon::createFromFormat('Y-m-d', $this->start_date)->format('l F jS');
+        return Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago')->format('l F jS');
     }
 
     public function getLastDayAttribute()
     {
-        return Carbon::createFromFormat('Y-m-d', $this->start_date)->addDays(6)->format('l F jS');
+        return Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago')->addDays(6)->format('l F jS');
     }
 
     public function getNextDayAttribute()
     {
-        return Carbon::now()->max(Carbon::createFromFormat('Y-m-d', $this->start_date));
+        return Carbon::now()->max(Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago'));
     }
 
     public function getNextWeekdayAttribute()
     {
-        return Carbon::now()->max(Carbon::createFromFormat('Y-m-d', $this->start_date)->addDay());
+        return Carbon::now()->max(Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago')->addDay());
     }
 }

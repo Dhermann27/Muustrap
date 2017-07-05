@@ -49,22 +49,46 @@ class WelcomeController extends Controller
                 $payload['roomid'] = \App\Thisyear_Camper::where('id', $camper->id)->first();
             }
         }
+
+        $client = new GuzzleHttp\Client();
+        $res = $client->request('GET', env('GOOGLE_CAL_SCRIPT') . env('COFFEEHOUSE_CALENDAR') . "&date=" . $year->next_weekday->toDateString());
+        $av = false;
+        $camper = null;
+        if (Auth::check()) {
+            $camper = \App\Thisyear_Camper::where('email', Auth::user()->email)->first();
+            if (isset($camper)) {
+                foreach ($camper->yearattending->positions as $position) {
+                    if ($position->staffpositionid == '1117' || $position->staffpositionid == '1103') {
+                        $av = true;
+                    }
+                }
+            }
+        }
+        $payload['muse'] = true;
+        $payload['av'] = $av;
+        $payload['day'] = $year->next_weekday->format('l F jS');
+        $payload['list'] = json_decode($res->getBody());
+
+
         return view('welcome', $payload);
     }
 
-    private function isRegistered($family)
+    private
+    function isRegistered($family)
     {
         return $family != null && $family->count > 0;
     }
 
-    private function isPaid($family)
+    private
+    function isPaid($family)
     {
         return $family != null &&
             \App\Thisyear_Charge::where('familyid', $family->id)->where('chargetypeid', 1003)->
             where('chargetypeid', 1003)->orWhere('amount', '<', '0')->get()->sum('amount') > 0;
     }
 
-    private function isSignedup($family)
+    private
+    function isSignedup($family)
     {
         if ($family != null) {
             return DB::table('thisyear_campers')->where('familyid', $family->id)

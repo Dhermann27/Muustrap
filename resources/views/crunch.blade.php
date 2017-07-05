@@ -12,7 +12,7 @@
                     <h3>Coffeehouse Schedule: {{ $day }}</h3>
                     @if(!empty($list[1]->colorId))
                         @for($i=1; $i<count($list); $i++)
-                            @if(empty($list[$i]->colorId))
+                            @if(strpos($list[$i]->description, "OS") === false)
                                 <p>Now on stage: <strong>{{ $list[$i-1]->summary }}</strong></p>
                                 <p>Coming up:</p>
                                 @break

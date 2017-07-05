@@ -4,6 +4,7 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Year extends Model
 {
@@ -13,6 +14,11 @@ class Year extends Model
     public function rates($year)
     {
         return \App\Rate::where('start_year', '<=', $this->year)->where('end_year', '>=', $this->year)->get();
+    }
+
+    public function isLive() {
+        return Storage::disk('local')->exists('public/MUUSA_' . $this->year . '_Brochure.pdf');
+
     }
 
     public function getFirstDayAttribute()
@@ -27,11 +33,11 @@ class Year extends Model
 
     public function getNextDayAttribute()
     {
-        return Carbon::now()->max(Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago'));
+        return Carbon::now('America/Chicago')->max(Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago'));
     }
 
     public function getNextWeekdayAttribute()
     {
-        return Carbon::now()->max(Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago')->addDay());
+        return Carbon::now('America/Chicago')->max(Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago')->addDay());
     }
 }

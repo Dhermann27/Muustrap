@@ -638,7 +638,7 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges(myyear YEAR)
       FROM byyear_staff bsp
       WHERE bsp.year=myyear;
     INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
-      SELECT myyear, ya.camperid, w.fee, 1002, w.name
+      SELECT ya.year, ya.camperid, w.fee, 1002, w.name
       FROM workshops w, yearattending__workshop yw, yearsattending ya
       WHERE w.fee > 0 AND yw.is_enrolled=1 AND w.id=yw.workshopid AND yw.yearattendingid=ya.id;
   END;

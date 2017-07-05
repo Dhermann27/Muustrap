@@ -8,11 +8,35 @@
         <div class="row">
             <div class="col-md-4">
                 <div>
-                    <span class="fa fa-map-marker fa-4x"></span>
+                    <span class="fa fa-music fa-4x"></span>
                 </div>
-                <h3>Located</h3>
-                <p>at Trout Lodge in the YMCA of the Ozarks near Potosi,
-                    Missouri</p>
+                <h3>Coffeehouse Schedule: {{ $day }}</h3>
+                @if(!empty($list[1]->colorId))
+                    @for($i=1; $i<count($list); $i++)
+                        @if(strpos($list[$i]->description, "OS") === false)
+                            <p>Now on stage: <strong>{{ $list[$i-1]->summary }}</strong></p>
+                            <p>Coming up:</p>
+                            @break
+                        @endif
+                    @endfor
+                @else
+                    <p>Evening's acts:</p>
+                @endif
+                @if(count($list) > 0)
+                    <p>
+                        @foreach($list as $item)
+                            @if(empty($item->colorId))
+                                @if(isset($item->summary))
+                                    {{ $item->summary }}
+                                @endif
+                                @if($av && isset($item->description))
+                                    ({{ $item->description }})
+                                @endif
+                                <br/>
+                            @endif
+                        @endforeach
+                    </p>
+                @endif
             </div>
             <div class="col-md-4">
                 <div>
@@ -39,7 +63,7 @@
         <div class="alert alert-info" role="alert">Ready to register for MUUSA {{ $year->year }}? Start the 3-step
             process by clicking the Register button below.
         </div>
-    @elseif($registered == '1')
+    @elseif($registered == '1' && $year->isLive())
         @if($paid == '0')
             <div class="alert alert-warning" role="alert">
                 Your payment has not yet been processed. Either visit the Payment screen by clicking the link below or
@@ -217,7 +241,7 @@
                     </div>
                 @else
                     <div class="panel-body">
-                        <div class="col-md-4 text-center bs-callout bs-callout-{{ $updatedFamily == '1' ? 'success' : 'warning' }}">
+                        <div class="col-md-4 text-center bs-callout bs-callout-{{ $registered == '1' ? 'success' : 'warning' }}">
                             <p>&nbsp;</p>
                             <i class="fa fa-home fa-5x"></i><br/>
                             <h4>Household Information</h4>
@@ -226,7 +250,7 @@
                                         class="fa fa-arrow-right"></i>
                             </a>
                         </div>
-                        <div class="col-md-4 text-center bs-callout bs-callout-{{ $updatedCamper == '1' ? 'success' : 'warning' }}">
+                        <div class="col-md-4 text-center bs-callout bs-callout-{{ $registered == '1' ? 'success' : 'warning' }}">
                             <p>&nbsp;</p>
                             <i class="fa fa-group fa-5x"></i><br/>
                             <h4>Camper Listing</h4>
@@ -236,7 +260,7 @@
                                         class="fa fa-arrow-right"></i>
                             </a>
                         </div>
-                        <div class="col-md-4 text-center bs-callout bs-callout-{{ $registered == '1' ? ($paid == '1' ? 'success' : 'error') : 'default' }}">
+                        <div class="col-md-4 text-center bs-callout bs-callout-{{ $registered == '1' && $paid == '1' ? 'success' : 'warning' }}">
                             <p>&nbsp;</p>
                             <i class="fa fa-money fa-5x"></i><br/>
                             <h4>Payment</h4>
@@ -321,8 +345,8 @@
                         <p>&nbsp;</p>
                         <i class="fa fa-map-o fa-5x"></i><br/>
                         <h4>Workshops</h4>
-                        <p>Here is a list of all available workshops put on by the Adult Programming
-                            Council.</p>
+                        <p>Here is a list of all 2017 workshops, to give you a better idea of what to expect next
+                            year.</p>
                         <a class="booty" href="{{ url('/workshops') }}">View Workshops <i
                                     class="fa fa-arrow-right"></i>
                         </a>
@@ -331,7 +355,8 @@
                         <p>&nbsp;</p>
                         <i class="fa fa-binoculars fa-5x"></i><br/>
                         <h4>Excursions</h4>
-                        <p>This is where you can find more details about the single-day trips planned.</p>
+                        <p>This is where you can find more details about the single-day trips planned in 2017, which may
+                            change in 2018.</p>
                         <a class="booty" href="{{ url('/excursions') }}">View Excursions <i
                                     class="fa fa-arrow-right"></i>
                         </a>
@@ -340,7 +365,7 @@
                         <p>&nbsp;</p>
                         <i class="fa fa-microphone fa-5x"></i><br/>
                         <h4>Theme Speaker</h4>
-                        <p>Find out more information about our Theme Speaker, the Reverend Marlin Lavanhar.</p>
+                        <p>Find out more information about our Theme Speaker, Nic Cable.</p>
                         <a class="booty" href="{{ url('/themespeaker') }}">View Biography <i
                                     class="fa fa-arrow-right"></i>
                         </a>
@@ -354,7 +379,7 @@
     <a href="https://twitter.com/muusa1" id="twtr" class="social fa fa-twitter-square fa-3x"></a>
     @if(Auth::check())
         <a href="{{ url('/directory') }}" id="od" class="social fa fa-address-book fa-3x"></a>
-        @if($registered == '1')
+        @if($registered == '1' && $year->isLive())
             <a href="{{ url('/calendar') }}" id="cal" class="social fa fa-calendar fa-3x"></a>
         @endif
     @endif

@@ -12,7 +12,7 @@ class WelcomeController extends Controller
     public function index()
     {
         $year = \App\Year::where('is_current', '1')->first();
-        if (Carbon::now()->lte(Carbon::createFromFormat('Y-m-d', $year->start_date)->subWeeks(2))) {
+        if (Carbon::now('America/Chicago')->lte(Carbon::createFromFormat('Y-m-d', $year->start_date)->subWeeks(2))) {
             return $this->normal($year);
         } else {
             $client = new GuzzleHttp\Client();
@@ -41,8 +41,6 @@ class WelcomeController extends Controller
             $open = new \DateTime(\App\Year::where('year', DB::raw('getcurrentyear()-1'))->first()->start_date);
             $camper = \App\Camper::where('email', Auth::user()->email)->first();
             if ($camper !== null) {
-                $payload['updatedFamily'] = $this->isFamilyUpdated($camper, $open);
-                $payload['updatedCamper'] = $this->isCamperUpdated($camper, $open);
 
                 $family = \App\Thisyear_Family::find($camper->family->id);
                 $payload['registered'] = $this->isRegistered($family);
@@ -54,16 +52,6 @@ class WelcomeController extends Controller
         return view('welcome', $payload);
     }
 
-    private function isFamilyUpdated($camper, $open)
-    {
-        return $camper->family->updated_at !== null ? new \DateTime($camper->family->updated_at) > $open : 0;
-    }
-
-    private function isCamperUpdated($camper, $open)
-    {
-        return $camper->updated_at !== null ? new \DateTime($camper->updated_at) > $open : 0;
-    }
-
     private function isRegistered($family)
     {
         return $family != null && $family->count > 0;
@@ -73,7 +61,7 @@ class WelcomeController extends Controller
     {
         return $family != null &&
             \App\Thisyear_Charge::where('familyid', $family->id)->where('chargetypeid', 1003)->
-            where('chargetypeid', 1003)->orWhere('amount', '<', '0')->get()->sum('amount') <= 0;
+            where('chargetypeid', 1003)->orWhere('amount', '<', '0')->get()->sum('amount') > 0;
     }
 
     private function isSignedup($family)

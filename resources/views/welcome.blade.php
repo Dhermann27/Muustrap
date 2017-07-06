@@ -25,7 +25,7 @@
                 @if(count($list) > 0)
                     <p>
                         @foreach($list as $item)
-                            @if(empty($item->colorId))
+                            @if(strpos($list[$i]->description, "OS") === false)
                                 @if(isset($item->summary))
                                     {{ $item->summary }}
                                 @endif

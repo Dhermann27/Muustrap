@@ -14,7 +14,7 @@ class CalendarController extends Controller
     public function index()
     {
         return view('calendar', ['campers' => $this->getCampers(),
-            'year' => \App\Year::where('is_current', '1')->first()]);
+            'year' => \App\Year::where('year', '2017')->first()]);
     }
 
     private function getCampers()

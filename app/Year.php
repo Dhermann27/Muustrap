@@ -33,11 +33,11 @@ class Year extends Model
 
     public function getNextDayAttribute()
     {
-        return Carbon::now('America/Chicago')->max(Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago'));
+        return Carbon::now('America/Chicago');//->max(Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago'));
     }
 
     public function getNextWeekdayAttribute()
     {
-        return Carbon::now('America/Chicago')->max(Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago')->addDay());
+        return Carbon::now('America/Chicago')->addDay();//->max(Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago')->addDay());
     }
 }

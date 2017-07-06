@@ -25,7 +25,7 @@
                 @if(count($list) > 0)
                     <p>
                         @foreach($list as $item)
-                            @if(strpos($item->description, "OS") === false)
+                            @if(isset($item->description) && strpos($item->description, "OS") === false)
                                 @if(isset($item->summary))
                                     {{ $item->summary }}
                                 @endif

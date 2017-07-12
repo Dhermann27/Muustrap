@@ -73,22 +73,19 @@ class WelcomeController extends Controller
         return view('welcome', $payload);
     }
 
-    private
-    function isRegistered($family)
+    private function isRegistered($family)
     {
         return $family != null && $family->count > 0;
     }
 
-    private
-    function isPaid($family)
+    private function isPaid($family)
     {
         return $family != null &&
-            \App\Thisyear_Charge::where('familyid', $family->id)->where('chargetypeid', 1003)->
-            where('chargetypeid', 1003)->orWhere('amount', '<', '0')->get()->sum('amount') > 0;
+            \App\Thisyear_Charge::where('familyid', $family->id)->where('chargetypeid', 1003)
+                ->where('chargetypeid', 1003)->orWhere('amount', '<', '0')->get()->sum('amount') <= 0;
     }
 
-    private
-    function isSignedup($family)
+    private function isSignedup($family)
     {
         if ($family != null) {
             return DB::table('thisyear_campers')->where('familyid', $family->id)

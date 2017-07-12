@@ -20,10 +20,11 @@ class CreateProgramsTable extends Migration
             $table->integer('age_min');
             $table->integer('grade_max');
             $table->integer('grade_min');
-            $table->integer('start_year');
-            $table->integer('end_year');
-            $table->integer('fee');
             $table->text('blurb')->nullable();
+            $table->string('link')->nullable();
+            $table->text('letter')->nullable();
+            $table->text('form')->nullable();
+            $table->text('calendar')->nullable();
             $table->tinyInteger('is_program_housing');
             $table->timestamps();
         });

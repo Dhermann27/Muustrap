@@ -1,3 +1,4 @@
+@inject('home', 'App\Http\Controllers\HomeController')
 @extends('layouts.app')
 
 @section('content')
@@ -76,7 +77,7 @@
                         <div class="col-md-6">
                             <h4>To Pay via Mail:</h4>
                             Make checks payable to <strong>MUUSA, Inc.</strong><br/>
-                            Mail check by May 31, {{ $year->year }} to<br/>
+                            Mail check by May 31, {{ $home->year()->year }} to<br/>
                             MUUSA, Inc.<br/>423 North Waiola<br/>
                             La Grange Park, IL 60526<br/> <br/>
                         </div>

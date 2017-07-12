@@ -1,6 +1,8 @@
+@inject('home', 'App\Http\Controllers\HomeController')
+
 Thank you for submitting your registration! We are looking forward to seeing you "next week".
 
-You have successfully registered the following campers for MUUSA {{ $year->year }}:
+You have successfully registered the following campers for MUUSA {{ $home->year()->year }}:
 @foreach($campers as $camper)
     @if($camper->yearattendingid != 0)
         {{ $camper->firstname }} {{ $camper->lastname }}

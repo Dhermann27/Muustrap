@@ -53,6 +53,11 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
     <script>
+        var years = [
+            @foreach($years as $year)
+                '{{ $year->year }}' @if(!$loop->last) , @endif
+            @endforeach
+        ];
         var mydata = [
                 @foreach($dates as $date => $totals)
             {
@@ -68,8 +73,8 @@
             data: mydata,
             parseTime: false,
             xkey: 'y',
-            ykeys: ['{!! $years->implode("','") !!}'],
-            labels: ['{!! $years->implode("','") !!}']
+            ykeys: years,
+            labels: years
         });
     </script>
 @endsection

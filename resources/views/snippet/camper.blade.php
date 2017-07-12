@@ -1,9 +1,11 @@
+@inject('home', 'App\Http\Controllers\HomeController')
+
 <div role="tabpanel" class="tab-pane fade{{ $looper->first ? ' in active' : '' }}" id="{{ $camper->id }}">
     <p>&nbsp;</p>
     <input type="hidden" id="id-{{ $looper->index }}" name="id[]" value="{{ $camper->id }}"/>
     <div class="form-group{{ $errors->has('days.' . $looper->index) ? ' has-error' : '' }}">
         <label for="days-{{ $looper->index }}" class="col-md-4 control-label">Attending
-            in {{ $year->year }}?</label>
+            in {{ $home->year()->year }}?</label>
         <a href="#" class="fa fa-info" data-toggle="tooltip" data-html="true"  
            title="<p>Use this dropdown to tell us if a family member is not attending
                     MUUSA this year.</p><p>If this family member will be registering separately,
@@ -168,7 +170,7 @@
     </div>
     <div class="form-group{{ $errors->has('gradeoffset.' . $looper->index) ? ' has-error' : '' }}">
         <label for="gradeoffset-{{ $looper->index }}" class="col-md-4 control-label">Grade
-            Entering in Fall {{ $year->year }}</label>
+            Entering in Fall {{ $home->year()->year }}</label>
         <div class="col-md-6">
             <select class="form-control" id="gradeoffset-{{ $looper->index }}" name="gradeoffset[]">
                 <option value="13">Not Applicable</option>

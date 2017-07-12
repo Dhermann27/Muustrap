@@ -29,14 +29,14 @@ class WelcomeController extends Controller
                     }
                 }
             }
-            return view('crunch', ['year' => $year, 'muse' => true, 'av' => $av, 'camper' => $camper,
+            return view('crunch', ['muse' => true, 'av' => $av, 'camper' => $camper,
                 'day' => $year->next_weekday->format('l F jS'), 'list' => json_decode($res->getBody())]);
         }
     }
 
     public function normal($year)
     {
-        $payload = ['updatedFamily' => '0', 'updatedCamper' => 0, 'registered' => 0, 'paid' => 0, 'year' => $year];
+        $payload = ['updatedFamily' => '0', 'updatedCamper' => 0, 'registered' => 0, 'paid' => 0];
         if (Auth::check()) {
             $open = new \DateTime(\App\Year::where('year', DB::raw('getcurrentyear()-1'))->first()->start_date);
             $camper = \App\Camper::where('email', Auth::user()->email)->first();
@@ -73,19 +73,22 @@ class WelcomeController extends Controller
         return view('welcome', $payload);
     }
 
-    private function isRegistered($family)
+    private
+    function isRegistered($family)
     {
         return $family != null && $family->count > 0;
     }
 
-    private function isPaid($family)
+    private
+    function isPaid($family)
     {
         return $family != null &&
             \App\Thisyear_Charge::where('familyid', $family->id)->where('chargetypeid', 1003)->
-            where('chargetypeid', 1003)->orWhere('amount', '<', '0')->get()->sum('amount') <= 0;
+            where('chargetypeid', 1003)->orWhere('amount', '<', '0')->get()->sum('amount') > 0;
     }
 
-    private function isSignedup($family)
+    private
+    function isSignedup($family)
     {
         if ($family != null) {
             return DB::table('thisyear_campers')->where('familyid', $family->id)

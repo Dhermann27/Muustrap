@@ -90,9 +90,8 @@ class PaymentController extends Controller
         $token = env('PAYPAL_CLIENT');
 //        $token = $gateway->clientToken()->generate();
         return view('payment',
-            ['year' => \App\Year::where('is_current', '1')->first(),
-                'token' => $token, 'env' => $env,
-                'charges' => $charges, 'deposit' => $deposit, 'success' => $success, 'error' => $error]);
+            ['token' => $token, 'env' => $env, 'charges' => $charges, 'deposit' => $deposit,
+                'success' => $success, 'error' => $error]);
     }
 
     public function write(Request $request, $id)
@@ -129,15 +128,13 @@ class PaymentController extends Controller
 
     public function read($i, $id, $success = null)
     {
-
-        $year = \App\Year::where('is_current', 1)->first();
         $readonly = \Entrust::can('read') && !\Entrust::can('write');
         $family = \App\Family::find($this->getFamilyId($i, $id));
         $years = \App\Byyear_Charge::where('familyid', $family->id)
             ->orderBy('year')->orderBy('timestamp')->get()->groupBy('year');
 
         return view('admin.payment', ['chargetypes' => \App\Chargetype::where('is_shown', '1')->orderBy('name')->get(),
-            'year' => $year, 'years' => $years, 'success' => $success, 'readonly' => $readonly, 'family' => $family]);
+            'years' => $years, 'success' => $success, 'readonly' => $readonly, 'family' => $family]);
     }
 
     private function getFamilyId($i, $id)

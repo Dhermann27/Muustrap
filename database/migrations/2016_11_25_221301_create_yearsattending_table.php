@@ -21,7 +21,9 @@ class CreateYearsattendingTable extends Migration
             $table->integer('roomid')->unsigned()->nullable()->default(NULL);
             $table->foreign('roomid')->references('id')->on('rooms');
             $table->integer('days')->default('6');
+            $table->tinyInteger('is_setbyadmin')->default('0');
             $table->tinyInteger('is_private')->default('0');
+            $table->string('nametag')->default('222215521');
             $table->timestamps();
         });
     }

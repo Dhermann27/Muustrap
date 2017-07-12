@@ -1,3 +1,5 @@
+@inject('home', 'App\Http\Controllers\HomeController')
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,7 +53,7 @@
             <ul class="nav navbar-nav navbar-right">
                 @if(isset($muse))
                     <li><a href="{{ url('/themuse') }}">Latest MUUSA Muse</a></li>
-                @elseif(isset($year) && $year->isLive())
+                @elseif($home->year()->isLive())
                     <li><a href="{{ url('MUUSA_2017_Brochure.pdf') }}">Web Brochure</a></li>
                 @endif
                 <li><a href="{{ url('/contact') }}">Contact Us</a></li>
@@ -157,6 +159,7 @@
             autoFocus: true,
             select: function (event, ui) {
                 $(this).val(ui.item.lastname + ", " + ui.item.firstname);
+                $("input#" + $(this).attr("id") + "id").val(ui.item.id);
                 $(this).next().find(".camperdetails a").each(function () {
                     $(this).attr("href", $(this).attr("href").replace(/\/c\/\d+$/, "/c/" + ui.item.id));
                 });

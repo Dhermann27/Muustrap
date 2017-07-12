@@ -6,15 +6,14 @@ use Illuminate\Support\Facades\Auth;
 
 class CalendarController extends Controller
 {
-    public function read($id) {
-        return view('calendar', ['campers' => \App\Thisyear_Camper::where('familyid', \App\Thisyear_Camper::find($id)->familyid)->orderBy('birthdate')->get(),
-            'year' => \App\Year::where('is_current', '1')->first()]);
+    public function read($id)
+    {
+        return view('calendar', ['campers' => \App\Thisyear_Camper::where('familyid', \App\Thisyear_Camper::find($id)->familyid)->orderBy('birthdate')->get()]);
     }
 
     public function index()
     {
-        return view('calendar', ['campers' => $this->getCampers(),
-            'year' => \App\Year::where('year', '2017')->first()]);
+        return view('calendar', ['campers' => $this->getCampers()]);
     }
 
     private function getCampers()

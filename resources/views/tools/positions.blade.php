@@ -1,3 +1,4 @@
+@inject('home', 'App\Http\Controllers\HomeController')
 @extends('layouts.app')
 
 @section('content')
@@ -93,7 +94,7 @@
                                         <select id="{{ $program->id }}-staffpositionid"
                                                 name="{{ $program->id }}-staffpositionid" class="form-control">
                                             <option value="0">Choose a position</option>
-                                            @foreach($program->staffpositions($year)->orderBy('name')->get() as $staffposition)
+                                            @foreach($program->staffpositions($home->year()->year)->orderBy('name')->get() as $staffposition)
                                                 <option value="{{ $staffposition->id }}">{{ $staffposition->name }}
                                                     ({{ $staffposition->compensationlevel->name }})
                                                 </option>

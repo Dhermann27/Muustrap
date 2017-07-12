@@ -110,21 +110,15 @@ class CamperController extends Controller
         return $camper;
     }
 
-    private function getCurrentYear()
-    {
-        return \App\Year::where('is_current', 1)->first();
-    }
-
     public function index()
     {
-        $year = $this->getCurrentYear();
         $campers = $this->getCampers();
 
         $empty = new \App\Camper();
         $empty->id = 0;
         $empty->churchid = 2084;
         return view('campers', ['pronouns' => \App\Pronoun::all(), 'foodoptions' => \App\Foodoption::all(),
-            'year' => $year, 'campers' => $campers, 'empties' => array($empty), 'readonly' => null]);
+            'campers' => $campers, 'empties' => array($empty), 'readonly' => null]);
 
     }
 
@@ -147,7 +141,6 @@ class CamperController extends Controller
 
     public function read($i, $id)
     {
-        $year = $this->getCurrentYear();
         $readonly = \Entrust::can('read') && !\Entrust::can('write');
         $family = \App\Family::find($this->getFamilyId($i, $id));
         $campers = \App\Camper::where('familyid', $family->id)->orderBy('birthdate')->get();
@@ -157,7 +150,7 @@ class CamperController extends Controller
         $empty->churchid = 2084;
 
         return view('campers', ['pronouns' => \App\Pronoun::all(), 'foodoptions' => \App\Foodoption::all(),
-            'year' => $year, 'campers' => $campers, 'empties' => array($empty), 'readonly' => $readonly]);
+            'campers' => $campers, 'empties' => array($empty), 'readonly' => $readonly]);
     }
 
     private function getFamilyId($i, $id)

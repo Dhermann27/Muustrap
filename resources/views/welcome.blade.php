@@ -1,3 +1,4 @@
+@inject('home', 'App\Http\Controllers\HomeController')
 @extends('layouts.app')
 
 @section('content')
@@ -8,42 +9,17 @@
         <div class="row">
             <div class="col-md-4">
                 <div>
-                    <span class="fa fa-music fa-4x"></span>
+                    <span class="fa fa-map-marker fa-4x"></span>
                 </div>
-                <h3>Coffeehouse Schedule: {{ $day }}</h3>
-                @if(!empty($list[1]->colorId))
-                    @for($i=1; $i<count($list); $i++)
-                        @if(strpos($list[$i]->description, "OS") === false)
-                            <p>Now on stage: <strong>{{ $list[$i-1]->summary }}</strong></p>
-                            <p>Coming up:</p>
-                            @break
-                        @endif
-                    @endfor
-                @else
-                    <p>Evening's acts:</p>
-                @endif
-                @if(count($list) > 0)
-                    <p>
-                        @foreach($list as $item)
-                            @if(isset($item->description) && strpos($item->description, "OS") === false)
-                                @if(isset($item->summary))
-                                    {{ $item->summary }}
-                                @endif
-                                @if($av && isset($item->description))
-                                    ({{ $item->description }})
-                                @endif
-                                <br/>
-                            @endif
-                        @endforeach
-                    </p>
-                @endif
+                <h3>Located</h3>
+                <p>at Trout Lodge in the YMCA of the Ozarks near Potosi, Missouri</p>
             </div>
             <div class="col-md-4">
                 <div>
                     <span class="fa fa-calendar fa-4x"></span>
                 </div>
                 <h3>Scheduled</h3>
-                <p>{{ $year->first_day }} through {{ $year->last_day }} {{ $year->year }}</p>
+                <p>{{ $home->year()->first_day }} through {{ $home->year()->last_day }} {{ $home->year()->year }}</p>
             </div>
             <div class="col-md-4">
                 <div>
@@ -60,10 +36,11 @@
             registration process, please start by logging in or creating a website account in the upper-right.
         </div>
     @elseif($registered == '0')
-        <div class="alert alert-info" role="alert">Ready to register for MUUSA {{ $year->year }}? Start the 3-step
+        <div class="alert alert-info" role="alert">Ready to register for MUUSA {{ $home->year()->year }}? Start the
+            3-step
             process by clicking the Register button below.
         </div>
-    @elseif($registered == '1' && $year->isLive())
+    @elseif($registered == '1' && $home->year()->isLive())
         @if($paid == '0')
             <div class="alert alert-warning" role="alert">
                 Your payment has not yet been processed. Either visit the Payment screen by clicking the link below or
@@ -220,7 +197,7 @@
         <div class="col-md-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Get Registered for {{ $year->year }}</h3>
+                    <h3 class="panel-title">Get Registered for {{ $home->year()->year }}</h3>
                 </div>
                 @if (Auth::guest())
                     <div class="panel-body">
@@ -254,7 +231,8 @@
                             <p>&nbsp;</p>
                             <i class="fa fa-group fa-5x"></i><br/>
                             <h4>Camper Listing</h4>
-                            <p>This page can help you update your information specific to {{ $year->year }} and actually
+                            <p>This page can help you update your information specific to {{ $home->year()->year }} and
+                                actually
                                 perform the registation.</p>
                             <a class="booty" href="{{ url('/camper') }}">Update Campers <i
                                         class="fa fa-arrow-right"></i>
@@ -338,7 +316,7 @@
         <div class="col-md-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">What is new for MUUSA in {{ $year->year }}?</h3>
+                    <h3 class="panel-title">What is new for MUUSA in {{ $home->year()->year }}?</h3>
                 </div>
                 <div class="panel-body">
                     <div class="col-md-4 text-center">

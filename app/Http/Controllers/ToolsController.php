@@ -54,7 +54,7 @@ class ToolsController extends Controller
             $query->where('start_year', '<=', $year)->where('end_year', '>=', $year);
         }])->with('assignments')
             ->orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get(),
-            'year' => $year, 'success' => $success]);
+            'success' => $success]);
     }
 
     public function nametags()
@@ -70,6 +70,10 @@ class ToolsController extends Controller
             ->orderBy('families.name')->orderBy('thisyear_campers.birthdate')->get()]);
     }
 
+    private function getFamilyId($i, $id)
+    {
+        return $i == 'c' ? \App\Camper::find($id)->familyid : $id;
+    }
 
     public function programStore(Request $request)
     {
@@ -97,9 +101,8 @@ class ToolsController extends Controller
 
     public function programIndex($success = null)
     {
-        $year = \App\Year::where('is_current', '1')->first()->year;
         return view('tools.programs', ['programs' => \App\Program::orderBy('age_min', 'desc')
-            ->orderBy('grade_min', 'desc')->get(), 'year' => $year, 'success' => $success]);
+            ->orderBy('grade_min', 'desc')->get(), 'success' => $success]);
     }
 
     public function workshopStore(Request $request)
@@ -142,10 +145,5 @@ class ToolsController extends Controller
     {
         return view('tools.workshops', ['timeslots' => \App\Timeslot::all(),
             'rooms' => \App\Room::where('is_workshop', '1')->get(), 'success' => $success]);
-    }
-
-    private function getFamilyId($i, $id)
-    {
-        return $i == 'c' ? \App\Camper::find($id)->familyid : $id;
     }
 }

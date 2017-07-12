@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@inject('home', 'App\Http\Controllers\HomeController')
 
 @section('css')
     <link rel="stylesheet" href="/css/print.css" type="text/css" media="print"/>
@@ -8,8 +9,8 @@
     <p>&nbsp;</p>
     @foreach($families as $family)
         <div class="container">
-            <div class="row" align="center"><img src="/images/print_logo.png"
-                                                 alt="Welcome to MUUSA {{ $year->year }}!"/>
+            <div class="row" align="center">
+                <img src="/images/print_logo.png" alt="Welcome to MUUSA {{ $home->year()->year }}!"/>
             </div>
             <p>&nbsp;</p>
             <h3>{{ $family->family_name }}<br/>
@@ -71,7 +72,7 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                    <td colspan="3" align="right"><strong>Amount Due on {{ $year->start_date }}:</strong></td>
+                    <td colspan="3" align="right"><strong>Amount Due on {{ $home->year()->start_date }}:</strong></td>
                     <td>${{ money_format('%.2n', $family->charges->sum('amount')) }}</td>
                 </tr>
                 </tfoot>

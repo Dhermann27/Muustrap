@@ -37,7 +37,6 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th>Birthdate</th>
                                         <th>Controls</th>
                                     </tr>
                                     </thead>
@@ -46,7 +45,6 @@
                                         <tr>
                                             <td>{{ $user->camper->lastname }}, {{ $user->camper->firstname }}</td>
                                             <td>{{ $user->email }}</td>
-                                            <td>{{ $user->camper->birthdate }}</td>
                                             <td>
                                                 @include('admin.controls', ['id' => 'c/' . $user->camper->id])
                                             </td>

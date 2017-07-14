@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class Camper extends Model
 {
     protected $fillable = ['familyid', 'sexcd', 'firstname', 'lastname', 'email', 'phonenbr', 'birthdate',
-        'gradeoffset', 'sponsor', 'is_handicap', 'foodoptionid', 'churchid', 'updated_at'];
+        'gradyear', 'sponsor', 'is_handicap', 'foodoptionid', 'churchid', 'updated_at'];
 
     public function charge()
     {
@@ -80,8 +80,8 @@ class Camper extends Model
 
     public function getGradeAttribute()
     {
-        if ($this->birthdate != '' && $this->gradeoffset != '') {
-            return DB::table('users')->value(DB::raw("getage('" . $this->birthdate . "',getcurrentyear())+" . $this->gradeoffset));
+        if ($this->birthdate != '' && $this->gradyear != '') {
+            return DB::table('users')->value(DB::raw("getcurrentyear())-" . $this->gradyear . "+12"));
         } else {
             return "0";
         }

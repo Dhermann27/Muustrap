@@ -32,6 +32,7 @@ class CamperController extends Controller
             'email.*' => 'email|max:255|distinct',
             'phonenbr.*' => 'regex:/^\d{3}-\d{3}-\d{4}$/',
             'birthdate.*' => 'required|regex:/^\d{4}-\d{2}-\d{2}$/',
+            'gradyear.*' => 'required|regex:/^\d{4}$/',
             'roommate.*' => 'max:255',
             'sponsor.*' => 'max:255',
             'churchid.*' => 'exists:churches,id',
@@ -52,9 +53,9 @@ class CamperController extends Controller
             }
         }
 
-        $year = $this->getCurrentYear();
+        $year = \App\Year::where('is_current', '1')->first()->year;
 
-        DB::statement('CALL generate_charges(' . $this->getCurrentYear()->year . ');');
+        DB::statement('CALL generate_charges(' . $year . ');');
 
         Mail::to(Auth::user()->email)->send(new Confirm($year, $campers));
 
@@ -80,7 +81,7 @@ class CamperController extends Controller
             $camper->phonenbr = str_replace('-', '', $request->input('phonenbr')[$i]);
         }
         $camper->birthdate = $request->input('birthdate')[$i];
-        $camper->gradeoffset = DB::raw("(SELECT " . $request->input('gradeoffset')[$i] . "-getage('" . $camper->birthdate . "',getcurrentyear()))");
+        $camper->gradyear= $request->input('gradyear')[$i];
         $camper->roommate = $request->input('roommate')[$i];
         $camper->sponsor = $request->input('sponsor')[$i];
         $camper->churchid = $request->input('churchid')[$i];
@@ -91,7 +92,7 @@ class CamperController extends Controller
 
         if ((int)$request->input('days')[$i] > 0) {
             $ya = \App\Yearattending::updateOrCreate(['camperid' => $camper->id,
-                'year' => DB::raw('getcurrentyear()')], ['days' => $request->input('days')[$i]]);
+                'year' => DB::raw("getcurrentyear()")], ['days' => $request->input('days')[$i]]);
             $camper->yearattendingid = $ya->id;
         } else {
             $ya = \App\Yearattending::where(['camperid' => $camper->id, 'year' => DB::raw('getcurrentyear()')])->first();

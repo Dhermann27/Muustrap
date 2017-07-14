@@ -18,7 +18,6 @@ class Year extends Model
 
     public function isLive() {
         return Storage::disk('local')->exists('public/MUUSA_' . $this->year . '_Brochure.pdf');
-
     }
 
     public function getFirstDayAttribute()

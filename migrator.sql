@@ -348,7 +348,7 @@ CREATE VIEW byyear_campers AS
     DATE_FORMAT(c.birthdate, '%m/%d/%Y')         birthday,
     getage(c.birthdate, ya.year)                 age,
     c.gradeoffset,
-    getage(c.birthdate, ya.year) + c.gradeoffset grade,
+    ya.year-c.gradyear+12 grade,
     p.id                                         programid,
     p.name                                       programname,
     p.is_program_housing                         is_program_housing,
@@ -469,7 +469,6 @@ CREATE VIEW thisyear_campers AS
     birthdate,
     birthday,
     age,
-    gradeoffset,
     grade,
     programid,
     programname,
@@ -491,56 +490,56 @@ CREATE VIEW thisyear_campers AS
   FROM byyear_campers bc, years y
   WHERE bc.year = y.year AND y.is_current = 1;
 
-  DROP VIEW IF EXISTS byyear_staff;
-  CREATE VIEW byyear_staff AS
+    DROP VIEW IF EXISTS byyear_staff;
+    CREATE VIEW byyear_staff AS
+      SELECT
+        ya.year,
+        c.familyid,
+        c.id                                                                 camperid,
+        MAX(ya.id)                                                           yearattendingid,
+        c.firstname,
+        c.lastname,
+        MAX(sp.name)                                                         staffpositionname,
+        MAX(sp.id)                                                           staffpositionid,
+        LEAST(IFNULL(getrate(c.id, ya.year), 150), SUM(cl.max_compensation)) +
+        IF(MAX(ysp.is_eaf_paid) = 1, (SELECT IFNULL(SUM(h.amount), 0)
+                                 FROM charges h
+                                 WHERE h.camperid IN (SELECT cp.id
+                                                      FROM campers cp
+                                                      WHERE cp.familyid = c.familyid) AND h.year = ya.year AND
+                                       h.chargetypeid = getchargetypeid('Early Arrival')), 0)
+                                                                             compensation,
+        MAX(sp.programid)                                                    programid,
+        MAX(ysp.created_at)
+      FROM campers c, yearsattending ya, yearattending__staff ysp, staffpositions sp, compensationlevels cl
+      WHERE c.id = ya.camperid AND ya.id = ysp.yearattendingid AND ysp.staffpositionid = sp.id
+            AND sp.compensationlevelid=cl.id AND ya.year >= sp.start_year AND ya.year <= sp.end_year
+      GROUP BY ya.year, c.id
+    UNION ALL
     SELECT
-      ya.year,
+      MAX(y.year),
       c.familyid,
-      c.id                                                                 camperid,
-      MAX(ya.id)                                                           yearattendingid,
+      c.id camperid,
+      0,
       c.firstname,
       c.lastname,
-      MAX(sp.name)                                                         staffpositionname,
-      MAX(sp.id)                                                           staffpositionid,
-      LEAST(IFNULL(getrate(c.id, ya.year), 150), SUM(cl.max_compensation)) +
-      IF(MAX(ysp.is_eaf_paid) = 1, (SELECT IFNULL(SUM(h.amount), 0)
-                               FROM charges h
-                               WHERE h.camperid IN (SELECT cp.id
-                                                    FROM campers cp
-                                                    WHERE cp.familyid = c.familyid) AND h.year = ya.year AND
-                                     h.chargetypeid = getchargetypeid('Early Arrival')), 0)
-                                                                           compensation,
-      MAX(sp.programid)                                                    programid,
-      MAX(ysp.created_at)
-    FROM campers c, yearsattending ya, yearattending__staff ysp, staffpositions sp, compensationlevels cl
-    WHERE c.id = ya.camperid AND ya.id = ysp.yearattendingid AND ysp.staffpositionid = sp.id
-          AND sp.compensationlevelid=cl.id AND ya.year >= sp.start_year AND ya.year <= sp.end_year
-    GROUP BY ya.year, c.id
-  UNION ALL
-  SELECT
-    MAX(y.year),
-    c.familyid,
-    c.id camperid,
-    0,
-    c.firstname,
-    c.lastname,
-    MAX(sp.name),
-    MAX(sp.id),
-    LEAST(150, SUM(cl.max_compensation)),
-    MAX(sp.programid),
-    MAX(cs.created_at)
-  FROM camper__staff cs, campers c, staffpositions sp, compensationlevels cl, years y
-  WHERE cs.camperid = c.id AND cs.staffpositionid = sp.id AND y.is_current = 1 AND
-        sp.compensationlevelid=cl.id AND y.year >= sp.start_year AND y.year <= sp.end_year
-  GROUP BY c.id;
--- No staff position id because of multiple credits line, must be multiple credits due to amount limits
+      MAX(sp.name),
+      MAX(sp.id),
+      LEAST(150, SUM(cl.max_compensation)),
+      MAX(sp.programid),
+      MAX(cs.created_at)
+    FROM camper__staff cs, campers c, staffpositions sp, compensationlevels cl, years y
+    WHERE cs.camperid = c.id AND cs.staffpositionid = sp.id AND y.is_current = 1 AND
+          sp.compensationlevelid=cl.id AND y.year >= sp.start_year AND y.year <= sp.end_year
+    GROUP BY c.id;
+  -- No staff position id because of multiple credits line, must be multiple credits due to amount limits
 
-DROP VIEW IF EXISTS thisyear_staff;
-CREATE VIEW thisyear_staff AS
-  SELECT familyid, camperid, yearattendingid, firstname, lastname,
-    staffpositionname, staffpositionid, programid, compensation
-  FROM byyear_staff bsp, years y
-  WHERE bsp.year=y.year AND y.is_current=1;
+  DROP VIEW IF EXISTS thisyear_staff;
+  CREATE VIEW thisyear_staff AS
+    SELECT familyid, camperid, yearattendingid, firstname, lastname,
+      staffpositionname, staffpositionid, programid, compensation
+    FROM byyear_staff bsp, years y
+    WHERE bsp.year=y.year AND y.is_current=1;
 
 DROP FUNCTION IF EXISTS getrate;
 CREATE FUNCTION getrate (mycamperid INT, myyear YEAR)
@@ -678,3 +677,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `duplicate`(beforeid INT, afterid IN
     END IF;
   END;
 
+DROP FUNCTION IF EXISTS getprogramidbycamperid;
+CREATE FUNCTION getprogramidbycamperid (id INT, myyear INT) RETURNS INT DETERMINISTIC BEGIN
+  DECLARE age, grade INT DEFAULT 0;
+  SELECT getage(c.birthdate, myyear) INTO age FROM campers c WHERE c.id=id;
+  SELECT myyear-c.gradyear+12 INTO grade FROM campers c WHERE c.id=id;
+  RETURN(SELECT p.id FROM programs p WHERE p.age_min<=age AND p.age_max>=age AND p.grade_min<=grade AND p.grade_max>=grade LIMIT 1);
+END;

@@ -32,6 +32,9 @@ class AdminController extends Controller
         } elseif ($request->input("campers") == "prereg") {
             $rows->where('year', DB::raw('getcurrentyear()'));
             $rows->where(DB::raw('isprereg(id, year) > 0'));
+        } elseif ($request->input("campers") == "oneyear") {
+            $rows->where('year', DB::raw('getcurrentyear()-1'));
+            $rows->groupBy('email');
         } elseif ($request->input("campers") == "threeyears") {
             $rows->where('year', '>', DB::raw('getcurrentyear()-3'));
             $rows->groupBy('email');

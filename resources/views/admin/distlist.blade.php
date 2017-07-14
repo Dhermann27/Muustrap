@@ -40,16 +40,16 @@
                                     All campers
                                 </option>
                                 <option value="reg"{{ old('campers', $request->input('campers')) == 'reg' ? ' selected' : '' }}>
-                                    All registered
-                                    campers
+                                    All registered campers
                                 </option>
                                 <option value="prereg"{{ old('campers', $request->input('campers')) == 'prereg' ? ' selected' : '' }}>
-                                    All campers
-                                    registered before 9/30
+                                    All campers registered before 9/30
+                                </option>
+                                <option value="oneyear"{{ old('campers', $request->input('campers')) == 'oneyear' ? ' selected' : '' }}>
+                                    All campers from last year
                                 </option>
                                 <option value="threeyears"{{ old('campers', $request->input('campers')) == 'threeyears' ? ' selected' : '' }}>
-                                    All
-                                    Campers from the last 3 years
+                                    All campers from the last 3 years
                                 </option>
                             </select>
 

@@ -29,6 +29,6 @@ class Confirm extends Mailable
      */
     public function build()
     {
-        return $this->from('muusa@muusa.org')->text('mail.confirm');
+        return $this->from('muusa@muusa.org')->view('mail.confirm');
     }
 }

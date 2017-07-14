@@ -30,7 +30,7 @@
                             title="Mark everyone as attending 6 nights"></button>
                 @endif
             @else
-                <select class="form-control" id="days-{{ $looper->index }}" name="days[]">
+                <select class="form-control days" id="days-{{ $looper->index }}" name="days[]">
                     <option value="{{ isset($camper->yearattending) && $camper->yearattending->days > 0 ? $camper->yearattending->days : '6' }}">
                         Yes
                     </option>
@@ -48,13 +48,13 @@
         </div>
     </div>
     <div class="form-group{{ $errors->has('pronounid.' . $looper->index) ? ' has-error' : '' }}">
-        <label for="pronounid-{{ $looper->index }}" class="col-md-4 control-label">Pronoun Preference</label>
+        <label for="pronounid-{{ $looper->index }}" class="col-md-4 control-label">Gender Pronoun(s)</label>
         <a href="#" class="fa fa-info" data-toggle="tooltip"
            data-placement="left" data-html="true"
            title="<strong>Why do we ask?</strong>
                     <p>MUUSA is an intentionally inclusive community that
                                   welcomes everyone regardless of their biological sex or gender
-                                  identification. We ask that you include your preferred pronoun
+                                  identification. We ask that you include your pronoun
                                   for two reasons:</p>
                            <p>For lodging purposes, we segregate our Junior High
                                   campers into one of two cabins in accordance with Missouri
@@ -62,7 +62,7 @@
                                   any camper who would prefer alternatives.</p>
                            <p>If you are a single camper and have not found a roommate,
                                   our Registrar attempts to match you with someone of the same
-                                  pronoun preference and age range. If this applies to you, we
+                                  pronoun and age range. If this applies to you, we
                                   strongly suggest that you seek out your own roommate using
                                   social media or your church community.</p>"></a>
 
@@ -168,32 +168,30 @@
             @endif
         </div>
     </div>
-    <div class="form-group{{ $errors->has('gradeoffset.' . $looper->index) ? ' has-error' : '' }}">
-        <label for="gradeoffset-{{ $looper->index }}" class="col-md-4 control-label">Grade
-            Entering in Fall {{ $home->year()->year }}</label>
+    <div class="form-group{{ $errors->has('gradyear.' . $looper->index) ? ' has-error' : '' }}">
+        <label for="gradyear-{{ $looper->index }}" class="col-md-4 control-label">High School Graduation Year</label>
+        <a href="#" class="fa fa-info" data-toggle="tooltip"   data-placement="left" data-html="true"  
+           title="<strong>Why do we ask?</strong>
+               <p>Many of our campers begin attending before kindergarten and continue past high school. In order to
+               maintain correct historical records, we need to determine which grade our campers were in over many
+               years.</p>
+               <p>While we could simply associate a grade with year of attendance, our Webmaster has overcomplicated this
+               issue by tracking a singlular graduation year instead.</p>
+               <p><i>Clearly</i>, he has spent too much time thinking about this."></a>
+
         <div class="col-md-6">
-            <select class="form-control" id="gradeoffset-{{ $looper->index }}" name="gradeoffset[]">
-                <option value="13">Not Applicable</option>
-                <option value="0">Kindergarten or earlier</option>
-                @for($i=1; $i<13; $i++)
+            <select class="form-control" id="gradyear-{{ $looper->index }}" name="gradyear[]">
+                @for($i=($home->year()->year+18); $i>=1901; $i--)
                     <option value="{{ $i }}"
-                            {{ $i == old('grade.' . $looper->index, $camper->grade) ? ' selected' : '' }}>
-                        @if($i == 1)
-                            1st
-                        @elseif($i == 2)
-                            2nd
-                        @elseif($i == 3)
-                            3rd
-                        @else
-                            {{ $i }}th
-                        @endif
+                            {{ $i == old('gradyear.' . $looper->index, $camper->gradyear) ? ' selected' : '' }}>
+                        {{ $i }}
                     </option>
                 @endfor
             </select>
 
-            @if ($errors->has('gradeoffset.' . $looper->index))
+            @if ($errors->has('gradyear.' . $looper->index))
                 <span class="help-block">
-                    <strong>{{ $errors->first('gradeoffset.' . $looper->index) }}</strong>
+                    <strong>{{ $errors->first('gradyear.' . $looper->index) }}</strong>
                 </span>
             @endif
         </div>

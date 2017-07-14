@@ -20,13 +20,13 @@ class PaymentController extends Controller
             'amount' => 'required|min:0'
         ], $messages);*/
 
-        $camper = \App\Camper::where('email', Auth::user()->email)->first();
-        if ($camper !== null) {
+        $thiscamper = \App\Camper::where('email', Auth::user()->email)->first();
+        if ($thiscamper !== null) {
             if ($request->donation > 0) {
                 \App\Charge::updateOrCreate(
-                    ['camperid' => $camper->id, 'chargetypeid' => DB::raw('getchargetypeid(\'Donation\')'),
+                    ['camperid' => $thiscamper->id, 'chargetypeid' => DB::raw('getchargetypeid(\'Donation\')'),
                         'year' => DB::raw('getcurrentyear()')],
-                    ['camperid' => $camper->id,
+                    ['camperid' => $thiscamper->id,
                         'amount' => $request->donation, 'memo' => 'MUUSA Scholarship Fund',
                         'chargetypeid' => DB::raw('getchargetypeid(\'Donation\')'),
                         'year' => DB::raw('getcurrentyear()'), 'timestamp' => date("Y-m-d")]
@@ -52,11 +52,24 @@ class PaymentController extends Controller
         $error = '';
         if (!empty($request->txn)) {
             DB::table('charges')->insert(
-                ['camperid' => $camper->id, 'amount' => '-' . $request->amount, 'memo' => $request->txn,
+                ['camperid' => $thiscamper->id, 'amount' => '-' . $request->amount, 'memo' => $request->txn,
                     'chargetypeid' => DB::raw('getchargetypeid(\'Paypal Payment\')'),
                     'year' => DB::raw('getcurrentyear()'), 'timestamp' => date("Y-m-d"),
                     'created_at' => DB::raw('CURRENT_TIMESTAMP')]
             );
+
+
+            $year = \App\Year::where('is_current', '1')->first();
+            if (!$year->isLive() && \App\Thisyear_Charge::where('familyid', $thiscamper->familyid)
+                    ->where('chargetypeid', 1003)->orWhere('amount', '<', '0')->get()->sum('amount') <= 0) {
+                $campers = \App\Byyear_Camper::where('familyid', $thiscamper->familyid)
+                    ->where('year', ((int)$year->year) - 1)->where('is_program_housing', '0')->get();
+                foreach ($campers as $camper) {
+                    \App\Yearattending::where('camperid', $camper->id)->where('year', $year->year)
+                        ->whereNull('roomid')->update(['roomid' => $camper->roomid]);
+                }
+            }
+
 
             $success = 'Payment received! You should receive a receipt via email for your records.';
         } else {

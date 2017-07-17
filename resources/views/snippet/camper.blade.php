@@ -69,7 +69,7 @@
         <div class="col-md-6">
             <select class="form-control" id="pronounid-{{ $looper->index }}"
                     name="pronounid[]">
-                <option value="0">Choose a pronoun</option>
+                <option value="0">Choose pronoun(s)</option>
                 @foreach($pronouns as $pronoun)
                     <option value="{{ $pronoun->id }}"
                             {{ $pronoun->id == old('pronounid.' . $looper->index, $camper->pronounid) ? ' selected' : '' }}>

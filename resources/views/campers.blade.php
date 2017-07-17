@@ -102,7 +102,7 @@
 
             $('button#submit').on('click', function (e) {
                 var form = $("#camperinfo");
-                if(!confirm("You are registering " +form.find('select.days option[value!="0"]:selected').length + " campers for {{ $home->year()->year }}. Is this correct?")) {
+                if (!confirm("You are registering " + form.find('select.days option[value!="0"]:selected').length + " campers for {{ $home->year()->year }}. Is this correct?")) {
                     return false;
                 }
                 var button = $("button.btn-primary").html("<i class='fa fa-spinner fa-spin'></i> Saving...")
@@ -123,13 +123,20 @@
                         }, 700);
                     },
                     error: function (data) {
-                        var errorCount = data !== undefined ? Object.keys(data.responseJSON).length : '';
-                        $.each(data.responseJSON, function (k, v) {
-                            $("#" + k.replace(".", "-")).parents(".form-group").addClass("has-error").find("div:first")
-                                .append("<span class=\"help-block\"><strong>" + v + "</strong></span>");
-                        });
-                        $(".nav-tabs").before("<div class='alert alert-danger'>You have " + errorCount + " error(s) in your form. Please adjust your entries and resubmit.</div>");
-                        $('.nav-tabs a[href="#' + $("span.help-block:first").parents('div.tab-pane').attr('id') + '"]').trigger('click');
+                        if (data.status === 500) {
+                            $(".nav-tabs").before("<div class='alert alert-danger'>Unknown error occurred. Please use the Contact Us form to ask for assistance and include the approximate time you received this message.</div>");
+                        } else {
+                            var errorCount = data !== undefined ? Object.keys(data.responseJSON).length : '';
+                            $.each(data.responseJSON, function (k, v) {
+                                $("#" + k.replace(".", "-")).parents(".form-group").addClass("has-error").find("div:first")
+                                    .append("<span class=\"help-block\"><strong>" + v + "</strong></span>");
+                            });
+                            $(".nav-tabs").before("<div class='alert alert-danger'>You have " + errorCount + " error(s) in your form. Please adjust your entries and resubmit.</div>");
+                            $('.nav-tabs a[href="#' + $("span.help-block:first").parents('div.tab-pane').attr('id') + '"]').trigger('click');
+                        }
+                        $('html,body').animate({
+                            scrollTop: 0
+                        }, 700);
                         button.html("<span class='btn-label'><i class='fa fa-times'></i></span> Resubmit")
                             .addClass("btn-labeled btn-danger").prop("disabled", false);
                     }

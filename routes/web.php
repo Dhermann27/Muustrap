@@ -46,6 +46,7 @@ Route::post('/volunteer/f/{id}', 'VolunteerController@write')->middleware('auth'
 
 //Route::get('/roomselection', 'RoomSelectionController@index')->middleware('auth');
 //Route::post('/roomselection', 'RoomSelectionController@store')->middleware('auth');
+Route::get('/roomselection/map', 'RoomSelectionController@map')->middleware('auth', 'role:admin|council');
 Route::get('/roomselection/{i}/{id}', 'RoomSelectionController@read')->middleware('auth', 'role:admin|council');
 Route::post('/roomselection/f/{id}', 'RoomSelectionController@write')->middleware('auth', 'role:admin');
 

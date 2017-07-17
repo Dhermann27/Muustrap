@@ -44,7 +44,7 @@ class Room extends Model
         $roomname = $this->building->name;
         $roomname .= $this->buildingid < 1007 ? ', Room ' . $this->room_number : '';
         if (isset($this->connected_with)) {
-            $connectingroom = \App\Room::find($this->connected_with);
+            $connectingroom = \App\Room::findOrFail($this->connected_with);
             $roomname .= ($this->buildingid == 1000 ?
                 '<br /><i>Double Privacy Door with Room ' . $connectingroom->room_number . '</i>' :
                 '<br /><i>Shares common area with Room ' . $connectingroom->room_number . '</i>');

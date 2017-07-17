@@ -65,13 +65,6 @@
                     Your room has been locked by the Registrar. Please use the Contact Us form above to request any
                     changes at this point.
                 </div>
-            @elseif($is_priority && !$camper->prereg)
-                <div class="alert alert-warning">
-                    This is currently the Priority Registration Period, where campers who paid early are able to select
-                    their room from the previous year. Those locks will lift and the remaining rooms will become
-                    available to all campers on {{ $open->format('F jS') }}. If you have registered, you will receive an
-                    email notification of when this happens.
-                </div>
             @endif
 
             <svg id="rooms" height="828" width="878"> 
@@ -99,7 +92,7 @@
                     Room Locked By Registrar
                 </button>
             </div>
-        @elseif(!$is_priority || $camper->prereg)
+        @elseif(!empty($camper->lastname))
             <form id="roomselection" method="POST" action="{{ url('/roomselection') }}">
                 {{ csrf_field() }}
                 <input type="hidden" id="roomid" name="roomid"/>
@@ -109,12 +102,6 @@
                     </button>
                 </div>
             </form>
-        @else
-            <div class="col-md-2 col-md-offset-8">
-                <button type="submit" class="btn btn-disabled" disabled>
-                    Room Selection Available {{ $open->format('F jS') }}
-                </button>
-            </div>
         @endif
     </div>
 </div>

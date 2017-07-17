@@ -21,6 +21,8 @@
                             <div role="tabpanel" class="tab-pane fade{{ $loop->last ? ' in active' : '' }}"
                                  id="{{ $thisyear }}">
                                 <table class="table table-responsive table-bordered">
+                                    <caption style="text-align:right;"><strong>Total Campers
+                                            Attending: </strong> {{ $families->sum('count') }}</caption>
                                     <thead>
                                     <tr>
                                         <th>Family</th>

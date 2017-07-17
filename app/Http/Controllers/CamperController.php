@@ -20,12 +20,13 @@ class CamperController extends Controller
             'lastname.*.required' => 'Please enter a last name.',
             'email.*.email' => 'Please enter a valid email address.',
             'email.*.distinct' => 'Please do not use the same email address for multiple campers.',
+            'email.*.unique' => 'This email address has already been taken.',
             'phonenbr.*.regex' => 'Please enter your ten-digit phone number in 800-555-1212 format.',
             'birthdate.*.required' => 'Please enter your eight-digit birthdate in 2016-12-31 format.',
             'birthdate.*.regex' => 'Please enter your eight-digit birthdate in 2016-12-31 format.'];
 
         $this->validate($request, [
-            'days.*' => 'between:0,7',
+            'days.*' => 'between:0,8',
             'pronounid.*' => 'exists:pronouns,id',
             'firstname.*' => 'required|max:255',
             'lastname.*' => 'required|max:255',
@@ -40,11 +41,20 @@ class CamperController extends Controller
             'foodoptionid.*' => 'exists:foodoptions,id',
         ], $messages);
 
+
         $campers = array();
         for ($i = 0; $i < count($request->input('id')); $i++) {
             $id = $request->input('id')[$i];
             $camper = \App\Camper::find($id);
+
+            $this->validate($request, [
+                'email.' . $i => 'unique:campers,email,' . $id,
+            ], $messages);
+
             if ($id == $logged_in->id) {
+                $this->validate($request, [
+                    'email.' . $i => 'unique:users,email,' . Auth::user()->id,
+                ], $messages);
                 Auth::user()->email = $request->input('email')[$i];
                 Auth::user()->save();
             }
@@ -131,7 +141,36 @@ class CamperController extends Controller
     public function write(Request $request, $id)
     {
 
+        $messages = ['pronounid.*.exists' => 'Please choose a preferred pronoun.',
+            'firstname.*.required' => 'Please enter a first name.',
+            'lastname.*.required' => 'Please enter a last name.',
+            'email.*.email' => 'Please enter a valid email address.',
+            'email.*.distinct' => 'Please do not use the same email address for multiple campers.',
+            'email.*.unique' => 'This email address has already been taken.',
+            'birthdate.*.required' => 'Please enter your eight-digit birthdate in 2016-12-31 format.',
+            'birthdate.*.regex' => 'Please enter your eight-digit birthdate in 2016-12-31 format.'];
+
+        $this->validate($request, [
+            'pronounid.*' => 'exists:pronouns,id',
+            'firstname.*' => 'required|max:255',
+            'lastname.*' => 'required|max:255',
+            'email.*' => 'email|max:255|distinct',
+            'phonenbr.*' => 'regex:/^\d{3}-\d{3}-\d{4}$/',
+            'birthdate.*' => 'required|regex:/^\d{4}-\d{2}-\d{2}$/',
+            'gradyear.*' => 'required|regex:/^\d{4}$/',
+            'roommate.*' => 'max:255',
+            'sponsor.*' => 'max:255',
+            'churchid.*' => 'exists:churches,id',
+            'is_handicap.*' => 'in:0,1',
+            'foodoptionid.*' => 'exists:foodoptions,id',
+        ], $messages);
+
         for ($i = 0; $i < count($request->input('id')); $i++) {
+
+            $this->validate($request, [
+                'email.' . $i => 'unique:campers,email,' . $id,
+            ], $messages);
+
             $this->upsertCamper($request, $i, $id);
         }
 

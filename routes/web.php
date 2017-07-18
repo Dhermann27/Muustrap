@@ -68,6 +68,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'data'], function () {
 
 Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'reports'], function () {
     Route::get('campers', 'ReportController@campers');
+    Route::get('campersbydate', 'ReportController@campersDate');
     Route::get('chart', 'ReportController@chart');
     Route::get('deposits', 'ReportController@deposits');
     Route::post('deposits/{id}', 'ReportController@depositsMark')->middleware('auth', 'role:admin');

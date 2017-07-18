@@ -6,6 +6,14 @@
         <div class="panel panel-default">
             <div class="panel-heading">{{ $title }}</div>
             <div class="panel-body">
+                <div align="right">
+                    Order By
+                    @if(isset($date))
+                        <a href="{{ url('/reports/campers') }}">Family Name</a>
+                    @else
+                        <a href="{{ url('/reports/campersbydate') }}">Registration Date</a>
+                    @endif
+                </div>
                 @if(count($years) > 1)
                     <ul class="nav nav-tabs" role="tablist">
                         @foreach($years as $thisyear => $families)
@@ -27,20 +35,24 @@
                                     <tr>
                                         <th>Family</th>
                                         <th>Location</th>
+                                        <th>Balance</th>
+                                        <th>Registration Date</th>
                                     </tr>
                                     </thead>
                                     @foreach($families as $family)
                                         <tr>
                                             <td>{{ $family->name }}</td>
-                                            <td>{{ $family->city }}, {{ $family->statecd }}
+                                            <td>{{ $family->city }}, {{ $family->statecd }}</td>
+                                            <td>${{ money_format('%.2n', $family->balance) }}
                                                 @if($family->is_scholar == '1')
                                                     <i class="fa fa-universal-access" data-toggle="tooltip"
                                                        title="This family has indicated that they are applying for a scholarship."></i>
                                                 @endif
                                             </td>
+                                            <td>{{ $family->created_at->toDateString() }}</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2">
+                                            <td colspan="4">
                                                 <table class="table table-responsive table-condensed">
                                                     @foreach(count($years) > 1 ? $family->campers()->where('year', $thisyear)->orderBy('birthdate')->get() : $family->campers as $camper)
                                                         <tr>
@@ -65,7 +77,7 @@
                                     @endforeach
                                     <tfoot>
                                     <tr>
-                                        <td colspan="3" align="right"><strong>Total Campers
+                                        <td colspan="4" align="right"><strong>Total Campers
                                                 Attending: </strong> {{ $families->sum('count') }}</td>
                                     </tr>
                                     </tfoot>

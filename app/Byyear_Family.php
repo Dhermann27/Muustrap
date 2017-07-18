@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Byyear_Family extends Model
 {
     protected $table = "byyear_families";
+    protected $dates = ['created_at'];
 
     public function campers()
     {

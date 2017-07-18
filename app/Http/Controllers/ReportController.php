@@ -10,9 +10,16 @@ class ReportController extends Controller
 {
     public function campers()
     {
-        $years = \App\Byyear_Family::with('campers')->where('year', '>', DB::raw('getcurrentyear()-5'))
+        $years = \App\Byyear_Family::with('campers')->where('year', '>', DB::raw('getcurrentyear()-3'))
             ->orderBy('year')->orderBy('name')->get()->groupBy('year');
         return view('reports.campers', ['title' => 'Registered Campers', 'years' => $years]);
+    }
+
+    public function campersDate()
+    {
+        $years = \App\Byyear_Family::with('campers')->where('year', '>', DB::raw('getcurrentyear()-3'))
+            ->orderBy('year')->orderBy('created_at', 'DESC')->get()->groupBy('year');
+        return view('reports.campers', ['title' => 'Registered Campers', 'years' => $years, 'date' => true]);
     }
 
     public function chart()

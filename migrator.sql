@@ -318,7 +318,9 @@ CREATE VIEW byyear_families AS
     f.country,
     f.is_ecomm,
     COUNT(ya.id) count,
-    SUM(IF(ya.roomid!=0,1,0)) assigned
+    SUM(IF(ya.roomid!=0,1,0)) assigned,
+    (SELECT SUM(bh.amount) FROM byyear_charges bh WHERE ya.year=bh.year AND f.id=bh.familyid) balance,
+    MIN(ya.created_at) created_at
   FROM families f, campers c, yearsattending ya
   WHERE f.id = c.familyid AND c.id = ya.camperid
   GROUP BY f.id, ya.year;
@@ -428,7 +430,9 @@ CREATE VIEW thisyear_families AS
     yf.zipcd,
     yf.country,
     yf.count,
-    yf.assigned
+    yf.assigned,
+    yf.balance,
+    yf.created_at
   FROM byyear_families yf, years y
   WHERE yf.year = y.year AND y.is_current = 1;
 
@@ -647,16 +651,6 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE enroll_workshops()
       END LOOP;
 
     CLOSE cur;
-  END;
-
-DROP FUNCTION IF EXISTS isprereg;
-CREATE FUNCTION isprereg (id INT, myyear YEAR)
-  RETURNS FLOAT DETERMINISTIC
-  BEGIN
-    RETURN (SELECT IF(IFNULL(SUM(h.amount),0) + 140 <= 0,ABS(SUM(h.amount)),0.0)
-            FROM years y LEFT JOIN charges h ON h.camperid=id AND h.year=y.year AND h.timestamp<y.end_prereg
-            WHERE y.year=myyear GROUP by h.camperid);
-    -- Only works for 2014 or later
   END;
 
 DROP PROCEDURE IF EXISTS `duplicate`;

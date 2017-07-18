@@ -12,8 +12,8 @@
         <div class="panel panel-default">
             <div class="panel-heading">Ledger</div>
             <div class="panel-body">
-                @include('snippet.orderby', ['years' => $years, 'orders' => ['name', 'date']])
-                <input type="hidden" id="orderby-url" value="{{ url('/reports/campers') }}"/>
+                @include('snippet.orderby', ['years' => $years, 'orders' => ['name']])
+                <input type="hidden" id="orderby-url" value="{{ url('/reports/payments') }}"/>
                 <table class="table table-responsive">
                     <thead>
                     <tr>

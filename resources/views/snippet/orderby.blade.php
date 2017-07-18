@@ -32,7 +32,7 @@
                 </select>
             </div>
         @else
-            <div class="col-sm-2 col-sm-offset-7">
+            <div class="col-sm-2">
                 <input type="hidden" id="orderby-order" value="name"/>
             </div>
         @endif

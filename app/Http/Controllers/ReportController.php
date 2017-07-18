@@ -117,11 +117,14 @@ class ReportController extends Controller
             'programs' => \App\Program::orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get()]);
     }
 
-    public function rooms()
+    public function rooms($year = 0)
     {
-        $years = \App\Byyear_Camper::where('year', '>', DB::raw('getcurrentyear()-5'))
-            ->whereNotNull('roomid')->orderBy('year')->orderBy('room_number')->get()->groupBy('year');
-        return view('reports.rooms', ['years' => $years, 'buildings' => \App\Building::all()]);
+        $year = $year == 0 ? \App\Year::where('is_current', '1')->first()->year : (int)$year;
+        $years = \App\Byyear_Camper::where('year', '>', '2008')->groupBy('year')->distinct()
+            ->orderBy('year', 'DESC')->get();
+        $campers = \App\Byyear_Camper::where('year', $year)->whereNotNull('roomid')->orderBy('room_number')->get();
+        return view('reports.rooms', ['campers' => $campers, 'buildings' => \App\Building::all(),
+            'years' => $years]);
     }
 
     public function roommates()

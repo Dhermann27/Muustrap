@@ -29,9 +29,6 @@ class AdminController extends Controller
         $rows = \App\Byyear_Camper::select($columns);
         if ($request->input("campers") == "reg") {
             $rows->where('year', DB::raw('getcurrentyear()'));
-        } elseif ($request->input("campers") == "prereg") {
-            $rows->where('year', DB::raw('getcurrentyear()'));
-            $rows->where(DB::raw('isprereg(id, year) > 0'));
         } elseif ($request->input("campers") == "oneyear") {
             $rows->where('year', DB::raw('getcurrentyear()-1'));
             $rows->groupBy('email');

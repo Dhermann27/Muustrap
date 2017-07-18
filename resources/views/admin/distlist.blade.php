@@ -42,9 +42,6 @@
                                 <option value="reg"{{ old('campers', $request->input('campers')) == 'reg' ? ' selected' : '' }}>
                                     All registered campers
                                 </option>
-                                <option value="prereg"{{ old('campers', $request->input('campers')) == 'prereg' ? ' selected' : '' }}>
-                                    All campers registered before 9/30
-                                </option>
                                 <option value="oneyear"{{ old('campers', $request->input('campers')) == 'oneyear' ? ' selected' : '' }}>
                                     All campers from last year
                                 </option>

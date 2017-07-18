@@ -58,6 +58,7 @@ class PaymentController extends Controller
                     'created_at' => DB::raw('CURRENT_TIMESTAMP')]
             );
 
+            $success = 'Payment received! You should receive a receipt via email for your records.';
 
             $year = \App\Year::where('is_current', '1')->first();
             if (!$year->isLive() && \App\Thisyear_Charge::where('familyid', $thiscamper->familyid)
@@ -68,10 +69,13 @@ class PaymentController extends Controller
                     \App\Yearattending::where('camperid', $camper->id)->where('year', $year->year)
                         ->whereNull('roomid')->update(['roomid' => $camper->roomid]);
                 }
+                DB::statement('CALL generate_charges(' . $year->year . ');');
+                
+                $success = 'Payment received! By paying your deposit, your room from ' . ($year->year)-1
+                    . ' has been assigned. You should receive a receipt via email for your records.';
             }
 
 
-            $success = 'Payment received! You should receive a receipt via email for your records.';
         } else {
             $error = 'Error. Payment was not processed by MUUSA.';
         }

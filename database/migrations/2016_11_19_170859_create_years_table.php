@@ -16,7 +16,6 @@ class CreateYearsTable extends Migration
         Schema::create('years', function (Blueprint $table) {
             $table->integer('year')->unique();
             $table->date('start_date');
-            $table->date('end_prereg');
             $table->date('start_open');
             $table->tinyInteger('is_current');
         });

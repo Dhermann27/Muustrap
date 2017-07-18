@@ -4,6 +4,15 @@
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-datepicker.min.css"/>
     <link rel="stylesheet" type="text/css"
           href="https://cdn.datatables.net/v/bs/dt-1.10.13/b-1.2.4/b-html5-1.2.4/b-print-1.2.4/r-2.1.1/datatables.min.css"/>
+    <style type="text/css">
+        th {
+            font-size: 13px;
+        }
+
+        td {
+            font-size: 12px;
+        }
+    </style>
 @endsection
 
 @section('content')

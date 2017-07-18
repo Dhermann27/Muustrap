@@ -70,7 +70,7 @@ class PaymentController extends Controller
                         ->whereNull('roomid')->update(['roomid' => $camper->roomid]);
                 }
                 DB::statement('CALL generate_charges(' . $year->year . ');');
-                
+
                 $success = 'Payment received! By paying your deposit, your room from ' . ($year->year)-1
                     . ' has been assigned. You should receive a receipt via email for your records.';
             }

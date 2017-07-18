@@ -94,11 +94,13 @@ class ReportController extends Controller
         ]);
     }
 
-    public function payments()
+    public function payments($year = 0)
     {
-        return view('reports.payments', ['years' => \App\Byyear_Charge::where('amount', '!=', '0.0')
-            ->where('year', '>', DB::raw('getcurrentyear()-5'))->with('camper')->with('family')->get()->groupBy('year')
-        ]);
+        $year = $year == 0 ? \App\Year::where('is_current', '1')->first()->year : (int)$year;
+        $years = \App\Byyear_Charge::where('year', '>', '2008')->groupBy('year')->distinct()
+            ->orderBy('year', 'DESC')->get();
+        return view('reports.payments', ['charges' => \App\Byyear_Charge::where('amount', '!=', '0.0')
+            ->where('year', $year)->with('camper')->with('family')->get(), 'years' => $years]);
     }
 
     public function programs()

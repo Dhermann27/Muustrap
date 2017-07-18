@@ -10,8 +10,44 @@
     <p>&nbsp;</p>
     <div class="container">
         <div class="panel panel-default">
-            <div class="panel-heading">Payments & Credits</div>
+            <div class="panel-heading">Ledger</div>
             <div class="panel-body">
+                @include('snippet.orderby', ['years' => $years, 'orders' => ['name', 'date']])
+                <input type="hidden" id="orderby-url" value="{{ url('/reports/campers') }}"/>
+                <table class="table table-responsive">
+                    <thead>
+                    <tr>
+                        <th>Family Name</th>
+                        <th>Camper Name</th>
+                        <th>Chargetype</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Memo</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Family Name</th>
+                        <th>Camper Name</th>
+                        <th>Chargetype</th>
+                        <th>Amount</th>
+                        <th>Year</th>
+                        <th>Memo</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    @foreach($charges as $charge)
+                        <tr>
+                            <td>{{ $charge->family->name }}</td>
+                            <td>{{ $charge->camper->lastname }}, {{ $charge->camper->firstname }}</td>
+                            <td>{{ $charge->chargetypename }}</td>
+                            <td>{{ money_format('%.2n', $charge->amount) }}</td>
+                            <td>{{ $charge->timestamp }}</td>
+                            <td>{{ $charge->memo }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
                 <label class="control-label visible-print" for="fini">From:</label>
                 <div class="input-group input-daterange">
                     <input type="text" id="fini" class="form-control"/>
@@ -19,61 +55,6 @@
                     <input type="text" id="ffin" class="form-control">
                 </div>
                 <label class="control-label visible-print" for="ffin">To:</label>
-                <ul class="nav nav-tabs" role="tablist">
-                    @foreach($years as $thisyear => $charges)
-                        <li role="presentation"{!! $loop->last ? ' class="active"' : '' !!}>
-                            <a href="#{{ $thisyear }}" aria-controls="{{ $thisyear }}" role="tab"
-                               data-toggle="tab">{{ $thisyear }}</a></li>
-                    @endforeach
-                </ul>
-
-                <div class="tab-content">
-                    @foreach($years as $thisyear => $charges)
-                        <div role="tabpanel" class="tab-pane fade{{ $loop->last ? ' in active' : '' }}"
-                             id="{{ $thisyear }}">
-                            <div class="panel-group" id="{{ $thisyear }}-accordion" role="tablist"
-                                 aria-multiselectable="true">
-                                <div class="panel-body">
-                                    <table class="table table-responsive">
-                                        <thead>
-                                        <tr>
-                                            <th>Family Name</th>
-                                            <th>Camper Name</th>
-                                            <th>Chargetype</th>
-                                            <th>Amount</th>
-                                            <th>Date</th>
-                                            <th>Memo</th>
-                                        </tr>
-                                        </thead>
-                                        <tfoot>
-                                        <tr>
-                                            <th>Family Name</th>
-                                            <th>Camper Name</th>
-                                            <th>Chargetype</th>
-                                            <th>Amount</th>
-                                            <th>Date</th>
-                                            <th>Memo</th>
-                                        </tr>
-                                        </tfoot>
-                                        <tbody>
-                                        @foreach($charges as $charge)
-                                            <tr>
-                                                <td>{{ $charge->family->name }}</td>
-                                                <td>{{ $charge->camper->lastname }}, {{ $charge->camper->firstname }}</td>
-                                                <td>{{ $charge->chargetypename }}</td>
-                                                <td>{{ money_format('%.2n', $charge->amount) }}</td>
-                                                <td>{{ $charge->timestamp }}</td>
-                                                <td>{{ $charge->memo }}</td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
             </div>
         </div>
     </div>

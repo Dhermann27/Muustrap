@@ -3,23 +3,24 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
-    public function campers()
+    public function campers($year = 0, $order = "name")
     {
-        $years = \App\Byyear_Family::with('campers')->where('year', '>', DB::raw('getcurrentyear()-3'))
-            ->orderBy('year')->orderBy('name')->get()->groupBy('year');
-        return view('reports.campers', ['title' => 'Registered Campers', 'years' => $years]);
-    }
-
-    public function campersDate()
-    {
-        $years = \App\Byyear_Family::with('campers')->where('year', '>', DB::raw('getcurrentyear()-3'))
-            ->orderBy('year')->orderBy('created_at', 'DESC')->get()->groupBy('year');
-        return view('reports.campers', ['title' => 'Registered Campers', 'years' => $years, 'date' => true]);
+        $year = $year == 0 ? \App\Year::where('is_current', '1')->first()->year : (int)$year;
+        $years = \App\Byyear_Family::where('year', '>', '2008')->groupBy('year')->distinct()
+            ->orderBy('year', 'DESC')->get();
+        $families = \App\Byyear_Family::with('campers')->where('year', $year);
+        if ($order == "name") {
+            $families->orderBy('name');
+        } else {
+            $families->orderBy('created_at', 'DESC');
+        }
+        return view('reports.campers', ['title' => 'Registered Campers', 'years' => $years,
+            'families' => $families->get(), 'thisyear' => $year]);
     }
 
     public function chart()
@@ -62,9 +63,10 @@ class ReportController extends Controller
 
     public function firsttime()
     {
-        $years = ['1' => \App\Thisyear_Family::where(DB::raw("(SELECT COUNT(*) FROM byyear_families bf WHERE thisyear_families.id=bf.id AND bf.year!=getcurrentyear())"), 0)
-            ->with('campers')->orderBy('name')->get()];
-        return view('reports.campers', ['title' => 'First-time Campers', 'years' => $years]);
+        $families = \App\Thisyear_Family::where(DB::raw("(SELECT COUNT(*) FROM byyear_families bf WHERE thisyear_families.id=bf.id AND bf.year!=getcurrentyear())"), 0)
+            ->with('campers')->orderBy('name')->get();
+        return view('reports.campers', ['title' => 'First-time Campers', 'families' => $families,
+            'years' => ['2008']]);
     }
 
     public function outstandingMark(Request $request, $id)

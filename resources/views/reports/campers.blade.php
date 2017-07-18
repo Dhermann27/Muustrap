@@ -6,87 +6,61 @@
         <div class="panel panel-default">
             <div class="panel-heading">{{ $title }}</div>
             <div class="panel-body">
-                <div align="right">
-                    Order By
-                    @if(isset($date))
-                        <a href="{{ url('/reports/campers') }}">Family Name</a>
-                    @else
-                        <a href="{{ url('/reports/campersbydate') }}">Registration Date</a>
-                    @endif
-                </div>
-                @if(count($years) > 1)
-                    <ul class="nav nav-tabs" role="tablist">
-                        @foreach($years as $thisyear => $families)
-                            <li role="presentation"{!! $loop->last ? ' class="active"' : '' !!}>
-                                <a href="#{{ $thisyear }}" aria-controls="{{ $thisyear }}" role="tab"
-                                   data-toggle="tab">{{ $thisyear }}</a></li>
-                        @endforeach
-                    </ul>
-
-                    <div class="tab-content">
-                        @endif
-                        @foreach($years as $thisyear => $families)
-                            <div role="tabpanel" class="tab-pane fade{{ $loop->last ? ' in active' : '' }}"
-                                 id="{{ $thisyear }}">
-                                <table class="table table-responsive table-bordered">
-                                    <caption style="text-align:right;"><strong>Total Campers
-                                            Attending: </strong> {{ $families->sum('count') }}</caption>
-                                    <thead>
-                                    <tr>
-                                        <th>Family</th>
-                                        <th>Location</th>
-                                        <th>Balance</th>
-                                        <th>Registration Date</th>
-                                    </tr>
-                                    </thead>
-                                    @foreach($families as $family)
+                @include('snippet.orderby', ['years' => $years, 'orders' => ['name', 'date']])
+                <input type="hidden" id="orderby-url" value="{{ url('/reports/campers') }}" />
+                <table class="table table-responsive table-bordered">
+                    <caption style="text-align:right;"><strong>Total Campers
+                            Attending: </strong> {{ $families->sum('count') }}</caption>
+                    <thead>
+                    <tr>
+                        <th>Family</th>
+                        <th>Location</th>
+                        <th>Balance</th>
+                        <th>Registration Date</th>
+                    </tr>
+                    </thead>
+                    @foreach($families as $family)
+                        <tr>
+                            <td>{{ $family->name }}</td>
+                            <td>{{ $family->city }}, {{ $family->statecd }}</td>
+                            <td>${{ money_format('%.2n', $family->balance) }}
+                                @if($family->is_scholar == '1')
+                                    <i class="fa fa-universal-access" data-toggle="tooltip"
+                                       title="This family has indicated that they are applying for a scholarship."></i>
+                                @endif
+                            </td>
+                            <td>{{ $family->created_at->toDateString() }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <table class="table table-responsive table-condensed">
+                                    @foreach($family->campers()->where('year', $thisyear)->get() as $camper)
                                         <tr>
-                                            <td>{{ $family->name }}</td>
-                                            <td>{{ $family->city }}, {{ $family->statecd }}</td>
-                                            <td>${{ money_format('%.2n', $family->balance) }}
-                                                @if($family->is_scholar == '1')
-                                                    <i class="fa fa-universal-access" data-toggle="tooltip"
-                                                       title="This family has indicated that they are applying for a scholarship."></i>
+                                            <td width="20%">{{ $camper->lastname }}, {{ $camper->firstname }}
+                                                @if(isset($camper->email))
+                                                    <a href="mailto:{{ $camper->email }}"
+                                                       class="fa fa-envelope"></a>
                                                 @endif
                                             </td>
-                                            <td>{{ $family->created_at->toDateString() }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="4">
-                                                <table class="table table-responsive table-condensed">
-                                                    @foreach(count($years) > 1 ? $family->campers()->where('year', $thisyear)->orderBy('birthdate')->get() : $family->campers as $camper)
-                                                        <tr>
-                                                            <td width="20%">{{ $camper->lastname }}
-                                                                , {{ $camper->firstname }}
-                                                                @if(isset($camper->email))
-                                                                    <a href="mailto:{{ $camper->email }}"
-                                                                       class="fa fa-envelope"></a>
-                                                                @endif
-                                                            </td>
-                                                            <td width="20%">{{ $camper->birthdate }}</td>
-                                                            <td width="20%">{{ $camper->programname }}</td>
-                                                            <td width="20%">{{ $camper->room_number }}</td>
-                                                            <td width="20%">
-                                                                @include('admin.controls', ['id' => 'c/' . $camper->id])
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </table>
+                                            <td width="20%">{{ $camper->birthdate }}</td>
+                                            <td width="20%">{{ $camper->programname }}</td>
+                                            <td width="20%">{{ $camper->room_number }}</td>
+                                            <td width="20%">
+                                                @include('admin.controls', ['id' => 'c/' . $camper->id])
                                             </td>
                                         </tr>
                                     @endforeach
-                                    <tfoot>
-                                    <tr>
-                                        <td colspan="4" align="right"><strong>Total Campers
-                                                Attending: </strong> {{ $families->sum('count') }}</td>
-                                    </tr>
-                                    </tfoot>
                                 </table>
-                            </div>
-                        @endforeach
-                        @if(count($years) > 1)
-                    </div>
-                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                    <tfoot>
+                    <tr>
+                        <td colspan="4" align="right"><strong>Total Campers
+                                Attending: </strong> {{ $families->sum('count') }}</td>
+                    </tr>
+                    </tfoot>
+                </table>
             </div>
         </div>
     </div>

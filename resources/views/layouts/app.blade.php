@@ -1,6 +1,6 @@
 @inject('home', 'App\Http\Controllers\HomeController')
 
-<!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -81,9 +81,9 @@
 <ul class="nav nav-pills">
     <div class="col-lg-3" style="padding-top: 5px;">
         <div class="input-group">
-            <input type="text" id="camper" class="form-control camperlist" placeholder="Camper Name" />
+            <input type="text" id="camper" class="form-control camperlist" placeholder="Camper Name"/>
             <div class="input-group-btn">
-    @include('admin.controls', ['id' =>  (preg_match('/\/(c|f)\/\d+$/', $_SERVER['REQUEST_URI'], $matches) ? substr($_SERVER['REQUEST_URI'], -6) : 'c/0')])
+                @include('admin.controls', ['id' =>  (preg_match('/\/(c|f)\/\d+$/', $_SERVER['REQUEST_URI'], $matches) ? substr($_SERVER['REQUEST_URI'], -6) : 'c/0')])
             </div>
         </div>
     </div>
@@ -153,6 +153,10 @@
         crossorigin="anonymous"></script>
 <script type="text/javascript">
     $('[data-toggle="tooltip"]').tooltip();
+    $("#orderby-submit").on('click', function (e) {
+        e.preventDefault();
+        window.location = $("#orderby-url").val() + "/" + $("#orderby-years").val() + "/" + $("#orderby-order").val();
+    });
     $('input.camperlist').each(function () {
         $(this).autocomplete({
             source: "/data/camperlist",

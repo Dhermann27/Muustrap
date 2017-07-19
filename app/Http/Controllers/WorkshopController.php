@@ -37,8 +37,7 @@ class WorkshopController extends Controller
             }
         }
 
-        DB::statement('CALL update_workshops();');
-        DB::statement('CALL enroll_workshops();');
+        DB::statement('CALL workshops();');
         DB::statement('CALL generate_charges(getcurrentyear());');
 
         $success = 'Your workshop selections have been updated.';// Check out available rooms by clicking <a href="' . url('/roomselection') . '">here</a>.';
@@ -87,7 +86,8 @@ class WorkshopController extends Controller
             }
         }
 
-        DB::statement('CALL update_workshops;');
+        DB::statement('CALL workshops();');
+        DB::statement('CALL generate_charges(getcurrentyear());');
 
         $success = 'Green means good! Yayyyyyy';
         return $this->read('f', $id, $success);

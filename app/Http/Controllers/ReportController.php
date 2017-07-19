@@ -28,20 +28,20 @@ class ReportController extends Controller
         $mergeddates = array();
         $dates = DB::select(DB::raw("SELECT ya.year AS theleft, RIGHT(DATE(ya.created_at),5) AS theright, DATE(ya.created_at) AS thedate, 
             (SELECT COUNT(*) FROM yearsattending yap WHERE yap.year=MAX(ya.year) AND DATE(yap.created_at) <= thedate) AS total
-            FROM yearsattending ya, staticdates sd WHERE RIGHT(DATE(ya.created_at), 5)=RIGHT(DATE(sd.date), 5) AND ya.year>getcurrentyear()-6 
+            FROM yearsattending ya, staticdates sd WHERE RIGHT(DATE(ya.created_at), 5)=RIGHT(DATE(sd.date), 5) AND ya.year>getcurrentyear()-7 
             GROUP BY DATE(ya.created_at) ORDER BY RIGHT(DATE(ya.created_at), 5)"));
         $summaries = DB::select(DB::raw("SELECT ya.year, COUNT(*) total, SUM(IF((SELECT COUNT(*) FROM yearsattending yap WHERE ya.year>yap.year AND c.id=yap.camperid)=0, 1, 0)) newcampers, 
             SUM(IF((SELECT COUNT(*) FROM yearsattending yap WHERE ya.year-1=yap.year AND c.id=yap.camperid)=0 AND (SELECT COUNT(*) FROM yearsattending yap WHERE ya.year-2=yap.year AND c.id=yap.camperid)=1,1,0)) oldcampers, 
             SUM(IF((SELECT COUNT(*) FROM yearsattending yap WHERE ya.year-3<yap.year AND yap.year<ya.year AND c.id=yap.camperid)=0 AND (SELECT COUNT(*) FROM yearsattending yap WHERE ya.year-3>=yap.year AND c.id=yap.camperid)>0,1,0)) voldcampers, 
             (SELECT COUNT(*) FROM yearsattending yap WHERE ya.year-1=yap.year AND (SELECT COUNT(*) FROM yearsattending yaq WHERE ya.year=yaq.year AND yap.camperid=yaq.camperid)=0) lostcampers 
-            FROM campers c, yearsattending ya WHERE c.id=ya.camperid AND ya.year>getcurrentyear()-6 GROUP BY ya.year ORDER BY ya.year"));
+            FROM campers c, yearsattending ya WHERE c.id=ya.camperid AND ya.year>getcurrentyear()-7 GROUP BY ya.year ORDER BY ya.year"));
         foreach ($dates as $date) {
             if (!array_has($mergeddates, $date->theright)) {
                 $mergeddates[$date->theright] = array();
             }
             $mergeddates[$date->theright][$date->theleft] = $date->total;
         }
-        return view('reports.chart', ['years' => \App\Year::where('year', '>', DB::raw("getcurrentyear()-6"))->get(),
+        return view('reports.chart', ['years' => \App\Year::where('year', '>', DB::raw("getcurrentyear()-7"))->get(),
             'summaries' => $summaries, 'dates' => $mergeddates]);
     }
 
@@ -158,7 +158,7 @@ class ReportController extends Controller
 
     public function workshops()
     {
-        DB::raw('CALL enroll_workshops()');
+        DB::raw('CALL workshops()');
         return view('reports.workshops', ['timeslots' => \App\Timeslot::with('workshops.choices.yearattending.camper')->get()]);
 
     }

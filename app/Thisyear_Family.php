@@ -10,7 +10,8 @@ class Thisyear_Family extends Model
 
     public function campers()
     {
-        return $this->hasMany(Thisyear_Camper::class, 'familyid', 'id');
+        return $this->hasMany(Thisyear_Camper::class, 'familyid', 'id')
+            ->orderBy('birthdate');
     }
 
     public function charges()

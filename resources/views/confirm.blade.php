@@ -35,7 +35,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($family->campers()->orderBy('birthdate')->get() as $camper)
+                @foreach($family->campers as $camper)
                     <tr>
                         <td>{{ $camper->firstname }} {{ $camper->lastname }}</td>
                         <td>{{ $camper->pronounname }}</td>
@@ -91,7 +91,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($family->campers()->orderBy('birthdate')->get() as $camper)
+                    @foreach($family->campers as $camper)
                         @foreach($camper->yearattending->workshops()->get() as $signup)
                             <tr>
                                 <td>{{ $camper->firstname }} {{ $camper->lastname }}</td>

@@ -11,7 +11,8 @@ class Byyear_Family extends Model
 
     public function campers()
     {
-        return $this->hasMany(Byyear_Camper::class, 'familyid', 'id');
+        return $this->hasMany(Byyear_Camper::class, 'familyid', 'id')
+            ->orderBy('birthdate');
     }
 
     public function allcampers() {

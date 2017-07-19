@@ -608,9 +608,16 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges(myyear YEAR)
   END;
 
 
-DROP PROCEDURE IF EXISTS update_workshops;
-CREATE DEFINER =`root`@`localhost` PROCEDURE update_workshops()
+DROP PROCEDURE IF EXISTS workshops;
+CREATE DEFINER =`root`@`localhost` PROCEDURE workshops()
   BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE myid, mycapacity INT;
+    DECLARE cur CURSOR FOR SELECT id, capacity-1 FROM workshops;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done=TRUE;
+
+    UPDATE yearattending__workshop SET is_enrolled=0;
+
     UPDATE workshops w
     SET w.enrolled = (SELECT COUNT(*)
                       FROM yearattending__workshop yw
@@ -619,17 +626,6 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE update_workshops()
       SET yw.is_leader = 1
     WHERE yw.workshopid=w.id AND yw.yearattendingid=tc.yearattendingid
           AND w.led_by LIKE CONCAT('%', tc.firstname, ' ', tc.lastname, '%');
-  END;
-
-DROP PROCEDURE IF EXISTS enroll_workshops;
-CREATE DEFINER =`root`@`localhost` PROCEDURE enroll_workshops()
-  BEGIN
-    DECLARE done INT DEFAULT FALSE;
-    DECLARE myid, mycapacity INT;
-    DECLARE cur CURSOR FOR SELECT id, capacity-1 FROM workshops;
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done=TRUE;
-
-    UPDATE yearattending__workshop SET is_enrolled=0;
 
     OPEN cur;
 
@@ -677,4 +673,9 @@ CREATE FUNCTION getprogramidbycamperid (id INT, myyear INT) RETURNS INT DETERMIN
   SELECT getage(c.birthdate, myyear) INTO age FROM campers c WHERE c.id=id;
   SELECT myyear-c.gradyear+12 INTO grade FROM campers c WHERE c.id=id;
   RETURN(SELECT p.id FROM programs p WHERE p.age_min<=age AND p.age_max>=age AND p.grade_min<=grade AND p.grade_max>=grade LIMIT 1);
+END;
+
+DROP FUNCTION IF EXISTS getprogramidbyname;
+CREATE FUNCTION getprogramidbyname (programname VARCHAR(1024)) RETURNS INT DETERMINISTIC BEGIN
+    RETURN(SELECT p.id FROM programs p WHERE p.name LIKE CONCAT('%', programname, '%') ORDER BY age_min DESC LIMIT 1);
 END;

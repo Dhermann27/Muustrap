@@ -27,7 +27,7 @@ class Room extends Model
 
     public function getOccupantsAttribute() {
 
-        $campers = \App\Thisyear_Camper::where('roomid', $this->id)->orderBy('lastname', 'birthdate')->get();
+        $campers = \App\Thisyear_Camper::where('roomid', $this->id)->orderBy('familyid')->orderBy('birthdate')->get();
         if(count($campers) > 0) {
             $str = "<br /><i>Current Occupants</i>:";
             foreach ($campers as $camper) {

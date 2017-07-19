@@ -31,7 +31,7 @@
                                                 <optgroup label="{{ $building->name }}">
                                                     @foreach($building->rooms as $room)
                                                         <option value="{{ $room->id }}"{{ $camper->roomid == $room->id ? ' selected' : '' }}>
-                                                            {{ $room->room_number }}
+                                                            {{ $room->room_number }} {{ $room->is_handicap == '1' ? ' - HC' : '' }}
                                                             ({{ $room->occupant_count }}/{{ $room->capacity }})
                                                         </option>
                                                     @endforeach

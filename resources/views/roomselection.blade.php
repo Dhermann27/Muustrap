@@ -3,12 +3,17 @@
 @section('css')
     <style>
         svg {
-            background-image: url('/images/rooms.jpg');
+            background-image: url('/images/rooms.png');
             overflow: visible;
         }
 
+        .svgText {
+            pointer-events: none;
+        }
+
         rect.available {
-            opacity: 0;
+            opacity: 1;
+            fill: #fff;
         }
 
         rect.highlight {
@@ -19,7 +24,7 @@
 
         rect.unavailable {
             opacity: 1;
-            fill: #2f2f2f;
+            fill: #a94442;
             cursor: not-allowed;
         }
 
@@ -67,22 +72,35 @@
                 </div>
             @endif
 
-            <svg id="rooms" height="828" width="878"> 
+            <svg id="rooms" height="731" width="1152"> 
+                <text x="30" y="40" font-family="Roboto" font-size="36px" fill="white">Trout Lodge</text>
+                <text x="15" y="80" font-family="Roboto" font-size="36px" fill="white">Guest Rooms</text>
+                <text x="320" y="-215" transform="rotate(90)" font-family="Roboto" font-size="36px" fill="white">Loft Suites</text>
+                <text x="402" y="450" font-family="Roboto" font-size="36px" fill="white">Lakeview Cabins</text>
+                <text x="255" y="200" font-family="Roboto" font-size="36px" fill="white">Forestview Cabins</text>
+                <text x="540" y="267" font-family="Roboto" font-size="36px" fill="white">Tent Camping</text>
+                <text x="740" y="85" font-family="Roboto" font-size="36px" fill="white">Camp Lakewood Cabins</text>
+                <text x="910" y="460" font-family="Roboto" font-size="36px" fill="white">Commuter</text>
                 @foreach($rooms as $room) 
-                <rect id="{{ $room->id }}"
-                      class="{{ (isset($camper->yearattending->roomid) && $room->id == $camper->yearattending->roomid) || (isset($room->locked) && strpos($room->locked, $camper->lastname) !== false) ? 'active' : '' }}
-                      {{ (isset($camper->yearattending) && $camper->yearattending->is_setbyadmin == '1') || ((isset($room->occupants) || isset($room->locked)) && strpos($room->occupants . $room->locked, $camper->lastname) === false && $room->capacity < 10) ?  'unavailable' : 'available' }}"
-                      width="{{ $room->pixelsize }}" height="{{ $room->pixelsize }}" x="{{  $room->xcoord }}"
-                      y="{{ $room->ycoord }}" rx="5" ry="5" data-content="{!!  $room->room_name !!}{!! isset($room->occupants) ?
-                                    '<br/>' . $room->occupants :
-                                    (isset($room->locked) && $room->capacity < 10 ?
-                                        '<br/><i>Locked by</i>:<br />' . $room->locked
-                                    : '') !!}{!! (isset($camper->yearattending->roomid) && $room->id == $camper->yearattending->roomid) || (isset($room->locked) && strpos($room->locked, $camper->lastname) !== false) ?
-                                    '<br/><strong>Your Current Selection</strong>' .
-                                        ($room->capacity < 10 ?
-                                            '<br />Please note that changing from this room will make it available to other campers.<br /><i>This cannot be undone!</i>' :
-                                            '')
-                                    : '' !!}"></rect> 
+                <g>
+                    <rect id="{{ $room->id }}"
+                          class="{{ (isset($camper->yearattending->roomid) && $room->id == $camper->yearattending->roomid) || (isset($room->locked) && strpos($room->locked, $camper->lastname) !== false) ? 'active' : '' }}
+                          {{ (isset($camper->yearattending) && $camper->yearattending->is_setbyadmin == '1') || ((isset($room->occupants) || isset($room->locked)) && strpos($room->occupants . $room->locked, $camper->lastname) === false && $room->capacity < 10) ?  'unavailable' : 'available' }}"
+                          width="{{ $room->pixelsize }}" height="{{ $room->pixelsize }}" x="{{  $room->xcoord }}"
+                          y="{{ $room->ycoord }}" data-content="{!!  $room->room_name !!}{!! isset($room->occupants) ?
+                            '<br/>' . $room->occupants :
+                            (isset($room->locked) && $room->capacity < 10 ?
+                                '<br/><i>Locked by</i>:<br />' . $room->locked
+                            : '') !!}{!! (isset($camper->yearattending->roomid) && $room->id == $camper->yearattending->roomid) || (isset($room->locked) && strpos($room->locked, $camper->lastname) !== false) ?
+                            '<br/><strong>Your Current Selection</strong>' .
+                                ($room->capacity < 10 ?
+                                    '<br />Please note that changing from this room will make it available to other campers.<br /><i>This cannot be undone!</i>' :
+                                    '')
+                            : '' !!}"></rect>
+                     
+                    <text class="svgText" x="{{ $room->xcoord+3 }}" y="{{ $room->ycoord+$room->pixelsize/1.62 }}"
+                          font-size="12px">{{ $room->pixelsize < 50 ? $room->room_number : ''}}</text>
+                </g>
                 @endforeach
             </svg>
         </div>
@@ -121,13 +139,15 @@
         $(this).removeClass('highlight');
         return $('div.tooltip').css('opacity', '0');
     });
-    $('rect.available').on('click', function () {
-        $('rect.available').removeClass('active');
-        $(this).addClass('active');
-    });
-    $('#roomselection').on('submit', function (e) {
-        $("#roomid").val($("rect.active").first().attr("id"));
-        return true;
-    })
+    @if(isset($camper->yearattending) && $camper->yearattending->is_setbyadmin == '0')
+        $('rect.available').on('click', function () {
+            $('rect.available').removeClass('active');
+            $(this).addClass('active');
+        });
+        $('#roomselection').on('submit', function (e) {
+            $("#roomid").val($("rect.active").first().attr("id"));
+            return true;
+        });
+    @endif
 </script>
 @endsection

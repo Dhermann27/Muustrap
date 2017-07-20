@@ -16,7 +16,8 @@ class Year extends Model
         return \App\Rate::where('start_year', '<=', $this->year)->where('end_year', '>=', $this->year)->get();
     }
 
-    public function isLive() {
+    public function isLive()
+    {
         return Storage::disk('local')->exists('public/MUUSA_' . $this->year . '_Brochure.pdf');
     }
 
@@ -32,11 +33,11 @@ class Year extends Model
 
     public function getNextDayAttribute()
     {
-        return Carbon::now('America/Chicago');//->max(Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago'));
-    }
-
-    public function getNextWeekdayAttribute()
-    {
-        return Carbon::now('America/Chicago');//->max(Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago')->addDay());
+        $lastfirst = Carbon::createFromFormat('Y-m-d', \App\Year::where('year', $this->year - 1)->first()->start_date, 'America/Chicago');
+        $now = Carbon::now('America/Chicago');
+        if ($now->between($lastfirst, $lastfirst->addDays(7))) {
+            return $now;
+        }
+        return $now->max(Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago'));
     }
 }

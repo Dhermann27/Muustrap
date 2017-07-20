@@ -6,14 +6,16 @@ use Carbon\Carbon;
 use GuzzleHttp;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class WelcomeController extends Controller
 {
     public function index()
     {
         $year = \App\Year::where('is_current', '1')->first();
+        $muse = Storage::disk('local')->exists('public/muses/' . $year->next_day->format('Ymd') . '.pdf');
         if (Carbon::now('America/Chicago')->lte(Carbon::createFromFormat('Y-m-d', $year->start_date)->subWeeks(2))) {
-            return $this->normal($year);
+            return $this->normal($muse);
         } else {
             $client = new GuzzleHttp\Client();
             $res = $client->request('GET', env('GOOGLE_CAL_SCRIPT') . env('COFFEEHOUSE_CALENDAR') . "&date=" . $year->next_weekday->toDateString());
@@ -29,19 +31,17 @@ class WelcomeController extends Controller
                     }
                 }
             }
-            return view('crunch', ['muse' => true, 'av' => $av, 'camper' => $camper,
-                'day' => $year->next_weekday->format('l F jS'), 'list' => json_decode($res->getBody())]);
+            return view('crunch', ['muse' => $muse, 'av' => $av, 'camper' => $camper,
+                'list' => json_decode($res->getBody())]);
         }
     }
 
-    public function normal($year)
+    public function normal($muse)
     {
         $payload = ['updatedFamily' => '0', 'updatedCamper' => 0, 'registered' => 0, 'paid' => 0];
         if (Auth::check()) {
-            $open = new \DateTime(\App\Year::where('year', DB::raw('getcurrentyear()-1'))->first()->start_date);
             $camper = \App\Camper::where('email', Auth::user()->email)->first();
             if ($camper !== null) {
-
                 $family = \App\Thisyear_Family::find($camper->family->id);
                 $payload['registered'] = $this->isRegistered($family);
                 $payload['paid'] = $this->isPaid($family);
@@ -50,25 +50,7 @@ class WelcomeController extends Controller
             }
         }
 
-        $client = new GuzzleHttp\Client();
-        $res = $client->request('GET', env('GOOGLE_CAL_SCRIPT') . env('COFFEEHOUSE_CALENDAR') . "&date=" . $year->next_weekday->toDateString());
-        $av = false;
-        $camper = null;
-        if (Auth::check()) {
-            $camper = \App\Thisyear_Camper::where('email', Auth::user()->email)->first();
-            if (isset($camper)) {
-                foreach ($camper->yearattending->positions as $position) {
-                    if ($position->staffpositionid == '1117' || $position->staffpositionid == '1103') {
-                        $av = true;
-                    }
-                }
-            }
-        }
-        $payload['muse'] = true;
-        $payload['av'] = $av;
-        $payload['day'] = $year->next_weekday->format('l F jS');
-        $payload['list'] = json_decode($res->getBody());
-
+        $payload['muse'] = $muse;
 
         return view('welcome', $payload);
     }

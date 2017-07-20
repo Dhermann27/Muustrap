@@ -1,3 +1,4 @@
+@inject('home', 'App\Http\Controllers\HomeController')
 @extends('layouts.app')
 
 @section('content')
@@ -9,7 +10,7 @@
                     <div>
                         <span class="fa fa-music fa-4x"></span>
                     </div>
-                    <h3>Coffeehouse Schedule: {{ $day }}</h3>
+                    <h3>Coffeehouse Schedule: {{ $home->year()->next_day->format('l F jS'); }}</h3>
                     @if(!empty($list[1]->colorId))
                         @for($i=1; $i<count($list); $i++)
                             @if(strpos($list[$i]->description, "OS") === false)

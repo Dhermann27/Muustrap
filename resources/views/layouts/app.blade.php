@@ -16,7 +16,7 @@
 
     @role(['admin', 'council'])
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css"/>
-@endrole
+    @endrole
 
 @yield('css')
 
@@ -51,10 +51,13 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav navbar-right">
-                @if(isset($muse))
+                @if(isset($muse) && $muse)
                     <li><a href="{{ url('/themuse') }}">Latest MUUSA Muse</a></li>
-                @elseif($home->year()->isLive())
-                    <li><a href="{{ url('MUUSA_2017_Brochure.pdf') }}">Web Brochure</a></li>
+                @endif
+                @if($home->year()->isLive())
+                    <li><a href="{{ url('MUUSA_' . $home->year()->year . '_Brochure.pdf') }}">Web Brochure</a></li>
+                @elseif(Auth::check())
+                    <li><a href="{{ url('/proposal') }}">Workshop Proposal</a></li>
                 @endif
                 <li><a href="{{ url('/contact') }}">Contact Us</a></li>
                 @if (Auth::guest())

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\ArtFair;
 use App\Mail\ContactUs;
+use App\Mail\Proposal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -41,6 +42,44 @@ class ContactController extends Controller
         }
         return view('contactus', ['mailboxes' => \App\Contactbox::orderBy('id')->get(),
             'camper' => $camper, 'success' => $success]);
+    }
+
+    public function proposalStore(Request $request)
+    {
+        $messages = [
+            'g-recaptcha-response.required' => 'Please check the CAPTCHA box and follow any additional instructions.',
+        ];
+
+        $this->validate($request, [
+            'type' => 'required|in:Workshop,Vespers,Special Event',
+            'name' => 'required|min:5',
+            'message' => 'required|min:5|max:255',
+            'qualifications' => 'required|min:5',
+            'atmuusa' => 'required',
+            'atelse' => 'required',
+            'ages' => 'required|in:Adults,All Ages,Young Adults,Senior High,Junior High',
+            'days' => 'required|between:1,5',
+            'timeslot' => 'required|exists:timeslots,name',
+            'room' => 'required',
+            'equip' => 'required',
+            'fee' => 'required',
+            'capacity' => 'required',
+            'waive' => 'required|in:No,Yes',
+            'g-recaptcha-response' => 'required|captcha',
+        ], $messages);
+
+        $camper = \App\Camper::where('email', Auth::user()->email)->first();
+        Mail::to(env('PROPOSAL_EMAIL'))->send(new Proposal($request, $camper));
+
+        return $this->proposalIndex($camper, 'Message sent! You will be contact by a member of the Adult Programming Committee.');
+    }
+
+    public function proposalIndex($camper = null, $success = null)
+    {
+        if ($camper == null) {
+            $camper = \App\Camper::where('email', Auth::user()->email)->first();
+        }
+        return view('proposal', ['camper' => $camper, 'timeslots' => \App\Timeslot::all(), 'success' => $success]);
     }
 
     public function artfairStore(Request $request)

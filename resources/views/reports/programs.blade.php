@@ -46,7 +46,7 @@
                                                     @endif
                                                 </td>
                                                 <td>{{ $participant->age }}</td>
-                                                @if($program->participants->first()->age<18)
+                                                @if($participant->age<18)
                                                     <td>{{ max($participant->grade, 0) }}</td>
                                                     <td>{!! $participant->parent !!}</td>
                                                 @endif

@@ -105,7 +105,6 @@ class ReportController extends Controller
 
     public function programs()
     {
-        $year = \App\Year::where('is_current', 1)->first()->year;
         return view('reports.programs', ['programs' => \App\Program::where('name', '!=', 'Adult')
             ->with('participants')->orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get()]);
     }

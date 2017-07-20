@@ -113,7 +113,9 @@ class PaymentController extends Controller
 
     public function write(Request $request, $id)
     {
-        $camper = \App\Camper::where('familyid', $id)->first();
+        $thiscamper = \App\Camper::where('familyid', $id)->first();
+        $year = \App\Year::where('is_current', '1')->first();
+
         foreach ($request->all() as $key => $value) {
             $matches = array();
             if (preg_match('/(\d+)-(delete|chargetypeid|amount|timestamp|memo)/', $key, $matches)) {
@@ -128,18 +130,33 @@ class PaymentController extends Controller
                 }
             }
         }
+
         if ($request->input('amount') != '') {
             $charge = new \App\Charge();
-            $charge->camperid = $camper->id;
+            $charge->camperid = $thiscamper->id;
             $charge->chargetypeid = $request->input('chargetypeid');
             $charge->amount = (float)$request->input('amount');
             $charge->timestamp = $request->input('date');
             $charge->memo = $request->input('memo');
-            $charge->year = \App\Year::where('is_current', '1')->first()->year;
+            $charge->year = $year->year;
             $charge->save();
         }
 
-        return $this->read('f', $id, 'Rocking it today! What about their <a href="' . url('/workshopchoice/f/' . $id) . '">workshops</a>?');
+        $success = "";
+        if (!$year->isLive() && \App\Thisyear_Charge::where('familyid', $id)->where('chargetypeid', 1003)
+                ->orWhere('amount', '<', '0')->get()->sum('amount') <= 0) {
+            $campers = \App\Byyear_Camper::where('familyid', $id)->where('year', ((int)$year->year) - 1)
+                ->where('is_program_housing', '0')->get();
+            foreach ($campers as $camper) {
+                \App\Yearattending::where('camperid', $camper->id)->where('year', $year->year)
+                    ->whereNull('roomid')->update(['roomid' => $camper->roomid]);
+            }
+            DB::statement('CALL generate_charges(' . $year->year . ');');
+
+            $success .= 'Room from ' . ($year->year)-1 . ' been assigned. ';
+        }
+
+        return $this->read('f', $id, $success . 'Rocking it today! But what about their <a href="' . url('/workshopchoice/f/' . $id) . '">workshops</a>?');
 
     }
 

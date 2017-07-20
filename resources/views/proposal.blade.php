@@ -215,16 +215,19 @@
 
                                 <div class="col-md-6">
                                     <select id="days" name="days" class="form-control">
-                                        <option value="M-F" {{ (old('days') == "M-F") ? " selected" : "" }}>Monday through
+                                        <option value="M-F" {{ (old('days') == "M-F") ? " selected" : "" }}>Monday
+                                            through
                                             Friday
                                         </option>
                                         <option value="MWF" {{ (old('days') == "MWF") ? " selected" : "" }}>Monday,
                                             Wednesday, and Friday
                                         </option>
-                                        <option value="TuTh" {{ (old('days') == "TuTh") ? " selected" : "" }}>Tuesday and
+                                        <option value="TuTh" {{ (old('days') == "TuTh") ? " selected" : "" }}>Tuesday
+                                            and
                                             Thursday
                                         </option>
-                                        <option value="Single" {{ (old('days') == "Single") ? " selected" : "" }}>Any single day
+                                        <option value="Single" {{ (old('days') == "Single") ? " selected" : "" }}>Any
+                                            single day
                                         </option>
                                     </select>
 
@@ -245,6 +248,10 @@
                                         @foreach($timeslots as $timeslot)
                                             <option value="{{ $timeslot->name }}"{{ (old('timeslot') == $timeslot->name) ? " selected" : "" }}>
                                                 {{ $timeslot->name }}
+                                                @if($timeslot->id != '1005')
+                                                    ({{ $timeslot->start_time->format('g:i A') }}
+                                                    - {{ $timeslot->end_time->format('g:i A') }})
+                                                @endif
                                             </option>
                                         @endforeach
                                     </select>

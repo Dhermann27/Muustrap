@@ -121,7 +121,8 @@ class ReportController extends Controller
         $year = $year == 0 ? \App\Year::where('is_current', '1')->first()->year : (int)$year;
         $years = \App\Byyear_Camper::where('year', '>', '2008')->groupBy('year')->distinct()
             ->orderBy('year', 'DESC')->get();
-        $campers = \App\Byyear_Camper::where('year', $year)->whereNotNull('roomid')->orderBy('room_number')->get();
+        $campers = \App\Byyear_Camper::where('year', $year)->whereNotNull('roomid')
+            ->orderBy('room_number')->orderBy('familyid')->orderBy('birthdate')->get();
         return view('reports.rooms', ['campers' => $campers, 'buildings' => \App\Building::all(),
             'years' => $years]);
     }

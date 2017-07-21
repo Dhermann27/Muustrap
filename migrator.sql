@@ -647,7 +647,8 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE workshops()
       END LOOP;
 
     CLOSE cur;
-  END;
+
+END;
 
 DROP PROCEDURE IF EXISTS `duplicate`;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `duplicate`(beforeid INT, afterid INT)

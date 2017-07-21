@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
 {
@@ -21,6 +22,20 @@ class ReportController extends Controller
         }
         return view('reports.campers', ['title' => 'Registered Campers', 'years' => $years,
             'families' => $families->get(), 'thisyear' => $year]);
+    }
+
+    public function campersExport()
+    {
+        $year = \App\Year::where('is_current', '1')->first()->year;
+        Excel::create('MUUSA_' . $year . '_Campers_' . Carbon::now()->toDateString(), function ($excel) {
+            $excel->sheet('campers', function ($sheet) {
+                $sheet->setOrientation('landscape');
+                $sheet->with(\App\Thisyear_Camper::select('familyname', 'address1', 'address2', 'city', 'statecd',
+                    'zipcd', 'country', 'pronounname', 'firstname', 'lastname', 'email', 'phonenbr', 'birthday', 'age',
+                    'grade', 'programname', 'roommate', 'sponsor', 'churchname', 'churchcity', 'churchstatecd', 'days',
+                    'room_number', 'buildingname')->orderBy('familyname')->orderBy('familyid')->orderBy('birthdate')->get());
+            });
+        })->export('xlsx');
     }
 
     public function chart()
@@ -103,11 +118,42 @@ class ReportController extends Controller
             ->where('year', $year)->with('camper')->with('family')->get(), 'years' => $years]);
     }
 
+    public function paymentsExport()
+    {
+        $year = \App\Year::where('is_current', '1')->first()->year;
+        Excel::create('MUUSA_' . $year . '_Ledger_' . Carbon::now()->toDateString(), function ($excel) {
+            $excel->sheet('payments', function ($sheet) {
+                $sheet->setOrientation('landscape');
+                $sheet->with(\App\Thisyear_Charge::select('families.name', 'campers.firstname', 'campers.lastname',
+                    'thisyear_charges.amount', 'thisyear_charges.chargetypename', 'thisyear_charges.timestamp')
+                    ->join('campers', 'thisyear_charges.camperid', 'campers.id')
+                    ->join('families', 'campers.familyid', 'families.id')->orderBy('thisyear_charges.familyname')
+                    ->orderBy('thisyear_charges.familyid')->orderBy('thisyear_charges.timestamp')->get());
+            });
+        })->export('xlsx');
+    }
+
     public function programs()
     {
         return view('reports.programs', ['programs' => \App\Program::where('name', '!=', 'Adult')
             ->with('participants')->orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get()]);
     }
+
+//    TODO: Can't get Parent attribute... substitute with view?
+//    public function programsExport()
+//    {
+//        $year = \App\Year::where('is_current', '1')->first()->year;
+//        Excel::create('MUUSA_' . $year . '_Programs_' . Carbon::now()->toDateString(), function ($excel) {
+//            $programs = \App\Thisyear_Camper::groupBy('programid')->distinct()->get();
+//            foreach ($programs as $program) {
+//                $excel->sheet($program->programname, function ($sheet) use ($program) {
+//                    $sheet->setOrientation('landscape');
+//                    $sheet->with(\App\Thisyear_Camper::select('pronounname', 'firstname', 'lastname', 'age',
+//                        'grade', 'parent')->where('programid', $program->programid)->get());
+//                });
+//            }
+//        })->export('xlsx');
+//    }
 
     public function rates()
     {
@@ -125,6 +171,22 @@ class ReportController extends Controller
             ->orderBy('room_number')->orderBy('familyid')->orderBy('birthdate')->get();
         return view('reports.rooms', ['campers' => $campers, 'buildings' => \App\Building::all(),
             'years' => $years]);
+    }
+
+    public function roomsExport()
+    {
+        $year = \App\Year::where('is_current', '1')->first()->year;
+        Excel::create('MUUSA_' . $year . '_Rooms_' . Carbon::now()->toDateString(), function ($excel) {
+            $buildings = \App\Thisyear_Camper::whereNotNull('roomid')->groupBy('buildingid')->distinct()->get();
+            foreach ($buildings as $building) {
+                $excel->sheet($building->buildingname, function ($sheet) use ($building) {
+                    $sheet->setOrientation('landscape');
+                    $sheet->with(\App\Thisyear_Camper::select('room_number', 'firstname', 'lastname', 'address1',
+                        'address2', 'city', 'statecd', 'zipcd', 'age')->where('buildingid', $building->buildingid)
+                        ->orderBy('room_number')->orderBy('familyid')->orderBy('birthdate')->get());
+                });
+            }
+        })->export('xlsx');
     }
 
     public function roommates()

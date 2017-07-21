@@ -127,7 +127,7 @@ class ReportController extends Controller
                 $sheet->with(\App\Thisyear_Charge::select('families.name', 'campers.firstname', 'campers.lastname',
                     'thisyear_charges.amount', 'thisyear_charges.chargetypename', 'thisyear_charges.timestamp')
                     ->join('campers', 'thisyear_charges.camperid', 'campers.id')
-                    ->join('families', 'campers.familyid', 'families.id')->orderBy('thisyear_charges.familyname')
+                    ->join('families', 'campers.familyid', 'families.id')->orderBy('families.name')
                     ->orderBy('thisyear_charges.familyid')->orderBy('thisyear_charges.timestamp')->get());
             });
         })->export('xls');

@@ -3,6 +3,10 @@
 @section('content')
     <p>&nbsp;</p>
     <div class="container">
+        <div class="row">
+            <a href="{{ url('/reports/rooms.xlsx') }}" class="fa fa-download fa-2x pull-right" data-toggle="tooltip"
+               title="Download Rooms Excel"></a>
+        </div>
         <div class="panel panel-default">
             <div class="panel-heading">Room List</div>
             <div class="panel-body">

@@ -3,11 +3,15 @@
 @section('content')
     <p>&nbsp;</p>
     <div class="container">
+        <div class="row">
+            <a href="{{ url('/reports/campers.xlsx') }}" class="fa fa-download fa-2x pull-right" data-toggle="tooltip"
+               title="Download Campers Excel"></a>
+        </div>
         <div class="panel panel-default">
             <div class="panel-heading">{{ $title }}</div>
             <div class="panel-body">
                 @include('snippet.orderby', ['years' => $years, 'orders' => ['name', 'date']])
-                <input type="hidden" id="orderby-url" value="{{ url('/reports/campers') }}" />
+                <input type="hidden" id="orderby-url" value="{{ url('/reports/campers') }}"/>
                 <table class="table table-responsive table-bordered">
                     <caption style="text-align:right;"><strong>Total Campers
                             Attending: </strong> {{ $families->sum('count') }}</caption>

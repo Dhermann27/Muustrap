@@ -4,7 +4,7 @@
     <p>&nbsp;</p>
     <div class="container">
         <div class="row">
-            <a href="{{ url('/reports/campers.xlsx') }}" class="fa fa-download fa-2x pull-right" data-toggle="tooltip"
+            <a href="{{ url('/reports/campers.xls') }}" class="fa fa-download fa-2x pull-right" data-toggle="tooltip"
                title="Download Campers Excel"></a>
         </div>
         <div class="panel panel-default">

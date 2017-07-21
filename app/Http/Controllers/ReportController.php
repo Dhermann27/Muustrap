@@ -35,7 +35,7 @@ class ReportController extends Controller
                     'grade', 'programname', 'roommate', 'sponsor', 'churchname', 'churchcity', 'churchstatecd', 'days',
                     'room_number', 'buildingname')->orderBy('familyname')->orderBy('familyid')->orderBy('birthdate')->get());
             });
-        })->export('xlsx');
+        })->export('xls');
     }
 
     public function chart()
@@ -130,7 +130,7 @@ class ReportController extends Controller
                     ->join('families', 'campers.familyid', 'families.id')->orderBy('thisyear_charges.familyname')
                     ->orderBy('thisyear_charges.familyid')->orderBy('thisyear_charges.timestamp')->get());
             });
-        })->export('xlsx');
+        })->export('xls');
     }
 
     public function programs()
@@ -152,7 +152,7 @@ class ReportController extends Controller
 //                        'grade', 'parent')->where('programid', $program->programid)->get());
 //                });
 //            }
-//        })->export('xlsx');
+//        })->export('xls');
 //    }
 
     public function rates()
@@ -186,7 +186,7 @@ class ReportController extends Controller
                         ->orderBy('room_number')->orderBy('familyid')->orderBy('birthdate')->get());
                 });
             }
-        })->export('xlsx');
+        })->export('xls');
     }
 
     public function roommates()

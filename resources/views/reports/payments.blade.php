@@ -19,7 +19,7 @@
     <p>&nbsp;</p>
     <div class="container">
         <div class="row">
-            <a href="{{ url('/reports/payments.xlsx') }}" class="fa fa-download fa-2x pull-right" data-toggle="tooltip"
+            <a href="{{ url('/reports/payments.xls') }}" class="fa fa-download fa-2x pull-right" data-toggle="tooltip"
                title="Download Payments Excel"></a>
         </div>
         <div class="panel panel-default">

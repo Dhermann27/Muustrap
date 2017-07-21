@@ -85,7 +85,7 @@ Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'reports'], fu
     Route::get('rates', 'ReportController@rates');
     Route::get('roommates', 'ReportController@roommates');
     Route::get('rooms', 'ReportController@rooms');
-    Route::get('rooms.xlsx', 'ReportController@roomsExport');
+    Route::get('rooms/export', 'ReportController@roomsExport');
     Route::get('rooms/{year?}/name', 'ReportController@rooms');
     Route::get('states', 'ReportController@states');
     Route::get('volunteers', 'ReportController@volunteers');

@@ -31,10 +31,8 @@ class AdminController extends Controller
             $rows->where('year', DB::raw('getcurrentyear()'));
         } elseif ($request->input("campers") == "oneyear") {
             $rows->where('year', DB::raw('getcurrentyear()-1'));
-            $rows->groupBy('email');
         } elseif ($request->input("campers") == "threeyears") {
             $rows->where('year', '>', DB::raw('getcurrentyear()-3'));
-            $rows->groupBy('email');
         }
 
         if ($request->input("email") == "1") {
@@ -54,8 +52,8 @@ class AdminController extends Controller
             $rows->whereIn(DB::raw('getprogramidbycamperid(id, year)'), $programids);
         }
 
-        return view('admin.distlist', ['programs' => $programs, 'rows' => $rows->get(), 'columns' => $columns,
-            'request' => $request]);
+        return view('admin.distlist', ['programs' => $programs,
+            'rows' => $rows->groupBy('email')->distinct()->get(), 'columns' => $columns, 'request' => $request]);
     }
 
     public function distlistIndex()

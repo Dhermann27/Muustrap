@@ -9,8 +9,8 @@ Route::get('/workshops', 'WorkshopController@display');
 
 Route::get('/contact', 'ContactController@contactIndex');
 Route::post('/contact', 'ContactController@contactStore');
-Route::get('/proposal', 'ContactController@proposalIndex');
-Route::post('/proposal', 'ContactController@proposalStore');
+Route::get('/proposal', 'ContactController@proposalIndex')->middleware('auth');
+Route::post('/proposal', 'ContactController@proposalStore')->middleware('auth');
 
 //Route::get('/confirm', 'ConfirmController@index')->middleware('auth');
 Route::get('/confirm/{i}/{id}', 'ConfirmController@read')->middleware('auth', 'role:admin|council');

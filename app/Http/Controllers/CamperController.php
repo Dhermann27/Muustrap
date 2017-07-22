@@ -168,7 +168,7 @@ class CamperController extends Controller
         for ($i = 0; $i < count($request->input('id')); $i++) {
 
             $this->validate($request, [
-                'email.' . $i => 'unique:campers,email,' . $id,
+                'email.' . $i => 'unique:campers,email,' . $request->input('id')[$i],
             ], $messages);
 
             $this->upsertCamper($request, $i, $id);

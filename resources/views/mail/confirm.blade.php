@@ -243,9 +243,9 @@
     <table height="100%" width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
             <td valign="top" align="left">
-                <p style="display:none;font-size:0px;color:transparent">Hello MUUSA Friends, Are you ready to devour all
-                    the camp details in your very own confirmation letter? Letters can now be viewed/downloaded when
-                    you</p>
+                <p style="display:none;font-size:0px;color:transparent">Hello MUUSA Friends, thank you for submitting
+                    your registration! We are looking
+                    forward to seeing you "next week".</p>
                 <p style="mso-hide:all;font-size:0px;background-color:transparent;position:absolute;height:1px"></p>
                 <div id="madmimi_outer_wrapper"
                      style="margin-top: 0; margin-right: auto; margin-bottom: 0; margin-left: auto; padding-top: 20px; padding-right: 0; padding-bottom: 0; padding-left: 0;">

@@ -7,7 +7,6 @@ use App\Mail\ContactUs;
 use App\Mail\Proposal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller
@@ -27,7 +26,7 @@ class ContactController extends Controller
             'g-recaptcha-response' => 'required|captcha',
         ], $messages);
 
-        $users = DB::table('contactboxes')->find($request->mailbox)->emails;
+        $users = \App\Contactbox::findOrFail($request->mailbox)->emails;
 
         Mail::to($users)->send(new ContactUs($request));
 

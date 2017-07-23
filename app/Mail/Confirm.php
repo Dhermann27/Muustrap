@@ -29,6 +29,7 @@ class Confirm extends Mailable
      */
     public function build()
     {
-        return $this->from('muusa@muusa.org')->view('mail.confirm');
+        $registrar = \App\Contactbox::where('name', 'Registrar')->first();
+        return $this->from('muusa@muusa.org')->bcc($registrar->emails)->view('mail.confirm');
     }
 }

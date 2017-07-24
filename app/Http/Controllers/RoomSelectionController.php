@@ -28,8 +28,10 @@ class RoomSelectionController extends Controller
     public function index($success = null)
     {
         $camper = \App\Thisyear_Camper::where('email', Auth::user()->email)->first();
+        $count = \App\Thisyear_Camper::where('familyid', $camper->familyid)->where('is_program_housing', '0')->count();
         $rooms = \App\Room::where('xcoord', '>', '0')->where('ycoord', '>', '0')->get();
-        return view('roomselection', ['rooms' => $rooms, 'camper' => $camper, 'success' => $success]);
+        return view('roomselection', ['rooms' => $rooms, 'camper' => $camper, 'count' => $count,
+            'success' => $success]);
     }
 
     public function map()

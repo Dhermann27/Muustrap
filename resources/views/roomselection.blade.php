@@ -145,6 +145,9 @@
             $(this).addClass('active');
         });
         $('#roomselection').on('submit', function (e) {
+            if (!confirm("You are moving {{ $count }} campers to a new room. This cannot be undone. Is this correct?")) {
+                return false;
+            }
             $("#roomid").val($("rect.active").first().attr("id"));
             return true;
         });

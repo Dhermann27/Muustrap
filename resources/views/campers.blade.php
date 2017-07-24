@@ -105,7 +105,7 @@
                 if (!confirm("You are registering " + form.find('select.days option[value!="0"]:selected').length + " campers for {{ $home->year()->year }}. Is this correct?")) {
                     return false;
                 }
-                var button = $("button.btn-primary").html("<i class='fa fa-spinner fa-spin'></i> Saving...")
+                var button = $("button#submit").html("<i class='fa fa-spinner fa-spin'></i> Saving...")
                     .removeClass("btn-labeled btn-danger").prop("disabled", true);
                 $(".has-error").removeClass("has-error").find(".help-block").remove();
                 $("div.alert").remove();

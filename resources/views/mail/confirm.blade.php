@@ -324,11 +324,16 @@
                                                                                align="left">
                                                                                 Your deposit of
                                                                                 ${{ count($campers) > 1 ? '300' : '150'}}
-                                                                                is now due, payable either mailed by
-                                                                                check or on our website using PayPal.
-                                                                                The remaining balance is due
-                                                                                on the first day of
-                                                                                camp, {{ $home->year()->start_open }}.
+                                                                                is now due. If you with to pay by check
+                                                                                (which saves MUUSA a few bucks!), please
+                                                                                send a check to the Registrar at the
+                                                                                address listed in the footnote of this
+                                                                                email. If you paid via PayPal during the
+                                                                                online registration process, thank you!
+                                                                                Your remaining balance is due on the
+                                                                                first day of
+                                                                                camp, {{ $home->year()->first_day }}
+                                                                                .
                                                                                 @if($home->year()->isLive())))
                                                                                 Room selection, workshop
                                                                                 preferences, nametag customization,
@@ -344,8 +349,7 @@
                                                                                         assigned your old room</i>.
                                                                                     Room selection, workshop
                                                                                     preferences, nametag customization,
-                                                                                    and
-                                                                                    confirmation letters will become
+                                                                                    and confirmation letters will become
                                                                                     available
                                                                                     on {{ $home->year()->start_open }}
                                                                                     at <a
@@ -355,8 +359,8 @@
                                                                             </p>
 
                                                                             <p style="line-height: 1.5em; color: #555555; font-family: &#39;Helvetica Neue&#39;, Helvetica, Arial, sans-serif; font-size: 15px; text-align: left; unicode-bidi: embed; vertical-align: baseline; margin-top: 0; margin-right: 0; margin-bottom: 1.3em; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;"
-                                                                               align="left">Dan Hermann<br/>MUUSA
-                                                                                Webmaster</p>
+                                                                               align="left">Sara Teppema<br/>MUUSA
+                                                                                Registar</p>
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -395,8 +399,6 @@
                                                                 </tr>
                                                             </table>
                                                         </div>
-
-
                                                     </td>
                                                 </tr>
                                             </table>

@@ -112,45 +112,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="family" class="col-md-4 control-label">Family Data to Display (all off by
-                            default)</label>
-                        <div class="col-md-6 btn-group" data-toggle="buttons">
-                            <label class="btn btn-default {{ old('family-name', $request->input('family-name')) == 'on' ? 'active' : '' }}">
-                                <input type="checkbox" name="family-name" autocomplete="off"
-                                        {{ old('family-name', $request->input('family-name')) == 'on' ? ' checked="checked"' : '' }} />
-                                Family Name
-                            </label>
-
-
-                            <label class="btn btn-default {{ old('family-address', $request->input('family-address')) == 'on' ? 'active' : '' }}">
-                                <input type="checkbox" name="family-address" autocomplete="off"
-                                        {{ old('family-address', $request->input('family-address')) == 'on' ? ' checked="checked"' : '' }} />
-                                Address
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="camper" class="col-md-4 control-label">Camper Data to Display (all off by
-                            default)</label>
-                        <div class="col-md-6 btn-group" data-toggle="buttons">
-                            <label class="btn btn-default {{ old('camper-firstname', $request->input('camper-firstname')) == 'on' ? 'active' : '' }}">
-                                <input type="checkbox" name="camper-firstname" autocomplete="off"
-                                        {{ old('camper-firstname', $request->input('camper-firstname')) == 'on' ? ' checked="checked"' : '' }} />
-                                First Name
-                            </label>
-
-                            <label class="btn btn-default {{ old('camper-lastname', $request->input('camper-lastname')) == 'on' ? 'active' : '' }}">
-                                <input type="checkbox" name="camper-lastname" autocomplete="off"
-                                        {{ old('camper-lastname', $request->input('camper-lastname')) == 'on' ? ' checked="checked"' : '' }} />
-                                Last Name
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
                         <div class="col-md-2 col-md-offset-8">
-                            <button type="submit" class="btn btn-primary">Display Data</button>
+                            <button type="submit" class="btn btn-primary">Download Data</button>
                         </div>
                     </div>
                 </form>

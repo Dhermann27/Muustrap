@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
 {
@@ -11,22 +13,11 @@ class AdminController extends Controller
     public function distlistStore(Request $request)
     {
         $programs = \App\Program::orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get();
-        $columns = ['email'];
 
-        if ($request->input("family-name") == "on") {
-            array_push($columns, 'familyname');
-        }
-        if ($request->input("family-address") == "on") {
-            array_push($columns, 'address1', 'address2', 'city', 'statecd', 'zipcd', 'country');
-        }
-        if ($request->input("camper-firstname") == "on") {
-            array_push($columns, 'firstname');
-        }
-        if ($request->input("camper-lastname") == "on") {
-            array_push($columns, 'lastname');
-        }
-
-        $rows = \App\Byyear_Camper::select($columns);
+        $rows = \App\Byyear_Camper::select('familyname', 'address1', 'address2', 'city', 'statecd',
+            'zipcd', 'country', 'pronounname', 'firstname', 'lastname', 'email', 'phonenbr', 'birthday', 'age',
+            'grade', 'programname', 'roommate', 'sponsor', 'churchname', 'churchcity', 'churchstatecd', 'days',
+            'room_number', 'buildingname');
         if ($request->input("campers") == "reg") {
             $rows->where('year', DB::raw('getcurrentyear()'));
         } elseif ($request->input("campers") == "oneyear") {
@@ -52,8 +43,13 @@ class AdminController extends Controller
             $rows->whereIn(DB::raw('getprogramidbycamperid(id, year)'), $programids);
         }
 
-        return view('admin.distlist', ['programs' => $programs,
-            'rows' => $rows->groupBy('email')->distinct()->get(), 'columns' => $columns, 'request' => $request]);
+
+        $year = \App\Year::where('is_current', '1')->first()->year;
+        Excel::create('MUUSA_' . $year . '_Distlist_' . Carbon::now()->toDateString(), function ($excel) use ($rows) {
+            $excel->sheet('campers', function ($sheet) use ($rows) {
+                $sheet->with($rows->orderBy('familyname')->orderBy('familyid')->orderBy('birthdate')->get());
+            });
+        })->export('csv');
     }
 
     public function distlistIndex()

@@ -139,22 +139,6 @@ class ReportController extends Controller
             ->with('participants.parents')->orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get()]);
     }
 
-//    TODO: Can't get Parent attribute... substitute with view?
-//    public function programsExport()
-//    {
-//        $year = \App\Year::where('is_current', '1')->first()->year;
-//        Excel::create('MUUSA_' . $year . '_Programs_' . Carbon::now()->toDateString(), function ($excel) {
-//            $programs = \App\Thisyear_Camper::groupBy('programid')->distinct()->get();
-//            foreach ($programs as $program) {
-//                $excel->sheet($program->programname, function ($sheet) use ($program) {
-//                    $sheet->setOrientation('landscape');
-//                    $sheet->with(\App\Thisyear_Camper::select('pronounname', 'firstname', 'lastname', 'age',
-//                        'grade', 'parent')->where('programid', $program->programid)->get());
-//                });
-//            }
-//        })->export('xls');
-//    }
-
     public function rates()
     {
         return view('reports.rates', ['years' => \App\Year::where('year', '>', 2014)->get(),

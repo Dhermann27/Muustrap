@@ -81,7 +81,7 @@
     </div>
 </nav>
 @role(['admin', 'council'])
-<ul class="nav nav-pills">
+<ul class="nav nav-pills hidden-print">
     <div class="col-lg-3" style="padding-top: 5px;">
         <div class="input-group">
             <input type="text" id="camper" class="form-control camperlist" placeholder="Camper Name"/>

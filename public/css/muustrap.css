@@ -38,7 +38,7 @@ nav a.navbar-brand h4 {
 div.preview {
     width: 4in;
     height: 3in;
-    margin: auto ;
+    margin: auto;
     margin-bottom: 20px;
     border: 3px dashed black;
     padding: .25in;
@@ -190,6 +190,12 @@ div#spacer2 {
     }
 }
 
+@media print {
+    @page {
+        size: landscape
+    }
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -237,12 +243,15 @@ input::-webkit-inner-spin-button {
 #fb {
     bottom: 50px;
 }
+
 #twtr {
     bottom: 100px;
 }
+
 #od {
     bottom: 150px;
 }
+
 #cal {
     bottom: 200px;
 }

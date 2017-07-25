@@ -26,11 +26,6 @@ class Thisyear_Camper extends Model
         return $this->hasOne(Foodoption::class, 'id', 'foodoptionid');
     }
 
-    public function parents() {
-        return $this->hasMany(Thisyear_Camper::class, 'familyid', 'familyid')
-            ->where('age', '>', '17')->orderBy('birthdate');
-    }
-
     public function program()
     {
         return $this->hasOne(Program::class, 'id', 'programid');
@@ -67,7 +62,7 @@ class Thisyear_Camper extends Model
             if (!empty($this->sponsor)) {
                 return "<i class='fa fa-id-badge'></i> " . $this->sponsor;
             } else {
-                $parents = $this->parents();
+                $parents = $this->parents()->get();
                 if (count($parents) == 1) {
                     return $icon . $parents->first()->firstname . " " . $parents->first()->lastname;
                 } elseif (count($parents) > 1) {
@@ -82,6 +77,37 @@ class Thisyear_Camper extends Model
                     return "<i>Unsponsored Minor</i>";
                 }
             }
+        } else {
+            return "";
+        }
+    }
+
+    public function parents()
+    {
+        return $this->hasMany(Thisyear_Camper::class, 'familyid', 'familyid')
+            ->where('age', '>', '17')->orderBy('birthdate');
+    }
+
+    public function getParentRoomAttribute()
+    {
+
+        if ($this->age < 18) {
+            $parent = !empty($this->sponsor) ? \App\Thisyear_Camper::where(DB::raw('CONCAT(firstname," ",lastname)'), $this->sponsor)->first() : $this->parents()->first();
+            return !empty($parent->roomid) ? $parent->buildingname . " " . $parent->room_number : "Unassigned";
+        } else {
+            return "";
+        }
+    }
+
+    public function getParentPhoneAttribute()
+    {
+
+        if ($this->age < 18) {
+            $parents = !empty($this->sponsor) ? \App\Thisyear_Camper::where(DB::raw('CONCAT(firstname," ",lastname)'), $this->sponsor)->get() : $this->parents()->get();
+            foreach ($parents as $parent) {
+                if (!empty($parent->phonenbr)) return $parent->formatted_phone;
+            }
+            return "None Given";
         } else {
             return "";
         }

@@ -29,8 +29,10 @@
                                             @if($program->participants->first()->age<18)
                                                 <th>Grade</th>
                                                 <th>Parent/Sponsor</th>
+                                                <th>Room</th>
+                                                <th>Phone Number</th>
                                             @endif
-                                            <th>Controls</th>
+                                            <th class="hidden-print">Controls</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -41,15 +43,17 @@
                                                     {{ $participant->lastname }}, {{ $participant->firstname }}
                                                     @if(isset($participant->email))
                                                         <a href="mailto:{{ $participant->email }}"
-                                                           class="fa fa-envelope"></a>
+                                                           class="fa fa-envelope hidden-print"></a>
                                                     @endif
                                                 </td>
                                                 <td>{{ $participant->age }}</td>
                                                 @if($program->participants->first()->age<18)
                                                     <td>{{ max($participant->grade, 0) }}</td>
                                                     <td>{!! $participant->parent !!}</td>
+                                                    <td>{{ $participant->parent_room }}</td>
+                                                    <td>{{ $participant->parent_phone }}</td>
                                                 @endif
-                                                <td>
+                                                <td class="hidden-print">
                                                     @include('admin.controls', ['id' => 'c/' . $participant->id])
                                                 </td>
                                             </tr>
@@ -57,15 +61,29 @@
                                         </tbody>
                                         <tfoot>
                                         <tr>
-                                            <td colspan="{{ $program->participants->first()->age<18 ? '6' : '4' }}"
+                                            <td colspan="{{ $program->participants->first()->age<18 ? '8' : '4' }}"
                                                 align="right"><strong>Total
                                                     Campers: </strong> {{ count($program->participants) }}</td>
                                         </tr>
                                         <tr class="hidden-print">
-                                            <td colspan="{{ $program->participants->first()->age<18 ? '6' : '4' }}">
+                                            <td colspan="{{ $program->participants->first()->age<18 ? '8' : '4' }}">
                                                 Distribution list: {{ $program->emails }}
                                             </td>
                                         </tr>
+                                        @if($program->participants->first()->age<18)
+                                            <tr class="hidden-print">
+                                                <td colspan="8">
+                                                    Parent Distribution list:
+                                                    @foreach($program->participants as $participant)
+                                                        @foreach($participant->parents as $parent)
+                                                            @if(!empty($parent->email))
+                                                                {{ $parent->email }};
+                                                            @endif
+                                                        @endforeach
+                                                    @endforeach
+                                                </td>
+                                            </tr>
+                                        @endif
                                         </tfoot>
                                     </table>
                                 </div>

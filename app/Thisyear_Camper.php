@@ -26,6 +26,11 @@ class Thisyear_Camper extends Model
         return $this->hasOne(Foodoption::class, 'id', 'foodoptionid');
     }
 
+    public function parents() {
+        return $this->hasMany(Thisyear_Camper::class, 'familyid', 'familyid')
+            ->where('age', '>', '17')->orderBy('birthdate');
+    }
+
     public function program()
     {
         return $this->hasOne(Program::class, 'id', 'programid');
@@ -62,7 +67,7 @@ class Thisyear_Camper extends Model
             if (!empty($this->sponsor)) {
                 return "<i class='fa fa-id-badge'></i> " . $this->sponsor;
             } else {
-                $parents = $this->family->campers->where('age', '>', 17)->sortBy('birthdate');
+                $parents = $this->parents();
                 if (count($parents) == 1) {
                     return $icon . $parents->first()->firstname . " " . $parents->first()->lastname;
                 } elseif (count($parents) > 1) {

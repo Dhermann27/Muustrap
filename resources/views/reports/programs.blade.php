@@ -19,8 +19,7 @@
                         @if(count($program->participants) > 0)
                             <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' in active' : '' }}"
                                  id="{{ $program->id }}">
-                                <div class="panel-group" id="{{ $program->id }}-accordion" role="tablist"
-                                     aria-multiselectable="true">
+                                <div class="panel-group" id="{{ $program->id }}-accordion" role="tablist">
                                     <table class="table table-responsive">
                                         <thead>
                                         <tr>

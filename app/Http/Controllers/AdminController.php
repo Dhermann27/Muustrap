@@ -60,8 +60,6 @@ class AdminController extends Controller
 
     public function roleStore(Request $request)
     {
-        $error = "";
-
         foreach ($request->all() as $key => $value) {
             $matches = array();
             if (preg_match('/(\d+)-(\d+)-delete/', $key, $matches)) {
@@ -77,18 +75,19 @@ class AdminController extends Controller
                 if ($user->user()->first() !== null) {
                     $user->user()->first()->roles()->attach($role->id);
                 } else {
-                    $error .= $user->firstname . " " . $user->lastname . " has not yet regisetered on muusa.org.<br />";
+                    $request->session()->flash('error',
+                        $user->firstname . " " . $user->lastname . " has not yet regisetered on muusa.org.<br />");
                 }
             }
         }
+        $request->session()->flash('success', 'Real artists ship.');
 
-        return $this->roleIndex('Real artists ship.', $error);
+        return $this->roleIndex();
     }
 
-    public function roleIndex($success = null, $error = null)
+    public function roleIndex()
     {
-        return view('admin.roles', ['roles' => \App\Role::with('users.camper')->get(),
-            'success' => $success, 'error' => $error]);
+        return view('admin.roles', ['roles' => \App\Role::with('users.camper')->get()]);
     }
 
     public function positionStore(Request $request)

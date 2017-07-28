@@ -38,6 +38,7 @@
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Controls</th>
+                                        <th>Delete?</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -47,6 +48,12 @@
                                             <td>{{ $user->email }}</td>
                                             <td>
                                                 @include('admin.controls', ['id' => 'c/' . $user->camper->id])
+                                            </td>
+                                            <td class="btn-group" data-toggle="buttons">
+                                                <label class="btn btn-default">
+                                                    <input type="checkbox" name="{{ $user->id }}-{{ $role->id }}-delete"
+                                                           autocomplete="off"/> Delete
+                                                </label>
                                             </td>
                                         </tr>
                                     @endforeach

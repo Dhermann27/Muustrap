@@ -61,6 +61,16 @@ class AdminController extends Controller
     public function roleStore(Request $request)
     {
         $error = "";
+
+        foreach ($request->all() as $key => $value) {
+            $matches = array();
+            if (preg_match('/(\d+)-(\d+)-delete/', $key, $matches)) {
+                if ($value == 'on') {
+                    DB::table('role_user')->where('role_id', $matches[2])->where('user_id', $matches[1])->delete();
+                }
+            }
+        }
+
         foreach (\App\Role::all() as $role) {
             if ($request->input($role->id . "-camperid") != '') {
                 $user = \App\Camper::find($request->input($role->id . "-camperid"));

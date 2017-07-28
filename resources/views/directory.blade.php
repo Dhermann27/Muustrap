@@ -10,7 +10,7 @@
             This only contains entries of campers who attended the same year(s) as yourself. Unfortunately, we do not
             have historical data from Lake Geneva Summer Assembly.
         </div>
-        <nav aria-label="Page navigation" align="center">
+        <nav aria-label="Page navigation" style="text-align: center;">
             <ul class="pagination">
                 <li id="previous">
                     <a href="#" aria-label="Previous">

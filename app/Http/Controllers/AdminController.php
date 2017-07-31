@@ -32,6 +32,9 @@ class AdminController extends Controller
         if ($request->input("ecomm") == "1") {
             $rows->where('is_ecomm', '1');
         }
+        if ($request->input("current") == "1") {
+            $rows->where('is_address_current', '1');
+        }
 
         $programids = array();
         foreach ($programs as $program) {

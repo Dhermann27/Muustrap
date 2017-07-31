@@ -66,7 +66,7 @@
                             <select id="email" name="email" class="form-control">
                                 <option value="1">Yes</option>
                                 <option value="0"{{ old('email', $request->input('email')) == '0' ? ' selected' : '' }}>
-                                    No
+                                    No, show all
                                 </option>
                             </select>
 
@@ -86,13 +86,33 @@
                             <select id="ecomm" name="ecomm" class="form-control">
                                 <option value="1">Yes</option>
                                 <option value="0"{{ old('ecomm', $request->input('ecomm')) == '0' ? ' selected' : '' }}>
-                                    No
+                                    No, show all
                                 </option>
                             </select>
 
                             @if ($errors->has('ecomm'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('ecomm') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="form-group{{ $errors->has('current') ? ' has-error' : '' }}">
+                        <label for="current" class="col-md-4 control-label">Restrict to Campers with current snailmail
+                            addresses?</label>
+
+                        <div class="col-md-6">
+                            <select id="current" name="current" class="form-control">
+                                <option value="1">Yes</option>
+                                <option value="0"{{ old('current', $request->input('current')) == '0' ? ' selected' : '' }}>
+                                    No, show all
+                                </option>
+                            </select>
+
+                            @if ($errors->has('current'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('current') }}</strong>
                                 </span>
                             @endif
                         </div>

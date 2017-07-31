@@ -52,16 +52,19 @@
                                     </tbody>
                                 </table>
 
-                                @include('snippet.formgroup', ['type' => 'text', 'id' => $role->id . '-camper',
-                                    'class' => ' camperlist', 'label' => 'Add New ' . $role->display_name,
-                                    'placeholder' => 'Camper Name', 'hidden' => 'id'])
+                                <div class="well">
+                                    <h4>Add New {{ $role->display_name }} User</h4>
+                                    @include('snippet.formgroup', ['class' => ' camperlist', 'hidden' => 'id',
+                                        'label' => 'Role Assignee', 'attribs' => ['name' => $role->id . '-camper',
+                                        'placeholder' => 'Camper Name']])
+                                </div>
 
                             </div>
                         @endforeach
                     </div>
                     <div class="form-group">
                         <div class="col-md-2 col-md-offset-8">
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <button class="btn btn-primary">Save Changes</button>
                         </div>
                     </div>
                 </form>

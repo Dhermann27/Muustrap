@@ -7,13 +7,9 @@
             <div class="panel-heading">Workshops</div>
             <div class="panel-body">
                 <form class="form-horizontal" role="form" method="POST" action="{{ url('/tools/workshops') }}">
-                    {{ csrf_field() }}
 
-                    @if(!empty($success))
-                        <div class=" alert alert-success">
-                            {!! $success !!}
-                        </div>
-                    @endif
+                    @include('snippet.flash')
+
                     <ul class="nav nav-tabs" role="tablist">
                         @foreach($timeslots as $timeslot)
                             <li role="presentation"{!! $loop->first ? ' class="active"' : '' !!}>
@@ -55,141 +51,42 @@
                                     </tbody>
                                 </table>
 
-                                <div class="form-group{{ $errors->has($timeslot->id . '-name') ? ' has-error' : '' }}">
-                                    <label for="{{ $timeslot->id }}-name" class="col-md-4 control-label">Add
-                                        New Workshop</label>
+                                <div class="well">
+                                    <h4>Add New Workshop</h4>
+                                    @include('snippet.formgroup', ['label' => 'Workshop Name',
+                                        'attribs' => ['name' => $timeslot->id . '-name',
+                                        'placeholder' => 'Brief title of workshop']])
 
-                                    <div class="col-md-6">
-                                        <input type="text" id="{{ $timeslot->id }}-name" class="form-control"
-                                               name="{{ $timeslot->id }}-name" placeholder="Workshop Name">
+                                    @include('snippet.formgroup', ['label' => 'Workshop Leader',
+                                        'attribs' => ['name' => $timeslot->id . '-led_by',
+                                        'placeholder' => 'First and last name of the camper(s) (no \'led by\')']])
 
-                                        @if ($errors->has($timeslot->id . '-name'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first($timeslot->id . '-name') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="form-group{{ $errors->has($timeslot->id . '-led_by') ? ' has-error' : '' }}">
-                                    <label for="{{ $timeslot->id }}-led_by" class="col-md-4 control-label">Led
-                                        By</label>
+                                    @include('snippet.formgroup', ['type' => 'select', 'class' => ' roomid',
+                                        'label' => 'Workshop Room', 'attribs' => ['name' => $timeslot->id . '-roomid'],
+                                        'default' => 'Choose a Room', 'list' => $rooms, 'option' => 'room_number'])
 
-                                    <div class="col-md-6">
-                                        <input id="{{ $timeslot->id }}-led_by" type="text"
-                                               class="form-control easycamper" name="{{ $timeslot->id }}-led_by"
-                                               autocomplete="off"
-                                               placeholder="First and last name of the camper (no 'led by')">
+                                    @include('snippet.formgroup', ['label' => 'Display Order',
+                                        'attribs' => ['name' => $timeslot->id . '-order', 'data-number-to-fixed' => '0',
+                                        'placeholder' => 'Position in which to display the workshop', 'min' => '1']])
 
-                                        @if ($errors->has($timeslot->id . '-led_by'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first($timeslot->id . '-led_by') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
+                                    @include('.snippet.checkbox', ['label' => 'Days', 'id' => $timeslot->id,
+                                        'list' => ['m' => 'Monday', 't' => 'Tuesday', 'w' => 'Wednesday',
+                                        'h' => 'Thursday', 'f' => 'Friday']])
 
-                                <div class="form-group{{ $errors->has($timeslot->id . '-roomid') ? ' has-error' : '' }}">
-                                    <label for="{{ $timeslot->id }}-roomid" class="col-md-4 control-label">Room</label>
+                                    @include('snippet.formgroup', ['label' => 'Capacity',
+                                        'attribs' => ['name' => $timeslot->id . '-capacity', 'min' => '1',
+                                        'placeholder' => '999 for unlimited', 'data-number-to-fixed' => '0']])
 
-                                    <div class="col-md-6">
-                                        <select id="{{ $timeslot->id }}-roomid" name="{{ $timeslot->id }}-roomid"
-                                                class="form-control roomid">
-                                            <option value="0">Choose a room</option>
-                                            @foreach($rooms as $room)
-                                                <option value="{{ $room->id }}">{{ $room->room_number}}</option>
-                                            @endforeach
-                                        </select>
+                                    @include('snippet.formgroup', ['type' => 'text', 'label' => 'Brief Summary',
+                                        'attribs' => ['name' => $timeslot->id . '-blurb']])
 
-                                        @if ($errors->has($timeslot->id . '-roomid'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first($timeslot->id . '-roomid') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <div class="form-group{{ $errors->has($timeslot->id . '-order') ? ' has-error' : '' }}">
-                                    <label for="{{ $timeslot->id }}-order" class="col-md-4 control-label">Display
-                                        Order</label>
-
-                                    <div class="col-md-6">
-                                        <input type="number" id="{{ $timeslot->id }}-order" class="form-control"
-                                               name="{{ $timeslot->id }}-order" data-number-to-fixed="0" min="1">
-
-                                        @if ($errors->has($timeslot->id . '-order'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first($timeslot->id . '-order') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="days" class="col-md-4 control-label">Days</label>
-                                    <div class="col-md-6 btn-group" data-toggle="buttons">
-                                        <label class="btn btn-default">
-                                            <input type="checkbox" name="{{ $timeslot->id }}-m" autocomplete="off"/>
-                                            Monday
-                                        </label>
-
-                                        <label class="btn btn-default">
-                                            <input type="checkbox" name="{{ $timeslot->id }}-t" autocomplete="off"/>
-                                            Tuesday
-                                        </label>
-
-                                        <label class="btn btn-default">
-                                            <input type="checkbox" name="{{ $timeslot->id }}-w" autocomplete="off"/>
-                                            Wednesday
-                                        </label>
-
-                                        <label class="btn btn-default">
-                                            <input type="checkbox" name="{{ $timeslot->id }}-th" autocomplete="off"/>
-                                            Thursday
-                                        </label>
-
-                                        <label class="btn btn-default">
-                                            <input type="checkbox" name="{{ $timeslot->id }}-f" autocomplete="off"/>
-                                            Friday
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <div class="form-group{{ $errors->has($timeslot->id . '-capacity') ? ' has-error' : '' }}">
-                                    <label for="{{ $timeslot->id }}-capacity" class="col-md-4 control-label">Capacity
-                                        (999 for unlimited)</label>
-
-                                    <div class="col-md-6">
-                                        <input type="number" id="{{ $timeslot->id }}-capacity" class="form-control"
-                                               name="{{ $timeslot->id }}-capacity" data-number-to-fixed="0" min="1">
-
-                                        @if ($errors->has($timeslot->id . '-capacity'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first($timeslot->id . '-capacity') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <div class="form-group{{ $errors->has($timeslot->id . '-blurb') ? ' has-error' : '' }}">
-                                    <label for="{{ $timeslot->id }}-blurb" class="col-md-4 control-label">Blurb</label>
-
-                                    <div class="col-md-6">
-                                    <textarea id="{{ $timeslot->id }}-blurb" class="form-control"
-                                              name="{{ $timeslot->id }}-blurb"></textarea>
-
-                                        @if ($errors->has($timeslot->id . '-blurb'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first($timeslot->id . '-blurb') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
                                 </div>
                             </div>
                         @endforeach
                     </div>
                     <div class="form-group">
                         <div class="col-md-2 col-md-offset-8">
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <button class="btn btn-primary">Save Changes</button>
                         </div>
                     </div>
                 </form>

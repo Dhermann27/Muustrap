@@ -63,7 +63,7 @@
 
                                     @include('snippet.formgroup', ['type' => 'select', 'class' => ' roomid',
                                         'label' => 'Workshop Room', 'attribs' => ['name' => $timeslot->id . '-roomid'],
-                                        'default' => 'Choose a Room', 'list' => $rooms, 'option' => 'room_number'])
+                                        'default' => 'Choose a room', 'list' => $rooms, 'option' => 'room_number'])
 
                                     @include('snippet.formgroup', ['label' => 'Display Order',
                                         'attribs' => ['name' => $timeslot->id . '-order', 'data-number-to-fixed' => '0',

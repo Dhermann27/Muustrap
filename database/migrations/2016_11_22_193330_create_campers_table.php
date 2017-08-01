@@ -15,7 +15,7 @@ class CreateCampersTable extends Migration
     {
         Schema::create('campers', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('familyid')->unsigned()->nullable();
+            $table->integer('familyid')->unsigned();
             $table->foreign('familyid')->references('id')->on('families');
             $table->integer('pronounid')->unsigned()->nullable();
             $table->foreign('pronounid')->references('id')->on('pronouns');

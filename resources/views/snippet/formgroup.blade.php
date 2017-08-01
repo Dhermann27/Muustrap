@@ -14,7 +14,9 @@
                         <option value="0">{{ $default }}</option>
                     @endif
                     @foreach($list as $item)
-                        <option value="{{ $item->id }}">{{ $item->$option }}</option>
+                        <option value="{{ $item->id }}"{{ (old($attribs["name"], $formobject[$attribs["name"]]) == $item->id) ? " selected" : "" }}>
+                            {{ $item->$option }}
+                        </option>
                     @endforeach
                 </select>
             @elseif($type == 'text')
@@ -24,6 +26,7 @@
             @endif
         @else
             <input id="{{ $attribs["name"] }}" class="form-control{{ !empty($class) ? $class : '' }}"
+                   value="{{ old($attribs["name"], $formobject[$attribs["name"]]) }}"
             @foreach($attribs as $attrib => $value)
                 {{ $attrib }}="{{ $value }}"
             @endforeach

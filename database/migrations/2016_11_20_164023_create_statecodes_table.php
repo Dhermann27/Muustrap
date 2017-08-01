@@ -14,7 +14,7 @@ class CreateStatecodesTable extends Migration
     public function up()
     {
         Schema::create('statecodes', function (Blueprint $table) {
-            $table->string('code')->unique();
+            $table->string('id')->unique();
             $table->string('name');
         });
     }

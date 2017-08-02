@@ -48,16 +48,14 @@
                                 ['id' => '1', 'option' => 'Yes, I will be completing the separate process']]])
 
                     @if(!isset($readonly) || $readonly === false)
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button class="btn btn-primary">
-                                    @if($formobject->id)
-                                        Update Household
-                                    @else
-                                        Create Household
-                                    @endif
-                                </button>
-                            </div>
+                        <div class="col-md-6 col-md-offset-4">
+                            <button class="btn btn-primary">
+                                @if($formobject->id)
+                                    Update Family
+                                @else
+                                    Create Family
+                                @endif
+                            </button>
                         </div>
                     @endif
                 </form>

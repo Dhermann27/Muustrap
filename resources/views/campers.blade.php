@@ -49,10 +49,8 @@
                         @endforeach
                     </div>
                     @if(!isset($readonly) || $readonly === false)
-                        <div class="form-group">
-                            <div class="col-md-2 col-md-offset-8">
-                                <button id="submit" type="button" class="btn btn-primary">Save Changes</button>
-                            </div>
+                        <div class="col-md-2 col-md-offset-8">
+                            <button id="submit" type="button" class="btn btn-primary">Save Changes</button>
                         </div>
                     @endif
                 </form>
@@ -76,7 +74,7 @@
 
         $(function () {
             @if(count($errors))
-                $('.nav-tabs a[href="#' + $("span.help-block").first().parents('div.tab-pane').attr('id') + '"]').trigger('click');
+            $('.nav-tabs a[href="#' + $("span.help-block").first().parents('div.tab-pane').attr('id') + '"]').trigger('click');
             @endif
 
             bind($("body"));
@@ -144,7 +142,7 @@
             });
 
             @if(isset($readonly) && $readonly === true)
-                $("input:not(#camper), select").prop("disabled", "true");
+            $("input:not(#camper), select").prop("disabled", "true");
             @endif
         });
 

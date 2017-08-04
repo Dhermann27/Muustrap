@@ -55,6 +55,10 @@ div.preview div.surname {
     margin-bottom: .25in;
 }
 
+div.pronoun {
+    font-size: 24px;
+}
+
 div.preview div.line1, div.preview div.line2, div.preview div.line3, div.preview div.line4, div.preview div.parent {
     font-size: 1.2em;
 }

@@ -153,7 +153,7 @@ class PaymentController extends Controller
             }
             DB::statement('CALL generate_charges(' . $year->year . ');');
 
-            $success .= 'Room from ' . (((int)$year->year) - 1) . ' been assigned. ';
+            $success .= 'Your room from ' . ((int)($year->year) - 1) . ' been assigned. ';
         }
 
         return $this->read('f', $id, $success . 'Rocking it today! But what about their <a href="' . url('/workshopchoice/f/' . $id) . '">workshops</a>?');

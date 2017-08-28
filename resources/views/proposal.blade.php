@@ -121,7 +121,7 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('message') ? ' has-error' : '' }}">
-                                <label for="message" class="col-md-4 control-label">Synopsis for Brochure (50 words or
+                                <label for="message" class="col-md-4 control-label">Synopsis for Brochure (500 letters or
                                     fewer)</label>
 
                                 <div class="col-md-6">

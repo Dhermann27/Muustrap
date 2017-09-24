@@ -38,9 +38,11 @@
                                 </li>
                             @endif
                         @endforeach
-                        <li>
-                            <a id="newcamper" href="#" role="tab">Create New Camper <i class="fa fa-plus"></i></a>
-                        </li>
+                        @if(!isset($readonly) || $readonly === false)
+                            <li>
+                                <a id="newcamper" href="#" role="tab">Create New Camper <i class="fa fa-plus"></i></a>
+                            </li>
+                        @endif
                     </ul>
 
                     <div class="tab-content">

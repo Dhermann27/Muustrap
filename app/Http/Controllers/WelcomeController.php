@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use GuzzleHttp;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +13,7 @@ class WelcomeController extends Controller
     {
         $year = \App\Year::where('is_current', '1')->first();
         $muse = Storage::disk('local')->exists('public/muses/' . $year->next_day->format('Ymd') . '.pdf');
-        if (Carbon::now('America/Chicago')->lte(Carbon::createFromFormat('Y-m-d', $year->start_date)->subWeeks(2))) {
+        if ($year->isCrunch()) {
             return $this->normal($muse);
         } else {
             $client = new GuzzleHttp\Client();

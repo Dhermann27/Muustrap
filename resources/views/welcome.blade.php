@@ -37,8 +37,7 @@
         </div>
     @elseif($registered == '0')
         <div class="alert alert-info" role="alert">Ready to register for MUUSA {{ $home->year()->year }}? Start the
-            3-step
-            process by clicking the Register button below.
+            3-step process by clicking the Register button below.
         </div>
     @elseif($registered == '1' && $home->year()->isLive())
         @if($paid == '0')
@@ -46,7 +45,7 @@
                 Your payment has not yet been processed. Either visit the Payment screen by clicking the link below or
                 mail your check to the address on the same page.
             </div>
-        @elseif($signedup == 0)
+        @elseif($signedup == '0')
             <div class="alert alert-warning" role="alert">
                 You are all paid up, but have not yet chosen any workshops. Use the button below to select any in which
                 you might be interested.
@@ -65,30 +64,60 @@
                         <h3 class="panel-title">You're registered!</h3>
                     </div>
                     <div class="panel-body">
+                        <div class="progress">
+                            @if($paid == '0')
+                                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar"
+                                     aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                    Registered but deposit not yet paid (or payment not yet processed)...
+                                </div>
+                            @elseif($signedup == '0')
+                                <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar"
+                                     aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%">
+                                    Registered but no workshops selected...
+                                </div>
+                            @elseif($roomid == null || $roomid->roomid == null)
+                                <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar"
+                                     aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
+                                    Registered but room not selected...
+                                </div>
+                            @elseif($nametags == '0')
+                                <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+                                     aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%">
+                                    Registered but nametags not yet customized...
+                                </div>
+                            @else
+                                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+                                     aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                    Confirmation letter ready!
+                                </div>
+                            @endif
+                        </div>
                         <div class="col-md-3 text-center">
-                            <p>&nbsp;</p>
                             <i class="fa fa-rocket fa-5x"></i><br/>
                             <h4>Workshop Preferences</h4>
                             <p>Sign up for a variety of entertaining and intriguing seminars,
                                 organized by our Adult Programming Committee.</p>
-                            <a class="booty" href="{{ url('/workshopchoice') }}">Add Choices <i
+                            <a class="booty" href="{{ url('/workshopchoice') }}">Add Choices
+                                <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <i class="fa fa-bed fa-5x"></i><br/>
+                            <h4>Room Selection</h4>
+                            <p>
+                                @if($home->year()->isCrunch())
+                                    This close to camp, all housing will be assigned by the Registrar. Please use the
+                                    Contact Us form.
+                                @else
+                                    Find the right place for you and your family to stay, and who might be your
+                                    neighbors.
+                                @endif
+                            </p>
+                            <a class="booty" href="{{ url('/roomselection') }}">Choose Room <i
                                         class="fa fa-arrow-right"></i>
                             </a>
                         </div>
                         <div class="col-md-3 text-center">
-                            <p>&nbsp;</p>
-                            <i class="fa fa-bed fa-5x"></i><br/>
-                            <h4>Room Selection</h4>
-                            {{--<p>Find the right place for you and your family to stay, and who might be your--}}
-                            {{--neighbors.</p>--}}
-                            {{--<a class="booty" href="{{ url('/roomselection') }}">Choose Room <i--}}
-                            {{--class="fa fa-arrow-right"></i>--}}
-                            {{--</a>--}}
-                            <p>This close to camp, all housing will be assigned by the Registrar. Please use the Contact
-                                Us form.</p>
-                        </div>
-                        <div class="col-md-3 text-center">
-                            <p>&nbsp;</p>
                             <i class="fa fa-id-card fa-5x"></i><br/>
                             <h4>Custom Nametags</h4>
                             <p>Choose the best fields and format for the information that will be displayed on your name
@@ -98,7 +127,6 @@
                             </a>
                         </div>
                         <div class="col-md-3 text-center">
-                            <p>&nbsp;</p>
                             <i class="fa fa-envelope-o fa-5x"></i><br/>
                             <h4>Confirmation Letter</h4>
                             <p>See the current status of your registration and fill out extra forms for your family.</p>
@@ -134,30 +162,30 @@
                     </div>
                 </div>
                 <div class="item">
-                    <img src="/images/spacer0.png" alt="Marlin Lavanhar, 2017 Theme Speaker">
-                    <div id="carousel-caption1" class="carousel-caption">
-                        <h3>Our Theme: A Summer of Love</h3>
-                        <p>A few years ago, UUA President, Peter Morales, suggested we can find common ground with
-                            others, not so much by sharing our beliefs and opinions, but by sharing with one another
-                            what we love. UU theologian Thandeka proclaims that in our tradi- tion we "love beyond
-                            belief." The covenant in many UU congregations says "Love is the spirit of our church"
-                            and
-                            we "seek the truth in love." Dr. Martin Luther King Jr. said that we do not have to like
-                            someone to love them. He also said that "power without love is reckless and abusive and
-                            love
-                            without power is sentimental and anemic."</p>
-                        <p>What is this thing called love that seems to be so transforming and important? We often
-                            talk
-                            about "falling in love" as if it is an accident like falling down the stairs. It would
-                            seem
-                            sometimes like love is something that should just happen and as if it is simply a
-                            feeling
-                            that one experiences. What does love require of us? How can we love ourselves and our
-                            neighbors? Is it possible to love our enemies? At camp this year we are going to make
-                            this A
-                            Summer of Love. Worship each day will be an opportunity for us to explore the depths and
-                            experience the heights of this thing called love.</p>
-                    </div>
+                    {{--<img src="/images/spacer0.png" alt="Marlin Lavanhar, 2017 Theme Speaker">--}}
+                    {{--<div id="carousel-caption1" class="carousel-caption">--}}
+                    {{--<h3>Our Theme: A Summer of Love</h3>--}}
+                    {{--<p>A few years ago, UUA President, Peter Morales, suggested we can find common ground with--}}
+                    {{--others, not so much by sharing our beliefs and opinions, but by sharing with one another--}}
+                    {{--what we love. UU theologian Thandeka proclaims that in our tradi- tion we "love beyond--}}
+                    {{--belief." The covenant in many UU congregations says "Love is the spirit of our church"--}}
+                    {{--and--}}
+                    {{--we "seek the truth in love." Dr. Martin Luther King Jr. said that we do not have to like--}}
+                    {{--someone to love them. He also said that "power without love is reckless and abusive and--}}
+                    {{--love--}}
+                    {{--without power is sentimental and anemic."</p>--}}
+                    {{--<p>What is this thing called love that seems to be so transforming and important? We often--}}
+                    {{--talk--}}
+                    {{--about "falling in love" as if it is an accident like falling down the stairs. It would--}}
+                    {{--seem--}}
+                    {{--sometimes like love is something that should just happen and as if it is simply a--}}
+                    {{--feeling--}}
+                    {{--that one experiences. What does love require of us? How can we love ourselves and our--}}
+                    {{--neighbors? Is it possible to love our enemies? At camp this year we are going to make--}}
+                    {{--this A--}}
+                    {{--Summer of Love. Worship each day will be an opportunity for us to explore the depths and--}}
+                    {{--experience the heights of this thing called love.</p>--}}
+                    {{--</div>--}}
                 </div>
                 <div class="item">
                     <img src="/images/theme.png" alt="2017 Art Fair">
@@ -218,8 +246,19 @@
                     </div>
                 @else
                     <div class="panel-body">
-                        <div class="col-md-4 text-center bs-callout bs-callout-{{ $registered == '1' ? 'success' : 'warning' }}">
-                            <p>&nbsp;</p>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-{{ $paid == '1' ? 'success' : 'warning' }} progress-bar-striped"
+                                 role="progressbar" aria-valuenow="{{ $paid == '1' ? '100' : '66' }}" aria-valuemin="0"
+                                 aria-valuemax="100"
+                                 style="width: {{ $paid == '1' ? '100' : '66' }}%">
+                                @if($paid == '1')
+                                    Registration complete!
+                                @else
+                                    Registered but deposit not yet paid...
+                                @endif
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-center">
                             <i class="fa fa-home fa-5x"></i><br/>
                             <h4>Household Information</h4>
                             <p>Go to this page to update your address and other mailing information.</p>
@@ -227,8 +266,7 @@
                                         class="fa fa-arrow-right"></i>
                             </a>
                         </div>
-                        <div class="col-md-4 text-center bs-callout bs-callout-{{ $registered == '1' ? 'success' : 'warning' }}">
-                            <p>&nbsp;</p>
+                        <div class="col-md-4 text-center">
                             <i class="fa fa-group fa-5x"></i><br/>
                             <h4>Camper Listing</h4>
                             <p>This page can help you update your information specific to {{ $home->year()->year }} and
@@ -238,8 +276,7 @@
                                         class="fa fa-arrow-right"></i>
                             </a>
                         </div>
-                        <div class="col-md-4 text-center bs-callout bs-callout-{{ $registered == '1' && $paid == '1' ? 'success' : 'warning' }}">
-                            <p>&nbsp;</p>
+                        <div class="col-md-4 text-center">
                             <i class="fa fa-money fa-5x"></i><br/>
                             <h4>Payment</h4>
                             <p>After completing your registration, go to this page to check your balance and make a

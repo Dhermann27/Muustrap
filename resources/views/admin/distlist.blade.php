@@ -42,8 +42,14 @@
                                 <option value="reg"{{ old('campers', $request->input('campers')) == 'reg' ? ' selected' : '' }}>
                                     All registered campers
                                 </option>
+                                <option value="unp"{{ old('campers', $request->input('campers')) == 'unp' ? ' selected' : '' }}>
+                                    All registered campers with unpaid deposits
+                                </option>
                                 <option value="oneyear"{{ old('campers', $request->input('campers')) == 'oneyear' ? ' selected' : '' }}>
                                     All campers from last year
+                                </option>
+                                <option value="lost"{{ old('campers', $request->input('campers')) == 'lost' ? ' selected' : '' }}>
+                                    All campers from last year who have not registered for this year
                                 </option>
                                 <option value="threeyears"{{ old('campers', $request->input('campers')) == 'threeyears' ? ' selected' : '' }}>
                                     All campers from the last 3 years
@@ -59,14 +65,14 @@
                     </div>
 
                     <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                        <label for="email" class="col-md-4 control-label">Restrict to Campers with Email
-                            Addresses?</label>
+                        <label for="email" class="col-md-4 control-label">Restrict to campers with email
+                            addresses?</label>
 
                         <div class="col-md-6">
                             <select id="email" name="email" class="form-control">
-                                <option value="1">Yes</option>
+                                <option value="1">Show campers with email addresses only</option>
                                 <option value="0"{{ old('email', $request->input('email')) == '0' ? ' selected' : '' }}>
-                                    No
+                                    Show all campers
                                 </option>
                             </select>
 
@@ -79,14 +85,14 @@
                     </div>
 
                     <div class="form-group{{ $errors->has('ecomm') ? ' has-error' : '' }}">
-                        <label for="ecomm" class="col-md-4 control-label">Restrict to Campers with Email
-                            Preference?</label>
+                        <label for="ecomm" class="col-md-4 control-label">Restrict to campers that want snail
+                            mail?</label>
 
                         <div class="col-md-6">
                             <select id="ecomm" name="ecomm" class="form-control">
-                                <option value="1">Yes</option>
-                                <option value="0"{{ old('ecomm', $request->input('ecomm')) == '0' ? ' selected' : '' }}>
-                                    No
+                                <option value="0">Show campers that do not want snail mail</option>
+                                <option value="1"{{ old('ecomm', $request->input('ecomm')) == '1' ? ' selected' : '' }}>
+                                    Show campers that want to receive paper snail mail
                                 </option>
                             </select>
 

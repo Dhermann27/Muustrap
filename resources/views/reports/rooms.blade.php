@@ -74,22 +74,22 @@
                 <div align="right">
                     <strong>Total Trout Lodge Side: </strong>
                     {{ count($campers->filter(function ($value) use ($building) {
-                        return $value->yearattending->room->building->side == 0 && $value->age>17;
+                        return $value->yearattending->room && $value->yearattending->room->building->side == 0 && $value->age>17;
                     })) }}
                     <i class="fa fa-male"></i>
                     {{ count($campers->filter(function ($value) use ($building) {
-                        return $value->yearattending->room->building->side == 0 && $value->age<=17 && $value->age>5;
+                        return $value->yearattending->room && $value->yearattending->room->building->side == 0 && $value->age<=17 && $value->age>5;
                     })) }}
                     <i class="fa fa-child"></i>
                 </div>
                 <div align="right">
                     <strong>Total Camp Lakewood Side: </strong>
                     {{ count($campers->filter(function ($value) use ($building) {
-                        return $value->yearattending->room->building->side == 2 && $value->age>17;
+                        return $value->yearattending->room && $value->yearattending->room->building->side == 2 && $value->age>17;
                     })) }}
                     <i class="fa fa-male"></i>
                     {{ count($campers->filter(function ($value) use ($building) {
-                        return $value->yearattending->room->building->side == 2 && $value->age<=17 && $value->age>5;
+                        return $value->yearattending->room && $value->yearattending->room->building->side == 2 && $value->age<=17 && $value->age>5;
                     })) }}
                     <i class="fa fa-child"></i>
                 </div>

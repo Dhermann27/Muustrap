@@ -59,7 +59,7 @@
                                             <td>{{ $camper->room_number }}</td>
                                             <td>{{ $camper->lastname }}, {{ $camper->firstname }}</td>
                                             <td>{{ $camper->programname }}</td>
-                                            <td>{{ $camper->birthdate }}</td>
+                                            <td>{{ $camper->age }}</td>
                                             <td>
                                                 @include('admin.controls', ['id' => 'c/' . $camper->id])
                                             </td>

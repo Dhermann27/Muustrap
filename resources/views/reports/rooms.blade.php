@@ -47,7 +47,7 @@
                                         <th>Room Number</th>
                                         <th>Name</th>
                                         <th>Program</th>
-                                        <th>Birthdate</th>
+                                        <th>Age</th>
                                         <th>Controls</th>
                                     </tr>
                                     </thead>

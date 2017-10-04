@@ -6,12 +6,26 @@
         <div class="panel panel-default">
             <div class="panel-heading">Outstanding Balances</div>
             <div class="panel-body">
-                @if(!empty($success))
-                    <div class="alert alert-success">
-                        {!! $success !!}
-                    </div>
-                @endif
+                <!-- TODO: Add flash include -->
+                <div class="row-fluid">
+                    <form class="form-inline">
+                        <div class="col-sm-2 col-sm-offset-9">
+                            <label for="filter" class="hidden">Filter By</label>
+                            <select id="filter" class="form-control">
+                                <option value="all">All Balances</option>
+                                <option value="unpaid"
+                                        {{ (strpos($_SERVER['REQUEST_URI'], '/unpaid') !== false) ? 'selected' : '' }}>
+                                    Unpaid Deposits
+                                </option>
+                            </select>
+                        </div>
+                        <button id="filter-submit" type="button" class="btn btn-primary col-sm-1">Go</button>
+                    </form>
+                </div>
                 <table class="table table-responsive table-striped table-bordered">
+                    <caption style="text-align: right;">Total Outstanding:
+                        ${{ money_format('%.2n', $charges->sum('amount')) }}
+                    </caption>
                     <thead>
                     <tr>
                         <th>Family Name</th>
@@ -79,4 +93,13 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script type="text/javascript">
+        $("#filter-submit").on('click', function (e) {
+            e.preventDefault();
+            window.location = "{{ url('/reports/outstanding') }}/" + $("#filter").val();
+        });
+    </script>
 @endsection

@@ -9,6 +9,8 @@
                 <form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/distlist') }}">
                     {{ csrf_field() }}
 
+                    <!-- TODO: Add flash include -->
+
                     @if(!empty($rows))
                         <h4>Count: {{ count($rows) }}</h4>
                         <table class="table table-responsive">

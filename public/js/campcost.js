@@ -78,8 +78,8 @@ function calc() {
             childrenfee.html("$" + (children * 344).toFixed(2));
             break;
         case 4:
-            total += adults * 438 + children * 242;
-            adultsfee.html("$" + (adults * 438).toFixed(2));
+            total += adults * 350 + children * 242;
+            adultsfee.html("$" + (adults * 350).toFixed(2));
             childrenfee.html("$" + (children * 242).toFixed(2));
             break;
     }

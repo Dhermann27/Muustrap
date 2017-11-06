@@ -33,6 +33,6 @@ class Proposal extends Mailable
      */
     public function build()
     {
-        $view = $this->from($this->camper->email)->cc($this->camper->email)->view('mail.proposal');
+        $view = $this->from($this->camper->email)->view('mail.proposal');
     }
 }

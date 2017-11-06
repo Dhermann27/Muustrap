@@ -95,17 +95,23 @@ class ReportController extends Controller
         $charge->year = DB::raw('getcurrentyear()');
         $charge->save();
 
-        return $this->outstanding('This payment was totally ignored, but the green message still seems congratulatory.');
+        $request->session()->flash('success', 'This payment was totally ignored, but the green message still seems congratulatory.');
+        return $this->outstanding();
     }
 
-    public function outstanding($success = null)
+    public function outstanding($filter = "all")
     {
         $chargetypes = \App\Chargetype::where('is_shown', '1')->orderBy('name')->get();
+        $charges = \App\Thisyear_Charge::select(DB::raw('MAX(`familyid`) AS familyid'),
+            DB::raw('MAX(`camperid`) AS camperid'), DB::raw('SUM(`amount`) as amount'));
+        if ($filter == "unpaid") {
+            $charges->where('chargetypeid', '1003')->whereOr('amount', '<', 0);
+        }
+        $charges->groupBy('familyid')->having(DB::raw('SUM(`amount`)'), '!=', '0.0')
+            ->join('families', 'families.id', 'thisyear_charges.familyid');
         return view('reports.outstanding', ['chargetypes' => $chargetypes,
             'readonly' => \Entrust::can('read') && !\Entrust::can('write'),
-            'charges' => \App\Thisyear_Charge::select(DB::raw('MAX(`familyid`) AS familyid'), DB::raw('MAX(`camperid`) AS camperid'), DB::raw('SUM(`amount`) as amount'))
-                ->groupBy('familyid')->having(DB::raw('SUM(`amount`)'), '!=', '0.0')
-                ->join('families', 'families.id', 'thisyear_charges.familyid')->orderBy('families.name')->get()
+            'charges' => $charges->orderBy('families.name')->get()
         ]);
     }
 

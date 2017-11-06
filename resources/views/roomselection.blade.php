@@ -24,7 +24,7 @@
 
         rect.unavailable {
             opacity: 1;
-            fill: #a94442;
+            fill: darkgray;
             cursor: not-allowed;
         }
 
@@ -34,15 +34,16 @@
         }
 
         .tooltip {
-            background: lightblue;
+            background: sandybrown;
             border: solid gray;
             position: absolute;
             max-width: 20em;
             font-size: 1.1em;
             pointer-events: none; /*let mouse events pass through*/
             opacity: 0;
-            padding: 5px;
             transition: opacity 0.3s;
+            box-shadow: #0f0f0f;
+            padding: 3px;
         }
     </style>
      @endsection

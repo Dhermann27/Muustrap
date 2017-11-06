@@ -20,8 +20,17 @@ class AdminController extends Controller
             'room_number', 'buildingname');
         if ($request->input("campers") == "reg") {
             $rows->where('year', DB::raw('getcurrentyear()'));
+        } elseif ($request->input("campers") == "unp") {
+            $rows->where('byyear_campers.year', DB::raw('getcurrentyear()'));
+            $rows->where(DB::raw('(SELECT SUM(amount) FROM byyear_charges 
+                    WHERE byyear_campers.familyid=byyear_charges.familyid AND 
+                          byyear_campers.year=byyear_charges.year AND
+                         (chargetypeid=1003 OR amount<0) GROUP BY byyear_campers.familyid)'), '>', 0);
         } elseif ($request->input("campers") == "oneyear") {
             $rows->where('year', DB::raw('getcurrentyear()-1'));
+        } elseif ($request->input("campers") == "lost") {
+            $rows->where('year', DB::raw('getcurrentyear()-1'));
+            $rows->where(DB::raw('(SELECT COUNT(*) FROM thisyear_campers WHERE byyear_campers.id=thisyear_campers.id)'), 0);
         } elseif ($request->input("campers") == "threeyears") {
             $rows->where('year', '>', DB::raw('getcurrentyear()-3'));
         }
@@ -46,19 +55,24 @@ class AdminController extends Controller
             $rows->whereIn(DB::raw('getprogramidbycamperid(id, year)'), $programids);
         }
 
-
-        $year = \App\Year::where('is_current', '1')->first()->year;
-        Excel::create('MUUSA_' . $year . '_Distlist_' . Carbon::now()->toDateString(), function ($excel) use ($rows) {
-            $excel->sheet('campers', function ($sheet) use ($rows) {
-                $sheet->with($rows->orderBy('familyname')->orderBy('familyid')->orderBy('birthdate')->get());
-            });
-        })->export('csv');
+        $counter = $rows->count();
+        if($counter > 0) {
+            $year = \App\Year::where('is_current', '1')->first()->year;
+            Excel::create('MUUSA_' . $year . '_Distlist_' . Carbon::now()->toDateString(), function ($excel) use ($rows) {
+                $excel->sheet('campers', function ($sheet) use ($rows) {
+                    $sheet->with($rows->orderBy('familyname')->orderBy('familyid')->orderBy('birthdate')->get());
+                });
+            })->export('csv');
+        } else {
+            $request->session()->flash('warning', 'No campers found.');
+            return $this->distlistIndex($request);
+        }
     }
 
-    public function distlistIndex()
+    public function distlistIndex($request = null)
     {
         return view('admin.distlist', ['programs' => \App\Program::orderBy('age_min', 'desc')
-            ->orderBy('grade_min', 'desc')->get(), 'request' => new Request()]);
+            ->orderBy('grade_min', 'desc')->get(), 'request' => $request ? $request : new Request()]);
     }
 
     public function roleStore(Request $request)

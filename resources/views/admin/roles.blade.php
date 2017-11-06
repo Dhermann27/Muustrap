@@ -7,17 +7,9 @@
             <div class="panel-heading">User Roles</div>
             <div class="panel-body">
                 <form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/roles') }}">
-                    {{ csrf_field() }}
 
-                    @if(!empty($error))
-                        <div class="alert alert-danger">
-                            {!! $error !!}
-                        </div>
-                    @elseif(!empty($success))
-                        <div class=" alert alert-success">
-                            {!! $success !!}
-                        </div>
-                    @endif
+                    @include('snippet.flash')
+
                     <ul class="nav nav-tabs" role="tablist">
                         @foreach($roles as $role)
                             <li role="presentation"{!! $loop->first ? ' class="active"' : '' !!}>
@@ -60,29 +52,19 @@
                                     </tbody>
                                 </table>
 
-                                <div class="form-group{{ $errors->has($role->id . '-camper') ? ' has-error' : '' }}">
-                                    <label for="{{ $role->id }}-camper" class="col-md-4 control-label">Add
-                                        New {{ $role->display_name }}</label>
-
-                                    <div class="col-md-6">
-                                        <input type="text" id="{{ $role->id }}-camper" class="form-control camperlist"
-                                               placeholder="Camper Name">
-                                        <input id="{{ $role->id }}-camperid" name="{{ $role->id }}-camperid"
-                                               type="hidden">
-
-                                        @if ($errors->has($role->id . '-camperid'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first($role->id . '-camperid') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
+                                <div class="well">
+                                    <h4>Add New {{ $role->display_name }} User</h4>
+                                    @include('snippet.formgroup', ['class' => ' camperlist', 'hidden' => 'id',
+                                        'label' => 'Role Assignee', 'attribs' => ['name' => $role->id . '-camper',
+                                        'placeholder' => 'Camper Name']])
                                 </div>
+
                             </div>
                         @endforeach
                     </div>
                     <div class="form-group">
                         <div class="col-md-2 col-md-offset-8">
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <button class="btn btn-primary">Save Changes</button>
                         </div>
                     </div>
                 </form>

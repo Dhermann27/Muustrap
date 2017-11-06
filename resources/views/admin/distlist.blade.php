@@ -9,7 +9,7 @@
                 <form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/distlist') }}">
                     {{ csrf_field() }}
 
-                    <!-- TODO: Add flash include -->
+                    @include('snippet.flash')
 
                     @if(!empty($rows))
                         <h4>Count: {{ count($rows) }}</h4>
@@ -101,6 +101,26 @@
                             @if ($errors->has('ecomm'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('ecomm') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="form-group{{ $errors->has('current') ? ' has-error' : '' }}">
+                        <label for="current" class="col-md-4 control-label">Restrict to Campers with current snailmail
+                            addresses?</label>
+
+                        <div class="col-md-6">
+                            <select id="current" name="current" class="form-control">
+                                <option value="1">Yes</option>
+                                <option value="0"{{ old('current', $request->input('current')) == '0' ? ' selected' : '' }}>
+                                    No, show all
+                                </option>
+                            </select>
+
+                            @if ($errors->has('current'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('current') }}</strong>
                                 </span>
                             @endif
                         </div>

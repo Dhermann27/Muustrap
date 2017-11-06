@@ -61,17 +61,19 @@ class PaymentController extends Controller
             $success = 'Payment received! You should receive a receipt via email for your records.';
 
             $year = \App\Year::where('is_current', '1')->first();
-            if (!$year->isLive() && \App\Thisyear_Charge::where('familyid', $thiscamper->familyid)
-                    ->where('chargetypeid', 1003)->orWhere('amount', '<', '0')->get()->sum('amount') <= 0) {
-                $campers = \App\Byyear_Camper::where('familyid', $thiscamper->familyid)
-                    ->where('year', ((int)$year->year) - 1)->where('is_program_housing', '0')->get();
+            $campers = \App\Byyear_Camper::where('familyid', $thiscamper->familyid)
+                ->where('year', ((int)$year->year) - 1)->where('is_program_housing', '0')->get();
+            if (!$year->isLive() && count($campers) > 0 && \App\Thisyear_Charge::where('familyid', $thiscamper->familyid)
+                    ->where(function ($query) {
+                        $query->where('chargetypeid', 1003)->orWhere('amount', '<', '0');
+                    })->get()->sum('amount') <= 0) {
                 foreach ($campers as $camper) {
                     \App\Yearattending::where('camperid', $camper->id)->where('year', $year->year)
                         ->whereNull('roomid')->update(['roomid' => $camper->roomid]);
                 }
                 DB::statement('CALL generate_charges(' . $year->year . ');');
 
-                $success = 'Payment received! By paying your deposit, your room from ' . ($year->year)-1
+                $success = 'Payment received! By paying your deposit, your room from ' . ($year->year) - 1
                     . ' has been assigned. You should receive a receipt via email for your records.';
             }
 
@@ -153,7 +155,7 @@ class PaymentController extends Controller
             }
             DB::statement('CALL generate_charges(' . $year->year . ');');
 
-            $success .= 'Room from ' . (((int)$year->year) - 1) . ' been assigned. ';
+            $success .= 'Your room from ' . ((int)($year->year) - 1) . ' been assigned. ';
         }
 
         return $this->read('f', $id, $success . 'Rocking it today! But what about their <a href="' . url('/workshopchoice/f/' . $id) . '">workshops</a>?');

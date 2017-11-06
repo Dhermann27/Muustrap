@@ -20,7 +20,7 @@ class CreateFamiliesTable extends Migration
             $table->string('address2')->nullable();
             $table->string('city')->default('Unknown');
             $table->string('statecd')->default('ZZ');
-            $table->foreign('statecd')->references('code')->on('statecodes');
+            $table->foreign('statecd')->references('id')->on('statecodes');
             $table->string('zipcd')->default('99999');
             $table->string('country')->default('USA');
             $table->tinyInteger('is_address_current')->default('1');

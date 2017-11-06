@@ -60,21 +60,17 @@
                                     @endforeach
                                 @endif
                                 @if(count($campers) > 1)
-                                    <div class="form-group">
-                                        <div class="col-md-2 col-md-offset-8">
-                                            <button type="button" class="btn btn-default next">
-                                                Next Camper
-                                            </button>
-                                        </div>
+                                    <div class="col-md-2 col-md-offset-8">
+                                        <button type="button" class="btn btn-default next">
+                                            Next Camper
+                                        </button>
                                     </div>
                                 @endif
                                 @if(!isset($readonly) || $readonly === false)
-                                    <div class="form-group">
-                                        <div class="col-md-2 col-md-offset-8">
-                                            <button type="submit" class="btn btn-primary">
-                                                Save Preferences
-                                            </button>
-                                        </div>
+                                    <div class="col-md-2 col-md-offset-8">
+                                        <button type="submit" class="btn btn-primary">
+                                            Save Preferences
+                                        </button>
                                     </div>
                                 @endif
                             </div>

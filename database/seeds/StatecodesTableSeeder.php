@@ -79,7 +79,7 @@ class StatecodesTableSeeder extends Seeder
 
         foreach ($statecodes as $code => $name) {
             DB::table('statecodes')->insert([
-                'code' => $code,
+                'id' => $code,
                 'name' => $name
             ]);
         }

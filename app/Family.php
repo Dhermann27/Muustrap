@@ -8,7 +8,7 @@ class Family extends Model
 {
     protected $table = "families";
     protected $fillable = ['name', 'address1', 'address2', 'city', 'statecd', 'zipcd', 'country',
-        'is_address_current', 'is_scholar', 'is_ecomm'];
+        'is_address_current', 'is_address_current', 'is_scholar', 'is_ecomm'];
 
     public function campers()
     {

@@ -137,13 +137,14 @@ class ToolsController extends Controller
                 $workshop->save();
             }
         }
+        $request->session()->flash('success', 'That sounds interesting; think I\'ll sign up for that one.');
 
-        return $this->workshopIndex('That sounds interesting; think I\'ll sign up for that one.');
+        return $this->workshopIndex();
     }
 
-    public function workshopIndex($success = null)
+    public function workshopIndex()
     {
         return view('tools.workshops', ['timeslots' => \App\Timeslot::all(),
-            'rooms' => \App\Room::where('is_workshop', '1')->get(), 'success' => $success]);
+            'rooms' => \App\Room::where('is_workshop', '1')->get()]);
     }
 }

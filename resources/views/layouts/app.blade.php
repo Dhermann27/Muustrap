@@ -97,6 +97,7 @@
             Administration <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
+            <li><a href="{{ url('/household/f/0') }}">Create New Family</a></li>
             <li><a href="{{ url('/admin/distlist') }}">Distribution Lists</a></li>
             <li><a href="{{ url('/confirm/all') }}">Invoices (full)</a></li>
             <li><a href="{{ url('/admin/positions') }}">Staff Positions</a></li>
@@ -155,7 +156,14 @@
         integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
         crossorigin="anonymous"></script>
 <script type="text/javascript">
-    $('[data-toggle="tooltip"]').tooltip();
+    @if(isset($readonly) && $readonly === true)
+    $("input:not(#camper), select").prop("disabled", "true");
+    @endif
+    $('[data-toggle="tooltip"]').tooltip({
+        content: function () {
+            return this.getAttribute("title");
+        }
+    });
     $("#orderby-submit").on('click', function (e) {
         e.preventDefault();
         window.location = $("#orderby-url").val() + "/" + $("#orderby-years").val() + "/" + $("#orderby-order").val();
@@ -184,7 +192,7 @@
         var th = $(this).parents('table').find('thead th')[index];
         if (th.id !== "") {
             if (th.className === "") {
-                $(this).html('<input type="text" name="' + tr.attr('id') + '-' + th.id + '" value="' + $(this).text() + '" />');
+                $(this).html('<input name="' + tr.attr('id') + '-' + th.id + '" value="' + $(this).text() + '" />');
             } else if (th.className === 'select' && $("select." + th.id).length > 0) {
                 var select = $(this).parents("div.tab-pane").find("select." + th.id).clone();
                 select.attr('id', '').attr('name', tr.attr('id') + '-' + th.id).removeClass(th.id);

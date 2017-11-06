@@ -6,7 +6,9 @@
         <div class="panel panel-default">
             <div class="panel-heading">Outstanding Balances</div>
             <div class="panel-body">
-                <!-- TODO: Add flash include -->
+
+                @include('snippet.flash')
+
                 <div class="row-fluid">
                     <form class="form-inline">
                         <div class="col-sm-2 col-sm-offset-9">

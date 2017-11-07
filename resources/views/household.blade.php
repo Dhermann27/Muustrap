@@ -22,7 +22,7 @@
 
                     @include('snippet.formgroup', ['type' => 'select', 'label' => 'State',
                         'attribs' => ['name' => 'statecd'], 'default' => 'Choose a state', 'list' => $statecodes,
-                        'option' => 'name'])
+                        'option' => 'id'])
 
                     @include('snippet.formgroup', ['label' => 'ZIP Code', 'attribs' => ['name' => 'zipcd',
                         'maxlength' => '5', 'placeholder' => '5-digit ZIP Code']])

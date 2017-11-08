@@ -7,7 +7,7 @@ h1 {
     font-family: 'Open Sans', sans-serif;
 }
 
-h2, h3, h4, div.panel-heading, table.table-responsive thead {
+h2, h3, h4, div.panel-heading, table.table-responsive thead, a.header-brand-text {
     font-family: 'Roboto', sans-serif;
 }
 
@@ -20,7 +20,6 @@ div.jumbotron {
 }
 
 div.jumbotron p {
-    padding: 10px;
 }
 
 .navbar {

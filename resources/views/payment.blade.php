@@ -8,17 +8,9 @@
             <div class="panel-heading">Payment Information</div>
             <div class="panel-body">
                 <form id="payment" class="form-horizontal" role="form" method="POST" action="{{ url('/payment') }}">
-                    {{ csrf_field() }}
 
-                    @if(!empty($success))
-                        <div class="alert alert-success">
-                            {{ $success }}
-                        </div>
-                    @elseif(!empty($error))
-                        <div class="alert alert-error">
-                            {{ $error }}
-                        </div>
-                    @endif
+                    @include('snippet.flash')
+
                     <table class="table table-responsive table-striped table-bordered">
                         <thead>
                         <tr>

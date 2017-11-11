@@ -247,6 +247,17 @@
 </div>
 
 <div id="content" class="p-0">
+    <p>&nbsp;</p>
+    <h2 class="text-center text-uppercase font-weight-bold my-0">
+        @yield('title')
+    </h2>
+    <hr class="hr-lg mt-0 mb-3 w-10 mx-auto hr-primary"/>
+    @hassection('heading')
+        <h5 class="text-center font-weight-light mt-2 mb-0 text-muted">
+            @yield('heading')
+        </h5>
+        <hr class="mb-5 w-50 mx-auto"/>
+    @endif
     @yield('content')
 </div>
 

@@ -6,30 +6,30 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css"/>
 @endsection
 
-@section('content')
-    <p>&nbsp;</p>
-    <div class="container">
-        <div class="panel panel-default">
-            <div class="panel-heading">Personalized Calendar</div>
-            <div class="panel-body">
-                <ul class="nav nav-tabs" role="tablist">
-                    @foreach($campers as $camper)
-                        <li role="presentation"{!! $loop->first ? ' class="active"' : '' !!}>
-                            <a href="#{{ $camper->id }}" aria-controls="{{ $camper->id }}" role="tab"
-                               data-toggle="tab">{{ $camper->firstname }} {{ $camper->lastname }}</a></li>
-                    @endforeach
-                </ul>
+@section('title')
+    Personalized Calendar
+@endsection
 
-                <div class="tab-content">
-                    @foreach($campers as $camper)
-                        <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' in active' : '' }}"
-                             id="{{ $camper->id }}">
-                            <div id="calendar-{{ $camper->id }}"></div>
-                        </div>
-                    @endforeach
-                </div>
+@section('heading')
+    See the up-to-date information on everything happening for you and your family during the week of MUUSA!
+@endsection
+
+@section('content')
+    <ul class="nav nav-tabs" role="tablist">
+        @foreach($campers as $camper)
+            <li role="presentation"{!! $loop->first ? ' class="active"' : '' !!}>
+                <a href="#{{ $camper->id }}" aria-controls="{{ $camper->id }}" role="tab"
+                   data-toggle="tab">{{ $camper->firstname }} {{ $camper->lastname }}</a></li>
+        @endforeach
+    </ul>
+
+    <div class="tab-content">
+        @foreach($campers as $camper)
+            <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' in active' : '' }}"
+                 id="{{ $camper->id }}">
+                <div id="calendar-{{ $camper->id }}"></div>
             </div>
-        </div>
+        @endforeach
     </div>
 @endsection
 

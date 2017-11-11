@@ -15,61 +15,58 @@
     </style>
 @endsection
 
+@section('title')
+    Ledger
+@endsection
+
 @section('content')
-    <p>&nbsp;</p>
-    <div class="container">
-        <div class="row">
-            <a href="{{ url('/reports/payments.xls') }}" class="fa fa-download fa-2x pull-right" data-toggle="tooltip"
-               title="Download Payments Excel"></a>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">Ledger</div>
-            <div class="panel-body">
-                @include('snippet.orderby', ['years' => $years, 'orders' => ['name']])
-                <input type="hidden" id="orderby-url" value="{{ url('/reports/payments') }}"/>
-                <table class="table table-responsive">
-                    <thead>
-                    <tr>
-                        <th>Family Name</th>
-                        <th>Camper Name</th>
-                        <th>Chargetype</th>
-                        <th>Amount</th>
-                        <th>Date</th>
-                        <th>Memo</th>
-                    </tr>
-                    </thead>
-                    <tfoot>
-                    <tr>
-                        <th>Family Name</th>
-                        <th>Camper Name</th>
-                        <th>Chargetype</th>
-                        <th>Amount</th>
-                        <th>Year</th>
-                        <th>Memo</th>
-                    </tr>
-                    </tfoot>
-                    <tbody>
-                    @foreach($charges as $charge)
-                        <tr>
-                            <td>{{ $charge->family->name }}</td>
-                            <td>{{ $charge->camper->lastname }}, {{ $charge->camper->firstname }}</td>
-                            <td>{{ $charge->chargetypename }}</td>
-                            <td>{{ money_format('%.2n', $charge->amount) }}</td>
-                            <td>{{ $charge->timestamp }}</td>
-                            <td>{{ $charge->memo }}</td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-                <label class="control-label visible-print" for="fini">From:</label>
-                <div class="input-group input-daterange">
-                    <input type="text" id="fini" class="form-control"/>
-                    <span class="input-group-addon">to</span>
-                    <input type="text" id="ffin" class="form-control">
-                </div>
-                <label class="control-label visible-print" for="ffin">To:</label>
-            </div>
-        </div>
+    <div class="row">
+        <a href="{{ url('/reports/payments.xls') }}" class="fa fa-download fa-2x pull-right" data-toggle="tooltip"
+           title="Download Payments Excel"></a>
+    </div>
+    @include('snippet.orderby', ['years' => $years, 'orders' => ['name']])
+    <input type="hidden" id="orderby-url" value="{{ url('/reports/payments') }}"/>
+    <table class="table table-responsive">
+        <thead>
+        <tr>
+            <th>Family Name</th>
+            <th>Camper Name</th>
+            <th>Chargetype</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Memo</th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <th>Family Name</th>
+            <th>Camper Name</th>
+            <th>Chargetype</th>
+            <th>Amount</th>
+            <th>Year</th>
+            <th>Memo</th>
+        </tr>
+        </tfoot>
+        <tbody>
+        @foreach($charges as $charge)
+            <tr>
+                <td>{{ $charge->family->name }}</td>
+                <td>{{ $charge->camper->lastname }}, {{ $charge->camper->firstname }}</td>
+                <td>{{ $charge->chargetypename }}</td>
+                <td>{{ money_format('%.2n', $charge->amount) }}</td>
+                <td>{{ $charge->timestamp }}</td>
+                <td>{{ $charge->memo }}</td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+    <label class="control-label visible-print" for="fini">From:</label>
+    <div class="input-group input-daterange">
+        <input type="text" id="fini" class="form-control"/>
+        <span class="input-group-addon">to</span>
+        <input type="text" id="ffin" class="form-control">
+    </div>
+    <label class="control-label visible-print" for="ffin">To:</label>
     </div>
 @endsection
 

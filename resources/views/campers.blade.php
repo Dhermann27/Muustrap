@@ -7,58 +7,54 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css"/>
 @endsection
 
+@section('title')
+    Camper Information
+@endsection
+
+@section('heading')
+    This page can show you all individual information about the campers in your family, both attending this year and not.
+@endsection
+
 @section('content')
-    <div class="container">
-        <div class="panel panel-default">
-            <div class="panel-heading">Camper Information</div>
-            <div class="panel-body">
-                <form id="camperinfo" class="form-horizontal" role="form" method="POST" action="{{ url('/camper') .
+    <form id="camperinfo" class="form-horizontal" role="form" method="POST" action="{{ url('/camper') .
                  (isset($readonly) && $readonly === false ? '/f/' . $campers->first()->familyid : '')}}">
-                    {{ csrf_field() }}
+        @include('snippet.flash')
 
-                    @if(!empty($success))
-                        <div class="alert alert-success">
-                            {!! $success !!}
-                        </div>
-                    @endif
-                    @if(count($errors))
-                        <div class="alert alert-danger">
-                            Changes were not saved. Please review each camper and
-                            correct the errors outlined in red. {{ $errors->first() }}
-                        </div>
-                    @endif
-                    <ul class="nav nav-tabs" role="tablist">
-                        @foreach($campers as $camper)
-                            @if($camper->id != '0')
-                                <li role="presentation"{!! $loop->first ? ' class="active"' : '' !!}>
-                                    <a href="#{{ $camper->id }}" aria-controls="{{ $camper->id }}" role="tab"
-                                       data-toggle="tab">{{ old('firstname.' . $loop->index, $camper->firstname) }}
-                                        {{ old('lastname.' . $loop->index, $camper->lastname) }}
-                                    </a>
-                                </li>
-                            @endif
-                        @endforeach
-                        @if(!isset($readonly) || $readonly === false)
-                            <li>
-                                <a id="newcamper" href="#" role="tab">Create New Camper <i class="fa fa-plus"></i></a>
-                            </li>
-                        @endif
-                    </ul>
-
-                    <div class="tab-content">
-                        @foreach($campers as $camper)
-                            @include('snippet.camper', ['camper' => $camper, 'looper' => $loop])
-                        @endforeach
-                    </div>
-                    @if(!isset($readonly) || $readonly === false)
-                        <div class="col-md-2 col-md-offset-8">
-                            <button id="submit" type="button" class="btn btn-primary">Save Changes</button>
-                        </div>
-                    @endif
-                </form>
+        @if(count($errors))
+            <div class="alert alert-danger">
+                Changes were not saved. Please review each camper and
+                correct the errors outlined in red. {{ $errors->first() }}
             </div>
+        @endif
+        <ul class="nav nav-tabs" role="tablist">
+            @foreach($campers as $camper)
+                @if($camper->id != '0')
+                    <li role="presentation"{!! $loop->first ? ' class="active"' : '' !!}>
+                        <a href="#{{ $camper->id }}" aria-controls="{{ $camper->id }}" role="tab"
+                           data-toggle="tab">{{ old('firstname.' . $loop->index, $camper->firstname) }}
+                            {{ old('lastname.' . $loop->index, $camper->lastname) }}
+                        </a>
+                    </li>
+                @endif
+            @endforeach
+            @if(!isset($readonly) || $readonly === false)
+                <li>
+                    <a id="newcamper" href="#" role="tab">Create New Camper <i class="fa fa-plus"></i></a>
+                </li>
+            @endif
+        </ul>
+
+        <div class="tab-content">
+            @foreach($campers as $camper)
+                @include('snippet.camper', ['camper' => $camper, 'looper' => $loop])
+            @endforeach
         </div>
-    </div>
+        @if(!isset($readonly) || $readonly === false)
+            <div class="col-md-2 col-md-offset-8">
+                <button id="submit" type="button" class="btn btn-primary">Save Changes</button>
+            </div>
+        @endif
+    </form>
     <div id="empty" class="hidden">
         @foreach($empties as $empty)
             @include('snippet.camper', ['camper' => $empty, 'looper' => $loop])

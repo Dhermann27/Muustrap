@@ -65,7 +65,8 @@ class Camper extends Model
         return "";
     }
 
-    public function getBirthdayAttribute() {
+    public function getBirthdayAttribute()
+    {
         return substr($this->birthdate, 5);
     }
 

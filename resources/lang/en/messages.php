@@ -13,5 +13,7 @@ return [
                                 Obamas&quot;.</li>
                              </ul>
                              <p>If you would like a separate entry in the roster for any member of your family, please
-                             register them separately. There is no additional cost for this option.'
+                             register them separately. There is no additional cost for this option.',
+    'waivecredit' => 'Credits to be set at Fall Planning Meeting. In the past, credit for 5-day, 1 hr 50 min workshop 
+                            has been $300; for 3-4 day 1 hr 50 min workshops, $150.'
 ];

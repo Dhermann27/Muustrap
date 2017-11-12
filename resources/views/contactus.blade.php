@@ -10,7 +10,7 @@
 
 @section('content')
     <form class="form-horizontal" role="form" method="POST" action="{{ url('/contact') }}">
-        @include('snippet.flash)
+        @include('snippet.flash')
 
         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
             <label for="name" class="col-md-4 control-label">Your Name</label>

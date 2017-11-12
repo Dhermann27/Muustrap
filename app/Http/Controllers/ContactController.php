@@ -70,15 +70,17 @@ class ContactController extends Controller
         $camper = \App\Camper::where('email', Auth::user()->email)->first();
         Mail::to(env('PROPOSAL_EMAIL'))->send(new Proposal($request, $camper));
 
-        return $this->proposalIndex($camper, 'Message sent! You will be contact by a member of the Adult Programming Committee.');
+        $request->session()->flash('success', 'Message sent! You will be contact by a member of the Adult Programming Committee.');
+
+        return $this->proposalIndex($camper);
     }
 
-    public function proposalIndex($camper = null, $success = null)
+    public function proposalIndex($camper = null)
     {
         if ($camper == null) {
             $camper = \App\Camper::where('email', Auth::user()->email)->first();
         }
-        return view('proposal', ['camper' => $camper, 'timeslots' => \App\Timeslot::all(), 'success' => $success]);
+        return view('proposal', ['camper' => $camper, 'timeslots' => \App\Timeslot::all()]);
     }
 
     public function artfairStore(Request $request)

@@ -18,6 +18,11 @@ if (!isset($formobject)) {
     <div class="col-md-6">
         @if(isset($type))
             @if($type == 'select')
+                {{--@include('snippet.formgroup', ['type' => 'select', 'class' => ' roomid',--}}
+                    {{--'label' => 'Workshop Room', 'attribs' => ['name' => $timeslot->id . '-roomid'],--}}
+                    {{--'default' => 'Choose a room', 'list' => $rooms, 'option' => 'room_number'])--}}
+                {{--@include('snippet.formgroup', ['type' => 'select', 'label' => 'No/Yes?', 'attribs' => ['name' => 'waive'],--}}
+                {{--'list' => [['id' => 'No', 'name' => 'No'], ['id' => 'Yes', 'name' => 'Yes']], 'option' => 'name'])--}}
                 <select id="{{ $attribs["name"] }}" name="{{ $attribs["name"] }}" class="form-control{{ $xclass }}">
                     @if(!empty($default))
                         <option value="0">{{ $default }}</option>
@@ -27,18 +32,25 @@ if (!isset($formobject)) {
                     @endforeach
                 </select>
             @elseif($type == 'text')
+                {{--@include('snippet.formgroup', ['type' => 'text', 'label' => 'Qualifications',  'attribs' => ['name' => 'qualifications']])--}}
                 <textarea id="{{ $attribs["name"] }}" name="{{ $attribs["name"] }}"
                           class="form-control{{ $xclass }}">{{ $old }}</textarea>
             @elseif($type == 'captcha')
+                {{--@include('snippet.formgroup', ['type' => 'captcha', 'label' => 'CAPTCHA Test',--}}
+                {{--'attribs' => ['name' => 'g-recaptcha-response']])--}}
                 {!! app('captcha')->display() !!}
             @elseif($type == 'submit')
+                {{--@include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Senda']])--}}
                 <div class="text-lg-right">
                     <input type="submit" class="btn btn-lg btn-primary py-3 px-4" value="{{ $attribs["name"] }}"/>
                 </div>
             @elseif($type == 'info')
+                {{--@include('snippet.formgroup', ['type' => 'info', 'label' => 'Email Address', 'attribs' => ['name' => 'email'],--}}
+                {{--'default' => $camper->email])--}}
                 <span id="{{ $attribs["name"] }}"><strong>{{ $default }}</strong></span>
             @endif
         @else
+            {{--@include('snippet.formgroup', ['label' => 'Fee', 'attribs' => ['name' => 'fee']])--}}
             <input id="{{ $attribs["name"] }}" class="form-control{{ $xclass }}" value="{{ $old }}"
             @foreach($attribs as $attrib => $value)
                 {{ $attrib }}="{{ $value }}"

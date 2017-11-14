@@ -23,10 +23,12 @@
         </form>
     </div>
     <table class="table table-striped table-bordered w-auto">
-        <caption style="text-align: right;">Total Outstanding:
-            ${{ money_format('%.2n', $charges->sum('amount')) }}
-        </caption>
         <thead>
+        <tr align="right">
+            <td colspan="{{ $readonly === false ? '6' : '2' }}">
+                Total Outstanding: ${{ money_format('%.2n', $charges->sum('amount')) }}
+            </td>
+        </tr>
         <tr>
             <th>Family Name</th>
             <th>Amount</th>

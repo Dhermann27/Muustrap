@@ -11,9 +11,11 @@
         @include('snippet.orderby', ['years' => $years, 'orders' => ['name', 'date']])
         <input type="hidden" id="orderby-url" value="{{ url('/reports/campers') }}"/>
         <table class="table table-bordered w-auto">
-            <caption style="text-align:right;"><strong>Total Campers
-                    Attending: </strong> {{ $families->sum('count') }}</caption>
             <thead>
+            <tr align="right">
+                <td colspan="4"><strong>Total Campers
+                        Attending: </strong> {{ $families->sum('count') }}</td>
+            </tr>
             <tr>
                 <th>Family</th>
                 <th>Location</th>
@@ -40,8 +42,8 @@
                                 <tr>
                                     <td width="20%">{{ $camper->lastname }}, {{ $camper->firstname }}
                                         @if(isset($camper->email))
-                                            <a href="mailto:{{ $camper->email }}"
-                                               class="fa fa-envelope"></a>
+                                            <a href="mailto:{{ $camper->email }}" class="px-2 float-right"><i
+                                                        class="fa fa-envelope"></i></a>
                                         @endif
                                     </td>
                                     <td width="20%">{{ $camper->birthdate }}</td>

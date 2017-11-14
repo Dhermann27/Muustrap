@@ -5,63 +5,52 @@
 @endsection
 
 @section('content')
-    <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
-        {{ csrf_field() }}
+    <div class="container">
+        <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
+            @include('snippet.flash')
 
-        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+            <div class="form-group row{{ $errors->has('email') ? ' has-danger' : '' }}">
+                <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
-            <div class="col-md-6">
-                <input id="email" type="email" class="form-control" name="email"
-                       value="{{ old('email', isset($_GET['email']) ? $_GET['email'] : '') }}" required>
+                <div class="col-md-6">
+                    <input id="email" type="email" class="form-control" name="email"
+                           value="{{ old('email', isset($_GET['email']) ? $_GET['email'] : '') }}" required>
 
-                @if ($errors->has('email'))
-                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                @endif
+                    @if ($errors->has('email'))
+                        <span class="invalid-feedback">
+                        <strong>{{ $errors->first('email') }}</strong>
+                    </span>
+                    @endif
+                </div>
             </div>
-        </div>
 
-        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-            <label for="password" class="col-md-4 control-label">Password</label>
+            <div class="form-group row{{ $errors->has('password') ? ' has-danger' : '' }}">
+                <label for="password" class="col-md-4 control-label">Password</label>
 
-            <div class="col-md-6">
-                <input id="password" type="password" class="form-control" name="password" required>
+                <div class="col-md-6">
+                    <input id="password" type="password" class="form-control" name="password" required>
 
-                @if ($errors->has('password'))
-                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                @endif
+                    @if ($errors->has('password'))
+                        <span class="invalid-feedback">
+                        <strong>{{ $errors->first('password') }}</strong>
+                    </span>
+                    @endif
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
+            <div class="form-group row">
+                <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
 
-            <div class="col-md-6">
-                <input id="password-confirm" type="password" class="form-control"
-                       name="password_confirmation" required>
+                <div class="col-md-6">
+                    <input id="password-confirm" type="password" class="form-control"
+                           name="password_confirmation" required>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group{{ $errors->has('message') ? ' has-error' : '' }}">
-            <div class="col-md-6 col-md-offset-4">
-                {!! app('captcha')->display() !!}
+            @include('snippet.formgroup', ['type' => 'captcha', 'label' => 'CAPTCHA Test',
+                'attribs' => ['name' => 'g-recaptcha-response']])
 
-                @if ($errors->has('g-recaptcha-response'))
-                    <span class="help-block">
-                                        <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
-                                    </span>
-                @endif
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-6 col-md-offset-4">
-                <button type="submit" class="btn btn-primary">Create Account</button>
-            </div>
-        </div>
-    </form>
+            @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Create Account']])
+        </form>
+    </div>
 @endsection

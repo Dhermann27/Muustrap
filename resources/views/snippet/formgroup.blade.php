@@ -9,18 +9,20 @@ if (!isset($formobject)) {
 }
 ?>
 <div class="form-group row{{ $errors->has($attribs["name"]) ? ' has-danger' : '' }}">
-    <label for="{{ $attribs["name"] }}" class="col-md-4 control-label">{{ $label }}</label>
-    @if(isset($title))
-        <a href="#" class="fa fa-info" data-toggle="tooltip" data-placement="bottom" data-html="true"
-            title="@lang('messages.' . $title)"></a>
-    @endif
+    <label for="{{ $attribs["name"] }}" class="col-md-4 control-label">
+        @if(isset($title))
+            <a href="#" class="p-2 float-right" data-toggle="tooltip"  data-html="true"
+               title="@lang('messages.' . $title)"><i class="fa fa-info"></i></a>
+        @endif
+        {{ $label }}
+    </label>
 
     <div class="col-md-6">
         @if(isset($type))
             @if($type == 'select')
                 {{--@include('snippet.formgroup', ['type' => 'select', 'class' => ' roomid',--}}
-                    {{--'label' => 'Workshop Room', 'attribs' => ['name' => $timeslot->id . '-roomid'],--}}
-                    {{--'default' => 'Choose a room', 'list' => $rooms, 'option' => 'room_number'])--}}
+                {{--'label' => 'Workshop Room', 'attribs' => ['name' => $timeslot->id . '-roomid'],--}}
+                {{--'default' => 'Choose a room', 'list' => $rooms, 'option' => 'room_number'])--}}
                 {{--@include('snippet.formgroup', ['type' => 'select', 'label' => 'No/Yes?', 'attribs' => ['name' => 'waive'],--}}
                 {{--'list' => [['id' => 'No', 'name' => 'No'], ['id' => 'Yes', 'name' => 'Yes']], 'option' => 'name'])--}}
                 <select id="{{ $attribs["name"] }}" name="{{ $attribs["name"] }}" class="form-control{{ $xclass }}">

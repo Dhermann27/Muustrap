@@ -5,20 +5,23 @@
 @endsection
 
 @section('content')
-    <form class="form-horizontal" role="form" method="POST"
-          action="{{ url('/roomselection/f/' . $campers->first()->familyid) }}">
-        @include('snippet.flash')
+    <div class="container">
+        <form class="form-horizontal" role="form" method="POST"
+              action="{{ url('/roomselection/f/' . $campers->first()->familyid) }}">
+            @include('snippet.flash')
 
-        <div class="tab-content">
             @foreach($campers as $camper)
-                <div class="form-group{{ $errors->has($camper->id . '-roomid') ? ' has-error' : '' }}">
+                <div class="form-group row{{ $errors->has($camper->id . '-roomid') ? ' has-danger' : '' }}">
                     <label for="{{ $camper->id }}-roomid" class="col-md-4 control-label">
+                        <a id="quickcopy" href="#" class="p-2 float-right" data-toggle="tooltip"
+                           title="Assign entire family to this room"><i class="fa fa-copy"></i></a>
                         {{ $camper->firstname }} {{ $camper->lastname }}
                     </label>
 
                     @if($readonly === false)
                         <div class="col-md-4">
-                            <select id="{{ $camper->id }}-roomid" class="form-control roomlist"
+                            <select id="{{ $camper->id }}-roomid"
+                                    class="form-control roomlist{{ $errors->has($camper->id . '-roomid') ? ' is-invalid' : '' }}"
                                     name="{{ $camper->id }}-roomid">
                                 <option value="0">No Room Selected</option>
                                 @foreach($buildings as $building)
@@ -32,12 +35,10 @@
                                     </optgroup>
                                 @endforeach
                             </select>
-                            <button id="quickme" class="pull-right fa fa-bolt" data-toggle="tooltip"
-                                    title="Assign entire family to this room"></button>
                             @if ($errors->has($camper->id . '-roomid'))
-                                <span class="help-block">
-                                                <strong>{{ $errors->first($camper->id . '-camperid') }}</strong>
-                                            </span>
+                                <span class="invalid-feedback">
+                                    <strong>{{ $errors->first($camper->id . '-camperid') }}</strong>
+                                </span>
                             @endif
                         </div>
                     @endif
@@ -63,22 +64,19 @@
                     </table>
                 </div>
             @endforeach
-        </div>
-        @if($readonly === false)
-            <div class="form-group">
-                <div class="col-md-2 col-md-offset-8">
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                </div>
-            </div>
-        @endif
-    </form>
+            @if($readonly === false)
+                @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes']])
+            @endif
+        </form>
+    </div>
 @endsection
 
 @section('script')
     <script>
-        $('button#quickme').on('click', function (e) {
+        $('a#quickcopy').on('click', function (e) {
             e.preventDefault();
-            $("select.roomlist").val($(this).prev("select.roomlist").val());
+            var val = $(this).parent().next().find("select.roomlist").val();
+            $("select.roomlist").val(val);
         })
     </script>
 @endsection

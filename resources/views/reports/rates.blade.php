@@ -37,7 +37,7 @@
                                  role="tabpanel"
                                  aria-labelledby="heading-{{ $year->year }}-{{ $building->id }}">
                                 <div class="panel-body">
-                                    <table class="table table-responsive table-striped">
+                                    <table class="table table-striped w-auto">
                                         <thead>
                                         <tr>
                                             <th>&nbsp;</th>

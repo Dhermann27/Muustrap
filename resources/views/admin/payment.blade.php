@@ -21,7 +21,7 @@
             @foreach($years as $thisyear => $charges)
                 <div role="tabpanel" class="tab-pane fade{{ $loop->last ? ' in active' : '' }}"
                      id="{{ $thisyear }}">
-                    <table class="table table-responsive table-striped table-bordered">
+                    <table class="table table-striped table-bordered w-auto">
                         <thead>
                         <tr>
                             <th id="chargetypeid" class="select"><label for="chargetypeid">Charge

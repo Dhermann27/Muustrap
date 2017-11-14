@@ -39,7 +39,7 @@
                                      class="panel-collapse {{ $loop->first ? '' : 'collapse'}}"
                                      aria-labelledby="heading-{{ $chargetype->id }}-{{ $ddate }}">
                                     <div class="panel-body">
-                                        <table class="table table-responsive table-condensed">
+                                        <table class="table table-sm w-auto">
                                             <thead>
                                             <tr>
                                                 <th>Camper Name</th>

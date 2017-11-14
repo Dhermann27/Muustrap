@@ -19,7 +19,7 @@
                 <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' in active' : '' }}"
                      id="{{ $program->id }}">
                     <div class="panel-group" id="{{ $program->id }}-accordion" role="tablist">
-                        <table class="table table-responsive">
+                        <table class="table w-auto">
                             <thead>
                             <tr>
                                 <th>Pronoun</th>

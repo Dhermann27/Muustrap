@@ -21,7 +21,7 @@
                 <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' in active' : '' }}"
                      id="{{ $program->id }}">
                     <p>&nbsp;</p>
-                    <table class="table table-responsive table-condensed">
+                    <table class="table table-sm w-auto">
                         <thead>
                         <tr>
                             <th>Position</th>

@@ -40,7 +40,7 @@
                  role="tabpanel"
                  aria-labelledby="heading-{{ $building->id }}">
                 <div class="panel-body">
-                    <table class="table table-responsive table-condensed">
+                    <table class="table table-sm w-auto">
                         <thead>
                         <tr>
                             <th>Room Number</th>

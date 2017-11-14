@@ -43,7 +43,7 @@
                         </div>
                     @endif
 
-                    <table class="table table-responsive table-condensed">
+                    <table class="table table-sm w-auto">
                         <thead>
                         <tr>
                             <th>Year</th>

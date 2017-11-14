@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <table class="table table-responsive">
+    <table class="table w-auto">
         <thead>
         <tr>
             <th>Camper Name</th>

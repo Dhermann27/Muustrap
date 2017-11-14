@@ -26,7 +26,7 @@
     </div>
     @include('snippet.orderby', ['years' => $years, 'orders' => ['name']])
     <input type="hidden" id="orderby-url" value="{{ url('/reports/payments') }}"/>
-    <table class="table table-responsive">
+    <table class="table w-auto">
         <thead>
         <tr>
             <th>Family Name</th>

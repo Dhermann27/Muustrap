@@ -24,7 +24,7 @@
                         <h5>{{ $timeslot->start_time->format('g:i A') }}
                             - {{ $timeslot->end_time->format('g:i A') }}</h5>
                     @endif
-                    <table class="table table-responsive">
+                    <table class="table table-bordered w-auto">
                         <thead>
                         <tr>
                             <th id="name">Name</th>

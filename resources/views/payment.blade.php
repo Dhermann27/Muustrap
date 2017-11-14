@@ -13,7 +13,7 @@
     <form id="payment" class="form-horizontal" role="form" method="POST" action="{{ url('/payment') }}">
         @include('snippet.flash')
 
-        <table class="table table-responsive table-striped table-bordered">
+        <table class="table table-striped table-bordered w-autox">
             <thead>
             <tr>
                 <th>Charge Type</th>

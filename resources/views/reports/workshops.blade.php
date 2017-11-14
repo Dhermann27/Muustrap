@@ -26,7 +26,7 @@
                 @endif
                 @foreach($timeslot->workshops as $workshop)
                     <h4>{{ $workshop->name }} ({{ count($workshop->choices) }} / {{ $workshop->capacity }})</h4>
-                    <table class="table table-responsive table-condensed">
+                    <table class="table table-sm w-auto">
                         <thead>
                         <tr>
                             <th width="50%">Name</th>

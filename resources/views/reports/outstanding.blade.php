@@ -22,7 +22,7 @@
             <button id="filter-submit" type="button" class="btn btn-primary col-sm-1">Go</button>
         </form>
     </div>
-    <table class="table table-responsive table-striped table-bordered">
+    <table class="table table-striped table-bordered w-auto">
         <caption style="text-align: right;">Total Outstanding:
             ${{ money_format('%.2n', $charges->sum('amount')) }}
         </caption>

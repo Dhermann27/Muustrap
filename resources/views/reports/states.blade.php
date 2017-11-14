@@ -41,7 +41,7 @@
                                  role="tabpanel"
                                  aria-labelledby="heading-{{ $thisyear }}-{{ $state->code }}">
                                 <div class="panel-body">
-                                    <table class="table table-responsive">
+                                    <table class="table w-auto">
                                         <thead>
                                         <tr>
                                             <th width="50%">Church Name</th>

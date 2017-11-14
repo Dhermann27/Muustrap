@@ -33,7 +33,7 @@
     <div align="right">Total Number of Families: {{ count($letters) }}</div>
     @foreach($letters->groupBy('first') as $letter => $families)
         <div id="{{ $letter }}" class="letterdiv" {!!  !$loop->first ? ' style="display: none;"' : '' !!}>
-            <table class="table table-responsive table-bordered">
+            <table class="table table-bordered w-auto">
                 <thead>
                 <tr>
                     <th width="50%">Family</th>
@@ -49,7 +49,7 @@
                     </tr>
                     <tr>
                         <td colspan="3">
-                            <table class="table table-responsive table-condensed">
+                            <table class="table table-sm w-auto">
                                 @foreach($family->allcampers()->orderBy('birthdate')->get() as $camper)
                                     <tr>
                                         <td width="33%">{{ $camper->lastname }}, {{ $camper->firstname }}

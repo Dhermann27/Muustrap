@@ -46,7 +46,7 @@
                                      role="tabpanel"
                                      aria-labelledby="heading-{{ $thisyear }}-{{ $position->id }}">
                                     <div class="panel-body">
-                                        <table class="table table-responsive">
+                                        <table class="table table-bordered w-auto">
                                             <thead>
                                             <tr>
                                                 <th width="50%">Camper Name</th>

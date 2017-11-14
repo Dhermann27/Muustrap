@@ -13,7 +13,7 @@
         <div id="chart"></div>
     </div>
     <div class="row">
-        <table class="table table-responsive">
+        <table class="table w-auto">
             <tr>
                 <th>Year</th>
                 <th>New Campers</th>

@@ -26,7 +26,7 @@
             @endif
             {{ $family->city }}, {{ $family->state_code }} {{ $family->zipcd }}</h3>
         <p>&nbsp;</p>
-        <table class="table table-responsive table-bordered">
+        <table class="table table-bordered w-auto">
             <caption>Camper Information</caption>
             <thead>
             <tr>
@@ -56,7 +56,7 @@
             </tbody>
         </table>
         <p>&nbsp;</p>
-        <table class="table table-responsive table-bordered">
+        <table class="table table-bordered w-auto">
             <caption>Statement</caption>
             <thead>
             <tr>
@@ -85,7 +85,7 @@
         </table>
         <p>&nbsp;</p>
         @if(count($families) == 1)
-            <table class="table table-responsive table-bordered">
+            <table class="table table-bordered w-auto">
                 <caption>Workshop Signups</caption>
                 <thead>
                 <tr>

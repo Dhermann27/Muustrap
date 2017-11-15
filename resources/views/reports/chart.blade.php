@@ -12,8 +12,7 @@
     <div class="row-fluid">
         <div id="chart"></div>
     </div>
-    <div class="row">
-        <table class="table w-auto">
+        <table class="table w-80" align="center">
             <tr>
                 <th>Year</th>
                 <th>New Campers</th>
@@ -44,7 +43,6 @@
             </tr>
             </tfoot>
         </table>
-    </div>
 @endsection
 
 @section('script')

@@ -14,18 +14,18 @@
             </h4>
             <div class="row">
                 <div class="col-md-4" data-animate="fadeIn" data-animate-delay="1.0">
-                    <i class="fa fa-map-marker fa-4x"></i>
+                    <i class="fa fa-map-marker-alt fa-3x"></i>
                     <p><strong>Located</strong><br/>
                         at Trout Lodge in the YMCA of the Ozarks near Potosi, Missouri</p>
                 </div>
                 <div class="col-md-4" data-animate="fadeIn" data-animate-delay="1.2">
-                    <i class="fa fa-calendar-alt fa-4x"></i>
+                    <i class="fa fa-calendar-alt fa-3x"></i>
                     <p><strong>Scheduled</strong><br/>
                         {{ $home->year()->first_day }} through {{ $home->year()->last_day }} {{ $home->year()->year }}
                     </p>
                 </div>
                 <div class="col-md-4" data-animate="fadeIn" data-animate-delay="1.4">
-                    <i class="fa fa-fire fa-4x"></i>
+                    <i class="fa fa-fire fa-3x"></i>
                     <p><strong>All are welcome</strong><br/>
                         regardless of age, race, ethnicity, gender, sexual orientation, social class or ability</p>
                 </div>
@@ -416,7 +416,7 @@
         </div>
     </div>
 
-    <div class="p-5 bg-faded bg-video" data-bg-video="https://s3.us-east-2.amazonaws.com/muusa/jumpintoit.mp4"
+    <div class="p-5 bg-faded bg-video" data-bg-video="https://s3.us-east-2.amazonaws.com/muusa/jumpintoit.webm"
          data-settings='{"position":"33% 33%", "muted": "1", "posterType": "jpg"}'>
         <div id="jumpintoit" class="row">
             <div class="col-md-4 text-md-right"><i class="fa fa-thumbs-up fa-5x"></i></div>

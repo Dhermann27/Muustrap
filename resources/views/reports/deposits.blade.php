@@ -5,38 +5,29 @@
 @endsection
 
 @section('content')
-    <ul class="nav nav-tabs" role="tablist">
-        @foreach($chargetypes as $chargetype)
-            <li role="presentation"{!! $loop->first? ' class="active"' : '' !!}>
-                <a href="#{{ $chargetype->id }}" aria-controls="{{ $chargetype->id }}" role="tab"
-                   data-toggle="tab">{{ $chargetype->name }}</a></li>
-        @endforeach
-    </ul>
+    @include('snippet.navtabs', ['tabs' => $chargetypes, 'option' => 'name'])
 
     <div class="tab-content">
         @foreach($chargetypes as $chargetype)
-            <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' in active' : '' }}"
-                 id="{{ $chargetype->id }}">
-                <div class="panel-group" id="{{ $chargetype->id }}-accordion" role="tablist"
+            <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
+                 aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $chargetype->id }}">
+                <div class="card-accordion" id="{{ $chargetype->id }}-accordion" role="tablist"
                      aria-multiselectable="true">
                     @foreach($charges as $ddate => $dcharges)
                         @if(count($dcharges->filter(function ($value) use ($chargetype) {
                                 return $value->chargetypeid == $chargetype->id;
                             })) > 0)
-                            <div class="panel panel-default">
-                                <div class="panel-heading" role="tab"
-                                     id="heading-{{ $chargetype->id }}-{{ $ddate }}">
-                                    <h4 class="panel-title">
-                                        <a role="button" data-toggle="collapse"
-                                           data-parent="#{{ $chargetype->id }}-accordion"
-                                           href="#collapse-{{ $chargetype->id }}-{{ $ddate }}"
-                                           aria-controls="collapse-{{ $chargetype->id }}-{{ $ddate }}">
-                                            {{ empty($ddate) ? 'Undeposited' : $ddate }}
-                                        </a>
-                                    </h4>
-                                </div>
+                            <div class="card">
+                                <h4 class="card-header py-0 px-0" role="tab">
+                                    <a {{ $loop->first ? 'class="show" ' : ''}}role="button" data-toggle="collapse"
+                                       data-parent="#{{ $chargetype->id }}-accordion"
+                                       href="#collapse-{{ $chargetype->id }}-{{ $ddate }}"
+                                       aria-controls="collapse-{{ $chargetype->id }}-{{ $ddate }}">
+                                        {{ empty($ddate) ? 'Undeposited' : $ddate }}
+                                    </a>
+                                </h4>
                                 <div id="collapse-{{ $chargetype->id }}-{{ $ddate }}" role="tabpanel"
-                                     class="panel-collapse {{ $loop->first ? '' : 'collapse'}}"
+                                     class="in collapse{{ $loop->first ? ' show' : ''}}"
                                      aria-labelledby="heading-{{ $chargetype->id }}-{{ $ddate }}">
                                     <div class="panel-body">
                                         <table class="table table-sm w-auto">

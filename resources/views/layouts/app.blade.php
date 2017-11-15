@@ -220,8 +220,8 @@
                                         <div class="col-lg-4 py-2">
                                             <a href="{{ url('/campcalc') }}">
                                                 <i class="fa fa-calculator fa-5x"></i>
-                                                <h5 class="mt-2">Camp Cost Calculator</h5>
-                                                <p>Estimate the cost</p>
+                                                <h5 class="mt-2">Cost Calculator</h5>
+                                                <p>Estimate your fees</p>
                                             </a>
                                         </div>
                                     </div>
@@ -238,7 +238,7 @@
 <div class="header-below">
     <div class="input-group">
         <div class="input-group-btn">
-            @include('admin.controls', ['id' =>  (preg_match('/\/(c|f)\/\d+$/', $_SERVER['REQUEST_URI'], $matches) ? substr($_SERVER['REQUEST_URI'], -6) : 'c/0')])
+            @include('admin.controls', ['id' =>  (preg_match('/\/(c|f)\/\d+$/', $_SERVER['REQUEST_URI'], $matches) ? substr($_SERVER['REQUEST_URI'], -6) : 'c/0'), 'inputgroup' => 'true'])
         </div>
 
         <input type="text" id="camper" class="form-control camperlist"
@@ -247,11 +247,13 @@
 </div>
 
 <div id="content" class="p-0">
-    <p>&nbsp;</p>
-    <h2 class="text-center text-uppercase font-weight-bold my-0">
-        @yield('title')
-    </h2>
-    <hr class="hr-lg mt-0 mb-3 w-10 mx-auto hr-primary"/>
+    @hassection('title')
+        <p>&nbsp;</p>
+        <h2 class="text-center text-uppercase font-weight-bold my-0">
+            @yield('title')
+        </h2>
+        <hr class="hr-lg mt-0 mb-3 w-10 mx-auto hr-primary"/>
+    @endif
     @hassection('heading')
         <h5 class="text-center font-weight-light mt-2 mb-0 text-muted">
             @yield('heading')
@@ -311,7 +313,7 @@
             select: function (event, ui) {
                 $(this).val(ui.item.lastname + ", " + ui.item.firstname);
                 $("input#" + $(this).attr("id") + "id").val(ui.item.id);
-                $(this).prev().find(".camperdetails a").each(function () {
+                $(this).prev().find("a.dropdown-item").each(function () {
                     $(this).attr("href", $(this).attr("href").replace(/\/c\/\d+$/, "/c/" + ui.item.id));
                 });
                 return false;

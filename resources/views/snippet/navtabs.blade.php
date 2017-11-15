@@ -1,4 +1,4 @@
-{{--@include('snippet.navtabs', ['tabs' => $programs])--}}
+{{--@include('snippet.navtabs', ['tabs' => $programs, 'name' => 'option'])--}}
 
 {{--<div class="tab-content">--}}
 {{--@foreach($programs as $program)--}}

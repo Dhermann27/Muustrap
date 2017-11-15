@@ -35,33 +35,33 @@
 </head>
 <body>
 
-<?php
-$backs = array();
-?>
+@php
+    $backs = array();
+@endphp
 @foreach($campers as $camper)
-    <?php
-    switch ($loop->index % 6) {
-        case 0:
-            $pointer = 1;
-            break;
-        case 1:
-            $pointer = 0;
-            break;
-        case 2:
-            $pointer = 3;
-            break;
-        case 3:
-            $pointer = 2;
-            break;
-        case 4:
-            $pointer = 5;
-            break;
-        case 5:
-            $pointer = 4;
-            break;
-    }
-    array_splice($backs, $pointer, 0, $camper->nametag_back);
-    ?>
+    @php
+        switch ($loop->index % 6) {
+            case 0:
+                $pointer = 1;
+                break;
+            case 1:
+                $pointer = 0;
+                break;
+            case 2:
+                $pointer = 3;
+                break;
+            case 3:
+                $pointer = 2;
+                break;
+            case 4:
+                $pointer = 5;
+                break;
+            case 5:
+                $pointer = 4;
+                break;
+        }
+        array_splice($backs, $pointer, 0, $camper->nametag_back);
+    @endphp
     <div class="label">
         <div class="{{ $camper->yearattending->fontapply == '2' ? ' ' . $camper->yearattending->font_value : '' }}">
             <div class="pronoun">{{ $camper->yearattending->pronoun_value }}</div>
@@ -85,9 +85,9 @@ $backs = array();
                 <p>{!! $back !!}</p>
             </div>
         @endforeach
-        <?php
-        $backs = array();
-        ?>
+        @php
+            $backs = array();
+        @endphp
         <div class="page-break"></div>
     @endif
 @endforeach

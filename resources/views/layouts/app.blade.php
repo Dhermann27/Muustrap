@@ -38,7 +38,7 @@
         ]); ?>
     </script>
 </head>
-<body class="page page-index-static navbar-layout-default">
+<body class="page page-index-static navbar-layout-default" data-plugins-localpath="/assets/plugins/">
 <a href="#content" id="top" class="sr-only">Skip to content</a>
 
 <div class="header-upper d-print-none">

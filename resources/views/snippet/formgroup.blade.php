@@ -1,13 +1,13 @@
-<?php
-$xclass = "";
-if (!empty($class)) $xclass .= ' ' . $class;
-if ($errors->has($attribs["name"])) $xclass .= ' is-invalid';
-if (!isset($formobject)) {
-    $old = old($attribs["name"]);
-} else {
-    $old = old($attribs["name"], $formobject[$attribs["name"]]);
-}
-?>
+@php
+    $xclass = "";
+    if (!empty($class)) $xclass .= ' ' . $class;
+    if ($errors->has($attribs["name"])) $xclass .= ' is-invalid';
+    if (!isset($formobject)) {
+        $old = old($attribs["name"]);
+    } else {
+        $old = old($attribs["name"], $formobject[$attribs["name"]]);
+    }
+@endphp
 <div class="form-group row{{ $errors->has($attribs["name"]) ? ' has-danger' : '' }}">
     <label for="{{ $attribs["name"] }}" class="col-md-4 control-label">
         @if(isset($title))

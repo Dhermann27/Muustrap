@@ -5,30 +5,32 @@
 @endsection
 
 @section('content')
-    <ul class="nav nav-tabs" role="tablist">
+
+    <ul class="nav nav-tabs flex-column flex-lg-row" role="tablist">
         @foreach($years as $thisyear => $states)
-            <li role="presentation"{!! $loop->last ? ' class="active"' : '' !!}>
+            <li role="presentation" class="nav-item">
                 <a href="#{{ $thisyear }}" aria-controls="{{ $thisyear }}" role="tab"
-                   data-toggle="tab">{{ $thisyear }}</a></li>
+                   class="nav-link{!! $loop->first ? ' active' : '' !!}" data-toggle="tab">{{ $thisyear }}</a>
+            </li>
         @endforeach
     </ul>
 
     <div class="tab-content">
         @foreach($years as $thisyear => $states)
-            <div role="tabpanel" class="tab-pane fade{{ $loop->last ? ' in active' : '' }}"
-                 id="{{ $thisyear }}">
+            <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
+                 aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $thisyear }}">
                 @foreach($states as $state)
-                    <div class="panel-group" id="{{ $thisyear }}-accordion" role="tablist"
+                    <div class="card-accordion" id="{{ $thisyear }}-accordion" role="tablist"
                          aria-multiselectable="true">
-                        <div class="panel panel-default">
-                            <div class="panel-heading" role="tab"
+                        <div class="card">
+                            <div class="card-header" role="tab"
                                  id="heading-{{ $thisyear }}-{{ $state->code }}">
-                                            <span class="pull-right">
-                                                {{ $state->total }}
-                                                <i class="fa fa-fire"></i>
-                                            </span>
                                 <h4 class="panel-title">
-                                    <a role="button" data-toggle="collapse"
+                                    <span class="p-2 float-right">
+                                        {{ $state->total }}
+                                        <i class="fa fa-male"></i>
+                                    </span>
+                                    <a {{ $loop->last ? 'class="show" ' : '' }}role="button" data-toggle="collapse"
                                        data-parent="#{{ $thisyear }}-accordion"
                                        href="#collapse-{{ $thisyear }}-{{ $state->code }}"
                                        aria-controls="collapse-{{ $thisyear }}-{{ $state->code }}">
@@ -37,31 +39,28 @@
                                 </h4>
                             </div>
                             <div id="collapse-{{ $thisyear }}-{{ $state->code }}"
-                                 class="panel-collapse collapse"
-                                 role="tabpanel"
+                                 class="in collapse{{ $loop->first ? ' show' : '' }}" role="tabpanel"
                                  aria-labelledby="heading-{{ $thisyear }}-{{ $state->code }}">
-                                <div class="panel-body">
-                                    <table class="table w-auto">
-                                        <thead>
+                                <table class="table w-auto">
+                                    <thead>
+                                    <tr>
+                                        <th width="50%">Church Name</th>
+                                        <th width="25%">City, State</th>
+                                        <th width="25%">Total</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($churches->filter(function ($value) use ($thisyear, $state) {
+                                        return $value->year==$thisyear && $value->churchstatecd==$state->code;
+                                    }) as $church)
                                         <tr>
-                                            <th width="50%">Church Name</th>
-                                            <th width="25%">City, State</th>
-                                            <th width="25%">Total</th>
+                                            <td>{{ $church->churchname }}</td>
+                                            <td>{{ $church->churchcity }}, {{ $church->churchstatecd }}</td>
+                                            <td>{{ $church->total }}</td>
                                         </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($churches->filter(function ($value) use ($thisyear, $state) {
-                                            return $value->year==$thisyear && $value->churchstatecd==$state->code;
-                                        }) as $church)
-                                            <tr>
-                                                <td>{{ $church->churchname }}</td>
-                                                <td>{{ $church->churchcity }}, {{ $church->churchstatecd }}</td>
-                                                <td>{{ $church->total }}</td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

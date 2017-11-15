@@ -2,8 +2,7 @@
 
 @section('css')
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-datepicker.min.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="https://cdn.datatables.net/v/bs/dt-1.10.13/b-1.2.4/b-html5-1.2.4/b-print-1.2.4/r-2.1.1/datatables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.css"/>
     <style type="text/css">
         th {
             font-size: 13px;
@@ -20,10 +19,8 @@
 @endsection
 
 @section('content')
-    <div class="row">
-        <a href="{{ url('/reports/payments.xls') }}" class="fa fa-download fa-2x pull-right" data-toggle="tooltip"
-           title="Download Payments Excel"></a>
-    </div>
+        <a href="{{ url('/reports/payments.xls') }}" class="p-2 float-right" data-toggle="tooltip"
+           title="Download Payments Excel"><i class="fa fa-download fa-2x"></i></a>
     @include('snippet.orderby', ['years' => $years, 'orders' => ['name']])
     <input type="hidden" id="orderby-url" value="{{ url('/reports/payments') }}"/>
     <table class="table w-auto">
@@ -60,20 +57,18 @@
         @endforeach
         </tbody>
     </table>
-    <label class="control-label visible-print" for="fini">From:</label>
+    <label class="control-label sr-only" for="fini">From:</label>
     <div class="input-group input-daterange">
         <input type="text" id="fini" class="form-control"/>
         <span class="input-group-addon">to</span>
         <input type="text" id="ffin" class="form-control">
     </div>
-    <label class="control-label visible-print" for="ffin">To:</label>
-    </div>
+    <label class="control-label sr-only" for="ffin">To:</label>
 @endsection
 
 @section('script')
     <script src="/js/bootstrap-datepicker.min.js"></script>
-    <script type="text/javascript"
-            src="//cdn.datatables.net/v/bs/dt-1.10.13/b-1.2.4/b-html5-1.2.4/b-print-1.2.4/r-2.1.1/datatables.min.js"></script>
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
     <script type="text/javascript"
             src="/js/range_dates.js"></script>
     <script>

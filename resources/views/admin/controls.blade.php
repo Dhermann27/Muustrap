@@ -1,5 +1,5 @@
 @if(!isset($inputgroup))
-    <div class="dropdown hidden-print">
+    <div class="dropdown d-print-none">
         @endif
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                 id="controls{{ $id }}" aria-expanded="false">Details <span class="caret"></span></button>

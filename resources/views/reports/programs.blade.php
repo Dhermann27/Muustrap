@@ -5,19 +5,13 @@
 @endsection
 
 @section('content')
-    <ul class="nav nav-tabs" role="tablist">
-        @foreach($programs as $program)
-            <li role="presentation"{!! $loop->first ? ' class="active"' : '' !!}>
-                <a href="#{{ $program->id }}" aria-controls="{{ $program->id }}" role="tab"
-                   data-toggle="tab">{{ $program->name }}</a></li>
-        @endforeach
-    </ul>
+    @include('snippet.navtabs', ['tabs' => $programs, 'id'=> 'id', 'option' => 'name'])
 
     <div class="tab-content">
         @foreach($programs as $program)
             @if(count($program->participants) > 0)
-                <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' in active' : '' }}"
-                     id="{{ $program->id }}">
+                <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
+                     aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $program->id }}">
                     <div class="panel-group" id="{{ $program->id }}-accordion" role="tablist">
                         <table class="table w-auto">
                             <thead>
@@ -31,7 +25,7 @@
                                     <th>Room</th>
                                     <th>Phone Number</th>
                                 @endif
-                                <th class="hidden-print">Controls</th>
+                                <th class="d-print-none">Controls</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -42,7 +36,7 @@
                                         {{ $participant->lastname }}, {{ $participant->firstname }}
                                         @if(isset($participant->email))
                                             <a href="mailto:{{ $participant->email }}"
-                                               class="fa fa-envelope hidden-print"></a>
+                                               class="fa fa-envelope d-print-none"></a>
                                         @endif
                                     </td>
                                     <td>{{ $participant->age }}</td>
@@ -52,7 +46,7 @@
                                         <td>{{ $participant->parent_room }}</td>
                                         <td>{{ $participant->parent_phone }}</td>
                                     @endif
-                                    <td class="hidden-print">
+                                    <td class="d-print-none">
                                         @include('admin.controls', ['id' => 'c/' . $participant->id])
                                     </td>
                                 </tr>
@@ -64,13 +58,13 @@
                                     align="right"><strong>Total
                                         Campers: </strong> {{ count($program->participants) }}</td>
                             </tr>
-                            <tr class="hidden-print">
+                            <tr class="d-print-none">
                                 <td colspan="{{ $program->participants->first()->age<18 ? '8' : '4' }}">
                                     Distribution list: {{ $program->emails }}
                                 </td>
                             </tr>
                             @if($program->participants->first()->age<18)
-                                <tr class="hidden-print">
+                                <tr class="d-print-none">
                                     <td colspan="8">
                                         Parent Distribution list:
                                         @foreach($program->participants as $participant)

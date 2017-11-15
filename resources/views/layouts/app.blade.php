@@ -41,7 +41,7 @@
 <body class="page page-index-static navbar-layout-default">
 <a href="#content" id="top" class="sr-only">Skip to content</a>
 
-<div class="header-upper">
+<div class="header-upper d-print-none">
     <div class="header-inner container">
         <div class="header-block-flex order-1 mr-auto">
             <nav class="nav nav-sm header-block-flex">
@@ -99,7 +99,7 @@
     </div>
 </div>
 
-<div class="header">
+<div class="header d-print-none">
     <div class="header-inner container">
         <div class="header-brand">
             <a class="header-brand-text" href="/" title="Home">
@@ -235,7 +235,7 @@
     </div>
 </div>
 
-<div class="header-below">
+<div class="header-below d-print-none">
     <div class="input-group">
         <div class="input-group-btn">
             @include('admin.controls', ['id' =>  (preg_match('/\/(c|f)\/\d+$/', $_SERVER['REQUEST_URI'], $matches) ? substr($_SERVER['REQUEST_URI'], -6) : 'c/0'), 'inputgroup' => 'true'])
@@ -263,7 +263,7 @@
     @yield('content')
 </div>
 
-<footer id="footer" class="p-0">
+<footer id="footer" class="p-0 d-print-none">
     <div class="container">
         <div class="row">
             <div class="col-md-12">

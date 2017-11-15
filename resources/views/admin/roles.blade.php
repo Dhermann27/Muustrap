@@ -9,7 +9,7 @@
         <form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/roles') }}">
             @include('snippet.flash')
 
-            @include('snippet.navtabs', ['tabs' => $roles, 'option' => 'display_name'])
+            @include('snippet.navtabs', ['tabs' => $roles, 'id'=> 'id', 'option' => 'display_name'])
 
             <div class="tab-content">
                 @foreach($roles as $role)

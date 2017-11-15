@@ -57,12 +57,12 @@
                         @endforeach
                         </tbody>
                         <tfoot>
-                        <tr class="hidden-print">
+                        <tr class="d-print-none">
                             <td colspan="3">Distribution list: {{ $workshop->emails }}
                             </td>
                         </tr>
                         @for($i=count($workshop->choices); $i<min($workshop->capacity, count($workshop->choices)+5); $i++)
-                            <tr class="visible-print">
+                            <tr class="d-print-block">
                                 <td colspan="2" style="border-bottom: 1px solid black;">&nbsp;</td>
                                 <td>&nbsp;</td>
                             </tr>

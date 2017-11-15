@@ -7,10 +7,9 @@
 @section('content')
     @include('snippet.flash')
 
-    <div class="row-fluid">
         <form class="form-inline">
-            <div class="col-sm-2 col-sm-offset-9">
-                <label for="filter" class="hidden">Filter By</label>
+            <div class="col-sm-2">
+                <label for="filter" class="sr-only">Filter By</label>
                 <select id="filter" class="form-control">
                     <option value="all">All Balances</option>
                     <option value="unpaid"
@@ -21,7 +20,6 @@
             </div>
             <button id="filter-submit" type="button" class="btn btn-primary col-sm-1">Go</button>
         </form>
-    </div>
     <table class="table table-striped table-bordered w-auto">
         <thead>
         <tr align="right">
@@ -50,7 +48,7 @@
                     <td align="right">{{ money_format('%.2n', $charge->amount) }}</td>
                     @if($readonly === false)
                         <td>
-                            <label for="chargetype-{{ $charge->familyid }}" class="hidden">Memo</label>
+                            <label for="chargetype-{{ $charge->familyid }}" class="sr-only">Memo</label>
                             <select class="form-control" id="chargetype-{{ $charge->familyid }}"
                                     name="chargetypeid">
                                 @foreach($chargetypes as $chargetype)
@@ -63,7 +61,7 @@
                         </td>
                         <td class="form-group{{ $errors->has('amount-' . $charge->familyid) ? ' has-error' : '' }}">
                             <div class="input-group">
-                                <label for="amount-{{ $charge->familyid }}" class="hidden">Amount</label>
+                                <label for="amount-{{ $charge->familyid }}" class="sr-only">Amount</label>
                                 <span class="input-group-addon">$</span>
                                 <input type="number" id="amount-{{ $charge->familyid }}"
                                        class="form-control" step="any" name="amount"
@@ -71,7 +69,7 @@
                             </div>
                         </td>
                         <td class="form-group">
-                            <label for="memo-{{ $charge->familyid }}" class="hidden">Memo</label>
+                            <label for="memo-{{ $charge->familyid }}" class="sr-only">Memo</label>
                             <input id="memo-{{ $charge->familyid }}" class="form-control" name="memo"
                                    value="{{ old('memo') }}">
                         </td>

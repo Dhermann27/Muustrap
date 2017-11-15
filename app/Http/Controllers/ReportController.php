@@ -147,7 +147,7 @@ class ReportController extends Controller
 
     public function rates()
     {
-        return view('reports.rates', ['years' => \App\Year::where('year', '>', 2014)->get(),
+        return view('reports.rates', ['years' => \App\Year::where('year', '>', 2014)->orderBy('year', 'DESC')->get(),
             'buildings' => \App\Building::all(), 'rates' => \App\Rate::all(),
             'programs' => \App\Program::orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get()]);
     }

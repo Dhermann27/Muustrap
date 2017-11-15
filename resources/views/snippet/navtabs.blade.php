@@ -1,4 +1,4 @@
-{{--@include('snippet.navtabs', ['tabs' => $programs, 'name' => 'option'])--}}
+{{--@include('snippet.navtabs', ['tabs' => $programs, 'id'=> 'id', 'option' => 'name'])--}}
 
 {{--<div class="tab-content">--}}
 {{--@foreach($programs as $program)--}}
@@ -8,7 +8,7 @@
 <ul class="nav nav-tabs flex-column flex-lg-row" role="tablist">
     @foreach($tabs as $tab)
         <li role="presentation" class="nav-item">
-            <a href="#{{ $tab->id }}" aria-controls="{{ $tab->id }}" role="tab"
+            <a href="#{{ $tab->$id }}" aria-controls="{{ $tab->$id }}" role="tab"
                class="nav-link{!! $loop->first ? ' active' : '' !!}" data-toggle="tab">{{ $tab->$option }}</a>
         </li>
     @endforeach

@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    @include('snippet.navtabs', ['tabs' => $chargetypes, 'option' => 'name'])
+    @include('snippet.navtabs', ['tabs' => $chargetypes, 'id'=> 'id', 'option' => 'name'])
 
     <div class="tab-content">
         @foreach($chargetypes as $chargetype)

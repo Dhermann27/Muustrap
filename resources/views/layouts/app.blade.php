@@ -234,7 +234,7 @@
         </div>
     </div>
 </div>
-
+@role(['admin', 'council'])
 <div class="header-below d-print-none">
     <div class="input-group">
         <div class="input-group-btn">
@@ -245,6 +245,7 @@
                placeholder="Camper Name"/>
     </div>
 </div>
+@endrole
 
 <div id="content" class="p-0">
     @hassection('title')

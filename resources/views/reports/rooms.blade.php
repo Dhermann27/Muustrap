@@ -11,9 +11,8 @@
     <input type="hidden" id="orderby-url" value="{{ url('/reports/rooms') }}"/>
     <p>&nbsp;</p>
     @foreach($buildings as $building)
-        <div class="card-accordion" role="tablist" aria-multiselectable="true">
-            <div class="card" role="tab" id="heading-{{ $building->id }}">
-                <h4 class="card-header">
+        @component('snippet.accordioncard', ['id' => $building->id, 'loop' => $loop, 'heading' => $building->id, 'title' => $building->name])
+            @slot('badge')
                 <span class="p-3 float-right">
                     {{ count($campers->filter(function ($value) use ($building) {
                         return $value->buildingid==$building->id && $value->age>17;
@@ -24,44 +23,34 @@
                     })) }}
                     <i class="fa fa-child"></i>
                 </span>
-                    <a {{ $loop->first ? 'class="show" ' : ''}}role="button" data-toggle="collapse"
-                       data-parent="#accordion"
-                       href="#collapse-{{ $building->id }}"
-                       aria-controls="collapse-{{ $building->id }}">
-                        {{ $building->name }}
-                    </a>
-                </h4>
-            </div>
-            <div id="collapse-{{ $building->id }}" class="in collapse{{ $loop->first ? ' show" ' : ''}}" role="tabpanel"
-                 aria-labelledby="heading-{{ $building->id }}">
-                <table class="table table-sm w-auto">
-                    <thead>
+            @endslot
+            <table class="table table-sm w-auto">
+                <thead>
+                <tr>
+                    <th width="10%">Room Number</th>
+                    <th width="40%">Name</th>
+                    <th width="30%">Program</th>
+                    <th width="10%">Age</th>
+                    <th width="10%">Controls</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($campers->filter(function ($value) use ($building) {
+                    return $value->buildingid==$building->id;
+                }) as $camper)
                     <tr>
-                        <th>Room Number</th>
-                        <th>Name</th>
-                        <th>Program</th>
-                        <th>Age</th>
-                        <th>Controls</th>
+                        <td>{{ $camper->room_number }}</td>
+                        <td>{{ $camper->lastname }}, {{ $camper->firstname }}</td>
+                        <td>{{ $camper->programname }}</td>
+                        <td>{{ $camper->age }}</td>
+                        <td>
+                            @include('admin.controls', ['id' => 'c/' . $camper->id])
+                        </td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($campers->filter(function ($value) use ($building) {
-                        return $value->buildingid==$building->id;
-                    }) as $camper)
-                        <tr>
-                            <td>{{ $camper->room_number }}</td>
-                            <td>{{ $camper->lastname }}, {{ $camper->firstname }}</td>
-                            <td>{{ $camper->programname }}</td>
-                            <td>{{ $camper->age }}</td>
-                            <td>
-                                @include('admin.controls', ['id' => 'c/' . $camper->id])
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                @endforeach
+                </tbody>
+            </table>
+        @endcomponent
     @endforeach
     <div class="mt-5 pr-2" align="right">
         <strong>Total Trout Lodge Side: </strong>

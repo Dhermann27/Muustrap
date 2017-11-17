@@ -12,7 +12,7 @@
             @if(count($program->participants) > 0)
                 <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
                      aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $program->id }}">
-                    <div class="panel-group" id="{{ $program->id }}-accordion" role="tablist">
+                    <div class="panel-group" id="{{ $program->id }}" role="tablist">
                         <table class="table w-auto">
                             <thead>
                             <tr>

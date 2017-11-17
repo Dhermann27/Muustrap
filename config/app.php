@@ -165,7 +165,7 @@ return [
         Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
         /*
          * Package Service Providers...

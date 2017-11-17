@@ -5,21 +5,14 @@
 @endsection
 
 @section('content')
-    <div class="row">
-        <button class="fa fa-print fa-2x pull-right" data-toggle="tooltip" title="Print Signup Sheets"></button>
-    </div>
-    <ul class="nav nav-tabs" role="tablist">
-        @foreach($timeslots as $timeslot)
-            <li role="presentation"{!! $loop->first ? ' class="active"' : '' !!}>
-                <a href="#{{ $timeslot->id }}" aria-controls="{{ $timeslot->id }}" role="tab"
-                   data-toggle="tab">{{ $timeslot->name }}</a></li>
-        @endforeach
-    </ul>
+    <button class="p-2 float-right" data-toggle="tooltip" title="Print Signup Sheets"><i class="fa fa-print fa-2x"></i>
+    </button>
+    @include('snippet.navtabs', ['tabs' => $timeslots, 'id'=> 'id', 'option' => 'name'])
 
     <div class="tab-content">
         @foreach($timeslots as $timeslot)
-            <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' in active' : '' }}"
-                 id="{{ $timeslot->id }}">
+            <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
+                 aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $timeslot->id }}">
                 @if($timeslot->id != '1005')
                     <h5>{{ $timeslot->start_time->format('g:i A') }}
                         - {{ $timeslot->end_time->format('g:i A') }}</h5>

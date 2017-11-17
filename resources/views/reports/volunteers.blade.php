@@ -19,13 +19,13 @@
                  aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $thisyear }}">
                 @foreach($positions as $position)
                     @if(count($volunteers->filter(function ($value) use ($thisyear, $position) {
-                                            return $value->year==$thisyear && $value->volunteerpositionid==$position->id;
-                                        }))>0)
+                            return $value->year==$thisyear && $value->volunteerpositionid==$position->id;
+                        }))>0)
                         @component('snippet.accordioncard', ['id' => $thisyear, 'loop' => $loop, 'heading' => $position->id, 'title' => $position->name])
                             @slot('badge')
                                 <span class="p-2 float-right">
                                     {{ count($volunteers->filter(function ($value) use ($thisyear, $position) {
-                                            return $value->year==$thisyear && $value->volunteerpositionid==$position->id;
+                                        return $value->year==$thisyear && $value->volunteerpositionid==$position->id;
                                     })) }}
                                     <i class="fa fa-handshake"></i>
                                 </span>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\ArtFair;
 use App\Mail\ContactUs;
 use App\Mail\Proposal;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -32,13 +33,20 @@ class ContactController extends Controller
             'g-recaptcha-response' => 'required|captcha',
         ], $messages);
 
-        $users = \App\Contactbox::findOrFail($request->mailbox)->emails;
+        $emails = \App\Contactbox::findOrFail($request->mailbox)->emails;
+        $users = User::whereIn('email', explode(',', $emails))->get()->toArray();
+
 
         Mail::to($users)->send(new ContactUs($request));
 
+<<<<<<< HEAD
         $request->session()->flash('success', 'Message sent! Please expect a response in 1-3 business days.');
 
         return $this->contactIndex();
+=======
+
+        return $this->contactIndex('Message sent! Please expect a response in 1-3 business days.');
+>>>>>>> sprint0
     }
 
     public function contactIndex()

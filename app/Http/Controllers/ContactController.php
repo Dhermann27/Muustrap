@@ -39,14 +39,9 @@ class ContactController extends Controller
 
         Mail::to($users)->send(new ContactUs($request));
 
-<<<<<<< HEAD
         $request->session()->flash('success', 'Message sent! Please expect a response in 1-3 business days.');
 
         return $this->contactIndex();
-=======
-
-        return $this->contactIndex('Message sent! Please expect a response in 1-3 business days.');
->>>>>>> sprint0
     }
 
     public function contactIndex()

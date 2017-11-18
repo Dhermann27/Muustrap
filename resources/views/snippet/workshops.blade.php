@@ -1,7 +1,7 @@
 <div class="workshoplist">
     @foreach($timeslot->workshops as $workshop)
-        <button type="button" data-content="{{ $workshop->id }}"
-                data-toggle="tooltip" id="{{ $camperid }}-{{ $workshop->id }}"
+        <button type="button" data-content="{{ $workshop->id }}" data-toggle="tooltip"
+                id="{{ $camperid }}-{{ $workshop->id }}"
                 @if($workshop->enrolled >= $workshop->capacity)
                 class="list-group-item disabled"
                 title="Workshop Full">

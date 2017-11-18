@@ -13,84 +13,39 @@
     <form id="programs" class="form-horizontal" role="form" method="POST" action="{{ url('/tools/programs') }}">
         @include('snippet.flash')
 
-        <ul class="nav nav-tabs" role="tablist">
-            @foreach($programs as $program)
-                <li role="presentation"{!! $loop->first ? ' class="active"' : '' !!}>
-                    <a href="#{{ $program->id }}" aria-controls="{{ $program->id }}" role="tab"
-                       data-toggle="tab">{{ $program->name }}</a></li>
-            @endforeach
-            <li role="presentation">
-                <a href="#100" aria-controls="100" role="tab" data-toggle="tab">Google Form Instructions</a>
-            </li>
-        </ul>
+        @include('snippet.navtabs', ['tabs' => $programs, 'id'=> 'id', 'option' => 'name'])
 
         <div class="tab-content">
             @foreach($programs as $program)
-                <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' in active' : '' }}"
-                     id="{{ $program->id }}">
-                    <p>&nbsp;</p>
+                <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
+                     aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $program->id }}">
 
-                    <div class="form-group{{ $errors->has($program->id . '-blurb') ? ' has-error' : '' }}">
+                    <div class="form-group row{{ $errors->has($program->id . '-blurb') ? ' has-danger' : '' }}">
                         <label for="{{ $program->id }}-blurb" class="col-md-4 control-label">Blurb for
                             Programs Page</label>
 
                         <div class="col-md-6">
                             <div class="summernote">{!! $program->blurb !!}</div>
-                            <input type="hidden" id="{{ $program->id }}-blurb"
-                                   name="{{ $program->id }}-blurb"/>
+                            <input type="hidden" id="{{ $program->id }}-blurb" name="{{ $program->id }}-blurb"/>
 
                             @if ($errors->has($program->id . '-blurb'))
-                                <span class="help-block">
-                                        <strong>{{ $errors->first($program->id . '-blurb') }}</strong>
-                                    </span>
+                                <span class="invalid-feedback">
+                                    <strong>{{ $errors->first($program->id . '-blurb') }}</strong>
+                                </span>
                             @endif
                         </div>
                     </div>
 
-                    <div class="form-group{{ $errors->has($program->id . '-link') ? ' has-error' : '' }}">
-                        <label for="{{ $program->id }}-link" class="col-md-4 control-label">
-                            @if($program->id == '1008')
-                                Medical Form Link (for all children <18)
-                            @else
-                                Program Form Link (leave blank for no form)
-                            @endif
-                        </label>
+                    @include('snippet.formgroup', ['label' => $program->id == '1008' ? 'Medical Form Link (for all children <18)' :
+                        'Program Form Link (leave blank for no form)', 'attribs' => ['name' => $program->id . '-link',
+                        'placeholder' => 'https://docs.google.com/forms/.../edit', 'formobject' => $program]])
 
-                        <div class="col-md-6">
-                            <input type="text" id="{{ $program->id }}-link"
-                                   class="form-control" name="{{ $program->id }}-link"
-                                   placeholder="https://docs.google.com/forms/.../edit"
-                                   value="{{ old($program->id . '-link', $program->link) }}">
-
-                            @if ($errors->has($program->id . '-link'))
-                                <span class="help-block">
-                                                <strong>{{ $errors->first($program->id . '-link') }}</strong>
-                                            </span>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="form-group{{ $errors->has($program->id . '-calendar') ? ' has-error' : '' }}">
-                        <label for="{{ $program->id }}-calendar" class="col-md-4 control-label">
-                            Program Event Calendar
-                        </label>
-
-                        <div class="col-md-6">
-                            <input type="text" id="{{ $program->id }}-calendar"
-                                   class="form-control" name="{{ $program->id }}-calendar"
-                                   placeholder="abcd1234@group.calendar.google.com"
-                                   value="{{ old($program->id . '-calendar', $program->calendar) }}">
-
-                            @if ($errors->has($program->id . '-calendar'))
-                                <span class="help-block">
-                                                <strong>{{ $errors->first($program->id . '-calendar') }}</strong>
-                                            </span>
-                            @endif
-                        </div>
-                    </div>
+                    @include('snippet.formgroup', ['label' => 'Program Event Calendar',
+                        'attribs' => ['name' => $program->id . '-calendar',
+                        'placeholder' => 'abcd1234@group.calendar.google.com', 'formobject' => $program]])
 
                     @if($program->id != '1008')
-                        <div class="form-group{{ $errors->has($program->id . '-letter') ? ' has-error' : '' }}">
+                        <div class="form-group row{{ $errors->has($program->id . '-letter') ? ' has-danger' : '' }}">
                             <label for="{{ $program->id }}-letter" class="col-md-4 control-label">Text of
                                 Letter to Include for Each Camper</label>
 
@@ -100,9 +55,9 @@
                                        name="{{ $program->id }}-letter"/>
 
                                 @if ($errors->has($program->id . '-letter'))
-                                    <span class="help-block">
-                                                    <strong>{{ $errors->first($program->id . '-letter') }}</strong>
-                                                </span>
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first($program->id . '-letter') }}</strong>
+                                    </span>
                                 @endif
                             </div>
                         </div>
@@ -128,11 +83,7 @@
                 </ul>
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-md-2 col-md-offset-8">
-                <button type="submit" class="btn btn-primary">Save Changes (slow)</button>
-            </div>
-        </div>
+        @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes (slow)']])
     </form>
 @endsection
 

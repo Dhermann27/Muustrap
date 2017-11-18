@@ -1,4 +1,4 @@
-<div class="form-group">
+<div class="form-group row">
     <label class="col-md-4 control-label">{{ $label }}</label>
     <div class="col-md-6 btn-group" data-toggle="buttons">
         @foreach($list as $key => $value)

@@ -8,18 +8,13 @@
 @section('content')
     <form class="form-horizontal" role="form" method="POST" action="{{ url('/tools/staffpositions') }}">
         @include('snippet.flash')
-        <ul class="nav nav-tabs" role="tablist">
-            @foreach($programs as $program)
-                <li role="presentation"{!! $loop->first ? ' class="active"' : '' !!}>
-                    <a href="#{{ $program->id }}" aria-controls="{{ $program->id }}" role="tab"
-                       data-toggle="tab">{{ $program->name }}</a></li>
-            @endforeach
-        </ul>
+
+        @include('snippet.navtabs', ['tabs' => $programs, 'id'=> 'id', 'option' => 'name'])
 
         <div class="tab-content">
             @foreach($programs as $program)
-                <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' in active' : '' }}"
-                     id="{{ $program->id }}">
+                <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
+                     aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $program->id }}">
                     <p>&nbsp;</p>
                     <table class="table table-sm w-auto">
                         <thead>
@@ -64,53 +59,16 @@
                         </tfoot>
                     </table>
 
-                    <div class="form-group{{ $errors->has($program->id . '-camperid') ? ' has-error' : '' }}">
-                        <label for="{{ $program->id }}-camper" class="col-md-4 control-label">Add
-                            New Assignment</label>
+                    @include('snippet.formgroup', ['label' => 'Add New Assignment', 'hidden' => 'id', 'class' => 'camperlist',
+                        'attribs' => ['name' => $program->id . '-camper', 'placeholder' => 'Camper Name']])
 
-                        <div class="col-md-6">
-                            <input type="text" id="{{ $program->id }}-camper"
-                                   class="form-control camperlist"
-                                   placeholder="Camper Name">
-                            <input id="{{ $program->id }}-camperid" name="{{ $program->id }}-camperid"
-                                   type="hidden">
-
-                            @if ($errors->has($program->id . '-camperid'))
-                                <span class="help-block">
-                                                <strong>{{ $errors->first($program->id . '-camperid') }}</strong>
-                                            </span>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="form-group{{ $errors->has($program->id . '-staffpositionid') ? ' has-error' : '' }}">
-                        <label for="{{ $program->id }}-staffpositionid" class="col-md-4 control-label">Position</label>
-
-                        <div class="col-md-6">
-                            <select id="{{ $program->id }}-staffpositionid"
-                                    name="{{ $program->id }}-staffpositionid" class="form-control">
-                                <option value="0">Choose a position</option>
-                                @foreach($program->staffpositions($home->year()->year)->orderBy('name')->get() as $staffposition)
-                                    <option value="{{ $staffposition->id }}">{{ $staffposition->name }}
-                                        ({{ $staffposition->compensationlevel->name }})
-                                    </option>
-                                @endforeach
-                            </select>
-
-                            @if ($errors->has($program->id . '-staffpositionid'))
-                                <span class="help-block">
-                                                <strong>{{ $errors->first($program->id . '-staffpositionid') }}</strong>
-                                            </span>
-                            @endif
-                        </div>
-                    </div>
+                    @include('snippet.formgroup', ['type' => 'select',
+                        'label' => 'Position', 'attribs' => ['name' => $program->id . '-staffpositionid'],
+                        'default' => 'Choose a position', 'option' => 'name',
+                        'list' => $program->staffpositions($home->year()->year)->orderBy('name')->get()])
                 </div>
             @endforeach
         </div>
-        <div class="form-group">
-            <div class="col-md-2 col-md-offset-8">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-            </div>
-        </div>
+        @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes']])
     </form>
 @endsection

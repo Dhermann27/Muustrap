@@ -12,37 +12,37 @@
     <div class="row-fluid">
         <div id="chart"></div>
     </div>
-        <table class="table w-80" align="center">
-            <tr>
-                <th>Year</th>
-                <th>New Campers</th>
-                <th>Old Campers<br/>1 Year Missing
-                </th>
-                <th>Very Old Campers<br/>2 or More Years Missing
-                </th>
-                <th>Campers Lost</th>
-                <th>Total</th>
+    <table class="table w-80" align="center">
+        <tr>
+            <th>Year</th>
+            <th>New Campers</th>
+            <th>Old Campers<br/>1 Year Missing
+            </th>
+            <th>Very Old Campers<br/>2 or More Years Missing
+            </th>
+            <th>Campers Lost</th>
+            <th>Total</th>
+        </tr>
+        <tbody>
+        @foreach ($summaries as $year)
+            <tr align="center">
+                <td><b>{{ $year->year }}</b></td>
+                <td>+{{ $year->newcampers }}</td>
+                <td>+{{ $year->oldcampers }}</td>
+                <td>+{{ $year->voldcampers }}</td>
+                <td>-{{ $year->lostcampers }}</td>
+                <td>{{ $year->total }}</td>
             </tr>
-            <tbody>
-            @foreach ($summaries as $year)
-                <tr align="center">
-                    <td><b>{{ $year->year }}</b></td>
-                    <td>+{{ $year->newcampers }}</td>
-                    <td>+{{ $year->oldcampers }}</td>
-                    <td>+{{ $year->voldcampers }}</td>
-                    <td>-{{ $year->lostcampers }}</td>
-                    <td>{{ $year->total }}</td>
-                </tr>
-            @endforeach
-            </tbody>
-            <tfoot>
-            <tr>
-                <td colspan="6" align="center">
-                    <i>Previous Year's Total - Lost Campers - Total Campers + New Campers
-                        + Old Campers + Very Old Campers = 0</i></td>
-            </tr>
-            </tfoot>
-        </table>
+        @endforeach
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="6" align="center">
+                <i>Previous Year's Total - Lost Campers - Total Campers + New Campers
+                    + Old Campers + Very Old Campers = 0</i></td>
+        </tr>
+        </tfoot>
+    </table>
 @endsection
 
 @section('script')

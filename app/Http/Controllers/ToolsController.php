@@ -44,17 +44,18 @@ class ToolsController extends Controller
         }
         DB::statement('CALL generate_charges(getcurrentyear());');
 
-        return $this->positionIndex('Assigned. Suckers! No backsies.');
+        $request->session()->flash('success', 'Assigned. Suckers! No backsies.');
+
+        return $this->positionIndex();
     }
 
-    public function positionIndex($success = null)
+    public function positionIndex()
     {
         $year = \App\Year::where('is_current', '1')->first()->year;
         return view('tools.positions', ['programs' => \App\Program::with(['staffpositions' => function ($query) use ($year) {
             $query->where('start_year', '<=', $year)->where('end_year', '>=', $year);
         }])->with('assignments')
-            ->orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get(),
-            'success' => $success]);
+            ->orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get()]);
     }
 
     public function nametags()
@@ -95,14 +96,15 @@ class ToolsController extends Controller
                 $program->save();
             }
         }
+        $request->session()->flash('success', 'Psssssh, great job updating your program. Yeah, you\'re a big deal now, I\'m sure. Whatever.');
 
-        return $this->programIndex('Psssssh, great job updating your program. Yeah, you\'re a big deal now, I\'m sure. Whatever.');
+        return $this->programIndex();
     }
 
-    public function programIndex($success = null)
+    public function programIndex()
     {
         return view('tools.programs', ['programs' => \App\Program::orderBy('age_min', 'desc')
-            ->orderBy('grade_min', 'desc')->get(), 'success' => $success]);
+            ->orderBy('grade_min', 'desc')->get()]);
     }
 
     public function workshopStore(Request $request)
@@ -137,7 +139,7 @@ class ToolsController extends Controller
                 $workshop->save();
             }
         }
-        $request->session()->flash('success', 'That sounds interesting; think I\'ll sign up for that one.');
+        $request->session()->flash('success', 'Underwater New Age Basket Weaving? AGAIN??');
 
         return $this->workshopIndex();
     }

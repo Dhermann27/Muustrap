@@ -5,7 +5,8 @@
     if (!isset($formobject)) {
         $old = old($attribs["name"]);
     } else {
-        $old = old($attribs["name"], $formobject[$attribs["name"]]);
+        $names = explode('-', $attribs["name"]);
+        $old = old($attribs["name"], $formobject[$names[count($names)-1]]);
     }
 @endphp
 <div class="form-group row{{ $errors->has($attribs["name"]) ? ' has-danger' : '' }}">

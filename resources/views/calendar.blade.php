@@ -15,18 +15,12 @@
 @endsection
 
 @section('content')
-    <ul class="nav nav-tabs" role="tablist">
-        @foreach($campers as $camper)
-            <li role="presentation"{!! $loop->first ? ' class="active"' : '' !!}>
-                <a href="#{{ $camper->id }}" aria-controls="{{ $camper->id }}" role="tab"
-                   data-toggle="tab">{{ $camper->firstname }} {{ $camper->lastname }}</a></li>
-        @endforeach
-    </ul>
+    @include('snippet.navtabs', ['tabs' => $campers, 'id'=> 'id', 'option' => 'fullname'])
 
     <div class="tab-content">
         @foreach($campers as $camper)
-            <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' in active' : '' }}"
-                 id="{{ $camper->id }}">
+            <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
+                 aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $camper->id }}">
                 <div id="calendar-{{ $camper->id }}"></div>
             </div>
         @endforeach

@@ -12,4 +12,9 @@ class Building extends Model
     {
         return $this->hasMany(Room::class, 'buildingid', 'id');
     }
+
+    public function getImageArrayAttribute()
+    {
+        return explode(';', $this->image);
+    }
 }

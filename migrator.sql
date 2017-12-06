@@ -474,7 +474,6 @@ CREATE VIEW thisyear_campers AS
     pronounname,
     firstname,
     lastname,
-    CONCAT(firstname, ' ', lastname) fullname,
     email,
     phonenbr,
     birthdate,

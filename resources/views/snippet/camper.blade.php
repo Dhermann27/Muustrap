@@ -289,7 +289,7 @@
     <div class="form-group row">
         <div class="col-md-10 text-md-right">
             <button type="button" class="btn btn-default next">
-                Next Camper <i class="fa fa-arrow-right"></i>
+                Next Camper <i class="fa fa-chevron-right"></i>
             </button>
         </div>
     </div>

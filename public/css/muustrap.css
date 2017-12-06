@@ -76,34 +76,6 @@ div.preview div.line1, div.preview div.line2, div.preview div.line3, div.preview
     font-size: 1.2em;
 }
 
-.opensans {
-    font-family: 'Open Sans', sans-serif;
-}
-
-.indie {
-    font-family: 'Indie Flower', sans-serif;
-}
-
-.ftg {
-    font-family: 'Fredericka the Great', sans-serif;
-}
-
-.quest {
-    font-family: 'Mystery Quest', sans-serif;
-}
-
-.vibes {
-    font-family: 'Great Vibes', sans-serif;
-}
-
-.bangers {
-    font-family: 'Bangers', sans-serif;
-}
-
-.comic {
-    font-family: 'Comic Sans MS', sans-serif;
-}
-
 div.panel {
     margin: 10px;
 }

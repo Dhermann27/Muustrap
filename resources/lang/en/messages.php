@@ -52,5 +52,12 @@ return [
                    leave for any reason, the sponsor will be required to assist the camper home.</p>
                    <p>If you are having difficulty finding a sponsor, please let us know using the
                    Contact Us form above. Oftentimes, we have adults in your area who are willing to
-                   volunteer, and may also be willing to offer transportation.</p>'
+                   volunteer, and may also be willing to offer transportation.</p>',
+    'fonts' => '<div style=\'font-size: 1.5em\'><p class=\'opensans\'>Open Sans</p>
+                                            <p class=\'indie\'>Indie Flower</p>
+                                            <p class=\'ftg\'>Fredericka the Great</p>
+                                            <p class=\'quest\'>Mystery Quest</p>
+                                            <p class=\'vibes\'>Great Vibes</p>
+                                            <p class=\'bangers\'>Bangers</p>
+                                            <p class=\'comic\'>Comic Sans</p></div>'
 ];

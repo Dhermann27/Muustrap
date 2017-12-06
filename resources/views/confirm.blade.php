@@ -15,7 +15,7 @@
 
 @section('content')
     @foreach($families as $family)
-        <div class="row" align="center">
+        <div class="text-center">
             <img src="/images/print_logo.png" alt="Welcome to MUUSA {{ $home->year()->year }}!"/>
         </div>
         <p>&nbsp;</p>
@@ -27,8 +27,10 @@
             {{ $family->city }}, {{ $family->state_code }} {{ $family->zipcd }}</h3>
         <p>&nbsp;</p>
         <table class="table table-bordered w-auto">
-            <caption>Camper Information</caption>
             <thead>
+            <tr>
+                <th colspan="8"><strong>Camper Information</strong></th>
+            </tr>
             <tr>
                 <th>Name</th>
                 <th>Preferred Pronoun</th>
@@ -57,8 +59,10 @@
         </table>
         <p>&nbsp;</p>
         <table class="table table-bordered w-auto">
-            <caption>Statement</caption>
             <thead>
+            <tr>
+                <th colspan="4"><strong>Statement</strong></th>
+            </tr>
             <tr>
                 <th>Charge Type</th>
                 <th align="right">Amount</th>
@@ -86,8 +90,10 @@
         <p>&nbsp;</p>
         @if(count($families) == 1)
             <table class="table table-bordered w-auto">
-                <caption>Workshop Signups</caption>
                 <thead>
+                <tr>
+                    <th colspan="5"><strong>Workshop Signups</strong></th>
+                </tr>
                 <tr>
                     <th>Name</th>
                     <th>Workshop</th>

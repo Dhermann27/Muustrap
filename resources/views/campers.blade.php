@@ -16,46 +16,45 @@
 @endsection
 
 @section('content')
-    <form id="camperinfo" class="form-horizontal" role="form" method="POST" action="{{ url('/camper') .
+    <div class="container">
+        <form id="camperinfo" class="form-horizontal" role="form" method="POST" action="{{ url('/camper') .
                  (isset($readonly) && $readonly === false ? '/f/' . $campers->first()->familyid : '')}}">
-        @include('snippet.flash')
+            @include('snippet.flash')
 
-        @if(count($errors))
-            <div class="alert alert-danger">
-                Changes were not saved. Please review each camper and
-                correct the errors outlined in red. {{ $errors->first() }}
-            </div>
-        @endif
-        <ul class="nav nav-tabs" role="tablist">
-            @foreach($campers as $camper)
-                @if($camper->id != '0')
-                    <li role="presentation"{!! $loop->first ? ' class="active"' : '' !!}>
-                        <a href="#{{ $camper->id }}" aria-controls="{{ $camper->id }}" role="tab"
-                           data-toggle="tab">{{ old('firstname.' . $loop->index, $camper->firstname) }}
-                            {{ old('lastname.' . $loop->index, $camper->lastname) }}
-                        </a>
+            <ul class="nav nav-tabs flex-column flex-lg-row" role="tablist">
+                @foreach($campers as $camper)
+                    @if($camper->id != '0')
+                        <li role="presentation" class="nav-item">
+                            <a href="#{{ $camper->id }}" aria-controls="{{ $camper->id }}" role="tab"
+                               class="nav-link{!! $loop->first ? ' active' : '' !!}" data-toggle="tab">
+                                {{ old('firstname.' . $loop->index, $camper->firstname) }}
+                                {{ old('lastname.' . $loop->index, $camper->lastname) }}
+                            </a>
+                        </li>
+                    @endif
+                @endforeach
+                @if(!isset($readonly) || $readonly === false)
+                    <li>
+                        <a id="newcamper" class="nav-link" href="#" role="tab">Create New Camper <i
+                                    class="fa fa-plus"></i></a>
                     </li>
                 @endif
-            @endforeach
-            @if(!isset($readonly) || $readonly === false)
-                <li>
-                    <a id="newcamper" href="#" role="tab">Create New Camper <i class="fa fa-plus"></i></a>
-                </li>
-            @endif
-        </ul>
+            </ul>
 
-        <div class="tab-content">
-            @foreach($campers as $camper)
-                @include('snippet.camper', ['camper' => $camper, 'looper' => $loop])
-            @endforeach
-        </div>
-        @if(!isset($readonly) || $readonly === false)
-            <div class="col-md-2 col-md-offset-8">
-                <button id="submit" type="button" class="btn btn-primary">Save Changes</button>
+            <div class="tab-content">
+                @foreach($campers as $camper)
+                    @include('snippet.camper', ['camper' => $camper, 'looper' => $loop])
+                @endforeach
             </div>
-        @endif
-    </form>
-    <div id="empty" class="hidden">
+            @if(!isset($readonly) || $readonly === false)
+                <div class="col-md-10 text-lg-right">
+                    <button id="submit" type="button" class="btn btn-lg btn-primary py-1 px-3">Save Changes</button>
+                    <p>&nbsp;</p>
+                </div>
+            @endif
+        </form>
+    </div>
+    <div id="empty">
         @foreach($empties as $empty)
             @include('snippet.camper', ['camper' => $empty, 'looper' => $loop])
         @endforeach
@@ -71,9 +70,6 @@
     <script type="text/javascript">
 
         $(function () {
-            @if(count($errors))
-            $('.nav-tabs a[href="#' + $("span.help-block").first().parents('div.tab-pane').attr('id') + '"]').trigger('click');
-            @endif
 
             bind($("body"));
 
@@ -81,7 +77,7 @@
             $("#newcamper").on('click', function (e) {
                 e.preventDefault();
                 var camperCount = $(".tab-content div.tab-pane").length;
-                $(this).closest('li').before('<li role="presentation"><a href="#' + camperCount + '" aria-controls="' + camperCount + '" role="tab" data-toggle="tab">New Camper</a></li>');
+                $(this).closest('li').before('<li role="presentation" class="nav-item"><a href="#' + camperCount + '" class="nav-link" data-toggle="tab">New Camper</a></li>');
                 var emptycamper = $("div#empty .tab-pane");
                 var empty = emptycamper.clone(false).attr("id", camperCount);
                 empty.find("input, select").each(function () {
@@ -91,8 +87,8 @@
                 empty.find("label").each(function () {
                     $(this).attr("for", $(this).attr("for").replace(/\d+$/, camperCount));
                 });
-                $(".tab-content").append(empty);
-                $('.nav-tabs a[href="#' + camperCount + '"]').trigger('click');
+                $("form#camperinfo .tab-content").append(empty);
+                $('.nav-tabs a[href="#' + camperCount + '"]').tab('show');
                 bind(empty);
             });
 
@@ -101,9 +97,13 @@
                 if (!confirm("You are registering " + form.find('select.days option[value!="0"]:selected').length + " campers for {{ $home->year()->year }}. Is this correct?")) {
                     return false;
                 }
-                var button = $("button#submit").html("<i class='fa fa-spinner fa-spin'></i> Saving...")
-                    .removeClass("btn-labeled btn-danger").prop("disabled", true);
-                $(".has-error").removeClass("has-error").find(".help-block").remove();
+                var button = $("button#submit");
+                var fa = window.FontAwesome;
+                var spin = fa.findIconDefinition({iconName: 'spinner-third'});
+                button.html(fa.icon(spin, {classes: ['fa-spin']}).html + " Saving").removeClass("btn-primary btn-danger").prop("disabled", true);
+                $(".has-danger").removeClass("has-danger");
+                $(".is-invalid").removeClass("is-invalid");
+                $(".invalid-feedback").remove();
                 $("div.alert").remove();
                 $.ajax({
                     url: form.attr("action"),
@@ -112,8 +112,8 @@
                     async: false,
                     success: function (data) {
                         $(".nav-tabs").before("<div class='alert alert-success'>" + data + "</div>");
-                        button.html("<span class='btn-label'><i class='fa fa-check'></i></span> Saved")
-                            .addClass("btn-labeled btn-success");
+                        var check = fa.findIconDefinition({iconName: 'check'});
+                        button.html(fa.icon(check).html + " Saved").addClass("btn-success");
                         $('html,body').animate({
                             scrollTop: 0
                         }, 700);
@@ -122,19 +122,21 @@
                         if (data.status === 500) {
                             $(".nav-tabs").before("<div class='alert alert-danger'>Unknown error occurred. Please use the Contact Us form to ask for assistance and include the approximate time you received this message.</div>");
                         } else {
-                            var errorCount = data !== undefined ? Object.keys(data.responseJSON).length : '';
-                            $.each(data.responseJSON, function (k, v) {
-                                $("#" + k.replace(".", "-")).parents(".form-group").addClass("has-error").find("div:first")
-                                    .append("<span class=\"help-block\"><strong>" + v + "</strong></span>");
+                            var errorCount = data !== undefined ? Object.keys(data.responseJSON.errors).length : '';
+                            $.each(data.responseJSON.errors, function (k, v) {
+                                var group = $("#" + k.replace(".", "-")).parents(".form-group").addClass("has-danger");
+                                group.find("select,input").addClass('is-invalid');
+                                group.find("div:first").append("<span class=\"invalid-feedback\"><strong>" + this[0] + "</strong></span>");
                             });
+                            $("span.invalid-feedback").show();
                             $(".nav-tabs").before("<div class='alert alert-danger'>You have " + errorCount + " error(s) in your form. Please adjust your entries and resubmit.</div>");
-                            $('.nav-tabs a[href="#' + $("span.help-block:first").parents('div.tab-pane').attr('id') + '"]').trigger('click');
+                            $('.nav-tabs a[href="#' + $("span.invalid-feedback:first").parents('div.tab-pane').attr('id') + '"]').tab('show');
                         }
+                        var times = fa.findIconDefinition({iconName: 'times'});
+                        button.html(fa.icon(times).html + " Resubmit").addClass("btn-danger").prop("disabled", false);
                         $('html,body').animate({
                             scrollTop: 0
                         }, 700);
-                        button.html("<span class='btn-label'><i class='fa fa-times'></i></span> Resubmit")
-                            .addClass("btn-labeled btn-danger").prop("disabled", false);
                     }
                 });
             });
@@ -155,9 +157,9 @@
                 $("select.days").val('6');
             });
             obj.find(".next").click(function () {
-                var next = $('.nav-tabs > .active').next('li').find('a');
+                var next = $('.nav-tabs .active').parent().next('li').find('a');
                 if (next.attr("id") !== 'newcamper') {
-                    next.trigger('click');
+                    next.tab('show');
                     $('html,body').animate({
                         scrollTop: 0
                     }, 700);
@@ -181,11 +183,10 @@
                     minLength: 3,
                     autoFocus: true,
                     select: function (event, ui) {
-                        $(".nav-pane").each(function () {
+                        $("form#camperinfo .tab-pane").each(function () {
                             var names = $(this).find("input.campername");
-                            if (names.length === 2 && names[0].val() === ui.item.lastname && names[1].val() === ui.item.firstname) {
+                            if (names.length === 2 && $(names[0]).val() === ui.item.firstname && $(names[1]).val() === ui.item.lastname) {
                                 alert("No need to specify a family member as a roommate/sponsor.");
-                                return false;
                             }
                         });
                         $(this).val(ui.item.firstname + " " + ui.item.lastname);

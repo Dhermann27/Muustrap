@@ -12,4 +12,9 @@
     <div class="alert alert-warning">
         {!! Session::get('warning') !!}
     </div>
+@elseif(count($errors->all())>0)
+    <div class="alert alert-danger">
+        {{ count($errors->all()) }} error{{ count($errors->all())>1 ? 's' : '' }} were found, so changes were not saved.
+        Please review each camper and correct the errors outlined in red.
+    </div>
 @endif

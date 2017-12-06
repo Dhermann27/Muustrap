@@ -1,17 +1,20 @@
 @inject('home', 'App\Http\Controllers\HomeController')
 
-<div role="tabpanel" class="tab-pane fade{{ $looper->first ? ' active show' : '' }}"
-     aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $camper->id }}">
+<div role="tabpanel" class="tab-pane fade{{ $looper->first && $camper->id != '0' ? ' active show' : '' }}"
+     aria-expanded="{{ $loop->first && $camper->id != '0' ? 'true' : 'false' }}" id="{{ $camper->id }}">
     <p>&nbsp;</p>
     <input type="hidden" id="id-{{ $looper->index }}" name="id[]" value="{{ $camper->id }}"/>
     <div class="form-group row{{ $errors->has('days.' . $looper->index) ? ' has-danger' : '' }}">
-        <label for="days-{{ $looper->index }}" class="col-md-4 control-label">Attending
-            in {{ $home->year()->year }}?</label>
-        <a href="#" class="fa fa-info" data-toggle="tooltip" data-html="true"  
-           title="<p>Use this dropdown to tell us if a family member is not attending
-                    MUUSA this year.</p><p>If this family member will be registering separately,
-                    please use the Contact Us form and we will split them off to their own
-                    registration form.</p>"></a>
+        <label for="days-{{ $looper->index }}" class="col-md-4 control-label">
+            @if($readonly === false)
+                <button id="quickme" class="float-right" data-toggle="tooltip" title="@lang('messages.quickcopy')">
+                    <i class="fa fa-copy"></i></button>
+            @else
+                <a href="#" class="p-2 float-right" data-toggle="tooltip"  data-html="true"
+                   title="@lang('messages.attending')"><i class="fa fa-info"></i></a>
+            @endif
+            Attending in {{ $home->year()->year }}?
+        </label>
 
         <div class="col-md-6">
             @if(isset($readonly))
@@ -27,10 +30,6 @@
                         Not Attending
                     </option>
                 </select>
-                @if($readonly === false)
-                    <button id="quickme" class="pull-right fa fa-bolt" data-toggle="tooltip"
-                            title="Mark everyone as attending 6 nights"></button>
-                @endif
             @else
                 <select class="form-control days{{ $errors->has('days.' . $looper->index) ? ' is-invalid' : '' }}"
                         id="days-{{ $looper->index }}" name="days[]">
@@ -51,23 +50,11 @@
         </div>
     </div>
     <div class="form-group row{{ $errors->has('pronounid.' . $looper->index) ? ' has-danger' : '' }}">
-        <label for="pronounid-{{ $looper->index }}" class="col-md-4 control-label">Gender Pronoun(s)</label>
-        <a href="#" class="fa fa-info" data-toggle="tooltip"
-           data-placement="left" data-html="true"
-           title="<strong>Why do we ask?</strong>
-                    <p>MUUSA is an intentionally inclusive community that
-                                  welcomes everyone regardless of their biological sex or gender
-                                  identification. We ask that you include your pronoun
-                                  for two reasons:</p>
-                           <p>For lodging purposes, we segregate our Junior High
-                                  campers into one of two cabins in accordance with Missouri
-                                  state law. Please contact us to make special arrangements for
-                                  any camper who would prefer alternatives.</p>
-                           <p>If you are a single camper and have not found a roommate,
-                                  our Registrar attempts to match you with someone of the same
-                                  pronoun and age range. If this applies to you, we
-                                  strongly suggest that you seek out your own roommate using
-                                  social media or your church community.</p>"></a>
+        <label for="pronounid-{{ $looper->index }}" class="col-md-4 control-label">
+            <a href="#" class="p-2 float-right" data-toggle="tooltip"  data-html="true"
+               title="@lang('messages.pronoun')"><i class="fa fa-info"></i></a>
+            Gender Pronoun(s)
+        </label>
 
         <div class="col-md-6">
             <select class="form-control{{ $errors->has('pronounid.' . $looper->index) ? ' is-invalid' : '' }}"
@@ -129,7 +116,7 @@
                 <span class="input-group-addon" id="email-addon-{{ $looper->index }}">@</span>
             </div>
             @if($camper->logged_in)
-                <span class="label label-warning">
+                <span class="alert alert-warning p-0 m-0">
                     Changing this value will also change your muusa.org login.
                 </span>
             @endif
@@ -176,15 +163,11 @@
         </div>
     </div>
     <div class="form-group row{{ $errors->has('gradyear.' . $looper->index) ? ' has-danger' : '' }}">
-        <label for="gradyear-{{ $looper->index }}" class="col-md-4 control-label">High School Graduation Year</label>
-        <a href="#" class="fa fa-info" data-toggle="tooltip"   data-placement="left" data-html="true"  
-           title="<strong>Why do we ask?</strong>
-               <p>Many of our campers begin attending before kindergarten and continue past high school. In order to
-               maintain correct historical records, we need to determine which grade our campers were in over many
-               years.</p>
-               <p>While we could simply associate a grade with year of attendance, our Webmaster has overcomplicated this
-               issue by tracking a singlular graduation year instead.</p>
-               <p><i>Clearly</i>, he has spent too much time thinking about this."></a>
+        <label for="gradyear-{{ $looper->index }}" class="col-md-4 control-label">
+            <a href="#" class="p-2 float-right" data-toggle="tooltip"  data-html="true"
+               title="@lang('messages.gradyear')"><i class="fa fa-info"></i></a>
+            High School Graduation Year
+        </label>
 
         <div class="col-md-6">
             <select class="form-control{{ $errors->has('gradyear.' . $looper->index) ? ' is-invalid' : '' }}"
@@ -205,10 +188,11 @@
         </div>
     </div>
     <div class="form-group row{{ $errors->has('roommate.' . $looper->index) ? ' has-danger' : '' }}">
-        <label for="roommate-{{ $looper->index }}" class="col-md-4 control-label">Roommate Preference</label>
-        <a href="#" class="fa fa-info" data-toggle="tooltip"   data-placement="left" data-html="true"  
-           title="<p>There is no need to add family members to this field; we assume that
-                   you would like to room with them unless contacted with another request.</p>"></a>
+        <label for="roommate-{{ $looper->index }}" class="col-md-4 control-label">
+            <a href="#" class="p-2 float-right" data-toggle="tooltip"  data-html="true"
+               title="@lang('messages.roommate')"><i class="fa fa-info"></i></a>
+            Roommate Preference
+        </label>
 
         <div class="col-md-6">
             <input id="roommate-{{ $looper->index }}" type="text"
@@ -225,19 +209,11 @@
         </div>
     </div>
     <div class="form-group row{{ $errors->has('sponsor.' . $looper->index) ? ' has-danger' : '' }}">
-        <label for="sponsor-{{ $looper->index }}" class="col-md-4 control-label">Sponsor (if
-            necessary)</label>
-        <a href="#" class="fa fa-info" data-toggle="tooltip"   data-placement="left"
-           data-html="true"  
-           title="<strong>When is a sponsor required?</strong> 
-                   <p>A sponsor is required if the camper will be under the age  of 18 on the first
-                   day of camp and a parent or legal guardian is not attending for the entire length
-                   of time that the camper will be on YMCA property. A sponsor is asked to attend
-                   the informational meetings in the parents' stead, and if the camper is asked to
-                   leave for any reason, the sponsor will be required to assist the camper home.</p>
-                   <p>If you are having difficulty finding a sponsor, please let us know using the
-                   Contact Us form above. Oftentimes, we have adults in your area who are willing to
-                   volunteer, and may also be willing to offer transportation.</p>"></a>
+        <label for="sponsor-{{ $looper->index }}" class="col-md-4 control-label">
+            <a href="#" class="p-2 float-right" data-toggle="tooltip"  data-html="true"
+               title="@lang('messages.sponsor')"><i class="fa fa-info"></i></a>
+            Sponsor (if necessary)
+        </label>
 
         <div class="col-md-6">
             <input id="sponsor-{{ $looper->index }}" type="text"
@@ -311,9 +287,9 @@
         </div>
     </div>
     <div class="form-group row">
-        <div class="col-md-2 col-md-offset-8">
+        <div class="col-md-10 text-md-right">
             <button type="button" class="btn btn-default next">
-                Next Camper
+                Next Camper <i class="fa fa-arrow-right"></i>
             </button>
         </div>
     </div>

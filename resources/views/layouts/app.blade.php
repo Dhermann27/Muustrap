@@ -18,8 +18,8 @@
 
     <link rel="stylesheet" href="/css/muustrap.css" type="text/css"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto:500"/>
-    <script defer src="/js/brands.min.js"></script>
-    <script defer src="/js/solid.min.js"></script>
+    <script defer src="/js/fa-brands.min.js"></script>
+    <script defer src="/js/fa-solid.min.js"></script>
     <script defer src="/js/fontawesome.min.js"></script>
 
     @role(['admin', 'council'])
@@ -269,7 +269,7 @@
         <div class="row">
             <div class="col-md-12">
                 <p class="mb-0">Site template by <a href="http://appstraptheme.com/" class="footer-link">AppStrap</a> |
-                    Copyright 2017 © Midwest Unitarian Universalist Summmer Assembly</p>
+                    Copyright {{ $home->year()->year }} © Midwest Unitarian Universalist Summmer Assembly</p>
             </div>
         </div>
         <a href="#top" class="btn btn-icon btn-inverse pos-fixed pos-b pos-r mr-3 mb-3 scroll-state-active"

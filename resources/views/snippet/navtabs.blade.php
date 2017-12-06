@@ -9,7 +9,9 @@
     @foreach($tabs as $tab)
         <li role="presentation" class="nav-item">
             <a href="#{{ $tab->$id }}" aria-controls="{{ $tab->$id }}" role="tab"
-               class="nav-link{!! $loop->first ? ' active' : '' !!}" data-toggle="tab">{{ $tab->$option }}</a>
+               class="nav-link{!! $loop->first ? ' active' : '' !!}" data-toggle="tab">
+                {{ $option == 'fullname' ? $tab->firstname . ' ' . $tab->lastname : $tab->$option }}
+            </a>
         </li>
     @endforeach
 </ul>

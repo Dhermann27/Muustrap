@@ -1,3 +1,4 @@
+@inject('home', 'App\Http\Controllers\HomeController')
 @extends('layouts.app')
 
 @section('title')
@@ -9,10 +10,13 @@
 @endsection
 
 @section('content')
-    <div class="col-md-10">
-        {{--<div class="alert alert-warning">--}}
-        {{--Unfortunately, all 2017 scholarship funds have been awarded. Please check back in 2018.--}}
-        {{--</div>--}}
+    @if($home->year()->is_scholarship_full == '1')
+        <div class="alert alert-warning">
+            Unfortunately, all {{ $home->year()->year }} scholarship funds have been awarded. Please check back
+            in {{ $home->year()->year+1 }}.
+        </div>
+    @endif
+    <div class="container">
         <p>In order to help with camp costs, Scholarships are awarded on a need basis. Applicants fill out YMCA
             provided forms and the YMCA reviews your application to confirm your financial needs. Based on this
             assessment the YMCA and MUUSA together provide the grant. Both MUUSA and the YMCA are committed to
@@ -31,7 +35,7 @@
 
                 Mail or fax form to:<br/>
                 US Mail: YMCA Trout Lodge, 13528 State Highway AA, Potosi, MO 63664, attn: Nicolle Wright<br/>
-                Fax: 573-438- 5752 attn: Nicolle Wright<br/>
+                Fax: 573-438-5752 attn: Nicolle Wright<br/>
                 Email: <a href="mailto:nwright@ymcastlouis.org">Nicolle Wright</a><br/>
             </li>
             <li>Contact the Scholarship Coordinator, Bill Pokorny, to say you have completed and submitted both

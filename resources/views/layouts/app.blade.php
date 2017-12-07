@@ -1,6 +1,5 @@
 @inject('home', 'App\Http\Controllers\HomeController')
-
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">

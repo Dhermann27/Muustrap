@@ -56,7 +56,7 @@ class PaymentController extends Controller
                 }
                 DB::statement('CALL generate_charges(' . $year->year . ');');
 
-                $success = 'Payment received! By paying your deposit, your room from ' . ($year->year) - 1
+                $success = 'Payment received! By paying your deposit, your room from ' . ((int)($year->year) - 1)
                     . ' has been assigned. You should receive a receipt via email for your records.';
             }
 

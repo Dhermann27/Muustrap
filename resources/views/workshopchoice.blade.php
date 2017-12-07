@@ -58,11 +58,7 @@
                         @endforeach
                     @endif
                     @if(count($campers) > 1)
-                        <div class="col-md-2 col-md-offset-8">
-                            <button type="button" class="btn btn-default next">
-                                Next Camper
-                            </button>
-                        </div>
+                        @include('snippet.formgroup', ['type' => 'next', 'label' => '', 'attribs' => ['name' => 'Next Camper']])
                     @endif
                     @if(!isset($readonly) || $readonly === false)
                         <div class="col-md-2 col-md-offset-8">
@@ -98,12 +94,6 @@
                     $("#" + $(this).attr("id") + "-workshops").val(ids.join(","));
                 });
                 return true;
-            });
-            $('.next').click(function () {
-                $('.nav-tabs > .active').next('li').find('a').trigger('click');
-                $('html,body').animate({
-                    scrollTop: 0
-                }, 700);
             });
         });
     </script>

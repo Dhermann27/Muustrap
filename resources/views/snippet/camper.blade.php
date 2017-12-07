@@ -286,11 +286,5 @@
             @endif
         </div>
     </div>
-    <div class="form-group row">
-        <div class="col-md-10 text-md-right">
-            <button type="button" class="btn btn-default next">
-                Next Camper <i class="fa fa-chevron-right"></i>
-            </button>
-        </div>
-    </div>
+    @include('snippet.formgroup', ['type' => 'next', 'label' => '', 'attribs' => ['name' => 'Next Camper']])
 </div>

@@ -322,6 +322,12 @@
             return $("<li>").append("<div>" + item.lastname + ", " + item.firstname + "</div>").appendTo(ul);
         };
     });
+    $('button.nextcamper').click(function () {
+        $('.nav-tabs .active').parent().next('li').find('a').tab('show');
+        $('html,body').animate({
+            scrollTop: 0
+        }, 700);
+    });
     @role(['admin'])
     $('tbody.editable td').on('click', function () {
         var tr = $(this).parent('tr');

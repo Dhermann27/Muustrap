@@ -151,13 +151,7 @@
                             ['id' => '5', 'name' => 'Great Vibes'], ['id' => '6', 'name' => 'Bangers'],
                             ['id' => '7', 'name' => 'Comic Sans MS']], 'option' => 'name'])
 
-                        <div class="form-group row">
-                            <div class="col-md-10 text-md-right">
-                                <button type="button" class="btn btn-default next">
-                                    Next Camper <i class="fa fa-chevron-right"></i>
-                                </button>
-                            </div>
-                        </div>
+                        @include('snippet.formgroup', ['type' => 'next', 'label' => '', 'attribs' => ['name' => 'Next Camper']])
                     </div>
                 @endforeach
             </div>
@@ -180,13 +174,6 @@
                 content: function () {
                     return this.getAttribute("title");
                 }
-            });
-
-            $('.next').click(function () {
-                $('.nav-tabs .active').parent().next('li').find('a').tab('show');
-                $('html,body').animate({
-                    scrollTop: 0
-                }, 700);
             });
 
             $(".copyAnswers").on('click', function () {

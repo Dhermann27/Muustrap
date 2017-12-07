@@ -12,7 +12,7 @@
 <div class="form-group row{{ $errors->has($attribs["name"]) ? ' has-danger' : '' }}">
     <label for="{{ $attribs["name"] }}" class="col-md-4 control-label">
         @if(isset($title))
-            <a href="#" class="p-2 float-right" data-toggle="tooltip"  data-html="true"
+            <a href="#" class="p-2 float-right" data-toggle="tooltip" data-html="true"
                title="@lang('messages.' . $title)"><i class="fa fa-info"></i></a>
         @endif
         {{ $label }}
@@ -43,9 +43,18 @@
                 {{--'attribs' => ['name' => 'g-recaptcha-response']])--}}
                 {!! app('captcha')->display() !!}
             @elseif($type == 'submit')
-                {{--@include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Senda']])--}}
+                {{--@include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes']])--}}
                 <div class="text-lg-right">
                     <input type="submit" class="btn btn-lg btn-primary py-3 px-4" value="{{ $attribs["name"] }}"/>
+                </div>
+            @elseif($type == 'next')
+                {{--@include('snippet.formgroup', ['type' => 'next', 'label' => '', 'attribs' => ['name' => 'Next Camper']])--}}
+                <div class="form-group row">
+                    <div class="col-md-10 text-md-right">
+                        <button type="button" class="btn btn-default nextcamper">{{ $attribs["name"] }}<i
+                                    class="fa fa-chevron-right"></i>
+                        </button>
+                    </div>
                 </div>
             @elseif($type == 'info')
                 {{--@include('snippet.formgroup', ['type' => 'info', 'label' => 'Email Address', 'attribs' => ['name' => 'email'],--}}

@@ -13,55 +13,42 @@
 @endsection
 
 @section('content')
-    <form id="volunteerform" class="form-horizontal" role="form" method="POST"
-          action="{{ url('/volunteer' .
-                      (isset($readonly) && $readonly === false ? '/f/' . $campers->first()->familyid : '')) }}">
-        @include('snippet.flash')
+    <div class="container">
+        <form id="volunteerform" class="form-horizontal" role="form" method="POST"
+              action="{{ url('/volunteer' . (isset($readonly) && $readonly === false ? '/f/' . $campers->first()->familyid : '')) }}">
+            @include('snippet.flash')
 
-        <ul class="nav nav-tabs" role="tablist">
-            @foreach($campers as $camper)
-                <li role="presentation"{!! $loop->first ? ' class="active"' : '' !!}>
-                    <a href="#{{ $camper->id }}" aria-controls="{{ $camper->id }}" role="tab"
-                       data-toggle="tab">{{ $camper->firstname }} {{ $camper->lastname }}</a></li>
-            @endforeach
-        </ul>
+            @include('snippet.navtabs', ['tabs' => $campers, 'id'=> 'id', 'option' => 'fullname'])
 
-        <div class="tab-content">
-            @foreach($campers as $camper)
-                <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' in active' : '' }}"
-                     id="{{ $camper->id }}">
-                    <input type="hidden" id="{{ $camper->id }}-volunteer"
-                           name="{{ $camper->id }}-volunteer" class="volunteer-choices"/>
-                    <div class="list-group col-md-4 col-sm-6">
-                        <h5>Available Positions</h5>
-                        <div class="workshoplist">
-                            @foreach($positions as $position)
-                                <button type="button" data-content="{{ $position->id }}"
-                                        id="{{ $camper->id }}-{{ $position->id }}"
-                                        class="list-group-item">
-                                    {{ $position->name }}
-                                </button>
-                            @endforeach
+            <div class="tab-content">
+                @foreach($campers as $camper)
+                    <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
+                         aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $camper->id }}">
+                        <input type="hidden" id="{{ $camper->id }}-volunteer"
+                               name="{{ $camper->id }}-volunteer" class="volunteer-choices"/>
+                        <div class="list-group col-md-4 col-sm-6">
+                            <h5>Available Positions</h5>
+                            <div class="workshoplist">
+                                @foreach($positions->sortBy('name') as $position)
+                                    <button type="button" data-content="{{ $position->id }}"
+                                            id="{{ $camper->id }}-{{ $position->id }}"
+                                            class="list-group-item">
+                                        {{ $position->name }}
+                                    </button>
+                                @endforeach
+                            </div>
                         </div>
+                        @if(count($campers) > 1)
+                            @include('snippet.formgroup', ['type' => 'next', 'label' => '', 'attribs' => ['name' => 'Next Camper']])
+                        @endif
+                        @if(!isset($readonly) || $readonly === false)
+                            @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes']])
+                        @endif
                     </div>
-                    @if(count($campers) > 1)
-                        <div class="col-md-2 col-md-offset-8">
-                            <button type="button" class="btn btn-default next">
-                                Next Camper
-                            </button>
-                        </div>
-                    @endif
-                    @if(!isset($readonly) || $readonly === false)
-                        <div class="col-md-2 col-md-offset-8">
-                            <button type="submit" class="btn btn-primary">
-                                Save Preferences
-                            </button>
-                        </div>
-                    @endif
-                </div>
-            @endforeach
-        </div>
-    </form>
+                @endforeach
+            </div>
+        </form>
+    </div>
 @endsection
 
 @section('script')
@@ -85,12 +72,6 @@
                     $("#" + $(this).attr("id") + "-volunteer").val(ids.join(","));
                 });
                 return true;
-            });
-            $('.next').click(function () {
-                $('.nav-tabs > .active').next('li').find('a').trigger('click');
-                $('html,body').animate({
-                    scrollTop: 0
-                }, 700);
             });
         });
     </script>

@@ -322,12 +322,6 @@
             return $("<li>").append("<div>" + item.lastname + ", " + item.firstname + "</div>").appendTo(ul);
         };
     });
-    $('button.nextcamper').click(function () {
-        $('.nav-tabs .active').parent().next('li').find('a').tab('show');
-        $('html,body').animate({
-            scrollTop: 0
-        }, 700);
-    });
     @role(['admin'])
     $('tbody.editable td').on('click', function () {
         var tr = $(this).parent('tr');
@@ -345,6 +339,21 @@
         }
     });
     @endrole
+    function nextCamper() {
+        var next = $('.nav-tabs .active').parent().next('li').find('a');
+        if (next !== undefined && next.attr("id") !== 'newcamper') {
+            next.tab('show');
+            $('html,body').animate({
+                scrollTop: 0
+            }, 700);
+        } else {
+            $('button:submit').trigger("focus");
+            $('html,body').animate({
+                scrollTop: 9999
+            }, 100);
+        }
+    }
+    $('button.nextcamper').click(nextCamper);
 </script>
 @endrole
 

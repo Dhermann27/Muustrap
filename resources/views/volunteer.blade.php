@@ -28,25 +28,23 @@
                                name="{{ $camper->id }}-volunteer" class="volunteer-choices"/>
                         <div class="list-group col-md-4 col-sm-6">
                             <h5>Available Positions</h5>
-                            <div class="workshoplist">
-                                @foreach($positions->sortBy('name') as $position)
-                                    <button type="button" data-content="{{ $position->id }}"
-                                            id="{{ $camper->id }}-{{ $position->id }}"
-                                            class="list-group-item">
-                                        {{ $position->name }}
-                                    </button>
-                                @endforeach
-                            </div>
+                            @foreach($positions->sortBy('name') as $position)
+                                <button type="button" data-content="{{ $position->id }}"
+                                        id="{{ $camper->id }}-{{ $position->id }}"
+                                        class="list-group-item">
+                                    {{ $position->name }}
+                                </button>
+                            @endforeach
                         </div>
                         @if(count($campers) > 1)
                             @include('snippet.formgroup', ['type' => 'next', 'label' => '', 'attribs' => ['name' => 'Next Camper']])
                         @endif
-                        @if(!isset($readonly) || $readonly === false)
-                            @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes']])
-                        @endif
                     </div>
                 @endforeach
             </div>
+            @if(!isset($readonly) || $readonly === false)
+                @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes']])
+            @endif
         </form>
     </div>
 @endsection

@@ -47,10 +47,9 @@
                 @endforeach
             </div>
             @if(!isset($readonly) || $readonly === false)
-                <div class="col-md-10 text-lg-right">
-                    <button id="submit" type="button" class="btn btn-lg btn-primary py-1 px-3">Save Changes</button>
-                    <p>&nbsp;</p>
-                </div>
+                @if(!isset($readonly) || $readonly === false)
+                    @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes']])
+                @endif
             @endif
         </form>
     </div>
@@ -92,12 +91,12 @@
                 bind(empty);
             });
 
-            $('button#submit').on('click', function (e) {
+            $('button:submit').on('click', function (e) {
                 var form = $("#camperinfo");
                 if (!confirm("You are registering " + form.find('select.days option[value!="0"]:selected').length + " campers for {{ $home->year()->year }}. Is this correct?")) {
                     return false;
                 }
-                var button = $("button#submit");
+                var button = $("button:submit");
                 var fa = window.FontAwesome;
                 var spin = fa.findIconDefinition({iconName: 'spinner-third'});
                 button.html(fa.icon(spin, {classes: ['fa-spin']}).html + " Saving").removeClass("btn-primary btn-danger").prop("disabled", true);
@@ -156,20 +155,7 @@
                 e.preventDefault();
                 $("select.days").val('6');
             });
-            obj.find(".next").click(function () {
-                var next = $('.nav-tabs .active').parent().next('li').find('a');
-                if (next.attr("id") !== 'newcamper') {
-                    next.tab('show');
-                    $('html,body').animate({
-                        scrollTop: 0
-                    }, 700);
-                } else {
-                    $('button#submit').trigger("focus");
-                    $('html,body').animate({
-                        scrollTop: 9999
-                    }, 700);
-                }
-            });
+            obj.find(".next").click(nextCamper);
             obj.find(".campername").on("change", function () {
                 var tab = $(this).parents('div.tab-pane');
                 var name = tab.find("input.campername");

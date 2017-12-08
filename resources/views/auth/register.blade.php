@@ -13,7 +13,7 @@
                 <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
                 <div class="col-md-6">
-                    <input id="email" type="email" class="form-control" name="email"
+                    <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email"
                            value="{{ old('email', isset($_GET['email']) ? $_GET['email'] : '') }}" required>
 
                     @if ($errors->has('email'))
@@ -28,7 +28,7 @@
                 <label for="password" class="col-md-4 control-label">Password</label>
 
                 <div class="col-md-6">
-                    <input id="password" type="password" class="form-control" name="password" required>
+                    <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
 
                     @if ($errors->has('password'))
                         <span class="invalid-feedback">

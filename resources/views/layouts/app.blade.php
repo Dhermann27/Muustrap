@@ -1,5 +1,5 @@
 @inject('home', 'App\Http\Controllers\HomeController')
-<!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -171,8 +171,11 @@
                                                         data-toggle="tab" data-target=".menu-tab-1" role="tab">
                                         Register for {{ $home->year()->year }}</a></li>
                                 <li class="nav-item"><a class="nav-link p-3 text-center font-weight-bold"
-                                                        data-toggle="tab" data-target=".menu-tab-2" role="tab">MUUSA
-                                        Info</a></li>
+                                                        data-toggle="tab" data-target=".menu-tab-2" role="tab">
+                                        General Info</a></li>
+                                <li class="nav-item"><a class="nav-link p-3 text-center font-weight-bold"
+                                                        data-toggle="tab" data-target=".menu-tab-3" role="tab">
+                                        2018 Info</a></li>
                             </ul>
                             <div class="tab-content py-3">
                                 <div class="tab-pane active show menu-tab-1" role="tabpanel">
@@ -221,6 +224,31 @@
                                                 <i class="fa fa-calculator fa-5x"></i>
                                                 <h5 class="mt-2">Cost Calculator</h5>
                                                 <p>Estimate your fees</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane menu-tab-3" role="tabpanel">
+                                    <div class="row text-center">
+                                        <div class="col-lg-4 py-2">
+                                            <a href="#">
+                                                <i class="fa fa-map fa-5x"></i>
+                                                <h5 class="mt-2">Workshops</h5>
+                                                <p>Coming soon!</p>
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-4 py-2">
+                                            <a href="#">
+                                                <i class="fa fa-binoculars fa-5x"></i>
+                                                <h5 class="mt-2">Excursions</h5>
+                                                <p>Coming soon!</p>
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-4 py-2">
+                                            <a href="{{ url('/themespeaker') }}">
+                                                <i class="fa fa-microphone fa-5x"></i>
+                                                <h5 class="mt-2">Theme Speaker</h5>
+                                                <p>Reverend Nic Cable</p>
                                             </a>
                                         </div>
                                     </div>
@@ -339,6 +367,7 @@
         }
     });
     @endrole
+
     function nextCamper() {
         var next = $('.nav-tabs .active').parent().next('li').find('a');
         if (next !== undefined && next.attr("id") !== 'newcamper') {
@@ -353,6 +382,7 @@
             }, 100);
         }
     }
+
     $('button.nextcamper').click(nextCamper);
 </script>
 @endrole

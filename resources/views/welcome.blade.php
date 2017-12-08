@@ -419,8 +419,7 @@
     <div class="p-5 bg-faded bg-video" data-bg-video="https://s3.us-east-2.amazonaws.com/muusa/jumpintoit.webm"
          data-settings='{"position":"33% 33%", "muted": "1", "posterType": "jpg"}'>
         <div id="jumpintoit" class="row">
-            <div class="col-md-4 text-md-right"><i class="fa fa-thumbs-up fa-5x"></i></div>
-            <div class="col-md-4">
+            <div class="col-md-6 text-md-right">
                 <h2 class="display-3">
                     Join us!
                 </h2>
@@ -428,7 +427,7 @@
         </div>
     </div>
 
-    <div class="p-3 py-lg-6 bg-inverse">
+    <div class="p-3 py-lg-6 bg-dark">
         <div class="container">
             <h2 class="text-white text-center text-uppercase font-weight-bold my-0">
                 Quotes from the community

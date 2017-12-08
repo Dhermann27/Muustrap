@@ -3,31 +3,32 @@
 
 @section('content')
     <div class="jumbotron">
-        <h1>MUUSA</h1>
-        <p>An annual intergenerational Unitarian Universalist retreat for
-            fun, fellowship, and personal growth</p>
-        <div class="row">
-            <div class="col-md-4">
-                <div>
-                    <span class="fa fa-map-marker fa-4x"></span>
+        <div class="container py-4 py-lg-6">
+            <h2 class="text-center text-uppercase font-weight-bold my-0" data-animate="fadeIn" data-animate-delay="0.3">
+                MUUSA
+            </h2>
+            <hr class="hr-lg mt-0 mb-3 w-10 mx-auto hr-primary" data-animate="fadeIn" data-animate-delay="0.3"/>
+            <h4 class="text-center mt-2 mb-0 py-5" data-animate="fadeIn" data-animate-delay="0.7">
+                An annual intergenerational Unitarian Universalist retreat for
+                fun, fellowship, and personal growth
+            </h4>
+            <div class="row">
+                <div class="col-md-4" data-animate="fadeIn" data-animate-delay="1.0">
+                    <i class="fa fa-map-marker-alt fa-3x"></i>
+                    <p><strong>Located</strong><br/>
+                        at Trout Lodge in the YMCA of the Ozarks near Potosi, Missouri</p>
                 </div>
-                <h3>Located</h3>
-                <p>at Trout Lodge in the YMCA of the Ozarks near Potosi, Missouri</p>
-            </div>
-            <div class="col-md-4">
-                <div>
-                    <span class="fa fa-calendar fa-4x"></span>
+                <div class="col-md-4" data-animate="fadeIn" data-animate-delay="1.2">
+                    <i class="fa fa-calendar-alt fa-3x"></i>
+                    <p><strong>Scheduled</strong><br/>
+                        {{ $home->year()->first_day }} through {{ $home->year()->last_day }} {{ $home->year()->year }}
+                    </p>
                 </div>
-                <h3>Scheduled</h3>
-                <p>{{ $home->year()->first_day }} through {{ $home->year()->last_day }} {{ $home->year()->year }}</p>
-            </div>
-            <div class="col-md-4">
-                <div>
-                    <span class="fa fa-fire fa-4x"></span>
+                <div class="col-md-4" data-animate="fadeIn" data-animate-delay="1.4">
+                    <i class="fa fa-fire fa-3x"></i>
+                    <p><strong>All are welcome</strong><br/>
+                        regardless of age, race, ethnicity, gender, sexual orientation, social class or ability</p>
                 </div>
-                <h3>All are welcome</h3>
-                <p>regardless of age, race, ethnicity, gender, sexual
-                    orientation, social class or ability</p>
             </div>
         </div>
     </div>
@@ -221,125 +222,140 @@
             </a>
         </div>
     @endif
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Get Registered for {{ $home->year()->year }}</h3>
-                </div>
-                @if (Auth::guest())
-                    <div class="panel-body">
-                        <div class="col-md-6 text-center">
-                            <a class="booty" href="{{ url('/login') }}">Login</a></div>
-                        <div class="col-md-6">
-                            <a class="booty" href="{{ url('/register') }}">Create Account</a></div>
-                    </div>
-                @elseif($registered == '0')
-                    <div class="panel-body">
-                        <div class="col-md-3 col-md-offset-5 text-center">
-                            <p>&nbsp;</p>
-                            <a href="{{ url('/household') }}">
-                                <div class="pulse-button">Register<br/>Now</div>
-                            </a>
-                            <p>Got 5 minutes? Let's begin the 3-step registration process!</p>
-                        </div>
-                    </div>
-                @else
-                    <div class="panel-body">
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-{{ $paid == '1' ? 'success' : 'warning' }} progress-bar-striped"
-                                 role="progressbar" aria-valuenow="{{ $paid == '1' ? '100' : '66' }}" aria-valuemin="0"
-                                 aria-valuemax="100"
-                                 style="width: {{ $paid == '1' ? '100' : '66' }}%">
-                                @if($paid == '1')
-                                    Registration complete!
-                                @else
-                                    Registered but deposit not yet paid...
-                                @endif
-                            </div>
-                        </div>
-                        <div class="col-md-4 text-center">
-                            <i class="fa fa-home fa-5x"></i><br/>
-                            <h4>Household Information</h4>
-                            <p>Go to this page to update your address and other mailing information.</p>
-                            <a class="booty" href="{{ url('/household') }}">Update Household <i
-                                        class="fa fa-arrow-right"></i>
-                            </a>
-                        </div>
-                        <div class="col-md-4 text-center">
-                            <i class="fa fa-group fa-5x"></i><br/>
-                            <h4>Camper Listing</h4>
-                            <p>This page can help you update your information specific to {{ $home->year()->year }} and
-                                actually
-                                perform the registation.</p>
-                            <a class="booty" href="{{ url('/camper') }}">Update Campers <i
-                                        class="fa fa-arrow-right"></i>
-                            </a>
-                        </div>
-                        <div class="col-md-4 text-center">
-                            <i class="fa fa-money fa-5x"></i><br/>
-                            <h4>Payment</h4>
-                            <p>After completing your registration, go to this page to check your balance and make a
-                                payment.</p>
-                            <a class="booty" href="{{ url('/payment') }}">View Statement <i
-                                        class="fa fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                @endif
+    @if(Auth::guest() || $registered == '0')
+        <div class="row bg-faded p-3">
+            <div class="col-12 col-lg-7 py-2">
+                <h3 class="text-uppercase font-weight-bold mt-0 mb-2">Get Registered for {{ $home->year()->year }}</h3>
+                <h5 class="text-grey-dark">Complete the five-minute process to register yourself for camp.</h5>
+            </div>
+            <div class="col-12 col-lg-5 py-2 text-lg-right">
+                <a href="{{ Auth::guest() ? url('/register') : url('/household') }}"
+                   class="btn btn-lg btn-primary py-3 px-4">Register <i class="fa fa-arrow-right"></i></a>
             </div>
         </div>
-    </div>
+    @else
+        <div class="bg-faded py-3 py-lg-6">
+            <div class="container">
+                <h2 class="text-center text-uppercase font-weight-bold my-0">
+                    {{ $home->year()->year }} Registration
+                </h2>
+                <hr class="hr-lg mt-0 mb-3 w-10 mx-auto hr-primary"/>
+                <div class="progress-bar progress-{{ $paid == '1' ? 'success' : 'warning' }} w-{{ $paid == '1' ? '100' : '66' }}"
+                     role="progressbar" aria-valuenow="{{ $paid == '1' ? '100' : '66' }}" aria-valuemin="0"
+                     aria-valuemax="100">
+                    @if($paid == '1')
+                        Registration complete!
+                    @else
+                        Registered but deposit not yet paid...
+                    @endif
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft" data-animate-delay="0.2">
+                            <h3>Household Information</h3>
+                            <p class="price-banner border-grey card-body-overlap"><i class="fa fa-home fa-5x"></i>
+                            </p>
+                            <div class="card-body">
+                                <p>Go to this page to update your address and other information communal to everyone in
+                                    your family.</p>
+                                <a href="{{ url('/household') }}" class="btn btn-primary btn-block btn-rounded">Update
+                                    Household</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft" data-animate-delay="0.4">
+                            <h3>Camper Listing</h3>
+                            <p class="price-banner border-grey card-body-overlap"><i class="fa fa-users fa-5x"></i>
+                            </p>
+                            <div class="card-body">
+                                <p>This page can help you update your information specific to {{ $home->year()->year }}
+                                    and
+                                    choose which campers to register.</p>
+                                <a href="{{ url('/camper') }}" class="btn btn-primary btn-block btn-rounded">Update
+                                    Campers</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft" data-animate-delay="0.6">
+                            <h3>Payment</h3>
+                            <p class="price-banner border-grey card-body-overlap"><i class="fa fa-usd-square fa-5x"></i>
+                            </p>
+                            <div class="card-body">
+                                <p>After completing your registration, go to this page to check your balance and make a
+                                    payment.</p>
+                                <a href="{{ url('/payment') }}" class="btn btn-primary btn-block btn-rounded">View
+                                    Statement</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
     <div class="row">
         <div id="spacer1" class="col-md-12 parallax">
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">What is MUUSA like?</h3>
+    <div class="bg-faded py-3 py-lg-6">
+        <div class="container">
+            <h2 class="text-center text-uppercase font-weight-bold my-0">
+                What is MUUSA like?
+            </h2>
+            <hr class="hr-lg mt-0 mb-3 w-10 mx-auto hr-primary"/>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft" data-animate-delay="0.2">
+                        <h3>Programs</h3>
+                        <p class="price-banner border-grey card-body-overlap"><i class="fa fa-sitemap fa-5x"></i>
+                        </p>
+                        <div class="card-body">
+                            <p>Most of MUUSA programming is divided into age groups. Find out what to expect for
+                                anyone, young and old, at our retreat.</p>
+                            <a href="{{ url('/programs') }}" class="btn btn-primary btn-block btn-rounded">List
+                                Programs</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="panel-body">
-                    <div class="col-md-3 text-center">
-                        <p>&nbsp;</p>
-                        <i class="fa fa-sitemap fa-5x"></i><br/>
-                        <h4>Programs</h4>
-                        <p>Most of MUUSA programming is divided into age groups. Find out what to expect for
-                            anyone, young and old, at our retreat.</p>
-                        <a class="booty" href="{{ url('/programs') }}">List Programs <i
-                                    class="fa fa-arrow-right"></i>
-                        </a>
+                <div class="col-md-3">
+                    <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft" data-animate-delay="0.4">
+                        <h3>Housing</h3>
+                        <p class="price-banner border-grey card-body-overlap"><i class="fa fa-bath fa-5x"></i>
+                        </p>
+                        <div class="card-body">
+                            <p>Thanks to the amazing staff and facilities at YMCA of the Ozarks, we have several types
+                                of housing options available.</p>
+                            <a href="{{ url('/housing') }}" class="btn btn-primary btn-block btn-rounded">See Room
+                                Types</a>
+                        </div>
                     </div>
-                    <div class="col-md-3 text-center">
-                        <p>&nbsp;</p>
-                        <i class="fa fa-bath fa-5x"></i><br/>
-                        <h4>Housing</h4>
-                        <p>Thanks to the amazing staff at YMCA of the Ozarks, we have several types of housing
-                            options available.</p>
-                        <a class="booty" href="{{ url('/housing') }}">See Room Types <i
-                                    class="fa fa-arrow-right"></i>
-                        </a>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft" data-animate-delay="0.6">
+                        <h3>Cost Calculator</h3>
+                        <p class="price-banner border-grey card-body-overlap"><i class="fa fa-calculator fa-5x"></i>
+                        </p>
+                        <div class="card-body">
+                            <p>Use this helpful tool to help estimate how much MUUSA will cost this year. Full
+                                details can be found in the brochure.</p>
+                            <a href="{{ url('/cost') }}" class="btn btn-primary btn-block btn-rounded">Use
+                                Calculator</a>
+                        </div>
                     </div>
-                    <div class="col-md-3 text-center">
-                        <p>&nbsp;</p>
-                        <i class="fa fa-calculator fa-5x"></i><br/>
-                        <h4>Camp Cost Calculator</h4>
-                        <p>Use this helpful tool to help estimate how much MUUSA will cost this year. Full
-                            details can be found in the brochure.</p>
-                        <a class="booty" href="{{ url('/cost') }}">Use Calculator <i
-                                    class="fa fa-arrow-right"></i>
-                        </a>
-                    </div>
-                    <div class="col-md-3 text-center">
-                        <p>&nbsp;</p>
-                        <i class="fa fa-universal-access fa-5x"></i><br/>
-                        <h4>Scholarships</h4>
-                        <p>By partnering with our facility, YMCA of the Ozarks, MUUSA is able to offer financial
-                            assistance for those in need.</p>
-                        <a class="booty" href="{{ url('/scholarship') }}">Find Details <i
-                                    class="fa fa-arrow-right"></i>
-                        </a>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft" data-animate-delay="0.8">
+                        <h3>Scholarships</h3>
+                        <p class="price-banner border-grey card-body-overlap"><i
+                                    class="fa fa-universal-access fa-5x"></i>
+                        </p>
+                        <div class="card-body">
+                            <p>By partnering with our facility, YMCA of the Ozarks, MUUSA is able to offer
+                                financial assistance for those in need.</p>
+                            <a href="{{ url('/scholarship') }}" class="btn btn-primary btn-block btn-rounded">Find
+                                Details</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -349,55 +365,115 @@
         <div id="spacer2" class="col-md-12 parallax">
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">What is new for MUUSA in {{ $home->year()->year }}?</h3>
+    <div class="bg-faded py-3 py-lg-6">
+        <div class="container">
+            <h2 class="text-center text-uppercase font-weight-bold my-0">
+                What is new for MUUSA in {{ $home->year()->year }}?
+            </h2>
+            <hr class="hr-lg mt-0 mb-3 w-10 mx-auto hr-primary"/>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft" data-animate-delay="0.2">
+                        <h3>Workshops</h3>
+                        <p class="price-banner border-grey card-body-overlap"><i class="fa fa-map fa-5x"></i>
+                        </p>
+                        <div class="card-body">
+                            <p>Here is a list of all {{ ($home->year()->year)-1 }} workshops, to give you a better idea
+                                of what to expect
+                                next year.</p>
+                            <a href="{{ url('/workshops') }}" class="btn btn-primary btn-block btn-rounded">View
+                                Workshops</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="panel-body">
-                    <div class="col-md-4 text-center">
-                        <p>&nbsp;</p>
-                        <i class="fa fa-map-o fa-5x"></i><br/>
-                        <h4>Workshops</h4>
-                        <p>Here is a list of all 2017 workshops, to give you a better idea of what to expect next
-                            year.</p>
-                        <a class="booty" href="{{ url('/workshops') }}">View Workshops <i
-                                    class="fa fa-arrow-right"></i>
-                        </a>
+                <div class="col-md-4">
+                    <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft" data-animate-delay="0.4">
+                        <h3>Excursions</h3>
+                        <p class="price-banner border-grey card-body-overlap"><i class="fa fa-binoculars fa-5x"></i>
+                        </p>
+                        <div class="card-body">
+                            <p>This is where you can find more details about the single-day trips planned in
+                                {{ ($home->year()->year)-1 }}, which may change in {{ $home->year()->year }}.</p>
+                            <a href="{{ url('/excursions') }}" class="btn btn-primary btn-block btn-rounded">View
+                                Excursions</a>
+                        </div>
                     </div>
-                    <div class="col-md-4 text-center">
-                        <p>&nbsp;</p>
-                        <i class="fa fa-binoculars fa-5x"></i><br/>
-                        <h4>Excursions</h4>
-                        <p>This is where you can find more details about the single-day trips planned in 2017, which may
-                            change in 2018.</p>
-                        <a class="booty" href="{{ url('/excursions') }}">View Excursions <i
-                                    class="fa fa-arrow-right"></i>
-                        </a>
-                    </div>
-                    <div class="col-md-4 text-center">
-                        <p>&nbsp;</p>
-                        <i class="fa fa-microphone fa-5x"></i><br/>
-                        <h4>Theme Speaker</h4>
-                        <p>Find out more information about our Theme Speaker, Nic Cable.</p>
-                        <a class="booty" href="{{ url('/themespeaker') }}">View Biography <i
-                                    class="fa fa-arrow-right"></i>
-                        </a>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft" data-animate-delay="0.6">
+                        <h3>Theme Speaker</h3>
+                        <p class="price-banner border-grey card-body-overlap"><i class="fa fa-microphone fa-5x"></i>
+                        </p>
+                        <div class="card-body">
+                            <p>Find out more information about our {{ $home->year()->year }} Theme Speaker, Reverend Nic
+                                Cable.</p>
+                            <a href="{{ url('/themespeaker') }}" class="btn btn-primary btn-block btn-rounded">View
+                                Biography</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <a href="https://www.facebook.com/{{ Auth::guest() ? 'Muusa2013/' : 'groups/Muusans/'}}" id="fb"
-       class="social fa fa-facebook-official fa-3x"></a>
-    <a href="https://twitter.com/muusa1" id="twtr" class="social fa fa-twitter-square fa-3x"></a>
-    @if(Auth::check())
-        <a href="{{ url('/directory') }}" id="od" class="social fa fa-address-book fa-3x"></a>
-        @if($home->year()->isLive())
-            <a href="{{ url('/calendar') }}" id="cal" class="social fa fa-calendar fa-3x"></a>
-        @endif
-    @endif
+
+    <div class="p-5 bg-faded bg-video" data-bg-video="https://s3.us-east-2.amazonaws.com/muusa/jumpintoit.webm"
+         data-settings='{"position":"33% 33%", "muted": "1", "posterType": "jpg"}'>
+        <div id="jumpintoit" class="row">
+            <div class="col-md-6 text-md-right">
+                <h2 class="display-3">
+                    Join us!
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-3 py-lg-6 bg-dark">
+        <div class="container">
+            <h2 class="text-white text-center text-uppercase font-weight-bold my-0">
+                Quotes from the community
+            </h2>
+            <hr class="hr-lg mt-0 mb-3 w-10 mx-auto hr-primary"/>
+            <h5 class="text-center font-weight-light mt-2 mb-0 text-grey">
+                Over 60% of our campers return for multiple years
+            </h5>
+            <hr class="mb-5 w-50 mx-auto"/>
+            <div class="row">
+                <div class="col-md-4 d-md-flex">
+                    <blockquote class="blockquote-bubble text-center" data-animate="flipInY" data-animate-delay="0.2">
+                        <p class="blockquote-bubble-content bg-white">"When you hear about the kinds of
+                            experiences that change kids' lives, this is what they are talking about."</p>
+                        <small class="text-grey">
+                            Karen S.
+                            <span class="text-primary font-weight-bold">/</span>
+                            Wheaton, Illinois
+                        </small>
+                    </blockquote>
+                </div>
+                <div class="col-md-4 d-md-flex">
+                    <blockquote class="blockquote-bubble text-center" data-animate="flipInY" data-animate-delay="0.4">
+                        <p class="blockquote-bubble-content bg-white text-center">"I love that I started the week not
+                            knowing anyone except my children, but ended the week with lifelong friends."</p>
+                        <small class="text-grey">
+                            Geeta P.
+                            <span class="text-primary font-weight-bold">/</span>
+                            Colorado Springs, Colorado
+                        </small>
+                    </blockquote>
+                </div>
+                <div class="col-md-4 d-md-flex">
+                    <blockquote class="blockquote-bubble text-center" data-animate="flipInY" data-animate-delay="0.6">
+                        <p class="blockquote-bubble-content bg-white text-center">"MUUSA is one of the few communities
+                            in the faith where I know I can count on leadership to listen to trans folk."</p>
+                        <small class="text-grey">
+                            Taylor P.
+                            <span class="text-primary font-weight-bold">/</span>
+                            Pittsburgh, Pennsylvania
+                        </small>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('script')

@@ -10,15 +10,14 @@ class PaymentController extends Controller
 {
     public function store(Request $request)
     {
-        /*$messages = [
+        $messages = [
             'donation.max' => 'Please use the Contact Us form at the top of the screen (Subject: Treasurer) to commit to a donation above $100.00.',
         ];
 
-        setlocale(LC_MONETARY, 'en_US.UTF-8');
         $this->validate($request, [
             'donation' => 'min:0|max:100',
             'amount' => 'required|min:0'
-        ], $messages);*/
+        ], $messages);
 
         $thiscamper = \App\Camper::where('email', Auth::user()->email)->first();
         if ($thiscamper !== null) {
@@ -33,23 +32,7 @@ class PaymentController extends Controller
                 );
             }
         }
-//        $gateway = new Braintree_Gateway(array(
-//            'accessToken' => env('PAYPAL_TOKEN')
-//        ));
-//
-//        $result = $gateway->transaction()->sale([
-//            "amount" => $request->amount,
-//            'merchantAccountId' => 'USD',
-//            "paymentMethodNonce" => $request->nonce,
-//            "options" => [
-//                "paypal" => [
-//                    "description" => "Midwest Unitarian Universalist Summer Assembly fees"
-//                ],
-//            ]
-//        ]);
-//
-        $success = '';
-        $error = '';
+
         if (!empty($request->txn)) {
             DB::table('charges')->insert(
                 ['camperid' => $thiscamper->id, 'amount' => '-' . $request->amount, 'memo' => $request->txn,
@@ -73,27 +56,23 @@ class PaymentController extends Controller
                 }
                 DB::statement('CALL generate_charges(' . $year->year . ');');
 
-                $success = 'Payment received! By paying your deposit, your room from ' . ($year->year) - 1
+                $success = 'Payment received! By paying your deposit, your room from ' . ((int)($year->year) - 1)
                     . ' has been assigned. You should receive a receipt via email for your records.';
             }
 
+            $request->session()->flash('success', $success);
 
         } else {
-            $error = 'Error. Payment was not processed by MUUSA.';
+            $request->session()->flash('error', 'Payment was not processed by MUUSA. If you believe that PayPal has transmitted funds, please contact the Treasurer so we can confirm and update your account.');
         }
 
-        return $this->index($success, $error);
+        return $this->index();
 
     }
 
-    public function index($success = null, $error = null)
+    public function index()
     {
         $env = env('APP_ENV');
-
-//        setlocale(LC_MONETARY, 'en_US.UTF-8');
-//        $gateway = new Braintree_Gateway(array(
-//            'accessToken' => env('PAYPAL_TOKEN')
-//        ));
 
         $charges = [];
         $deposit = 0.0;
@@ -107,10 +86,8 @@ class PaymentController extends Controller
         }
 
         $token = env('PAYPAL_CLIENT');
-//        $token = $gateway->clientToken()->generate();
         return view('payment',
-            ['token' => $token, 'env' => $env, 'charges' => $charges, 'deposit' => $deposit,
-                'success' => $success, 'error' => $error]);
+            ['token' => $token, 'env' => $env, 'charges' => $charges, 'deposit' => $deposit]);
     }
 
     public function write(Request $request, $id)
@@ -158,11 +135,13 @@ class PaymentController extends Controller
             $success .= 'Your room from ' . ((int)($year->year) - 1) . ' been assigned. ';
         }
 
-        return $this->read('f', $id, $success . 'Rocking it today! But what about their <a href="' . url('/workshopchoice/f/' . $id) . '">workshops</a>?');
+        $request->session()->flash('success', $success . 'Rocking it today! But what about their <a href="' . url('/workshopchoice/f/' . $id) . '">workshops</a>?');
+
+        return $this->read('f', $id);
 
     }
 
-    public function read($i, $id, $success = null)
+    public function read($i, $id)
     {
         $readonly = \Entrust::can('read') && !\Entrust::can('write');
         $family = \App\Family::find($this->getFamilyId($i, $id));
@@ -170,7 +149,7 @@ class PaymentController extends Controller
             ->orderBy('year')->orderBy('timestamp')->get()->groupBy('year');
 
         return view('admin.payment', ['chargetypes' => \App\Chargetype::where('is_shown', '1')->orderBy('name')->get(),
-            'years' => $years, 'success' => $success, 'readonly' => $readonly, 'family' => $family]);
+            'years' => $years, 'readonly' => $readonly, 'family' => $family]);
     }
 
     private function getFamilyId($i, $id)

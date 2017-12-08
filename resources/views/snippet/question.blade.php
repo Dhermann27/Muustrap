@@ -1,4 +1,4 @@
-<div class="form-group">
+<div class="form-group row">
     <label for="{{ $name }}" class="control-label col-md-8">{{ $label }}</label>
 
     <div class="col-md-2">

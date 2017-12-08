@@ -38,8 +38,8 @@ class VolunteerController extends Controller
             }
         }
 
-        $success = 'Your volunteer positions have been updated.';
-        return $this->index($success);
+        $request->session()->flash('success', 'Your volunteer positions have been updated.');
+        return $this->index();
     }
 
     private function getCampers($id)
@@ -47,11 +47,10 @@ class VolunteerController extends Controller
         return \App\Thisyear_Camper::where('familyid', $id)->orderBy('birthdate')->get();
     }
 
-    public function index($success = null)
+    public function index()
     {
         return view('volunteer', ['positions' => \App\Volunteerposition::all(),
-            'campers' => $this->getCampers(\App\Camper::where('email', Auth::user()->email)->first()->familyid),
-            'success' => $success
+            'campers' => $this->getCampers(\App\Camper::where('email', Auth::user()->email)->first()->familyid)
         ]);
 
     }
@@ -84,16 +83,14 @@ class VolunteerController extends Controller
             }
         }
 
-
-        $success = 'I bet nobody reads these and all my clever quips are for nothing!';
-        return $this->read('f', $id, $success);
+        $request->session()->flash('success', 'I bet nobody reads these and all my clever quips are for nothing!');
+        return $this->read('f', $id);
     }
 
-    public function read($i, $id, $success = null)
+    public function read($i, $id)
     {
         $readonly = \Entrust::can('read') && !\Entrust::can('write');
-        return view('volunteer', ['positions' => \App\Volunteerposition::all(),
-            'campers' => $this->getCampers($i == 'f' ? $id : \App\Camper::find($id)->familyid),
-            'success' => $success, 'readonly' => $readonly]);
+        return view('volunteer', ['positions' => \App\Volunteerposition::all(),  'readonly' => $readonly,
+            'campers' => $this->getCampers($i == 'f' ? $id : \App\Camper::find($id)->familyid)]);
     }
 }

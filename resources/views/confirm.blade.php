@@ -5,127 +5,138 @@
     <link rel="stylesheet" href="/css/print.css" type="text/css" media="print"/>
 @endsection
 
+@section('title')
+    MUUSA Confirmation Letter
+@endsection
+
+@section('heading')
+    Welcome to MUUSA {{ $home->year()->year }}!
+@endsection
+
 @section('content')
-    <p>&nbsp;</p>
     @foreach($families as $family)
-        <div class="container">
-            <div class="row" align="center">
-                <img src="/images/print_logo.png" alt="Welcome to MUUSA {{ $home->year()->year }}!"/>
-            </div>
-            <p>&nbsp;</p>
-            <h3>{{ $family->family_name }}<br/>
-                {{ $family->address1 }}<br/>
-                @if(!empty($family->address2))
-                    {{ $family->address2 }}<br/>
-                @endif
-                {{ $family->city }}, {{ $family->state_code }} {{ $family->zipcd }}</h3>
-            <p>&nbsp;</p>
-            <table class="table table-responsive table-bordered">
-                <caption>Camper Information</caption>
+        <div class="text-center">
+            <img src="/images/print_logo.png" alt="Welcome to MUUSA {{ $home->year()->year }}!"/>
+        </div>
+        <p>&nbsp;</p>
+        <h3>{{ $family->family_name }}<br/>
+            {{ $family->address1 }}<br/>
+            @if(!empty($family->address2))
+                {{ $family->address2 }}<br/>
+            @endif
+            {{ $family->city }}, {{ $family->state_code }} {{ $family->zipcd }}</h3>
+        <p>&nbsp;</p>
+        <table class="table table-bordered w-auto">
+            <thead>
+            <tr>
+                <th colspan="8"><strong>Camper Information</strong></th>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <th>Preferred Pronoun</th>
+                <th>Email Address</th>
+                <th>Phone Number</th>
+                <th>Birthdate</th>
+                <th>Program</th>
+                <th>Church</th>
+                <th>Assigned Room</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($family->campers as $camper)
+                <tr>
+                    <td>{{ $camper->firstname }} {{ $camper->lastname }}</td>
+                    <td>{{ $camper->pronounname }}</td>
+                    <td>{{ !empty($camper->email) ? $camper->email : '&nbsp;' }}</td>
+                    <td>{{ !empty($camper->phonenbr) ? $camper->formatted_phone : '&nbsp;' }}</td>
+                    <td>{{ $camper->birthday }}</td>
+                    <td>{{ $camper->programname }}</td>
+                    <td>{{ $camper->churchname }}</td>
+                    <td>{{ $camper->buildingname }} {{ $camper->roomid != '1170' ? $camper->room_number : ''}}</td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+        <p>&nbsp;</p>
+        <table class="table table-bordered w-auto">
+            <thead>
+            <tr>
+                <th colspan="4"><strong>Statement</strong></th>
+            </tr>
+            <tr>
+                <th>Charge Type</th>
+                <th align="right">Amount</th>
+                <th align="center">Date</th>
+                <th>Memo</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($family->charges()->orderBy('timestamp')->get() as $charge)
+                <tr>
+                    <td>{{ $charge->chargetypename }}</td>
+                    <td class="amount" align="right">${{ money_format('%.2n', $charge->amount) }}</td>
+                    <td align="center">{{ $charge->timestamp }}</td>
+                    <td>{{ $charge->memo }}</td>
+                </tr>
+            @endforeach
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="3" align="right"><strong>Amount Due on {{ $home->year()->start_date }}:</strong></td>
+                <td>${{ money_format('%.2n', $family->charges->sum('amount')) }}</td>
+            </tr>
+            </tfoot>
+        </table>
+        <p>&nbsp;</p>
+        @if(count($families) == 1)
+            <table class="table table-bordered w-auto">
                 <thead>
                 <tr>
+                    <th colspan="5"><strong>Workshop Signups</strong></th>
+                </tr>
+                <tr>
                     <th>Name</th>
-                    <th>Preferred Pronoun</th>
-                    <th>Email Address</th>
-                    <th>Phone Number</th>
-                    <th>Birthdate</th>
-                    <th>Program</th>
-                    <th>Church</th>
-                    <th>Assigned Room</th>
+                    <th>Workshop</th>
+                    <th>Timeslot</th>
+                    <th>Days</th>
+                    <th>Location</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($family->campers as $camper)
-                    <tr>
-                        <td>{{ $camper->firstname }} {{ $camper->lastname }}</td>
-                        <td>{{ $camper->pronounname }}</td>
-                        <td>{{ !empty($camper->email) ? $camper->email : '&nbsp;' }}</td>
-                        <td>{{ !empty($camper->phonenbr) ? $camper->formatted_phone : '&nbsp;' }}</td>
-                        <td>{{ $camper->birthday }}</td>
-                        <td>{{ $camper->programname }}</td>
-                        <td>{{ $camper->churchname }}</td>
-                        <td>{{ $camper->buildingname }} {{ $camper->roomid != '1170' ? $camper->room_number : ''}}</td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-            <p>&nbsp;</p>
-            <table class="table table-responsive table-bordered">
-                <caption>Statement</caption>
-                <thead>
-                <tr>
-                    <th>Charge Type</th>
-                    <th align="right">Amount</th>
-                    <th align="center">Date</th>
-                    <th>Memo</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($family->charges()->orderBy('timestamp')->get() as $charge)
-                    <tr>
-                        <td>{{ $charge->chargetypename }}</td>
-                        <td class="amount" align="right">${{ money_format('%.2n', $charge->amount) }}</td>
-                        <td align="center">{{ $charge->timestamp }}</td>
-                        <td>{{ $charge->memo }}</td>
-                    </tr>
-                @endforeach
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td colspan="3" align="right"><strong>Amount Due on {{ $home->year()->start_date }}:</strong></td>
-                    <td>${{ money_format('%.2n', $family->charges->sum('amount')) }}</td>
-                </tr>
-                </tfoot>
-            </table>
-            <p>&nbsp;</p>
-            @if(count($families) == 1)
-                <table class="table table-responsive table-bordered">
-                    <caption>Workshop Signups</caption>
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Workshop</th>
-                        <th>Timeslot</th>
-                        <th>Days</th>
-                        <th>Location</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($family->campers as $camper)
-                        @foreach($camper->yearattending->workshops()->get() as $signup)
-                            <tr>
-                                <td>{{ $camper->firstname }} {{ $camper->lastname }}</td>
-                                <td>{{ $signup->workshop->name }}</td>
-                                @if($signup->is_enrolled=='1')
-                                    <td>{{ $signup->workshop->timeslot->name }}</td>
-                                    <td>{{ $signup->workshop->display_days }}</td>
-                                    <td>{{ $signup->workshop->room->room_number }}</td>
-                                @else
-                                    <td colspan="3" align="center">
-                                        <i>Waiting List</i>
-                                    </td>
-                                @endif
-                            </tr>
-                        @endforeach
+                    @foreach($camper->yearattending->workshops()->get() as $signup)
+                        <tr>
+                            <td>{{ $camper->firstname }} {{ $camper->lastname }}</td>
+                            <td>{{ $signup->workshop->name }}</td>
+                            @if($signup->is_enrolled=='1')
+                                <td>{{ $signup->workshop->timeslot->name }}</td>
+                                <td>{{ $signup->workshop->display_days }}</td>
+                                <td>{{ $signup->workshop->room->room_number }}</td>
+                            @else
+                                <td colspan="3" align="center">
+                                    <i>Waiting List</i>
+                                </td>
+                            @endif
+                        </tr>
                     @endforeach
-                    </tbody>
-                </table>
-            @endif
-            <footer style="text-align: center;"><h4>See you next week!</h4></footer>
-            @foreach($family->campers()->where('age', '<', '18')->get() as $camper)
-                @if(count($families) == 1 && !empty($camper->program->letter))
+                @endforeach
+                </tbody>
+            </table>
+        @endif
+        <footer style="text-align: center;"><h4>See you next week!</h4></footer>
+        @foreach($family->campers()->where('age', '<', '18')->get() as $camper)
+            @if(count($families) == 1 && !empty($camper->program->letter))
+                <p style="page-break-before: always">&nbsp;</p>
+                <h4>{{ $camper->firstname }} {{ $camper->lastname }}</h4>
+                {!! $camper->program->letter !!}
+                @if(!empty($camper->program->form))
                     <p style="page-break-before: always">&nbsp;</p>
-                    <h4>{{ $camper->firstname }} {{ $camper->lastname }}</h4>
-                    {!! $camper->program->letter !!}
-                    @if(!empty($camper->program->form))
-                        <p style="page-break-before: always">&nbsp;</p>
-                        @include('snippet.form', ['form' => json_decode($camper->program->form), 'camperid' => $camper->id, 'campername' => $camper->firstname . " " .$camper->lastname])
-                    @endif
-                    <p style="page-break-before: always">&nbsp;</p>
-                    @include('snippet.form', ['form' => json_decode($medical), 'camperid' => $camper->id, 'campername' => $camper->firstname . " " .$camper->lastname])
+                    @include('snippet.form', ['form' => json_decode($camper->program->form), 'camperid' => $camper->id, 'campername' => $camper->firstname . " " .$camper->lastname])
                 @endif
-            @endforeach
-        </div>
+                <p style="page-break-before: always">&nbsp;</p>
+                @include('snippet.form', ['form' => json_decode($medical), 'camperid' => $camper->id, 'campername' => $camper->firstname . " " .$camper->lastname])
+            @endif
+        @endforeach
     @endforeach
 @endsection
 

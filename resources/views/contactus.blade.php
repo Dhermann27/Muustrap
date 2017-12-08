@@ -1,116 +1,40 @@
 @extends('layouts.app')
 
+@section('title')
+    Contact Us
+@endsection
+
+@section('heading')
+    Send an email to the right person to answer your questions or concerns.
+@endsection
+
 @section('content')
-    <p>&nbsp;</p>
     <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Contact Us</div>
-                    <div class="panel-body">
-                        @if (!empty($success))
-                            <div class="alert alert-success">
-                                {{ $success }}
-                            </div>
-                        @endif
-                        <form class="form-horizontal" role="form" method="POST" action="{{ url('/contact') }}">
-                            {{ csrf_field() }}
+        <form class="form-horizontal" role="form" method="POST" action="{{ url('/contact') }}">
+            @include('snippet.flash')
 
-                            <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                                <label for="name" class="col-md-4 control-label">Your Name</label>
+            @if(Auth::check() && !empty($camper))
+                @include('snippet.formgroup', ['type' => 'info', 'label' => 'Your Name', 'attribs' => ['name' => 'name'],
+                    'default' => $camper->firstname . ' ' . $camper->lastname])
 
-                                <div class="col-md-6">
-                                    @if(Auth::check() && !empty($camper))
-                                        <strong>{{ $camper->firstname }} {{ $camper->lastname }}</strong>
-                                        <input type="hidden" name="name"
-                                               value="{{ $camper->firstname }} {{ $camper->lastname }}"/>
-                                    @else
-                                        <input id="name" class="form-control" name="name" value="{{ old('name') }}"
-                                               required>
+                @include('snippet.formgroup', ['type' => 'info', 'label' => 'Email Address', 'attribs' => ['name' => 'email'],
+                    'default' => Auth::user()->email])
+            @else
+                @include('snippet.formgroup', ['label' => 'Your Name', 'attribs' => ['name' => 'name']])
 
-                                        @if ($errors->has('name'))
-                                            <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                        @endif
-                                    @endif
-                                </div>
-                            </div>
+                @include('snippet.formgroup', ['label' => 'Email Address', 'attribs' => ['name' => 'email']])
+            @endif
 
-                            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                                <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+            @include('snippet.formgroup', ['type' => 'select', 'label' => 'Subject',
+                'attribs' => ['name' => 'mailbox'], 'default' => 'Choose a recipient mailbox', 'list' => $mailboxes,
+                'option' => 'name'])
 
-                                <div class="col-md-6">
-                                    @if(Auth::check())
-                                        <strong>{{ Auth::user()->email }}</strong>
-                                        <input type="hidden" name="email" value="{{ Auth::user()->email }}"/>
-                                    @else
-                                        <input id="email" type="email" class="form-control" name="email"
-                                               value="{{ old('email') }}" required>
+            @include('snippet.formgroup', ['type' => 'text', 'label' => 'Message', 'attribs' => ['name' => 'message']])
 
-                                        @if ($errors->has('email'))
-                                            <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                        @endif
-                                    @endif
-                                </div>
-                            </div>
+            @include('snippet.formgroup', ['type' => 'captcha', 'label' => 'CAPTCHA Test',
+                'attribs' => ['name' => 'g-recaptcha-response']])
 
-                            <div class="form-group{{ $errors->has('mailbox') ? ' has-error' : '' }}">
-                                <label for="mailbox" class="col-md-4 control-label">Subject</label>
-
-                                <div class="col-md-6">
-                                    <select id="mailbox" name="mailbox" class="form-control">
-                                        @foreach($mailboxes as $mailbox)
-                                            <option value="{{ $mailbox->id }}"{{ (old('id') == $mailbox->id) ? " selected" : "" }}>
-                                                {{ $mailbox->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-
-                                    @if ($errors->has('mailbox'))
-                                        <span class="help-block">
-                                        <strong>{{ $errors->first('mailbox') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group{{ $errors->has('message') ? ' has-error' : '' }}">
-                                <label for="message" class="col-md-4 control-label">Message</label>
-
-                                <div class="col-md-6">
-                                    <textarea id="message" class="form-control" name="message"
-                                              required>{{ old('message') }}</textarea>
-
-                                    @if ($errors->has('message'))
-                                        <span class="help-block">
-                                        <strong>{{ $errors->first('message') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="form-group{{ $errors->has('message') ? ' has-error' : '' }}">
-                                <div class="col-md-6 col-md-offset-4">
-                                    {!! app('captcha')->display() !!}
-
-                                    @if ($errors->has('g-recaptcha-response'))
-                                        <span class="help-block">
-                                        <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-6 col-md-offset-4">
-                                    <button type="submit" class="btn btn-primary">Send Message</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+            @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Send Message']])
+        </form>
     </div>
 @endsection

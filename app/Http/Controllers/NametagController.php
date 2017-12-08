@@ -19,7 +19,9 @@ class NametagController extends Controller
             $this->updateCamper($request, $camper);
         }
 
-        return $this->index('You have successfully customized your nametag(s).', $campers);
+        $request->session()->flash('success', 'You have successfully customized your nametag(s).');
+
+        return $this->index($campers);
 
     }
 
@@ -43,12 +45,12 @@ class NametagController extends Controller
         $camper->yearattending->save();
     }
 
-    public function index($success = null, $campers = null)
+    public function index($campers = null)
     {
         if ($campers == null) {
             $campers = $this->getCampers();
         }
-        return view('nametags', ['campers' => $campers, 'success' => $success]);
+        return view('nametags', ['campers' => $campers]);
     }
 
     public function write(Request $request, $id)
@@ -60,15 +62,17 @@ class NametagController extends Controller
             $this->updateCamper($request, $camper);
         }
 
-        return $this->read('f', $id, 'It worked, but did you ever consider that all of this is meaningless in the grand scheme of things?');
+        $request->session()->flash('success', 'It worked, but did you ever consider that all of this is meaningless in the grand scheme of things?');
+
+        return $this->read('f', $id);
     }
 
-    public function read($i, $id, $success = null)
+    public function read($i, $id)
     {
         $readonly = \Entrust::can('read') && !\Entrust::can('write');
         $campers = \App\Thisyear_Camper::where('familyid', $this->getFamilyId($i, $id))->orderBy('birthdate')->get();
 
-        return view('nametags', ['campers' => $campers, 'success' => $success, 'readonly' => $readonly]);
+        return view('nametags', ['campers' => $campers, 'readonly' => $readonly]);
     }
 
     private function getFamilyId($i, $id)

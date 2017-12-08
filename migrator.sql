@@ -341,6 +341,7 @@ CREATE VIEW byyear_campers AS
     f.zipcd,
     f.country,
     f.is_ecomm,
+    f.is_address_current,
     c.id,
     c.pronounid,
     o.name                                       pronounname,

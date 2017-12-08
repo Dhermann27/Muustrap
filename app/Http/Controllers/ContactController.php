@@ -19,9 +19,15 @@ class ContactController extends Controller
             'g-recaptcha-response.required' => 'Please check the CAPTCHA box and follow any additional instructions.',
         ];
 
+        if (Auth::check()) {
+            $camper = \App\Camper::where('email', Auth::user()->email)->first();
+            $request->name = $camper->firstname . " " . $camper->lastname;
+            $request->email  = $camper->email;
+        }
+
         $this->validate($request, [
-            'name' => 'max:255',
-            'email' => 'email|max:255',
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255',
             'mailbox' => 'required|exists:contactboxes,id',
             'message' => 'required|min:5',
             'g-recaptcha-response' => 'required|captcha',
@@ -30,21 +36,20 @@ class ContactController extends Controller
         $emails = \App\Contactbox::findOrFail($request->mailbox)->emails;
         $users = User::whereIn('email', explode(',', $emails))->get()->toArray();
 
-
         Mail::to($users)->send(new ContactUs($request));
 
+        $request->session()->flash('success', 'Message sent! Please expect a response in 1-3 business days.');
 
-        return $this->contactIndex('Message sent! Please expect a response in 1-3 business days.');
+        return $this->contactIndex();
     }
 
-    public function contactIndex($success = null)
+    public function contactIndex()
     {
         $camper = null;
         if (Auth::check()) {
             $camper = \App\Camper::where('email', Auth::user()->email)->first();
         }
-        return view('contactus', ['mailboxes' => \App\Contactbox::orderBy('id')->get(),
-            'camper' => $camper, 'success' => $success]);
+        return view('contactus', ['mailboxes' => \App\Contactbox::orderBy('id')->get(), 'camper' => $camper]);
     }
 
     public function proposalStore(Request $request)
@@ -74,15 +79,17 @@ class ContactController extends Controller
         $camper = \App\Camper::where('email', Auth::user()->email)->first();
         Mail::to(env('PROPOSAL_EMAIL'))->send(new Proposal($request, $camper));
 
-        return $this->proposalIndex($camper, 'Message sent! You will be contact by a member of the Adult Programming Committee.');
+        $request->session()->flash('success', 'Message sent! You will be contact by a member of the Adult Programming Committee.');
+
+        return $this->proposalIndex($camper);
     }
 
-    public function proposalIndex($camper = null, $success = null)
+    public function proposalIndex($camper = null)
     {
         if ($camper == null) {
             $camper = \App\Camper::where('email', Auth::user()->email)->first();
         }
-        return view('proposal', ['camper' => $camper, 'timeslots' => \App\Timeslot::all(), 'success' => $success]);
+        return view('proposal', ['camper' => $camper, 'timeslots' => \App\Timeslot::all()]);
     }
 
     public function artfairStore(Request $request)
@@ -98,16 +105,18 @@ class ContactController extends Controller
 
         Mail::to(env('ARTFAIR_EMAIL'))->send(new ArtFair($request, \App\Thisyear_Camper::where('email', Auth::user()->email)->first()));
 
-        return $this->artfairIndex('Message sent! Replies will be sent to all applicants by May 1st.');
+        $request->session()->flash('success', 'Message sent! Replies will be sent to all applicants by May 1st.');
+
+        return $this->artfairIndex();
     }
 
-    public function artfairIndex($success = null)
+    public function artfairIndex()
     {
         $camper = null;
         if (Auth::check()) {
             $camper = \App\Thisyear_Camper::where('email', Auth::user()->email)->first();
         }
-        return view('artfair', ['camper' => $camper, 'success' => $success]);
+        return view('artfair', ['camper' => $camper]);
     }
 
     public function museStore(Request $request)
@@ -124,11 +133,13 @@ class ContactController extends Controller
 
         $request->pdf->storeAs('public/muses', str_replace('-', '', $request->input('date')) . '.pdf');
 
-        return $this->museIndex('Muse uploaded! Check the homepage "Latest Muse" link to ensure it is correct.');
+        $request->session()->flash('success', 'Muse uploaded! Check the homepage "Latest Muse" link to ensure it is correct.');
+
+        return $this->museIndex();
     }
 
-    public function museIndex($success = null)
+    public function museIndex()
     {
-        return view('admin.muse', ['success' => $success]);
+        return view('admin.muse');
     }
 }

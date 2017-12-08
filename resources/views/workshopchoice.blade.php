@@ -27,31 +27,31 @@
                         <input type="hidden" id="{{ $camper->id }}-workshops"
                                name="{{ $camper->id }}-workshops" class="workshop-choices"/>
                         <div class="row">
-                        @if(in_array($camper->programid, ['1008', '1009', '1006']) )
-                            @foreach($timeslots as $timeslot)
-                                <div class="list-group col-md-4 col-sm-6 pb-5">
-                                    <h5>{{ $timeslot->name }}
-                                        @if($timeslot->id != 1005)
-                                            ({{ $timeslot->start_time->format('g:i A') }}
-                                            - {{ $timeslot->end_time->format('g:i A') }})
-                                        @endif
-                                    </h5>
-                                    @include('snippet.workshops', ['timeslot' => $timeslot, 'camperid' => $camper->id])
+                            @if(in_array($camper->programid, ['1008', '1009', '1006']) )
+                                @foreach($timeslots as $timeslot)
+                                    <div class="list-group col-md-4 col-sm-6 pb-5">
+                                        <h5>{{ $timeslot->name }}
+                                            @if($timeslot->id != 1005)
+                                                ({{ $timeslot->start_time->format('g:i A') }}
+                                                - {{ $timeslot->end_time->format('g:i A') }})
+                                            @endif
+                                        </h5>
+                                        @include('snippet.workshops', ['timeslot' => $timeslot, 'camperid' => $camper->id])
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="col-md-8 col-sm-6">
+                                    <p>&nbsp;</p>
+                                    Camper has been automatically enrolled in
+                                    <strong>{{ $camper->programname }}</strong> programming.
                                 </div>
-                            @endforeach
-                        @else
-                            <div class="col-md-8 col-sm-6">
-                                <p>&nbsp;</p>
-                                Camper has been automatically enrolled in
-                                <strong>{{ $camper->programname }}</strong> programming.
-                            </div>
-                            @foreach($timeslots->where('id', '1005') as $timeslot)
-                                <div class="list-group col-md-4 col-sm-6">
-                                    <h5>{{ $timeslot->name }}</h5>
-                                    @include('snippet.workshops', ['timeslot' => $timeslot, 'camperid' => $camper->id])
-                                </div>
-                            @endforeach
-                        @endif
+                                @foreach($timeslots->where('id', '1005') as $timeslot)
+                                    <div class="list-group col-md-4 col-sm-6">
+                                        <h5>{{ $timeslot->name }}</h5>
+                                        @include('snippet.workshops', ['timeslot' => $timeslot, 'camperid' => $camper->id])
+                                    </div>
+                                @endforeach
+                            @endif
                         </div>
                         @if(count($campers) > 1)
                             @include('snippet.formgroup', ['type' => 'next', 'label' => '', 'attribs' => ['name' => 'Next Camper']])
@@ -87,6 +87,9 @@
                     $("#" + $(this).attr("id") + "-workshops").val(ids.join(","));
                 });
                 return true;
+            });
+            $('[data-toggle="popover"]').popover({
+                trigger: 'hover'
             });
         });
     </script>

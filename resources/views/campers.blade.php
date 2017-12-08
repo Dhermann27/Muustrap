@@ -91,12 +91,12 @@
                 bind(empty);
             });
 
-            $('button:submit').on('click', function (e) {
+            $('input[type="submit"]').on('click', function (e) {
                 var form = $("#camperinfo");
                 if (!confirm("You are registering " + form.find('select.days option[value!="0"]:selected').length + " campers for {{ $home->year()->year }}. Is this correct?")) {
                     return false;
                 }
-                var button = $("button:submit");
+                var button = $('input[type="submit"]');
                 var fa = window.FontAwesome;
                 var spin = fa.findIconDefinition({iconName: 'spinner-third'});
                 button.html(fa.icon(spin, {classes: ['fa-spin']}).html + " Saving").removeClass("btn-primary btn-danger").prop("disabled", true);

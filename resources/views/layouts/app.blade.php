@@ -376,7 +376,7 @@
                 scrollTop: 0
             }, 700);
         } else {
-            $('button:submit').trigger("focus");
+            $('input[type="submit"]').trigger("focus");
             $('html,body').animate({
                 scrollTop: 9999
             }, 100);

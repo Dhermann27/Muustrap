@@ -48,7 +48,14 @@
             </div>
             @if(!isset($readonly) || $readonly === false)
                 @if(!isset($readonly) || $readonly === false)
-                    @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes']])
+                    <div class="form-group row">
+                        <label for="submit" class="col-md-4 control-label">&nbsp;</label>
+                        <div class="col-md-6">
+                            <div class="text-lg-right">
+                                <button id="submit" class="btn btn-lg btn-primary py-3 px-4">Save Changes</button>
+                            </div>
+                        </div>
+                    </div>
                 @endif
             @endif
         </form>
@@ -91,15 +98,18 @@
                 bind(empty);
             });
 
-            $('input[type="submit"]').on('click', function (e) {
+            $('button#submit').on('click', function (e) {
+                e.preventDefault();
                 var form = $("#camperinfo");
-                if (!confirm("You are registering " + form.find('select.days option[value!="0"]:selected').length + " campers for {{ $home->year()->year }}. Is this correct?")) {
-                    return false;
-                }
-                var button = $('input[type="submit"]');
+                var button = $('button#submit');
                 var fa = window.FontAwesome;
                 var spin = fa.findIconDefinition({iconName: 'spinner-third'});
                 button.html(fa.icon(spin, {classes: ['fa-spin']}).html + " Saving").removeClass("btn-primary btn-danger").prop("disabled", true);
+                if (!confirm("You are registering " + form.find('select.days option[value!="0"]:selected').length + " campers for {{ $home->year()->year }}. Is this correct?")) {
+                    var times = fa.findIconDefinition({iconName: 'times'});
+                    button.html(fa.icon(times).html + " Resubmit").addClass("btn-danger").prop("disabled", false);
+                    return false;
+                }
                 $(".has-danger").removeClass("has-danger");
                 $(".is-invalid").removeClass("is-invalid");
                 $(".invalid-feedback").remove();

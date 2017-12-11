@@ -35,7 +35,7 @@
                     <td>
                         <label for="donation" class="control-label">Donation</label>
                     </td>
-                    <td class="form-group row{{ $errors->has('donation') ? ' has-danger' : '' }}">
+                    <td class="form-group{{ $errors->has('donation') ? ' has-danger' : '' }}">
                         <div class="input-group">
                             <span class="input-group-addon">$</span>
                             <input type="number" id="donation"
@@ -56,14 +56,14 @@
                 </tr>
                 <tr align="right">
                     <td><strong>Amount Due Now:</strong></td>
-                    <td id="amountNow" align="right">{{ money_format('%.2n', $deposit) }}
+                    <td align="right">$<span id="amountNow">{{ money_format('%.2n', max($deposit, 0)) }}</span>
                     </td>
                     <td colspan="2"></td>
                 </tr>
                 @if(!empty($housing))
                     <tr align="right">
                         <td><strong>Amount Due Upon Arrival:</strong></td>
-                        <td id="amountArrival">
+                        <td>$<span id="amountArrival">{{ money_format('%.2n', max($charges->sum('amount'), 0)) }}</span>
                         </td>
                         <td colspan="2">&nbsp;</td>
                     </tr>
@@ -79,15 +79,24 @@
                 </div>
                 <div class="col-md-6">
                     <h4>To Pay via PayPal:</h4>
-                    <div class="form-group{{ $errors->has('amount') ? ' has-danger' : '' }}">
-                        <label for="amount" class="control-label">Suggested Payment:</label>
+                    <div class="form-group row{{ $errors->has('amount') ? ' has-danger' : '' }}">
+                        <label for="amount" class="control-label">Payment:</label>
 
                         <div class="input-group">
                             <span class="input-group-addon">$</span>
                             <input type="number" id="amount" name="amount"
                                    step="any" class="form-control{{ $errors->has('amount') ? ' is-invalid' : '' }}"
                                    data-number-to-fixed="2" min="0" placeholder="Enter Another Amount"
-                                   value="{{ number_format(max(count($charges) > 0 ? $charges->sum('amount') : 0.0, 0.0), 2) }}"/>
+                                   value="{{ money_format('%.2n', max($charges->sum('amount'), 0)) }}"/>
+                        </div>
+
+                        <div class="input-group pt-3">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="addthree"> Add 3% to my payment to cover the PayPal
+                                    service fee
+                                </label>
+                            </div>
                         </div>
 
                         @if ($errors->has('amount'))
@@ -109,47 +118,48 @@
     <script>
         $(document).on('change', '#donation', function () {
             var total = parseFloat($(this).val());
-            $("#amount").val(Math.max(0, parseFloat($("#amountNow").text().replace('$', '')) + total).toFixed(2));
+            $("#amount").val(Math.max(0, parseFloat($("#amountNow").text()) + total).toFixed(2));
             $("td.amount").each(function () {
                 total += parseFloat($(this).text().replace('$', ''));
             });
-            $("#amountArrival").text("$" + Math.max(0, total).toFixed(2));
+            $("#amountArrival").text(Math.max(0, total).toFixed(2));
         });
 
         paypal.Button.render({
+            env: '{{ $env }}',
+            client: { {{ $env }}: '{{ $token }}'
+        },
 
-            env: '{{ $env }}', // Specify 'sandbox' for the test environment
+        style: {
+            size: 'large',
+            label: 'pay'
+        },
 
-            client: { {{ $env }}: '{{ $token }}'},
+        payment: function () {
+            var amt = parseFloat($("#amount").val());
+            var env = this.props.env;
+            var client = this.props.client;
+            if ($('input#addthree').is(':checked')) amt *= 1.03;
 
-            style: {
-                size: 'large',
-                label: 'pay'
-            },
-
-            payment: function () {
-                var env = this.props.env;
-                var client = this.props.client;
-
-                return paypal.rest.payment.create(env, client, {
-                    transactions: [
-                        {
-                            amount: {total: $("#amount").val(), currency: 'USD'}
-                        }
-                    ]
-                });
-            },
-
-            commit: true,
-
-            onAuthorize: function (data, actions) {
-                return actions.payment.execute().then(function (payment) {
-                    if(payment.transactions.length > 0 && payment.transactions[0].related_resources.length > 0) {
-                        $("#txn").val(payment.transactions[0].related_resources[0].sale.id);
+            return paypal.rest.payment.create(env, client, {
+                transactions: [
+                    {
+                        amount: {total: amt, currency: 'USD'}
                     }
-                    $("form#muusapayment").submit();
-                });
-            }
+                ]
+            });
+        },
+
+        commit: true,
+
+        onAuthorize: function (data, actions) {
+            return actions.payment.execute().then(function (payment) {
+                if (payment.transactions.length > 0 && payment.transactions[0].related_resources.length > 0) {
+                    $("#txn").val(payment.transactions[0].related_resources[0].sale.id);
+                }
+                $("form#muusapayment").submit();
+            });
+        }
 
         }, '#paypal-button');
     </script>

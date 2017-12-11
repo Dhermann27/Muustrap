@@ -40,8 +40,8 @@ class WorkshopController extends Controller
         DB::statement('CALL workshops();');
         DB::statement('CALL generate_charges(getcurrentyear());');
 
-        $success = 'Your workshop selections have been updated.';// Check out available rooms by clicking <a href="' . url('/roomselection') . '">here</a>.';
-        return $this->index($success);
+        $request->session()->flash('Your workshop selections have been updated.');// Check out available rooms by clicking <a href="' . url('/roomselection') . '">here</a>.';
+        return $this->index();
     }
 
     private function getCampers($id)
@@ -49,11 +49,10 @@ class WorkshopController extends Controller
         return \App\Thisyear_Camper::where('familyid', $id)->orderBy('birthdate')->get();
     }
 
-    public function index($success = null)
+    public function index()
     {
         return view('workshopchoice', ['timeslots' => \App\Timeslot::all(),
-            'campers' => $this->getCampers(\App\Camper::where('email', Auth::user()->email)->first()->familyid),
-            'success' => $success
+            'campers' => $this->getCampers(\App\Camper::where('email', Auth::user()->email)->first()->familyid)
         ]);
 
     }

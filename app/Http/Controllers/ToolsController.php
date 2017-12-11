@@ -112,10 +112,10 @@ class ToolsController extends Controller
         foreach ($request->all() as $key => $value) {
             $matches = array();
             if (preg_match('/(\d+)-(name|led_by|roomid|order|capacity)/', $key, $matches)) {
-                $charge = \App\Workshop::find($matches[1]);
-                if (isset($charge)) {
-                    $charge->{$matches[2]} = $value;
-                    $charge->save();
+                $workshop = \App\Workshop::find($matches[1]);
+                if (isset($workshop)) {
+                    $workshop->{$matches[2]} = $value;
+                    $workshop->save();
                 }
             }
         }
@@ -136,6 +136,7 @@ class ToolsController extends Controller
                 $workshop->enrolled = 0;
                 $workshop->capacity = $request->input($timeslot->id . "-capacity");
                 $workshop->fee = 0;
+                $workshop->year = DB::raw('getcurrentyear()');
                 $workshop->save();
             }
         }

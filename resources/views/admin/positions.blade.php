@@ -21,6 +21,7 @@
                             <tr>
                                 <th id="name">Name</th>
                                 <th id="compensationlevelid" class="select">Compensation Level</th>
+                                <th id="pctype" class="select">Position Type</th>
                                 <th>Maximum Compensation</th>
                                 <th>Delete?</th>
                             </tr>
@@ -30,6 +31,17 @@
                                 <tr id="{{ $position->id }}">
                                     <td>{{ $position->name }}</td>
                                     <td>{{ $position->compensationlevel->name }}</td>
+                                    <td>
+                                        @if($position->pctype == 1)
+                                            APC
+                                        @elseif($position->pctype == 2)
+                                            XC
+                                        @elseif($position->pctype == 3)
+                                            Programs
+                                        @elseif($position->pctype == 4)
+                                            Consultants
+                                        @endif
+                                    </td>
                                     <td>
                                         ${{ money_format('%.2n', $position->compensationlevel->max_compensation) }}
                                     </td>
@@ -51,6 +63,11 @@
                         @include('snippet.formgroup', ['type' => 'select', 'class' => ' compensationlevelid',
                             'label' => 'Compensation Level', 'attribs' => ['name' => $program->id . '-compensationlevel'],
                             'default' => 'Choose a compensation level', 'list' => $levels, 'option' => 'name'])
+
+                        @include('snippet.formgroup', ['type' => 'select', 'label' => 'PC Type', 'attribs' => ['name' => 'pctype'],
+                            'list' => [['id' => '0', 'name' => 'None'], ['id' => '1', 'name' => 'APC'],
+                            ['id' => '2', 'name' => 'XC'], ['id' => '3', 'name' => 'Progams'],
+                            ['id' => '4', 'name' => 'Consultants']], 'option' => 'name'])
 
                     </div>
                 @endforeach

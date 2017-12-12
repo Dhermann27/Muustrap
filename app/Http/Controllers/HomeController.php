@@ -24,6 +24,23 @@ class HomeController extends Controller
         return view('home');
     }
 
+    public function apc()
+    {
+        return \App\Thisyear_Staff::where('pctype', '1')->get();
+    }
+
+    public function ec() {
+        return \App\Thisyear_Staff::where('pctype', '2')->get();
+    }
+
+    public function pc() {
+        return \App\Thisyear_Staff::where('pctype', '>=', '1')->get();
+    }
+
+    public function programs() {
+        return \App\Thisyear_Staff::where('pctype', '3')->get();
+    }
+
     public function year()
     {
         return \App\Year::where('is_current', '1')->first();

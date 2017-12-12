@@ -12,7 +12,8 @@ class Timeslot extends Model
 
     public function workshops()
     {
-        return $this->hasMany(Workshop::class, 'timeslotid', 'id')->where('year',
-            $year = \App\Year::where('is_current', '1')->first()->year);
+        $year = \App\Year::where('is_current', '1')->first();
+        return $this->hasMany(Workshop::class, 'timeslotid', 'id')
+            ->where('year', $year->isLive() ? $year->year : $year->year - 1);
     }
 }

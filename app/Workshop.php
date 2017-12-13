@@ -40,6 +40,10 @@ class Workshop extends Model
         return $days;
     }
 
+    public function getBitDaysAttribute() {
+        return $this->m . $this->t . $this->w . $this->th . $this->f;
+    }
+
     public function getDisplayDaysAttribute()
     {
         $days = "";

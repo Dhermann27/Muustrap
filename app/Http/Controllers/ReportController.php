@@ -60,6 +60,18 @@ class ReportController extends Controller
             'summaries' => $summaries, 'dates' => $mergeddates]);
     }
 
+    public function conflicts()
+    {
+        $conflicts = DB::select(DB::raw('SELECT tc.id, tc.firstname, tc.lastname, w.name AS nameone, wp.name AS nametwo
+            FROM thisyear_campers tc, yearattending__workshop yw, workshops w, yearattending__workshop ywp, workshops wp 
+            WHERE tc.yearattendingid=yw.yearattendingid AND tc.yearattendingid=ywp.yearattendingid
+              AND yw.workshopid=w.id AND ywp.workshopid=wp.id AND yw.yearattendingid=ywp.yearattendingid 
+              AND yw.workshopid!=ywp.workshopid AND w.timeslotid=wp.timeslotid 
+              AND ((w.m=1 AND wp.m=1) OR (w.t=1 AND wp.t=1) OR (w.w=1 AND wp.w=1) OR (w.th=1 AND wp.th=1) OR (w.f=1 AND wp.f=1))
+              GROUP BY yw.yearattendingid, w.timeslotid ORDER BY tc.lastname, tc.firstname'));
+        return view('reports.conflicts', ['campers' => $conflicts]);
+    }
+
     public function depositsMark($id)
     {
         \App\Charge::where('chargetypeid', $id)->where('deposited_date', null)

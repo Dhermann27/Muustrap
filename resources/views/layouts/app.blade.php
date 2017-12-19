@@ -147,6 +147,7 @@
                                 <a href="{{ url('/reports/states') }}" class="dropdown-item">States &amp; Churches</a>
                                 <a href="{{ url('/reports/volunteers') }}" class="dropdown-item">Volunteers</a>
                                 <a href="{{ url('/reports/workshops') }}" class="dropdown-item">Workshop Attendees</a>
+                                <a href="{{ url('/reports/conflicts') }}" class="dropdown-item">Workshop Conflicts</a>
                             </div>
                         </li>
 

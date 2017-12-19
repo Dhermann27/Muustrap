@@ -78,6 +78,7 @@ Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'reports'], fu
     Route::get('campers.xls', 'ReportController@campersExport');
     Route::get('campers/{year?}/{order?}', 'ReportController@campers');
     Route::get('chart', 'ReportController@chart');
+    Route::get('conflicts', 'ReportController@conflicts');
     Route::get('deposits', 'ReportController@deposits');
     Route::post('deposits/{id}', 'ReportController@depositsMark')->middleware('auth', 'role:admin');
     Route::get('firsttime', 'ReportController@firsttime');

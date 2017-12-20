@@ -93,7 +93,7 @@
                         <div class="input-group pt-3">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" id="addthree"> Add 3% to my payment to cover the PayPal
+                                    <input type="checkbox" id="addthree" name="addthree"> Add 3% to my payment to cover the PayPal
                                     service fee
                                 </label>
                             </div>

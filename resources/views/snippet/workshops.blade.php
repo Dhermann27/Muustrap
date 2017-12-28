@@ -1,6 +1,6 @@
 @foreach($timeslot->workshops as $workshop)
     <button type="button" data-content="{{ $workshop->blurb }} Led by {{ $workshop->led_by }}." data-toggle="popover"
-            data-trigger="hover" id="{{ $camperid }}-{{ $workshop->id }}"
+            data-trigger="hover" id="{{ $camperid }}-{{ $workshop->id }}" data-bits="{{ $workshop->bit_days }}"
         @if($workshop->enrolled >= $workshop->capacity)
             class="list-group-item list-group-item-action disabled" title="Workshop Full">
             <i class="fa fa-times fa-pull-right"></i>

@@ -6,10 +6,7 @@
 
 @section('content')
     <div class="container">
-        <a href="{{ url('/reports/campers.xls') }}" class="p-2 float-right" data-toggle="tooltip"
-           title="Download Campers Excel"><i class="fa fa-download fa-2x"></i></a>
-        @include('snippet.orderby', ['years' => $years, 'orders' => ['name', 'date']])
-        <input type="hidden" id="orderby-url" value="{{ url('/reports/campers') }}"/>
+        @include('snippet.orderby', ['years' => $years, 'url' => url('/reports/campers'), 'orders' => ['name', 'date']])
         <table class="table table-bordered w-auto">
             <thead>
             <tr align="right">

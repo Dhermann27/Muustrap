@@ -31,36 +31,50 @@ class PaymentController extends Controller
                         'year' => DB::raw('getcurrentyear()'), 'timestamp' => date("Y-m-d")]
                 );
             }
-        }
 
-        if (!empty($request->txn)) {
-            DB::table('charges')->insert(
-                ['camperid' => $thiscamper->id, 'amount' => '-' . $request->amount, 'memo' => $request->txn,
-                    'chargetypeid' => DB::raw('getchargetypeid(\'Paypal Payment\')'),
-                    'year' => DB::raw('getcurrentyear()'), 'timestamp' => date("Y-m-d"),
-                    'created_at' => DB::raw('CURRENT_TIMESTAMP')]
-            );
+            if (!empty($request->txn)) {
+                if (!empty($request->addthree)) {
+                    \App\Charge::updateOrCreate(
+                        ['camperid' => $thiscamper->id, 'chargetypeid' => DB::raw('getchargetypeid(\'Paypal Service Charge\')'),
+                            'year' => DB::raw('getcurrentyear()'), 'timestamp' => date("Y-m-d")],
+                        ['camperid' => $thiscamper->id, 'amount' => '-' . ($request->amount * .03),
+                            'memo' => 'Optional Overpayment',
+                            'chargetypeid' => DB::raw('getchargetypeid(\'Paypal Service Charge\')'),
+                            'year' => DB::raw('getcurrentyear()'), 'timestamp' => date("Y-m-d"),
+                            'created_at' => DB::raw('CURRENT_TIMESTAMP')]
+                    );
 
-            $success = 'Payment received! You should receive a receipt via email for your records.';
-
-            $year = \App\Year::where('is_current', '1')->first();
-            $campers = \App\Byyear_Camper::where('familyid', $thiscamper->familyid)
-                ->where('year', ((int)$year->year) - 1)->where('is_program_housing', '0')->get();
-            if (!$year->isLive() && count($campers) > 0 && \App\Thisyear_Charge::where('familyid', $thiscamper->familyid)
-                    ->where(function ($query) {
-                        $query->where('chargetypeid', 1003)->orWhere('amount', '<', '0');
-                    })->get()->sum('amount') <= 0) {
-                foreach ($campers as $camper) {
-                    \App\Yearattending::where('camperid', $camper->id)->where('year', $year->year)
-                        ->whereNull('roomid')->update(['roomid' => $camper->roomid]);
                 }
-                DB::statement('CALL generate_charges(' . $year->year . ');');
+                \App\Charge::updateOrCreate(
+                    ['camperid' => $thiscamper->id, 'chargetypeid' => DB::raw('getchargetypeid(\'Paypal Payment\')'),
+                        'memo' => $request->txn],
+                    ['camperid' => $thiscamper->id, 'amount' => '-' . $request->amount, 'memo' => $request->txn,
+                        'chargetypeid' => DB::raw('getchargetypeid(\'Paypal Payment\')'),
+                        'year' => DB::raw('getcurrentyear()'), 'timestamp' => date("Y-m-d"),
+                        'created_at' => DB::raw('CURRENT_TIMESTAMP')]
+                );
 
-                $success = 'Payment received! By paying your deposit, your room from ' . ((int)($year->year) - 1)
-                    . ' has been assigned. You should receive a receipt via email for your records.';
+                $success = 'Payment received! You should receive a receipt via email for your records.';
+
+                $year = \App\Year::where('is_current', '1')->first();
+                $campers = \App\Byyear_Camper::where('familyid', $thiscamper->familyid)
+                    ->where('year', ((int)$year->year) - 1)->where('is_program_housing', '0')->get();
+                if (!$year->isLive() && count($campers) > 0 && \App\Thisyear_Charge::where('familyid', $thiscamper->familyid)
+                        ->where(function ($query) {
+                            $query->where('chargetypeid', 1003)->orWhere('amount', '<', '0');
+                        })->get()->sum('amount') <= 0) {
+                    foreach ($campers as $camper) {
+                        \App\Yearattending::where('camperid', $camper->id)->where('year', $year->year)
+                            ->whereNull('roomid')->update(['roomid' => $camper->roomid]);
+                    }
+                    DB::statement('CALL generate_charges(' . $year->year . ');');
+
+                    $success = 'Payment received! By paying your deposit, your room from ' . ((int)($year->year) - 1)
+                        . ' has been assigned. You should receive a receipt via email for your records.';
+                }
+
+                $request->session()->flash('success', $success);
             }
-
-            $request->session()->flash('success', $success);
 
         } else {
             $request->session()->flash('error', 'Payment was not processed by MUUSA. If you believe that PayPal has transmitted funds, please contact the Treasurer so we can confirm and update your account.');
@@ -73,6 +87,7 @@ class PaymentController extends Controller
     public function index()
     {
         $env = env('APP_ENV');
+        $token = env('PAYPAL_CLIENT');
 
         $charges = [];
         $deposit = 0.0;
@@ -80,14 +95,14 @@ class PaymentController extends Controller
         if ($camper !== null) {
             $depositchargetype = DB::select('SELECT getchargetypeid(\'MUUSA Deposit\') id FROM users');
             $familyid = $camper->family->id;
+            $roomid = \App\Thisyear_Camper::find($camper->id)->roomid;
             $charges = \App\Thisyear_Charge::where('familyid', $familyid)->orderBy('timestamp')->get();
             $deposit = $charges->where('amount', '<', 0)->sum('amount') +
                 $charges->where('chargetypeid', $depositchargetype[0]->id)->sum('amount');
         }
 
-        $token = env('PAYPAL_CLIENT');
         return view('payment',
-            ['token' => $token, 'env' => $env, 'charges' => $charges, 'deposit' => $deposit]);
+            ['token' => $token, 'env' => $env, 'housing' => $roomid, 'charges' => $charges, 'deposit' => $deposit]);
     }
 
     public function write(Request $request, $id)

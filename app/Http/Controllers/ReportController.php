@@ -21,7 +21,7 @@ class ReportController extends Controller
             $families->orderBy('created_at', 'DESC');
         }
         return view('reports.campers', ['title' => 'Registered Campers', 'years' => $years,
-            'families' => $families->get(), 'thisyear' => $year]);
+            'families' => $families->get(), 'thisyear' => $year, 'order' => $order]);
     }
 
     public function campersExport()
@@ -58,6 +58,18 @@ class ReportController extends Controller
         }
         return view('reports.chart', ['years' => \App\Year::where('year', '>', DB::raw('getcurrentyear()-7'))->get(),
             'summaries' => $summaries, 'dates' => $mergeddates]);
+    }
+
+    public function conflicts()
+    {
+        $conflicts = DB::select(DB::raw('SELECT tc.id, tc.firstname, tc.lastname, w.name AS nameone, wp.name AS nametwo
+            FROM thisyear_campers tc, yearattending__workshop yw, workshops w, yearattending__workshop ywp, workshops wp 
+            WHERE tc.yearattendingid=yw.yearattendingid AND tc.yearattendingid=ywp.yearattendingid
+              AND yw.workshopid=w.id AND ywp.workshopid=wp.id AND yw.yearattendingid=ywp.yearattendingid 
+              AND yw.workshopid!=ywp.workshopid AND w.timeslotid=wp.timeslotid 
+              AND ((w.m=1 AND wp.m=1) OR (w.t=1 AND wp.t=1) OR (w.w=1 AND wp.w=1) OR (w.th=1 AND wp.th=1) OR (w.f=1 AND wp.f=1))
+              GROUP BY yw.yearattendingid, w.timeslotid ORDER BY tc.lastname, tc.firstname'));
+        return view('reports.conflicts', ['campers' => $conflicts]);
     }
 
     public function depositsMark($id)
@@ -121,7 +133,7 @@ class ReportController extends Controller
         $years = \App\Byyear_Charge::where('year', '>', '2008')->groupBy('year')->distinct()
             ->orderBy('year', 'DESC')->get();
         return view('reports.payments', ['charges' => \App\Byyear_Charge::where('amount', '!=', '0.0')
-            ->where('year', $year)->with('camper')->with('family')->get(), 'years' => $years]);
+            ->where('year', $year)->with('camper')->with('family')->get(), 'thisyear' => $year, 'years' => $years]);
     }
 
     public function paymentsExport()
@@ -160,19 +172,21 @@ class ReportController extends Controller
         $campers = \App\Byyear_Camper::where('year', $year)->whereNotNull('roomid')
             ->orderBy('room_number')->orderBy('familyid')->orderBy('birthdate')->get();
         return view('reports.rooms', ['campers' => $campers, 'buildings' => \App\Building::all(),
-            'years' => $years]);
+            'thisyear' => $year, 'years' => $years]);
     }
 
-    public function roomsExport()
+    public function roomsExport($year = 0)
     {
-        $year = \App\Year::where('is_current', '1')->first()->year;
-        Excel::create('MUUSA_' . $year . '_Rooms_' . Carbon::now()->toDateString(), function ($excel) {
-            $buildings = \App\Thisyear_Camper::whereNotNull('roomid')->groupBy('buildingid')->distinct()->get();
+        $year = $year == 0 ? \App\Year::where('is_current', '1')->first()->year : (int)$year;
+        Excel::create('MUUSA_' . $year . '_Rooms_' . Carbon::now()->toDateString(), function ($excel) use ($year) {
+            $buildings = \App\Byyear_Camper::where('year', $year)->whereNotNull('roomid')->groupBy('buildingid')
+                ->distinct()->get();
             foreach ($buildings as $building) {
-                $excel->sheet($building->buildingname, function ($sheet) use ($building) {
+                $excel->sheet($building->buildingname, function ($sheet) use ($building, $year) {
                     $sheet->setOrientation('landscape');
-                    $sheet->with(\App\Thisyear_Camper::select('room_number', 'firstname', 'lastname', 'address1',
-                        'address2', 'city', 'statecd', 'zipcd', 'age')->where('buildingid', $building->buildingid)
+                    $sheet->with(\App\Byyear_Camper::select('room_number', 'firstname', 'lastname', 'address1',
+                        'address2', 'city', 'statecd', 'zipcd', 'age')->where('year', $year)
+                        ->where('buildingid', $building->buildingid)
                         ->orderBy('room_number')->orderBy('familyid')->orderBy('birthdate')->get());
                 });
             }

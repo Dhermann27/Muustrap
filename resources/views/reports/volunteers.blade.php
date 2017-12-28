@@ -17,42 +17,44 @@
         @foreach($years as $thisyear => $volunteers)
             <div role="tabpanel" class="tab-pane fade{{ $loop->last ? ' active show' : '' }}"
                  aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $thisyear }}">
-                @foreach($positions as $position)
-                    @if(count($volunteers->filter(function ($value) use ($thisyear, $position) {
-                            return $value->year==$thisyear && $value->volunteerpositionid==$position->id;
-                        }))>0)
-                        @component('snippet.accordioncard', ['id' => $thisyear, 'loop' => $loop, 'heading' => $position->id, 'title' => $position->name])
-                            @slot('badge')
-                                <span class="p-2 float-right">
+                <div id="{{ $thisyear }}-accordion" role="tablist">
+                    @foreach($positions as $position)
+                        @if(count($volunteers->filter(function ($value) use ($thisyear, $position) {
+                                return $value->year==$thisyear && $value->volunteerpositionid==$position->id;
+                            }))>0)
+                            @component('snippet.accordioncard', ['id' => $thisyear, 'loop' => $loop, 'heading' => $position->id, 'title' => $position->name])
+                                @slot('badge')
+                                    <span class="p-2 float-right">
                                     {{ count($volunteers->filter(function ($value) use ($thisyear, $position) {
                                         return $value->year==$thisyear && $value->volunteerpositionid==$position->id;
                                     })) }}
-                                    <i class="fa fa-handshake"></i>
+                                        <i class="fa fa-handshake"></i>
                                 </span>
-                            @endslot
-                            <table class="table table-bordered w-auto">
-                                <thead>
-                                <tr>
-                                    <th width="50%">Camper Name</th>
-                                    <th width="50%">Controls</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($volunteers->filter(function ($value) use ($thisyear, $position) {
-                                    return $value->year==$thisyear && $value->volunteerpositionid==$position->id;
-                                }) as $volunteer)
+                                @endslot
+                                <table class="table table-bordered w-auto">
+                                    <thead>
                                     <tr>
-                                        <td>{{ $volunteer->lastname }}, {{ $volunteer->firstname }}</td>
-                                        <td>
-                                            @include('admin.controls', ['id' => 'c/' . $volunteer->id])
-                                        </td>
+                                        <th width="50%">Camper Name</th>
+                                        <th width="50%">Controls</th>
                                     </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        @endcomponent
-                    @endif
-                @endforeach
+                                    </thead>
+                                    <tbody>
+                                    @foreach($volunteers->filter(function ($value) use ($thisyear, $position) {
+                                        return $value->year==$thisyear && $value->volunteerpositionid==$position->id;
+                                    }) as $volunteer)
+                                        <tr>
+                                            <td>{{ $volunteer->lastname }}, {{ $volunteer->firstname }}</td>
+                                            <td>
+                                                @include('admin.controls', ['id' => 'c/' . $volunteer->id])
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            @endcomponent
+                        @endif
+                    @endforeach
+                </div>
             </div>
         @endforeach
     </div>

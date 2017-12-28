@@ -509,6 +509,7 @@ CREATE VIEW thisyear_campers AS
         MAX(ya.id)                                                           yearattendingid,
         c.firstname,
         c.lastname,
+        c.email,
         MAX(sp.name)                                                         staffpositionname,
         MAX(sp.id)                                                           staffpositionid,
         LEAST(IFNULL(getrate(c.id, ya.year), 150), SUM(cl.max_compensation)) +
@@ -520,6 +521,7 @@ CREATE VIEW thisyear_campers AS
                                        h.chargetypeid = getchargetypeid('Early Arrival')), 0)
                                                                              compensation,
         MAX(sp.programid)                                                    programid,
+        MAX(sp.pctype)                                                       pctype,
         MAX(ysp.created_at)
       FROM campers c, yearsattending ya, yearattending__staff ysp, staffpositions sp, compensationlevels cl
       WHERE c.id = ya.camperid AND ya.id = ysp.yearattendingid AND ysp.staffpositionid = sp.id
@@ -533,10 +535,12 @@ CREATE VIEW thisyear_campers AS
       0,
       c.firstname,
       c.lastname,
+      c.email,
       MAX(sp.name),
       MAX(sp.id),
       LEAST(150, SUM(cl.max_compensation)),
       MAX(sp.programid),
+      MAX(sp.pctype),
       MAX(cs.created_at)
     FROM camper__staff cs, campers c, staffpositions sp, compensationlevels cl, years y
     WHERE cs.camperid = c.id AND cs.staffpositionid = sp.id AND y.is_current = 1 AND
@@ -546,8 +550,8 @@ CREATE VIEW thisyear_campers AS
 
   DROP VIEW IF EXISTS thisyear_staff;
   CREATE VIEW thisyear_staff AS
-    SELECT familyid, camperid, yearattendingid, firstname, lastname,
-      staffpositionname, staffpositionid, programid, compensation
+    SELECT familyid, camperid, yearattendingid, firstname, lastname, email,
+      staffpositionname, staffpositionid, programid, compensation, pctype
     FROM byyear_staff bsp, years y
     WHERE bsp.year=y.year AND y.is_current=1;
 

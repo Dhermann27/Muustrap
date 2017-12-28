@@ -37,6 +37,8 @@
                                             @endif
                                         </h5>
                                         @include('snippet.workshops', ['timeslot' => $timeslot, 'camperid' => $camper->id])
+                                        <h6 class="alert alert-danger mt-2 d-none">Your workshop selections are offered
+                                            on conflicting days.</h6>
                                     </div>
                                 @endforeach
                             @else
@@ -74,15 +76,42 @@
             $("#{{ $camper->id }}-{{ $choice->workshopid }}").addClass("active");
             @endforeach
             @endforeach
+            $("form#workshops div.tab-pane div.list-group").each(function () {
+                var days = parseInt(0, 2);
+                var actives = $(this).find("button.active");
+                actives.each(function () {
+                    var choice = parseInt($(this).attr("data-bits"), 2);
+                    if (choice & days) {
+                        actives.addClass("btn-danger");
+                        $(this).parent().find(".alert-danger").removeClass("d-none");
+                    } else {
+                        days = choice | days;
+                    }
+                });
+            });
             $("form#workshops button.list-group-item").on("click", function (e) {
                 e.preventDefault();
-                $(this).toggleClass("active");
+                $(this).parent().find(".alert-danger").addClass("d-none");
+                $(this).toggleClass("active").removeClass("btn-danger");
+                var days = parseInt(0, 2);
+                var actives = $(this).parent().find("button.active");
+                actives.removeClass("btn-danger");
+                actives.each(function () {
+                    var choice = parseInt($(this).attr("data-bits"), 2);
+                    if (choice & days) {
+                        actives.addClass("btn-danger");
+                        $(this).parent().find(".alert-danger").removeClass("d-none");
+                        return true;
+                    } else {
+                        days = choice | days;
+                    }
+                });
             });
             $("#workshops").on("submit", function (e) {
-                $("div.tab-pane").each(function () {
+                $("form#workshops div.tab-pane").each(function () {
                     var ids = new Array();
                     $(this).find("button.active").each(function () {
-                        ids.push($(this).attr("data-content"));
+                        ids.push($(this).attr("id").split('-')[1]);
                     });
                     $("#" + $(this).attr("id") + "-workshops").val(ids.join(","));
                 });

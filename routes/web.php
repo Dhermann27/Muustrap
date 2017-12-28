@@ -1,5 +1,7 @@
 <?php
 
+$year = \App\Year::where('is_current', '1')->first();
+
 Route::get('/', 'WelcomeController@index');
 Route::get('/home', 'HomeController@index');
 
@@ -9,17 +11,9 @@ Route::get('/workshops', 'WorkshopController@display');
 
 Route::get('/contact', 'ContactController@contactIndex');
 Route::post('/contact', 'ContactController@contactStore');
-Route::get('/proposal', 'ContactController@proposalIndex')->middleware('auth');
-Route::post('/proposal', 'ContactController@proposalStore')->middleware('auth');
 
-//Route::get('/confirm', 'ConfirmController@index')->middleware('auth');
 Route::get('/confirm/{i}/{id}', 'ConfirmController@read')->middleware('auth', 'role:admin|council');
 Route::get('/confirm/all', 'ConfirmController@all')->middleware('auth', 'role:admin');
-
-//Route::get('/artfair', 'ContactController@artfairIndex');
-//Route::post('/artfair', 'ContactController@artfairStore')->middleware('auth');
-//Route::get('/museupload', 'ContactController@museIndex')->middleware('auth', 'role:admin|council');
-//Route::post('/museupload', 'ContactController@museStore')->middleware('auth', 'role:admin|council');
 
 Route::get('/household', 'HouseholdController@index')->middleware('auth');
 Route::post('/household', 'HouseholdController@store')->middleware('auth');
@@ -36,32 +30,43 @@ Route::post('/payment', 'PaymentController@store')->middleware('auth');
 Route::get('/payment/{i}/{id}', 'PaymentController@read')->middleware('auth', 'role:admin|council');
 Route::post('/payment/f/{id}', 'PaymentController@write')->middleware('auth', 'role:admin');
 
-//Route::get('/workshopchoice', 'WorkshopController@index')->middleware('auth');
-//Route::post('/workshopchoice', 'WorkshopController@store')->middleware('auth');
 Route::get('/workshopchoice/{i}/{id}', 'WorkshopController@read')->middleware('auth', 'role:admin|council');
 Route::post('/workshopchoice/f/{id}', 'WorkshopController@write')->middleware('auth', 'role:admin');
 
-//Route::get('/volunteer', 'VolunteerController@index')->middleware('auth');
-//Route::post('/volunteer', 'VolunteerController@store')->middleware('auth');
 Route::get('/volunteer/{i}/{id}', 'VolunteerController@read')->middleware('auth', 'role:admin|council');
 Route::post('/volunteer/f/{id}', 'VolunteerController@write')->middleware('auth', 'role:admin');
 
-//Route::get('/roomselection', 'RoomSelectionController@index')->middleware('auth');
-//Route::post('/roomselection', 'RoomSelectionController@store')->middleware('auth');
 Route::get('/roomselection/map', 'RoomSelectionController@map')->middleware('auth', 'role:admin|council');
 Route::get('/roomselection/{i}/{id}', 'RoomSelectionController@read')->middleware('auth', 'role:admin|council');
 Route::post('/roomselection/f/{id}', 'RoomSelectionController@write')->middleware('auth', 'role:admin');
 
-//Route::get('/nametag', 'NametagController@index')->middleware('auth');
-//Route::post('/nametag', 'NametagController@store')->middleware('auth');
 Route::get('/nametag/{i}/{id}', 'NametagController@read')->middleware('auth', 'role:admin|council');
 Route::post('/nametag/f/{id}', 'NametagController@write')->middleware('auth', 'role:admin');
 Route::get('/nametags/{i}/{id}', 'ToolsController@nametagsFamily')->middleware('auth', 'role:admin|council');
 
-Route::get('/calendar', 'CalendarController@index')->middleware('auth');
+Route::get('/museupload', 'ContactController@museIndex')->middleware('auth', 'role:admin|council');
+Route::post('/museupload', 'ContactController@museStore')->middleware('auth', 'role:admin|council');
 Route::get('/calendar/c/{id}', 'CalendarController@read')->middleware('auth', 'role:admin|council');
 Route::get('/directory', 'DirectoryController@index')->middleware('auth');
 Route::get('/av', 'WelcomeController@time')->middleware('auth');
+
+if ($year->isLive()) {
+    Route::get('/confirm', 'ConfirmController@index')->middleware('auth');
+    Route::get('/artfair', 'ContactController@artfairIndex');
+    Route::post('/artfair', 'ContactController@artfairStore')->middleware('auth');
+    Route::get('/workshopchoice', 'WorkshopController@index')->middleware('auth');
+    Route::post('/workshopchoice', 'WorkshopController@store')->middleware('auth');
+    Route::get('/volunteer', 'VolunteerController@index')->middleware('auth');
+    Route::post('/volunteer', 'VolunteerController@store')->middleware('auth');
+    Route::get('/roomselection', 'RoomSelectionController@index')->middleware('auth');
+    Route::post('/roomselection', 'RoomSelectionController@store')->middleware('auth');
+    Route::get('/nametag', 'NametagController@index')->middleware('auth');
+    Route::post('/nametag', 'NametagController@store')->middleware('auth');
+    Route::get('/calendar', 'CalendarController@index')->middleware('auth');
+} else {
+    Route::get('/proposal', 'ContactController@proposalIndex')->middleware('auth');
+    Route::post('/proposal', 'ContactController@proposalStore')->middleware('auth');
+}
 
 Route::group(['middleware' => 'auth', 'prefix' => 'data'], function () {
     Route::get('camperlist', 'DataController@campers');
@@ -73,6 +78,7 @@ Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'reports'], fu
     Route::get('campers.xls', 'ReportController@campersExport');
     Route::get('campers/{year?}/{order?}', 'ReportController@campers');
     Route::get('chart', 'ReportController@chart');
+    Route::get('conflicts', 'ReportController@conflicts');
     Route::get('deposits', 'ReportController@deposits');
     Route::post('deposits/{id}', 'ReportController@depositsMark')->middleware('auth', 'role:admin');
     Route::get('firsttime', 'ReportController@firsttime');

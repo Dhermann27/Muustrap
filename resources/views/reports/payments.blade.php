@@ -19,10 +19,7 @@
 @endsection
 
 @section('content')
-    <a href="{{ url('/reports/payments.xls') }}" class="p-2 float-right" data-toggle="tooltip"
-       title="Download Payments Excel"><i class="fa fa-download fa-2x"></i></a>
-    @include('snippet.orderby', ['years' => $years, 'orders' => ['name']])
-    <input type="hidden" id="orderby-url" value="{{ url('/reports/payments') }}"/>
+    @include('snippet.orderby', ['years' => $years, 'url' => url('/reports/payments'), 'orders' => ['name']])
     <table class="table w-auto">
         <thead>
         <tr>

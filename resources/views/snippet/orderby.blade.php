@@ -1,38 +1,36 @@
 @inject('home', 'App\Http\Controllers\HomeController')
-<form class="form-inline">
+<div class="row float-right pb-2">
+    <a href="{{ $url }}.xls" class="btn btn-info" data-toggle="tooltip" title="Download Excel"><i
+                class="fa fa-download"></i></a>
     @if(count($years) > 1)
-        <div class="col-sm-2">
-            <label for="orderby-years" class="sr-only">Filter By Year</label>
-            <select id="orderby-years" class="form-control">
+        <div class="dropdown px-2">
+            <a class="btn btn-info dropdown-toggle" href="#" role="button" id="orderByYearLink" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                {{ !empty($thisyear) ? $thisyear : $home->year()->year }}
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="orderByYearLink">
                 @foreach($years as $year)
-                    <option value="{{ $year->year }}"
-                            {{ (strpos($_SERVER['REQUEST_URI'], '/' . $year->year . '/') !== false) ? 'selected' : '' }}>
-                        Filter by {{ $year->year }}
-                    </option>
+                    <a class="dropdown-item" href="{{ $url }}/{{ $year->year }}/{{ !empty($order) ? $order : 'name'}}">Filter
+                        by {{ $year->year }}</a>
                 @endforeach
-            </select>
-        </div>
-    @else
-        <div class="col-sm-2">
-            <input type="hidden" id="orderby-years" value="{{ $home->year()->year }}"/>
+            </div>
         </div>
     @endif
     @if(count($orders) > 1)
-        <div class="col-sm-2">
-            <label for="orderby-order" class="sr-only">Order By</label>
-            <select id="orderby-order" class="form-control">
+        <div class="dropdown">
+            <a class="btn btn-info dropdown-toggle" href="#" role="button" id="orderByOrderLink" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                Order By {{ !empty($order) ? ucwords($order) : 'Name' }}
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="orderByOrderLink">
                 @foreach($orders as $order)
-                    <option value="{{ $order }}"
-                            {{ (strpos($_SERVER['REQUEST_URI'], '/' . $order) !== false) ? 'selected' : '' }}>
-                        Order By {{ ucwords($order) }}
-                    </option>
+                    <a class="dropdown-item"
+                       href="{{ $url }}/{{ !empty($thisyear) ? $thisyear : $home->year()->year }}/{{ $order }}">Order
+                        by {{ ucwords($order) }}</a>
                 @endforeach
-            </select>
-        </div>
-    @else
-        <div class="col-sm-2">
-            <input type="hidden" id="orderby-order" value="name"/>
+            </div>
         </div>
     @endif
-    <button id="orderby-submit" type="button" class="btn btn-primary col-sm-1">Go</button>
-</form>
+</div>

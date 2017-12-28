@@ -359,7 +359,7 @@
             return this.getAttribute("title");
         }
     });
-    $("#orderby-submit").on('click', function (e) {
+    $("select.orderby").on('change', function (e) {
         e.preventDefault();
         window.location = $("#orderby-url").val() + "/" + $("#orderby-years").val() + "/" + $("#orderby-order").val();
     });

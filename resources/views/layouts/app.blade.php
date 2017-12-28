@@ -156,31 +156,23 @@
                                data-hover="dropdown">Tools</a>
                             <div class="dropdown-menu">
                                 @if(count($home->pc()) > 0)
-                                    <div class="dropdown dropdown-submenu">
-                                        <a href="#" class="dropdown-item dropdown-toggle animated dropdown"
-                                           id="email-drop" data-toggle="dropdown" data-hover="dropdown"
-                                           data-close-others="false" aria-expanded="false">Email</a>
-                                        <div class="dropdown-menu" role="menu" aria-labelledby="email-drop"
-                                             style="display: none;">
-                                            @if(count($home->apc()) > 0)
-                                                <a href="mailto:{{ $home->apc()->implode('email', ';') }}"
-                                                   class="dropdown-item">Email
-                                                    Adult Programming Committee</a>
-                                            @endif
-                                            @if(count($home->ec()) > 0)
-                                                <a href="mailto:{{ $home->ec()->implode('email', ';') }}"
-                                                   class="dropdown-item">Email
-                                                    Executive Council</a>
-                                            @endif
-                                            <a href="mailto:{{ $home->pc()->implode('email', ';') }}"
-                                               class="dropdown-item">Email
-                                                Planning Council (all)</a>
-                                            @if(count($home->programs()) > 0)
-                                                <a href="mailto:{{ $home->programs()->implode('email', ';') }}"
-                                                   class="dropdown-item">Email Program Personnel</a>
-                                            @endif
-                                        </div>
-                                    </div>
+                                    @if(count($home->apc()) > 0)
+                                        <a href="mailto:{{ $home->apc()->implode('email', ';') }}"
+                                           class="dropdown-item">Email
+                                            Adult Programming Committee</a>
+                                    @endif
+                                    @if(count($home->ec()) > 0)
+                                        <a href="mailto:{{ $home->ec()->implode('email', ';') }}"
+                                           class="dropdown-item">Email
+                                            Executive Council</a>
+                                    @endif
+                                    <a href="mailto:{{ $home->pc()->implode('email', ';') }}"
+                                       class="dropdown-item">Email
+                                        Planning Council (all)</a>
+                                    @if(count($home->programs()) > 0)
+                                        <a href="mailto:{{ $home->programs()->implode('email', ';') }}"
+                                           class="dropdown-item">Email Program Personnel</a>
+                                    @endif
                                 @endif
                                 <a href="{{ url('/tools/nametags') }}" class="dropdown-item">Nametags (all)</a>
                                 <a href="{{ url('/tools/programs') }}" class="dropdown-item">Programs</a>

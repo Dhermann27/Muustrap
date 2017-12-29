@@ -251,7 +251,8 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft" data-animate-delay="0.2">
+                        <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft"
+                             data-animate-delay="0.2">
                             <h3>Household Information</h3>
                             <p class="price-banner border-grey card-body-overlap"><i class="fa fa-home fa-5x"></i>
                             </p>
@@ -264,7 +265,8 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft" data-animate-delay="0.4">
+                        <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft"
+                             data-animate-delay="0.4">
                             <h3>Camper Listing</h3>
                             <p class="price-banner border-grey card-body-overlap"><i class="fa fa-users fa-5x"></i>
                             </p>
@@ -278,7 +280,8 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft" data-animate-delay="0.6">
+                        <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft"
+                             data-animate-delay="0.6">
                             <h3>Payment</h3>
                             <p class="price-banner border-grey card-body-overlap"><i class="fa fa-usd-square fa-5x"></i>
                             </p>
@@ -306,7 +309,8 @@
             <hr class="hr-lg mt-0 mb-3 w-10 mx-auto hr-primary"/>
             <div class="row">
                 <div class="col-md-3">
-                    <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft" data-animate-delay="0.2">
+                    <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft"
+                         data-animate-delay="0.2">
                         <h3>Programs</h3>
                         <p class="price-banner border-grey card-body-overlap"><i class="fa fa-sitemap fa-5x"></i>
                         </p>
@@ -319,7 +323,8 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft" data-animate-delay="0.4">
+                    <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft"
+                         data-animate-delay="0.4">
                         <h3>Housing</h3>
                         <p class="price-banner border-grey card-body-overlap"><i class="fa fa-bath fa-5x"></i>
                         </p>
@@ -332,7 +337,8 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft" data-animate-delay="0.6">
+                    <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft"
+                         data-animate-delay="0.6">
                         <h3>Cost Calculator</h3>
                         <p class="price-banner border-grey card-body-overlap"><i class="fa fa-calculator fa-5x"></i>
                         </p>
@@ -345,7 +351,8 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft" data-animate-delay="0.8">
+                    <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft"
+                         data-animate-delay="0.8">
                         <h3>Scholarships</h3>
                         <p class="price-banner border-grey card-body-overlap"><i
                                     class="fa fa-universal-access fa-5x"></i>
@@ -373,34 +380,48 @@
             <hr class="hr-lg mt-0 mb-3 w-10 mx-auto hr-primary"/>
             <div class="row">
                 <div class="col-md-4">
-                    <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft" data-animate-delay="0.2">
+                    <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft"
+                         data-animate-delay="0.2">
                         <h3>Workshops</h3>
                         <p class="price-banner border-grey card-body-overlap"><i class="fa fa-map fa-5x"></i>
                         </p>
                         <div class="card-body">
-                            <p>Here is a list of all {{ ($home->year()->year)-1 }} workshops, to give you a better idea
-                                of what to expect
-                                next year.</p>
+                            <p>Here is a list of all
+                                @if($home->year()->isLive())
+                                    {{ $home->year()->year }} workshops available, as organized by our Adult Programming
+                                    Committee.
+                                @else
+                                    {{ ($home->year()->year)-1 }} workshops, to give you a better idea of what to expect
+                                    next year.
+                                @endif
+                            </p>
                             <a href="{{ url('/workshops') }}" class="btn btn-primary btn-block btn-rounded">View
                                 Workshops</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft" data-animate-delay="0.4">
+                    <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft"
+                         data-animate-delay="0.4">
                         <h3>Excursions</h3>
                         <p class="price-banner border-grey card-body-overlap"><i class="fa fa-binoculars fa-5x"></i>
                         </p>
                         <div class="card-body">
-                            <p>This is where you can find more details about the single-day trips planned in
-                                {{ ($home->year()->year)-1 }}, which may change in {{ $home->year()->year }}.</p>
+                            <p>This is where you can find more details about single-day trips planned in
+                                @if($home->year()->isLive())
+                                    {{ $home->year()->year }}, if you're looking to try something new.
+                                @else
+                                    {{ ($home->year()->year)-1 }}, which may change in {{ $home->year()->year }}.
+                                @endif
+                            </p>
                             <a href="{{ url('/excursions') }}" class="btn btn-primary btn-block btn-rounded">View
                                 Excursions</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft" data-animate-delay="0.6">
+                    <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft"
+                         data-animate-delay="0.6">
                         <h3>Theme Speaker</h3>
                         <p class="price-banner border-grey card-body-overlap"><i class="fa fa-microphone fa-5x"></i>
                         </p>

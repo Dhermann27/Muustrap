@@ -1,3 +1,4 @@
+@inject('home', 'App\Http\Controllers\HomeController')
 @extends('layouts.app')
 
 @section('title')
@@ -5,7 +6,12 @@
 @endsection
 
 @section('heading')
-    This page contains a list of the workshops we have on offer this year, grouped by timeslot.
+    This page contains a list of the workshops
+    @if($home->year()->isLive())
+        we have on offer this year, grouped by timeslot.
+    @else
+        we had on offer last year, as an example of what might be available.
+    @endif
 @endsection
 
 @section('content')

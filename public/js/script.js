@@ -8,6 +8,7 @@ var jPM = {},
   pageLoaderDone = false;
 var PLUGINS_LOCALPATH = './assets/plugins/';
 var loadedFiles = [];
+var pageScrolled;
 
 (function($) {
   $.extend($.fn, {
@@ -204,13 +205,29 @@ var loadedFiles = [];
       var elementsAnimated = context.find('[data-animate]');
       if (elementsAnimated.length > 0) {
         var initElementsAnimated = function() {
+          // SEO hack, hide stuff when page scrolled
+          $(window).on('scroll', function() {
+            if (pageScrolled !== true) {
+              $body.addClass('animates-pending');
+              pageScrolled = true;
+            }
+          });
+          
           elementsAnimated.each(function() {
             var $element = jQuery(this),
               animateClass = $element.data('animate'),
               animateInfinite = $element.data('animate-infinite') || null,
               animateDelay = $element.data('animate-delay') || null,
               animateDuration = $element.data('animate-duration') || null,
-              animateOffset = $element.data('animate-offset') || '98%';
+              animateOffset = $element.data('animate-offset') || '98%',
+              animateInView = $element.data('animate-inview') || false,
+              elementInView = $document.elementInView($element);
+            
+            // Already scroll passed so don't animate again
+            if (elementInView === true && animateInView === false) {
+              animateClass = null;
+              $element.removeAttr('data-animate');
+            }
 
             // Infinite
             if (animateInfinite !== null) {
@@ -232,16 +249,18 @@ var loadedFiles = [];
                 'animation-duration': animateDuration + 's'
               });
             }
-
-            $element.waypoint(function() {
-              $element.addClass('animated ' + animateClass).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-                $element.addClass('animated-done');
-                $element.removeClass(animateClass);
+            
+            if (animateClass !== null) {
+              $element.waypoint(function() {
+                $element.addClass('animated ' + animateClass).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                  $element.addClass('animated-done');
+                  $element.removeClass(animateClass);
+                });
+                this.destroy();
+              }, {
+                offset: animateOffset,
               });
-              this.destroy();
-            }, {
-              offset: animateOffset,
-            });
+            }
           });
         };
 
@@ -360,7 +379,7 @@ var loadedFiles = [];
         $doc.scroll(function() {
           var windowTop = $window.scrollTop();
           $scroll.css({
-            "opacity": 1 - windowTop / opRatio,
+            "opacity": (opRatio === 'off' ? 1 : 1 - windowTop / opRatio),
             "transform": (yRatio === 'off' ? 0 : "translateY(" + (0 - windowTop / yRatio) + "px)"),
           });
         });
@@ -980,6 +999,8 @@ var loadedFiles = [];
     isPageLoaderDone: function(callback) {
       var $loader = $('[data-toggle="page-loader"]'),
         triggerCallback = function() {
+          $('html').addClass('.page-loader-done');
+          
           if (callback && typeof(callback) === "function") {
             callback();
           }
@@ -1027,6 +1048,18 @@ var loadedFiles = [];
           callback();
         }
       }
+    },
+
+    // ----------------------------------------------------------------
+    // Determine if element is in viewport
+    // @credit: https://coderwall.com/p/fnvjvg/jquery-test-if-element-is-in-viewport
+    // ----------------------------------------------------------------    
+    elementInView: function(obj) {
+      var elementTop = obj.offset().top;
+      var elementBottom = elementTop + obj.outerHeight();
+      var viewportTop = $(window).scrollTop();
+      var viewportBottom = viewportTop + $(window).height();
+      return elementBottom > viewportTop && elementTop < viewportBottom;
     },
 
     // ----------------------------------------------------------------
@@ -1309,10 +1342,12 @@ var loadedFiles = [];
           // ----------------------------------------------------------------
           // fakeLoader.js - page loading indicator/icon
           // @see: http://joaopereirawd.github.io/fakeLoader.js/
+          // NOTE: This can effect SEO
           // ----------------------------------------------------------------
           var $fakeLoaders = context.find('[data-toggle=page-loader]');
           if ($fakeLoaders.length > 0) {
-            jQuery('html').addClass('has-page-loader');
+            $('html').addClass('has-page-loader');
+            
             var themePluginFakeLoaderInit = function() {
               var $pageLoader = jQuery('[data-toggle=page-loader]'),
                 options = {
@@ -1321,8 +1356,10 @@ var loadedFiles = [];
                   timeToHide: 1000
                 };
               $pageLoader.fakeLoader(options);
+              //$('body').removeClass('page-loader-spacer');
+              
               $document.isPageLoaderDone(function() {
-                jQuery('html').removeClass('has-page-loader');
+                $('html').removeClass('has-page-loader');
                 $(window).trigger('resize');
               });
             };
@@ -2467,7 +2504,7 @@ var loadedFiles = [];
   });
 })(jQuery);
 
-
+$('html').addClass('js');
 $(document).ready(function() {
   "use strict";
 

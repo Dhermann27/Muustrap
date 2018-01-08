@@ -20,7 +20,7 @@
                 </a>
             </li>
             @foreach($letters->groupBy('first') as $letter => $families)
-                <li class="page-item{!! $loop->first ? ' active' : '' !!}">
+                <li class="page-item letters{!! $loop->first ? ' active' : '' !!}">
                     <a href="#" class="page-link">{{ $letter }}</a>
                 </li>
             @endforeach
@@ -31,7 +31,12 @@
             </li>
         </ul>
     </nav>
-    <div align="right">Total Number of Families: {{ count($letters) }}</div>
+    <div class="row">
+        <div class="col-md-4 m-2">
+            <input id="search" class="form-control" placeholder="Search" autocomplete="off"/>
+        </div>
+        <div class="col-md-7 pt-3" align="right">Total Number of Families: {{ count($letters) }}</div>
+    </div>
     @foreach($letters->groupBy('first') as $letter => $families)
         <div id="{{ $letter }}" class="letterdiv" {!!  !$loop->first ? ' style="display: none;"' : '' !!}>
             <table class="table table-bordered w-auto">
@@ -48,19 +53,30 @@
                         <td>{{ $family->city }}, {{ $family->statecd }}</td>
                         <td align="right">{!! $family->formatted_years !!}</td>
                     </tr>
-                    <tr>
+                    <tr class="members">
                         <td colspan="3">
-                            <table class="table table-sm w-auto">
+                            <table class="table table-sm w-auto vmid">
                                 @foreach($family->allcampers()->orderBy('birthdate')->get() as $camper)
                                     <tr>
-                                        <td width="33%">{{ $camper->lastname }}, {{ $camper->firstname }}
-                                            @if(isset($camper->email))
-                                                <a href="mailto:{{ $camper->email }}"
-                                                   class="fa fa-envelope"></a>
+                                        <td width="4%">
+                                            @if(isset($pix[$camper->firstname . ' ' . $camper->lastname]))
+                                                <a href="{{ $pix[$camper->firstname . ' ' . $camper->lastname]["link"] }}"><img
+                                                            src="{{ $pix[$camper->firstname . ' ' . $camper->lastname]["url"] }}"
+                                                            alt="{{ $camper->firstname }} {{ $camper->lastname }}"/></a>
                                             @endif
                                         </td>
-                                        <td width="33%">{{ $camper->formatted_phone }}</td>
-                                        <td width="34%">{{ $camper->birthday }}</td>
+                                        <td width="33%" class="name">{{ $camper->lastname }}, {{ $camper->firstname }}
+                                            @if(isset($camper->email))
+                                                <a href="mailto:{{ $camper->email }}">
+                                                    <i class="fa fa-envelope"></i>
+                                                </a>
+                                            @endif
+                                        </td>
+                                        <td width="31%"><a href="tel:+1{{ $camper->phonenbr }}">
+                                                {{ $camper->formatted_phone }}
+                                            </a>
+                                        </td>
+                                        <td width="31%">{{ $camper->birthday }}</td>
                                     </tr>
                                 @endforeach
                             </table>
@@ -75,29 +91,54 @@
 @section('script')
     <script>
         $(function () {
-            $(".page-link:not('#prev,#next')").on('click', function () {
-                $("li.active").removeClass("active");
-                $(this).parent().addClass("active");
-                $(".letterdiv:visible").fadeOut(250);
-                $("#" + $(this).text()).fadeIn();
+            $(".letters").on('click', function () {
+                if (!$(this).hasClass("disabled")) {
+                    $("li.active").removeClass("active");
+                    $(this).addClass("active");
+                    $(".letterdiv:visible").fadeOut(250);
+                    $("#" + $(this).find("a").text()).fadeIn();
+                }
             });
 
             $("#prev").on('click', function () {
                 var active = $('li.active');
-                if (active.prev().find("a").attr("id") !== "prev") {
-                    active.removeClass("active").prev().addClass("active");
-                    $(".letterdiv:visible").fadeOut(250).prev().fadeIn(250);
+                var prev = active.prevAll("li:not('.disabled')").first();
+                if (prev.find("a").attr("id") !== "prev") {
+                    active.removeClass("active");
+                    prev.addClass("active");
+                    $(".letterdiv:visible").fadeOut(250);
+                    $("#" + prev.find("a").text()).fadeIn();
                 }
             });
 
             $("#next").on('click', function () {
                 var active = $('li.active');
-                if (active.next().find("a").attr("id") !== "next") {
-                    active.removeClass("active").next().addClass("active");
-                    $(".letterdiv:visible").fadeOut(250).next().fadeIn(250);
+                var next = active.nextAll(":not('.disabled')").first();
+                if (next.find("a").attr("id") !== "next") {
+                    active.removeClass("active");
+                    next.addClass("active");
+                    $(".letterdiv:visible").fadeOut(250);
+                    $("#" + next.find("a").text()).fadeIn();
                 }
-            })
-        })
-        ;
+            });
+
+            $("#search").keyup(function () {
+                $("tr.family").each(function () {
+                    $(this).hide().next().hide();
+                });
+                $(".letters").addClass("disabled");
+                $("tr.family:contains('" + $(this).val() + "')").each(function () {
+                    $(this).show().next().show();
+                    $(".letters:contains('" + $(this).find("td:first").text().substr(0, 1) + "')").removeClass("disabled");
+                });
+                $("td.name:contains('" + $(this).val() + "')").each(function () {
+                    var letter = $(this).parents(".members").show().prev().show().find("td:first").text().substr(0,1);
+                    $(".letters:contains('" + letter + "')").removeClass("disabled");
+                });
+                if ($("li.active").hasClass("disabled")) {
+                    $(".letters:not('.disabled'):first a").click();
+                }
+            });
+        });
     </script>
 @endsection

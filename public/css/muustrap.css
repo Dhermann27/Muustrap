@@ -245,6 +245,10 @@ input::-webkit-inner-spin-button {
     bottom: 200px;
 }
 
+table.vmid td {
+    vertical-align: middle;
+}
+
 tr.family {
     font-size: 1.2em;
 }

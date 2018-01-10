@@ -59,5 +59,6 @@ return [
                                             <p class=\'quest\'>Mystery Quest</p>
                                             <p class=\'vibes\'>Great Vibes</p>
                                             <p class=\'bangers\'>Bangers</p>
-                                            <p class=\'comic\'>Comic Sans</p></div>'
+                                            <p class=\'comic\'>Comic Sans</p></div>',
+    'specialneeds' => 'Examples: disabled accessibility, refrigeration for medicines, special diet other than vegan or gluten free, service/companion animals, accommodations for the children\'s program'
 ];

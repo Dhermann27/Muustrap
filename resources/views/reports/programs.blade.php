@@ -35,8 +35,9 @@
                                     <td>
                                         {{ $participant->lastname }}, {{ $participant->firstname }}
                                         @if(isset($participant->email))
-                                            <a href="mailto:{{ $participant->email }}"
-                                               class="fa fa-envelope d-print-none"></a>
+                                            <a href="mailto:{{ $participant->email }}" class="d-print-none">
+                                                <i class="fa fa-envelope"></i>
+                                            </a>
                                         @endif
                                     </td>
                                     <td>{{ $participant->age }}</td>
@@ -54,9 +55,9 @@
                             </tbody>
                             <tfoot>
                             <tr>
-                                <td colspan="{{ $program->participants->first()->age<18 ? '8' : '4' }}"
-                                    align="right"><strong>Total
-                                        Campers: </strong> {{ count($program->participants) }}</td>
+                                <td colspan="{{ $program->participants->first()->age<18 ? '8' : '4' }}" align="right">
+                                    <strong>Total Campers: </strong> {{ count($program->participants) }}
+                                </td>
                             </tr>
                             <tr class="d-print-none">
                                 <td colspan="{{ $program->participants->first()->age<18 ? '8' : '4' }}">

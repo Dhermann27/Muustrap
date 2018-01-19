@@ -90,10 +90,11 @@ class ReportController extends Controller
 
     public function firsttime()
     {
-        $families = \App\Thisyear_Family::where(DB::raw('(SELECT COUNT(*) FROM byyear_families bf WHERE thisyear_families.id=bf.id AND bf.year!=getcurrentyear())'), 0)
+        $year = \App\Year::where('is_current', '1')->first()->year;
+        $families = \App\Byyear_Family::where(DB::raw('(SELECT COUNT(*) FROM byyear_families bfp WHERE byyear_families.id=bfp.id AND bfp.year!=getcurrentyear())'), 0)
             ->with('campers')->orderBy('name')->get();
         return view('reports.campers', ['title' => 'First-time Campers', 'families' => $families,
-            'years' => ['2008']]);
+            'thisyear' => $year, 'years' => [$year]]);
     }
 
     public function outstandingMark(Request $request, $id)

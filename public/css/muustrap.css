@@ -69,15 +69,12 @@ div.preview div.surname {
 }
 
 div.pronoun {
-    font-size: 24px;
+    text-align: right;
+    font-size: 2em;
 }
 
 div.preview div.line1, div.preview div.line2, div.preview div.line3, div.preview div.line4, div.preview div.parent {
     font-size: 1.2em;
-}
-
-div.panel {
-    margin: 10px;
 }
 
 div#spacer0 {
@@ -90,76 +87,6 @@ div#spacer1 {
 
 div#spacer2 {
     background-image: url("/images/spacer2.jpg");
-}
-
-.booty {
-    background-color: hsl(214, 37%, 28%) !important;
-    background-repeat: repeat-x;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#7a99c1", endColorstr="#2c4361");
-    background-image: -khtml-gradient(linear, left top, left bottom, from(#7a99c1), to(#2c4361));
-    background-image: -moz-linear-gradient(top, #7a99c1, #2c4361);
-    background-image: -ms-linear-gradient(top, #7a99c1, #2c4361);
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7a99c1), color-stop(100%, #2c4361));
-    background-image: -webkit-linear-gradient(top, #7a99c1, #2c4361);
-    background-image: -o-linear-gradient(top, #7a99c1, #2c4361);
-    background-image: linear-gradient(#7a99c1, #2c4361);
-    border-color: #2c4361 #2c4361 hsl(214, 37%, 19.5%);
-    color: #fff !important;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.56);
-    -webkit-font-smoothing: antialiased;
-    padding: 10px;
-    line-height: 30px;
-}
-
-.pulse-button {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    padding-top: 27px;
-    margin-left: 35%;
-    border: none;
-    color: #FFFFFF;
-    box-shadow: 0 0 0 0 #7a99c1;
-    border-radius: 50%;
-    background-color: hsl(214, 37%, 28%);
-    background-size: cover;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    -webkit-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
-    -moz-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
-    -ms-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
-    animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
-}
-
-.pulse-button:hover {
-    -webkit-animation: none;
-    -moz-animation: none;
-    -ms-animation: none;
-    animation: none;
-}
-
-@-webkit-keyframes pulse {
-    to {
-        box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);
-    }
-}
-
-@-moz-keyframes pulse {
-    to {
-        box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);
-    }
-}
-
-@-ms-keyframes pulse {
-    to {
-        box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);
-    }
-}
-
-@keyframes pulse {
-    to {
-        box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);
-    }
 }
 
 .parallax {
@@ -191,60 +118,33 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 
-.carousel img {
-    min-width: 100%;
+tr.family {
+    font-size: 1.2em;
 }
 
-#carousel-caption1 {
-    top: 0;
-    left: 15%;
-    width: 35%;
-    text-align: left;
+.opensans {
+    font-family: 'Open Sans', Helvetica, sans-serif;
 }
 
-#carousel-caption2 {
-    left: 15%;
-    width: 55%;
-    text-align: left;
-    text-shadow: 0;
-    color: #0f0f0f;
+.indie {
+    font-family: 'Indie Flower', Gadget, sans-serif;
 }
 
-#carousel-caption3 {
-    top: 0;
-    bottom: auto;
-    width: 70%;
+.ftg {
+    font-family: 'Fredericka the Great', Charcoal, sans-serif;
 }
 
-.carousel-control i {
-    position: absolute;
-    top: 50%;
-    z-index: 5;
-    display: inline-block;
+.quest {
+    font-family: 'Mystery Quest', 'Lucida Grande', sans-serif;
 }
 
-.social {
-    position: fixed;
-    right: 0;
-    z-index: auto;
+.vibes {
+    font-family: 'Great Vibes', Geneva, sans-serif;
 }
 
-#fb {
-    bottom: 50px;
+.bangers {
+    font-family: 'Bangers', Monaco, sans-serif;
 }
-
-#twtr {
-    bottom: 100px;
-}
-
-#od {
-    bottom: 150px;
-}
-
-#cal {
-    bottom: 200px;
-}
-
 table.vmid td {
     vertical-align: middle;
 }
@@ -253,6 +153,6 @@ tr.family {
     font-size: 1.2em;
 }
 
-div.alert-info {
-    margin-bottom: 0;
+.comic {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
 }

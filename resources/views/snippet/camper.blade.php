@@ -10,7 +10,7 @@
                 <button id="quickme" class="float-right" data-toggle="tooltip" title="@lang('messages.quickcopy')">
                     <i class="fa fa-copy"></i></button>
             @else
-                <a href="#" class="p-2 float-right" data-toggle="tooltip"  data-html="true"
+                <a href="#" class="p-2 float-right" data-toggle="tooltip" data-html="true"
                    title="@lang('messages.attending')"><i class="fa fa-info"></i></a>
             @endif
             Attending in {{ $home->year()->year }}?
@@ -51,7 +51,7 @@
     </div>
     <div class="form-group row{{ $errors->has('pronounid.' . $looper->index) ? ' has-danger' : '' }}">
         <label for="pronounid-{{ $looper->index }}" class="col-md-4 control-label">
-            <a href="#" class="p-2 float-right" data-toggle="tooltip"  data-html="true"
+            <a href="#" class="p-2 float-right" data-toggle="tooltip" data-html="true"
                title="@lang('messages.pronoun')"><i class="fa fa-info"></i></a>
             Gender Pronoun(s)
         </label>
@@ -164,7 +164,7 @@
     </div>
     <div class="form-group row{{ $errors->has('gradyear.' . $looper->index) ? ' has-danger' : '' }}">
         <label for="gradyear-{{ $looper->index }}" class="col-md-4 control-label">
-            <a href="#" class="p-2 float-right" data-toggle="tooltip"  data-html="true"
+            <a href="#" class="p-2 float-right" data-toggle="tooltip" data-html="true"
                title="@lang('messages.gradyear')"><i class="fa fa-info"></i></a>
             High School Graduation Year
         </label>
@@ -189,7 +189,7 @@
     </div>
     <div class="form-group row{{ $errors->has('roommate.' . $looper->index) ? ' has-danger' : '' }}">
         <label for="roommate-{{ $looper->index }}" class="col-md-4 control-label">
-            <a href="#" class="p-2 float-right" data-toggle="tooltip"  data-html="true"
+            <a href="#" class="p-2 float-right" data-toggle="tooltip" data-html="true"
                title="@lang('messages.roommate')"><i class="fa fa-info"></i></a>
             Roommate Preference
         </label>
@@ -210,7 +210,7 @@
     </div>
     <div class="form-group row{{ $errors->has('sponsor.' . $looper->index) ? ' has-danger' : '' }}">
         <label for="sponsor-{{ $looper->index }}" class="col-md-4 control-label">
-            <a href="#" class="p-2 float-right" data-toggle="tooltip"  data-html="true"
+            <a href="#" class="p-2 float-right" data-toggle="tooltip" data-html="true"
                title="@lang('messages.sponsor')"><i class="fa fa-info"></i></a>
             Sponsor (if necessary)
         </label>
@@ -229,8 +229,7 @@
         </div>
     </div>
     <div class="form-group row{{ $errors->has('churchid.' . $looper->index) ? ' has-danger' : '' }}">
-        <label for="churchid-{{ $looper->index }}" class="col-md-4 control-label">Church
-            Affiliation</label>
+        <label for="churchid-{{ $looper->index }}" class="col-md-4 control-label">Church Affiliation</label>
         <div class="col-md-6">
             <input id="churchname-{{ $looper->index }}" type="text"
                    class="form-control churchlist{{ $errors->has('churchid.' . $looper->index) ? ' is-invalid' : '' }}"
@@ -247,8 +246,11 @@
         </div>
     </div>
     <div class="form-group row{{ $errors->has('is_handicap.' . $looper->index) ? ' has-danger' : '' }}">
-        <label for="is_handicap-{{ $looper->index }}" class="col-md-8 control-label">Do you
-            require a room accessible by the physically disabled?</label>
+        <label for="is_handicap-{{ $looper->index }}" class="col-md-8 control-label">Do you require assistance or any
+            needs of which the Registrar should be aware?
+            <a href="#" class="p-2 float-right" data-toggle="tooltip" data-html="true"
+               title="@lang('messages.specialneeds')"><i class="fa fa-info"></i></a>
+        </label>
         <div class="col-md-2">
             <select class="form-control{{ $errors->has('is_handicap.' . $looper->index) ? ' is-invalid' : '' }}"
                     id="is_handicap-{{ $looper->index }}" name="is_handicap[]">

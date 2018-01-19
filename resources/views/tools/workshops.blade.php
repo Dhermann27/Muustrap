@@ -62,7 +62,7 @@
                                 'attribs' => ['name' => $timeslot->id . '-order', 'data-number-to-fixed' => '0',
                                 'placeholder' => 'Position in which to display the workshop', 'min' => '1']])
 
-                            @include('.snippet.checkbox', ['label' => 'Days', 'id' => $timeslot->id,
+                            @include('snippet.checkbox', ['label' => 'Days', 'id' => $timeslot->id,
                                 'list' => ['m' => 'Monday', 't' => 'Tuesday', 'w' => 'Wednesday',
                                 'h' => 'Thursday', 'f' => 'Friday']])
 

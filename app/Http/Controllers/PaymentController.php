@@ -38,7 +38,7 @@ class PaymentController extends Controller
                         ['camperid' => $thiscamper->id, 'chargetypeid' => DB::raw('getchargetypeid(\'Paypal Service Charge\')'),
                             'year' => DB::raw('getcurrentyear()'), 'timestamp' => date("Y-m-d")],
                         ['camperid' => $thiscamper->id, 'amount' => '-' . ($request->amount * .03),
-                            'memo' => 'Optional Overpayment',
+                            'memo' => 'Optional PayPal Payment',
                             'chargetypeid' => DB::raw('getchargetypeid(\'Paypal Service Charge\')'),
                             'year' => DB::raw('getcurrentyear()'), 'timestamp' => date("Y-m-d"),
                             'created_at' => DB::raw('CURRENT_TIMESTAMP')]

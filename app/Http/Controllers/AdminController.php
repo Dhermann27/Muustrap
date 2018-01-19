@@ -38,9 +38,8 @@ class AdminController extends Controller
         if ($request->input("email") == "1") {
             $rows->where('email', '!=', '\'\'');
         }
-        if ($request->input("ecomm") == "1") {
-            $rows->where('is_ecomm', '1');
-        }
+        $rows->where('is_ecomm', $request->input("ecomm"));
+
         if ($request->input("current") == "1") {
             $rows->where('is_address_current', '1');
         }
@@ -54,6 +53,8 @@ class AdminController extends Controller
         if (count($programids) > 0) {
             $rows->whereIn(DB::raw('getprogramidbycamperid(id, year)'), $programids);
         }
+
+        $rows->groupBy($request->input("groupby"));
 
         $counter = $rows->count();
         if($counter > 0) {

@@ -229,8 +229,7 @@
         </div>
     </div>
     <div class="form-group row{{ $errors->has('churchid.' . $looper->index) ? ' has-danger' : '' }}">
-        <label for="churchid-{{ $looper->index }}" class="col-md-4 control-label">Church
-            Affiliation</label>
+        <label for="churchid-{{ $looper->index }}" class="col-md-4 control-label">Church Affiliation</label>
         <div class="col-md-6">
             <input id="churchname-{{ $looper->index }}" type="text"
                    class="form-control churchlist{{ $errors->has('churchid.' . $looper->index) ? ' is-invalid' : '' }}"

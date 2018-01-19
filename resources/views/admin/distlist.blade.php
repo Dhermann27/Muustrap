@@ -32,7 +32,7 @@
             @include('snippet.formgroup', ['type' => 'select',
                 'label' => 'Restrict to Campers with current snailmail addresses?', 'attribs' => ['name' => 'current'],
                 'list' => [['id' => '1', 'name' => 'Yes'],
-                            ['id' => '0', 'name' => 'No, show all']], 'option' => 'name'])
+                            ['id' => '0', 'name' => 'No, even show obselete addresses']], 'option' => 'name'])
 
             <div class="form-group row">
                 <label for="programs" class="col-md-4 control-label">Programs (all off by default)</label>
@@ -46,6 +46,11 @@
                     @endforeach
                 </div>
             </div>
+
+            @include('snippet.formgroup', ['type' => 'select',
+                'label' => 'Group By', 'attribs' => ['name' => 'groupby'],
+                'list' => [['id' => 'id', 'name' => 'Camper (Possibility of duplicate addresses)'],
+                            ['id' => 'familyid', 'name' => 'Family (Unique addresses)']], 'option' => 'name'])
 
             @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Download Data']])
         </form>

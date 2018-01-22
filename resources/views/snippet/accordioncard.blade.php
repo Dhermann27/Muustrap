@@ -14,7 +14,7 @@
         </h5>
     </div>
     <div id="collapse-{{ $id }}-{{ $heading }}" data-parent="#{{ $id }}-accordion"
-         class="collapse{{ !isset($closed) && $loop->first ? ' show' : '' }}"
+         class="collapse d-print-block{{ !isset($closed) && $loop->first ? ' show' : '' }}"
          role="tabpanel" aria-labelledby="heading-{{ $id }}-{{ $heading }}">
         <div class="card-body">{{ $slot }}</div>
     </div>

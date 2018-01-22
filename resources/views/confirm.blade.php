@@ -148,7 +148,7 @@
                             @include('snippet.medical', ['camper' => $camper, 'first' => $loop->first])
 
                             @if(!isset($readonly) || $readonly === false)
-                                <div class="form-group row">
+                                <div class="form-group row d-print-none">
                                     <label for="submit" class="col-md-4 control-label">&nbsp;</label>
                                     <div class="col-md-6">
                                         <div class="text-lg-right">
@@ -164,10 +164,15 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="d-none d-print-block" align="right">
+                                    <h4>Signature of parent/guardian: ____________________________________________________</h4>
+                                    <h4>Signature of camper: ____________________________________________________</h4>
+                                </div>
                             @endif
                         </form>
                     </div>
                 @endcomponent
+                <footer>Please print this form for your records.</footer>
             @endforeach
         </div>
     @endforeach

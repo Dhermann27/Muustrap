@@ -100,7 +100,7 @@
         </div>
     </div>
 
-    <div class="header">
+    <div class="header d-print-none">
         <div class="header-inner container">
             <div class="header-brand">
                 <a class="header-brand-text" href="/" title="Home">
@@ -284,7 +284,7 @@
         </div>
     </div>
     @role(['admin', 'council'])
-    <div class="header-below">
+    <div class="header-below d-print-none">
         <div class="input-group">
             <div class="input-group-btn">
                 @include('admin.controls', ['id' =>  (preg_match('/\/(c|f)\/\d+$/', $_SERVER['REQUEST_URI'], $matches) ? substr($_SERVER['REQUEST_URI'], -6) : 'c/0'), 'inputgroup' => 'true'])
@@ -296,19 +296,19 @@
     </div>
     @endrole
 </div>
-<div id="content" class="p-0">
+<div id="content" class="p-0 ">
     @hassection('title')
         <p>&nbsp;</p>
-        <h2 class="text-center text-uppercase font-weight-bold my-0">
+        <h2 class="text-center text-uppercase font-weight-bold my-0 d-print-none">
             @yield('title')
         </h2>
         <hr class="hr-lg mt-0 mb-3 w-10 mx-auto hr-primary"/>
     @endif
     @hassection('heading')
-        <h5 class="text-center font-weight-light mt-2 mb-0 text-muted">
+        <h5 class="text-center font-weight-light mt-2 mb-0 text-muted d-print-none">
             @yield('heading')
         </h5>
-        <hr class="mb-5 w-50 mx-auto"/>
+        <hr class="mb-5 w-50 mx-auto d-print-none"/>
     @endif
     @yield('content')
 </div>

@@ -46,7 +46,7 @@
 
 <div
         @if(!$camper->medicalresponse || $camper->medicalresponse->is_insured == '0')
-        class="d-none"
+        class="d-none d-print-block"
         @endif
 >
     @include('snippet.formgroup', ['label' => 'Policy Holder Name', 'formobject' => $camper->medicalresponse,

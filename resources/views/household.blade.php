@@ -43,8 +43,8 @@
 
             @include('snippet.question', ['name' => 'is_ecomm',
                 'label' => 'Please indicate if you would like to receive a paper brochure in the mail.',
-                'list' => [['id' => '1', 'option' => 'No, do not mail me anything'],
-                        ['id' => '0', 'option' => 'Yes, please mail me a brochure']]])
+                'list' => [['id' => '0', 'option' => 'Yes, please mail me a brochure'],
+                    ['id' => '1', 'option' => 'No, do not mail me anything']]])
 
             @include('snippet.question', ['name' => 'is_scholar',
                 'label' => 'Please indicate if you will be applying for a scholarship this year.',

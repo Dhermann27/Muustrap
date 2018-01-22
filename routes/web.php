@@ -13,6 +13,7 @@ Route::get('/contact', 'ContactController@contactIndex');
 Route::post('/contact', 'ContactController@contactStore');
 
 Route::get('/confirm/{i}/{id}', 'ConfirmController@read')->middleware('auth', 'role:admin|council');
+Route::post('/confirm/y/{id}', 'ConfirmController@respond')->middleware('role:admin|council');
 Route::get('/confirm/all', 'ConfirmController@all')->middleware('auth', 'role:admin');
 
 Route::get('/household', 'HouseholdController@index')->middleware('auth');
@@ -52,6 +53,7 @@ Route::get('/av', 'WelcomeController@time')->middleware('auth');
 
 if ($year->isLive()) {
     Route::get('/confirm', 'ConfirmController@index')->middleware('auth');
+    Route::post('/confirm/y/{id}', 'ConfirmController@respond')->middleware('auth');
     Route::get('/artfair', 'ContactController@artfairIndex');
     Route::post('/artfair', 'ContactController@artfairStore')->middleware('auth');
     Route::get('/workshopchoice', 'WorkshopController@index')->middleware('auth');

@@ -7,11 +7,11 @@
 @section('content')
     @include('snippet.orderby', ['years' => $years, 'url' => url('/reports/rooms'), 'orders' => ['name']])
     <p>&nbsp;</p>
-    <div id="-accordion" role="tablist">
+    @component('snippet.accordion', ['id' => ''])
         @foreach($buildings as $building)
             @component('snippet.accordioncard', ['id' => '1', 'loop' => $loop, 'heading' => $building->id, 'title' => $building->name])
                 @slot('badge')
-                    <span class="p-3 float-right">
+                    <span class="badge badge-primary">
                     {{ count($campers->filter(function ($value) use ($building) {
                         return $value->buildingid==$building->id && $value->age>17;
                     })) }}
@@ -50,7 +50,7 @@
                 </table>
             @endcomponent
         @endforeach
-    </div>
+    @endcomponent
     <div class="mt-5 pr-2" align="right">
         <strong>Total Trout Lodge Side: </strong>
         {{ count($campers->filter(function ($value) use ($building) {

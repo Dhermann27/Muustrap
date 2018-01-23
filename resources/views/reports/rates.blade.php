@@ -11,7 +11,7 @@
         @foreach($years as $year)
             <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
                  aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $year->year }}">
-                <div id="{{ $year->year }}-accordion" role="tablist">
+                @component('snippet.accordion', ['id' => $year->year])
                     @foreach($buildings as $building)
                         @component('snippet.accordioncard', ['id' => $year->year, 'loop' => $loop, 'heading' => $building->id, 'title' => $building->name])
                             <table class="table table-striped w-auto">
@@ -61,7 +61,7 @@
                             </table>
                         @endcomponent
                     @endforeach
-                </div>
+                @endcomponent
             </div>
         @endforeach
     </div>

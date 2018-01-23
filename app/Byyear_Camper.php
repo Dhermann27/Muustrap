@@ -23,6 +23,11 @@ class Byyear_Camper extends Model
         return $this->hasOne(Foodoption::class, 'id', 'foodoptionid');
     }
 
+    public function medicalresponse()
+    {
+        return $this->hasOne(Medicalresponse::class, 'yearattendingid', 'yearattendingid');
+    }
+
     public function pronoun()
     {
         return $this->hasOne(Pronoun::class, 'id', 'pronounid');

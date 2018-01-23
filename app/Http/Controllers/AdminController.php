@@ -26,6 +26,11 @@ class AdminController extends Controller
                     WHERE byyear_campers.familyid=byyear_charges.familyid AND 
                           byyear_campers.year=byyear_charges.year AND
                          (chargetypeid=1003 OR amount<0) GROUP BY byyear_campers.familyid)'), '>', 0);
+        } elseif ($request->input("campers") == "uns") {
+            $rows->where('byyear_campers.year', DB::raw('getcurrentyear()'));
+            $rows->whereRaw('byyear_campers.familyid IN (SELECT familyid FROM byyear_campers bcp
+                    LEFT JOIN medicalresponses m ON bcp.yearattendingid=m.yearattendingid 
+                    WHERE m.id IS NULL AND bcp.age<18 GROUP BY bcp.familyid)');
         } elseif ($request->input("campers") == "oneyear") {
             $rows->where('year', DB::raw('getcurrentyear()-1'));
         } elseif ($request->input("campers") == "lost") {
@@ -38,7 +43,9 @@ class AdminController extends Controller
         if ($request->input("email") == "1") {
             $rows->where('email', '!=', '\'\'');
         }
-        $rows->where('is_ecomm', $request->input("ecomm"));
+        if ($request->input("ecomm") != '-1') {
+            $rows->where('is_ecomm', $request->input("ecomm"));
+        }
 
         if ($request->input("current") == "1") {
             $rows->where('is_address_current', '1');
@@ -54,10 +61,10 @@ class AdminController extends Controller
             $rows->whereIn(DB::raw('getprogramidbycamperid(id, year)'), $programids);
         }
 
-        $rows->groupBy($request->input("groupby"));
+        $rows->groupBy("byyear_campers." . $request->input("groupby"));
 
         $counter = $rows->count();
-        if($counter > 0) {
+        if ($counter > 0) {
             $year = \App\Year::where('is_current', '1')->first()->year;
             Excel::create('MUUSA_' . $year . '_Distlist_' . Carbon::now()->toDateString(), function ($excel) use ($rows) {
                 $excel->sheet('campers', function ($sheet) use ($rows) {

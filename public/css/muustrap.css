@@ -145,9 +145,6 @@ tr.family {
 .bangers {
     font-family: 'Bangers', Monaco, sans-serif;
 }
-table.vmid td {
-    vertical-align: middle;
-}
 
 tr.family {
     font-size: 1.2em;

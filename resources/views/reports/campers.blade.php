@@ -43,7 +43,12 @@
                                                         class="fa fa-envelope"></i></a>
                                         @endif
                                     </td>
-                                    <td width="20%">{{ $camper->birthdate }}</td>
+                                    <td width="20%">{{ $camper->birthdate }}
+                                        @if(isset($camper->medicalresponse))
+                                            <i class="fa fa-pencil-alt"
+                                               title="This camper has submitted their medical response."></i>
+                                        @endif
+                                    </td>
                                     <td width="20%">{{ $camper->programname }}</td>
                                     <td width="20%">{{ $camper->room_number }}</td>
                                     <td width="20%">

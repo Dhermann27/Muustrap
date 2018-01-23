@@ -17,7 +17,7 @@
         @foreach($years as $thisyear => $volunteers)
             <div role="tabpanel" class="tab-pane fade{{ $loop->last ? ' active show' : '' }}"
                  aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $thisyear }}">
-                <div id="{{ $thisyear }}-accordion" role="tablist">
+                @component('snippet.accordion', ['id' => $thisyear ])
                     @foreach($positions as $position)
                         @if(count($volunteers->filter(function ($value) use ($thisyear, $position) {
                                 return $value->year==$thisyear && $value->volunteerpositionid==$position->id;
@@ -54,7 +54,7 @@
                             @endcomponent
                         @endif
                     @endforeach
-                </div>
+                @endcomponent
             </div>
         @endforeach
     </div>

@@ -127,13 +127,15 @@
 
         <footer style="text-align: center;"><h4>See you next week!</h4></footer>
 
-        <div id="-accordion" role="tablist">
+        @component('snippet.accordion', ['id' => $family->id])
             @foreach($family->campers()->where('age', '<', '18')->get() as $camper)
-                @component('snippet.accordioncard', ['id' => '', 'loop' => $loop, 'heading' => $camper->id,
+                @component('snippet.accordioncard', ['id' => $family->id, 'loop' => $loop, 'heading' => $camper->id,
                     'title' => $camper->firstname . ' ' . $camper->lastname, 'closed' => $camper->medicalresponse])
                     @slot('badge')
                         @if($camper->medicalresponse)
-                            <i class="fa fa-check float-right"></i>
+                            <span class="badge badge-primary">
+                                <i class="fa fa-check" title="Medical Response Submitted"></i>
+                            </span>
                         @endif
                     @endslot
                     @if(count($families) == 1 && !empty($camper->program->letter))
@@ -165,16 +167,17 @@
                                     </div>
                                 </div>
                                 <div class="d-none d-print-block" align="right">
-                                    <h4>Signature of parent/guardian: ____________________________________________________</h4>
+                                    <h4>Signature of parent/guardian:
+                                        ____________________________________________________</h4>
                                     <h4>Signature of camper: ____________________________________________________</h4>
                                 </div>
                             @endif
                         </form>
                     </div>
                 @endcomponent
-                <footer>Please print this form for your records.</footer>
+                <footer>Please keep a copy of this form for your records.</footer>
             @endforeach
-        </div>
+        @endcomponent
     @endforeach
 @endsection
 

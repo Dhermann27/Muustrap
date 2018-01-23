@@ -1,5 +1,6 @@
 @if(!empty($camper->program->covenant))
-    <p>{{ $camper->program->covenant }}</p>
+    <h3>{{ $camper->program->name }} Covenant</h3>
+    {!! $camper->program->covenant !!}
     <p><strong>By submitting this form, you are agreeing to this covenant.</strong></p>
 @endif
 <h3>MUUSA Youth Medical Release Form</h3>
@@ -82,7 +83,7 @@
 
     <div class="form-group row">
         <label class="col-md-4 control-label">Is your child under the care of a physician for:</label>
-        <div class="col-md-6 btn-group" data-toggle="buttons">
+        <div class="col-md-6 btn-group btn-group-toggle" data-toggle="buttons">
             <label class="btn btn-default{{ $camper->medicalresponse && $camper->medicalresponse->is_epilepsy ? ' active' : '' }}">
                 <input type="checkbox" name="{{ $camper->yearattendingid }}-is_epilepsy" autocomplete="off"
                        @if($camper->medicalresponse && $camper->medicalresponse->is_epilepsy)

@@ -55,7 +55,7 @@
                     </tr>
                     <tr class="members">
                         <td colspan="3">
-                            <table class="table table-sm w-auto vmid">
+                            <table class="table table-sm w-auto">
                                 @foreach($family->allcampers()->orderBy('birthdate')->get() as $camper)
                                     <tr>
                                         <td width="4%">
@@ -65,18 +65,19 @@
                                                             alt="{{ $camper->firstname }} {{ $camper->lastname }}"/></a>
                                             @endif
                                         </td>
-                                        <td width="33%" class="name">{{ $camper->lastname }}, {{ $camper->firstname }}
+                                        <td width="33%" class="name align-middle">{{ $camper->lastname }}
+                                            , {{ $camper->firstname }}
                                             @if(isset($camper->email))
                                                 <a href="mailto:{{ $camper->email }}">
                                                     <i class="fa fa-envelope"></i>
                                                 </a>
                                             @endif
                                         </td>
-                                        <td width="31%"><a href="tel:+1{{ $camper->phonenbr }}">
+                                        <td width="31%" class="align-middle"><a href="tel:+1{{ $camper->phonenbr }}">
                                                 {{ $camper->formatted_phone }}
                                             </a>
                                         </td>
-                                        <td width="31%">{{ $camper->birthday }}</td>
+                                        <td width="31%" class="align-middle">{{ $camper->birthday }}</td>
                                     </tr>
                                 @endforeach
                             </table>
@@ -132,7 +133,7 @@
                     $(".letters:contains('" + $(this).find("td:first").text().substr(0, 1) + "')").removeClass("disabled");
                 });
                 $("td.name:contains('" + $(this).val() + "')").each(function () {
-                    var letter = $(this).parents(".members").show().prev().show().find("td:first").text().substr(0,1);
+                    var letter = $(this).parents(".members").show().prev().show().find("td:first").text().substr(0, 1);
                     $(".letters:contains('" + letter + "')").removeClass("disabled");
                 });
                 if ($("li.active").hasClass("disabled")) {

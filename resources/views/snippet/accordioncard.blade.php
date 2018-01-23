@@ -1,22 +1,18 @@
-{{--<div id="{{ $id }}-accordion" role="tablist">--}}
 {{--@component('snippet.accordioncard', ['id' => $year->year, 'loop' => $loop, 'heading' => $building->id, 'title' => $building->name])--}}
 <div class="card">
-    <div class="card-header" role="tab" id="heading-{{ $id }}-{{ $heading }}">
-        <h5 class="mb-0">
+    <h4 class="card-header p-0" role="tab" id="heading-{{ $id }}-{{ $heading }}">
+        <a data-toggle="collapse" data-parent="#{{ $id }}-accordion" href="#collapse-{{ $id }}-{{ $heading }}"
+           aria-expanded="{{ !isset($closed) && $loop->first ? 'true' : 'false' }}"
+           aria-controls="collapse-{{ $id }}-{{ $heading }}">
+            {{ $title }}
             @if(isset($badge))
                 {{ $badge }}
             @endif
-            <a data-toggle="collapse" href="#collapse-{{ $id }}-{{ $heading }}"
-               aria-expanded="{{ $loop->first ? 'true' : 'false' }}"
-               aria-controls="collapse-{{ $id }}-{{ $heading }}">
-                {{ $title }}
-            </a>
-        </h5>
-    </div>
-    <div id="collapse-{{ $id }}-{{ $heading }}" data-parent="#{{ $id }}-accordion"
-         class="collapse d-print-block{{ !isset($closed) && $loop->first ? ' show' : '' }}"
-         role="tabpanel" aria-labelledby="heading-{{ $id }}-{{ $heading }}">
+        </a>
+    </h4>
+    <div id="collapse-{{ $id }}-{{ $heading }}" role="tabpanel"
+         class="collapse d-print-block{{ !isset($closed) && $loop->first ? ' in' : '' }}"
+         aria-labelledby="heading-{{ $id }}-{{ $heading }}">
         <div class="card-body">{{ $slot }}</div>
     </div>
 </div>
-{{--</div>--}}

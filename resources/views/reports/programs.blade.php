@@ -40,7 +40,12 @@
                                             </a>
                                         @endif
                                     </td>
-                                    <td>{{ $participant->age }}</td>
+                                    <td>{{ $participant->age }}
+                                        @if(isset($participant->medicalresponse))
+                                            <i class="fa fa-pencil-alt"
+                                               title="This camper has submitted their medical response."></i>
+                                        @endif
+                                    </td>
                                     @if($program->participants->first()->age<18)
                                         <td>{{ max($participant->grade, 0) }}</td>
                                         <td>{!! $participant->parent !!}</td>

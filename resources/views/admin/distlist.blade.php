@@ -14,6 +14,7 @@
                 'list' => [['id' => 'all', 'name' => 'All campers'],
                             ['id' => 'reg', 'name' => 'All registered campers'],
                             ['id' => 'unp', 'name' => 'All registered campers with unpaid deposits'],
+                            ['id' => 'uns', 'name' => 'All registered families with children missing medical responses'],
                             ['id' => 'oneyear', 'name' => 'All campers from last year'],
                             ['id' => 'lost', 'name' => 'All campers from last year who have not registered for this year'],
                             ['id' => 'threeyears', 'name' => 'All campers from the last 3 years']], 'option' => 'name'])
@@ -25,8 +26,10 @@
 
             @include('snippet.formgroup', ['type' => 'select',
                 'label' => 'Restrict to campers that want snail mail?', 'attribs' => ['name' => 'ecomm'],
-                'list' => [['id' => '1', 'name' => 'Show campers that do not want snail mail'],
-                            ['id' => '0', 'name' => 'Show campers that want to receive paper snail mail']], 'option' => 'name'])
+                'list' => [['id' => '-1', 'name' => 'Show all campers'],
+                            ['id' => '1', 'name' => 'Show campers that do not want snail mail'],
+                            ['id' => '0', 'name' => 'Show campers that want to receive paper snail mail']],
+                             'option' => 'name'])
 
 
             @include('snippet.formgroup', ['type' => 'select',

@@ -212,7 +212,7 @@ var pageScrolled;
               pageScrolled = true;
             }
           });
-          
+
           elementsAnimated.each(function() {
             var $element = jQuery(this),
               animateClass = $element.data('animate'),
@@ -222,7 +222,7 @@ var pageScrolled;
               animateOffset = $element.data('animate-offset') || '98%',
               animateInView = $element.data('animate-inview') || false,
               elementInView = $document.elementInView($element);
-            
+
             // Already scroll passed so don't animate again
             if (elementInView === true && animateInView === false) {
               animateClass = null;
@@ -249,7 +249,7 @@ var pageScrolled;
                 'animation-duration': animateDuration + 's'
               });
             }
-            
+
             if (animateClass !== null) {
               $element.waypoint(function() {
                 $element.addClass('animated ' + animateClass).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
@@ -1000,7 +1000,7 @@ var pageScrolled;
       var $loader = $('[data-toggle="page-loader"]'),
         triggerCallback = function() {
           $('html').addClass('.page-loader-done');
-          
+
           if (callback && typeof(callback) === "function") {
             callback();
           }
@@ -1347,7 +1347,7 @@ var pageScrolled;
           var $fakeLoaders = context.find('[data-toggle=page-loader]');
           if ($fakeLoaders.length > 0) {
             $('html').addClass('has-page-loader');
-            
+
             var themePluginFakeLoaderInit = function() {
               var $pageLoader = jQuery('[data-toggle=page-loader]'),
                 options = {
@@ -1357,7 +1357,7 @@ var pageScrolled;
                 };
               $pageLoader.fakeLoader(options);
               //$('body').removeClass('page-loader-spacer');
-              
+
               $document.isPageLoaderDone(function() {
                 $('html').removeClass('has-page-loader');
                 $(window).trigger('resize');

@@ -56,53 +56,53 @@ function calc() {
         case 1:
             switch (adults + children + babies) {
                 case 1:
-                    rate = adults * 1520.0;
+                    rate = adults * guestsuite[0] * 6;
                     singlealert.show();
                     break;
                 case 2:
-                    rate = adults * 760.0;
+                    rate = adults * guestsuite[1] * 6;
                     break;
                 case 3:
-                    rate = adults * 710.0;
+                    rate = adults * guestsuite[2] * 6;
                     break;
                 default:
-                    rate = adults * 650.0;
+                    rate = adults * guestsuite[3] * 6;
             }
-            total += rate + (children * 344);
+            total += rate + (children * guestsuite[4] * 6);
             adultsfee.html("$" + rate.toFixed(2));
-            childrenfee.html("$" + (children * 344).toFixed(2));
+            childrenfee.html("$" + (children * guestsuite[4] * 6).toFixed(2));
             break;
         case 3:
-            total += adults * 545 + children * 344;
-            adultsfee.html("$" + (adults * 545).toFixed(2));
-            childrenfee.html("$" + (children * 344).toFixed(2));
+            total += adults * lakewood[0] * 6 + children * lakewood[2] * 6;
+            adultsfee.html("$" + (adults * lakewood[0] * 6).toFixed(2));
+            childrenfee.html("$" + (children * lakewood[2] * 6).toFixed(2));
             break;
         case 4:
-            total += adults * 350 + children * 242;
-            adultsfee.html("$" + (adults * 350).toFixed(2));
-            childrenfee.html("$" + (children * 242).toFixed(2));
+            total += adults * tentcamp[0] * 6 + children * tentcamp[2] * 6;
+            adultsfee.html("$" + (adults * tentcamp[0] * 6).toFixed(2));
+            childrenfee.html("$" + (children * tentcamp[2] * 6).toFixed(2));
             break;
     }
     switch (parseInt($("#yas-housing").val(), 10)) {
         case 0:
             yasfee.html("$0.00");
-            if(yas > 0) {
+            if (yas > 0) {
                 yaalert.show();
             }
             break;
         case 1:
-            total += yas * 490;
-            yasfee.html("$" + (yas * 490).toFixed(2));
+            total += yas * lakewood[6] * 6;
+            yasfee.html("$" + (yas * lakewood[6] * 6).toFixed(2));
             break;
         case 2:
-            total += yas * 408;
-            yasfee.html("$" + (yas * 408).toFixed(2));
+            total += yas * tentcamp[6] * 6;
+            yasfee.html("$" + (yas * tentcamp[6] * 6).toFixed(2));
             break;
     }
-    total += jrsrs * 490;
-    $("#jrsrs-fee").html("$" + (jrsrs * 490).toFixed(2));
-    total += babies * 80;
-    $("#babies-fee").html("$" + (babies * 80).toFixed(2));
+    total += jrsrs * lakewood[1] * 6;
+    $("#jrsrs-fee").html("$" + (jrsrs * lakewood[1] * 6).toFixed(2));
+    total += babies * guestsuite[6] * 6;
+    $("#babies-fee").html("$" + (babies * guestsuite[6] * 6).toFixed(2));
     $("#deposit").html("$" + Math.min(total, deposit).toFixed(2));
     $("#arrival").html("$" + Math.max(total - deposit, 0).toFixed(2));
     $("#total").html("$" + total.toFixed(2));

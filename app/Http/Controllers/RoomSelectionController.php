@@ -22,16 +22,17 @@ class RoomSelectionController extends Controller
 
         DB::statement('CALL generate_charges(getcurrentyear());');
 
-        return $this->index('Room selection complete! Your room is locked in for the ' . count($family) . ' eligible members of your household.');
+        $request->session()->flash('success', 'Room selection complete! Your room is locked in for the ' . count($family) . ' eligible members of your household.');
+
+        return $this->index();
     }
 
-    public function index($success = null)
+    public function index()
     {
         $camper = \App\Thisyear_Camper::where('email', Auth::user()->email)->first();
         $count = \App\Thisyear_Camper::where('familyid', $camper->familyid)->where('is_program_housing', '0')->count();
         $rooms = \App\Room::where('xcoord', '>', '0')->where('ycoord', '>', '0')->get();
-        return view('roomselection', ['rooms' => $rooms, 'camper' => $camper, 'count' => $count,
-            'success' => $success]);
+        return view('roomselection', ['rooms' => $rooms, 'camper' => $camper, 'count' => $count]);
     }
 
     public function map()
@@ -55,17 +56,19 @@ class RoomSelectionController extends Controller
 
         DB::statement('CALL generate_charges(getcurrentyear());');
 
-        return $this->read('f', $id, 'Awwwwwwww yeahhhhhhhhh');
+        $request->session()->flash('success', 'Awwwwwwww yeahhhhhhhhh');
+
+        return $this->read('f' , $id);
     }
 
-    public function read($i, $id, $success = null)
+    public function read($i, $id)
     {
         $readonly = \Entrust::can('read') && !\Entrust::can('write');
         $family = \App\Family::find($this->getFamilyId($i, $id));
         $campers = \App\Thisyear_Camper::where('familyid', $family->id)->orderBy('birthdate')->get();
 
         return view('admin.rooms', ['buildings' => \App\Building::with('rooms')->get(),
-            'campers' => $campers, 'success' => $success, 'readonly' => $readonly]);
+            'campers' => $campers, 'readonly' => $readonly]);
     }
 
     private function getFamilyId($i, $id)

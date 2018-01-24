@@ -29,9 +29,9 @@
                             <tbody class="editable">
                             @foreach($program->staffpositions()->orderBy('name')->get()->load('compensationlevel') as $position)
                                 <tr id="{{ $position->id }}">
-                                    <td>{{ $position->name }}</td>
-                                    <td>{{ $position->compensationlevel->name }}</td>
-                                    <td>
+                                    <td class="teditable">{{ $position->name }}</td>
+                                    <td class="teditable">{{ $position->compensationlevel->name }}</td>
+                                    <td class="teditable">
                                         @if($position->pctype == 1)
                                             APC
                                         @elseif($position->pctype == 2)

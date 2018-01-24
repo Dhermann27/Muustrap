@@ -33,12 +33,12 @@
                             <tbody class="editable">
                             @foreach($timeslot->newworkshops()->orderBy('order')->get() as $workshop)
                                 <tr id="{{ $workshop->id }}">
-                                    <td>{{ $workshop->name }}</td>
-                                    <td>{{ $workshop->led_by}}</td>
-                                    <td>{{ $workshop->room->room_number }}</td>
-                                    <td>{{ $workshop->order }}</td>
+                                    <td class="teditable">{{ $workshop->name }}</td>
+                                    <td class="teditable">{{ $workshop->led_by}}</td>
+                                    <td class="teditable">{{ $workshop->room->room_number }}</td>
+                                    <td class="teditable">{{ $workshop->order }}</td>
                                     <td>{{ $workshop->blurb }}</td>
-                                    <td>{{ $workshop->capacity }}</td>
+                                    <td class="teditable">{{ $workshop->capacity }}</td>
                                 </tr>
                             @endforeach
                             </tbody>

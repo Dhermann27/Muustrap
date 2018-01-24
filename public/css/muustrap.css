@@ -122,6 +122,11 @@ tr.family {
     font-size: 1.2em;
 }
 
+td.teditable:hover {
+    background-color: lightgray;
+    cursor: text;
+}
+
 .opensans {
     font-family: 'Open Sans', Helvetica, sans-serif;
 }

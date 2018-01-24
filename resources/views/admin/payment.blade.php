@@ -41,10 +41,10 @@
                             <tbody class="editable">
                             @foreach($charges as $charge)
                                 <tr id="{{ $charge->id }}">
-                                    <td>{{ $charge->chargetypename }}</td>
-                                    <td class="amount"
+                                    <td class="teditable">{{ $charge->chargetypename }}</td>
+                                    <td class="teditable amount"
                                         align="right">{{ money_format('%.2n', $charge->amount) }}</td>
-                                    <td align="center">{{ $charge->timestamp }}</td>
+                                    <td class="teditable" align="center">{{ $charge->timestamp }}</td>
                                     <td>{{ $charge->memo }}</td>
                                     @if($readonly === false)
                                         @if(!empty($charge->timestamp))
@@ -65,6 +65,7 @@
                                 <tfoot>
                                 <tr>
                                     <td>
+                                        <label for="newchargetypeid" class="d-none">Chargetype</label>
                                         <select class="form-control chargetypeid" id="newchargetypeid"
                                                 name="chargetypeid">
                                             @foreach($chargetypes as $chargetype)

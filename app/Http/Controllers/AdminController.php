@@ -119,7 +119,7 @@ class AdminController extends Controller
     {
         foreach ($request->all() as $key => $value) {
             $matches = array();
-            if (preg_match('/(\d+)-(delete|name|compensationlevelid)/', $key, $matches)) {
+            if (preg_match('/(\d+)-(delete|programid|name|compensationlevelid)/', $key, $matches)) {
                 $position = \App\Staffposition::findOrFail($matches[1]);
                 if ($matches[2] == 'delete') {
                     if ($value == 'on') {
@@ -134,27 +134,28 @@ class AdminController extends Controller
                 }
             }
         }
-        foreach (\App\Program::all() as $program) {
-            if ($request->input($program->id . "-position") != '') {
+
+            if ($request->input('name') != '') {
                 $position = new \App\Staffposition();
-                $position->name = $request->input($program->id . "-position");
-                $position->compensationlevelid = $request->input($program->id . "-compensationlevel");
-                $position->programid = $program->id;
+                $position->programid = $request->input('programid');
+                $position->name = $request->input('name');
+                $position->compensationlevelid = $request->input('compensationlevelid');
                 $position->start_year = '1901';
                 $position->end_year = '2100';
                 $position->save();
             }
-        }
 
-        return $this->positionIndex('You created those positions like a <i>pro</i>.');
+        $request->session()->flash('success', 'You created those positions like a <i>pro</i>.');
+
+        return $this->positionIndex();
     }
 
-    public function positionIndex($success = null)
+    public function positionIndex()
     {
         $programs = \App\Program::with('staffpositions')
             ->orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get();
         return view('admin.positions', ['programs' => $programs,
-            'levels' => \App\Compensationlevel::all(), 'success' => $success]);
+            'levels' => \App\Compensationlevel::all()]);
     }
 
 }

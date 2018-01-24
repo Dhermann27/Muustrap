@@ -379,7 +379,7 @@
             if (th.className === "") {
                 $(this).html('<input name="' + tr.attr('id') + '-' + th.id + '" value="' + $(this).text() + '" />');
             } else if (th.className === 'select' && $("select." + th.id).length > 0) {
-                var select = $(this).parents("div.tab-pane").find("select." + th.id).clone();
+                var select = $("select." + th.id).first().clone();
                 select.attr('id', '').attr('name', tr.attr('id') + '-' + th.id).removeClass(th.id);
                 $(this).html(select);
             }

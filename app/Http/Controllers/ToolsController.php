@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use GuzzleHttp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -26,18 +25,18 @@ class ToolsController extends Controller
             }
         }
         foreach (\App\Program::all() as $program) {
-            if ($request->input($program->id . "-camperid") != '' && $request->input($program->id . "-staffpositionid") != '') {
-                $ya = \App\Thisyear_Camper::find($request->input($program->id . "-camperid"));
+            if ($request->input($program->id . '-camperid') != '' && $request->input($program->id . '-staffpositionid') != '') {
+                $ya = \App\Thisyear_Camper::find($request->input($program->id . '-camperid'));
                 if (!empty($ya)) {
                     $assignment = new \App\Yearattending__Staff();
                     $assignment->yearattendingid = $ya->yearattendingid;
-                    $assignment->staffpositionid = $request->input($program->id . "-staffpositionid");
+                    $assignment->staffpositionid = $request->input($program->id . '-staffpositionid');
                     $assignment->is_eaf_paid = 1;
                     $assignment->save();
                 } else {
                     $assignment = new \App\Camper__Staff();
-                    $assignment->camperid = $request->input($program->id . "-camperid");
-                    $assignment->staffpositionid = $request->input($program->id . "-staffpositionid");
+                    $assignment->camperid = $request->input($program->id . '-camperid');
+                    $assignment->staffpositionid = $request->input($program->id . '-staffpositionid');
                     $assignment->save();
                 }
             }
@@ -79,11 +78,11 @@ class ToolsController extends Controller
     public function programStore(Request $request)
     {
         foreach (\App\Program::all() as $program) {
-            if ($request->input($program->id . "-blurb") != '<p><br></p>') {
-                $program->blurb = $request->input($program->id . "-blurb");
-                $program->letter = $request->input($program->id . "-letter");
-                $program->covenant = $request->input($program->id . "-covenant");
-                $program->calendar = $request->input($program->id . "-calendar");
+            if ($request->input($program->id . '-blurb') != '<p><br></p>') {
+                $program->blurb = $request->input($program->id . '-blurb');
+                $program->letter = $request->input($program->id . '-letter');
+                $program->covenant = $request->input($program->id . '-covenant');
+                $program->calendar = $request->input($program->id . '-calendar');
                 $program->save();
             }
         }
@@ -99,10 +98,10 @@ class ToolsController extends Controller
     }
 
     public function workshopStore(Request $request)
-    {
+    {DB::connection()->enableQueryLog();
         foreach ($request->all() as $key => $value) {
             $matches = array();
-            if (preg_match('/(\d+)-(name|led_by|roomid|order|capacity)/', $key, $matches)) {
+            if (preg_match('/(\d+)-(timeslotid|name|led_by|roomid|order|capacity)/', $key, $matches)) {
                 $workshop = \App\Workshop::find($matches[1]);
                 if (isset($workshop)) {
                     $workshop->{$matches[2]} = $value;
@@ -110,27 +109,26 @@ class ToolsController extends Controller
                 }
             }
         }
-        foreach (\App\Timeslot::all() as $timeslot) {
-            if ($request->input($timeslot->id . "-name") != '') {
-                $workshop = new \App\Workshop();
-                $workshop->name = $request->input($timeslot->id . "-name");
-                $workshop->led_by = $request->input($timeslot->id . "-led_by");
-                $workshop->roomid = $request->input($timeslot->id . "-roomid");
-                $workshop->timeslotid = $timeslot->id;
-                $workshop->order = $request->input($timeslot->id . "-order");
-                $workshop->blurb = $request->input($timeslot->id . "-blurb");
-                $workshop->m = $request->input($timeslot->id . "-m") == 'on' ? '1' : '0';
-                $workshop->t = $request->input($timeslot->id . "-t") == 'on' ? '1' : '0';
-                $workshop->w = $request->input($timeslot->id . "-w") == 'on' ? '1' : '0';
-                $workshop->th = $request->input($timeslot->id . "-th") == 'on' ? '1' : '0';
-                $workshop->f = $request->input($timeslot->id . "-f") == 'on' ? '1' : '0';
-                $workshop->enrolled = 0;
-                $workshop->capacity = $request->input($timeslot->id . "-capacity");
-                $workshop->fee = 0;
-                $workshop->year = DB::raw('getcurrentyear()');
-                $workshop->save();
-            }
+
+        if ($request->input('name') != '') {
+            $workshop = new \App\Workshop();
+            $workshop->timeslotid = $request->input('timeslotid');
+            $workshop->name = $request->input('name');
+            $workshop->led_by = $request->input('led_by');
+            $workshop->roomid = $request->input('roomid');
+            $workshop->order = $request->input('order');
+            $workshop->blurb = $request->input('blurb');
+            $workshop->m = $request->input('days-m') == 'on' ? '1' : '0';
+            $workshop->t = $request->input('days-t') == 'on' ? '1' : '0';
+            $workshop->w = $request->input('days-w') == 'on' ? '1' : '0';
+            $workshop->th = $request->input('days-th') == 'on' ? '1' : '0';
+            $workshop->f = $request->input('days-f') == 'on' ? '1' : '0';
+            $workshop->capacity = $request->input('capacity');
+            $workshop->fee = 0;
+            $workshop->year = DB::raw('getcurrentyear()');
+            $workshop->save();
         }
+
         $request->session()->flash('success', 'Underwater New Age Basket Weaving? AGAIN??');
 
         return $this->workshopIndex();

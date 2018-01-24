@@ -20,13 +20,14 @@
 
             <div class="col-md-3 number-spinner">
                 <div class="input-group">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" data-dir="up"><i class="fa fa-plus"></i></button>
-                </span>
+                    <div class="input-group-prepend">
+                        <button class="btn btn-default" data-dir="up"><i class="fa fa-plus"></i></button>
+                    </div>
                     <input id="adults" class="form-control" name="adults" value="0"/>
-                    <span class="input-group-btn">
-                    <button class="btn btn-default" data-dir="dwn"><i class="fa fa-minus"></i></button>
-                </span>
+
+                    <div class="input-group-append">
+                        <button class="btn btn-default" data-dir="dwn"><i class="fa fa-minus"></i></button>
+                    </div>
                 </div>
             </div>
 
@@ -54,13 +55,13 @@
 
             <div class="col-md-3 number-spinner">
                 <div class="input-group">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" data-dir="up"><i class="fa fa-plus"></i></button>
-                </span>
+                    <div class="input-group-prepend">
+                        <button class="btn btn-default" data-dir="up"><i class="fa fa-plus"></i></button>
+                    </div>
                     <input id="yas" class="form-control" name="yas" value="0"/>
-                    <span class="input-group-btn">
-                    <button class="btn btn-default" data-dir="dwn"><i class="fa fa-minus"></i></button>
-                </span>
+                    <div class="input-group-append">
+                        <button class="btn btn-default" data-dir="dwn"><i class="fa fa-minus"></i></button>
+                    </div>
                 </div>
             </div>
 
@@ -81,13 +82,13 @@
 
             <div class="col-md-3 number-spinner">
                 <div class="input-group">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" data-dir="up"><i class="fa fa-plus"></i></button>
-                </span>
+                    <div class="input-group-prepend">
+                        <button class="btn btn-default" data-dir="up"><i class="fa fa-plus"></i></button>
+                    </div>
                     <input id="jrsrs" class="form-control" name="yas" value="0"/>
-                    <span class="input-group-btn">
-                    <button class="btn btn-default" data-dir="dwn"><i class="fa fa-minus"></i></button>
-                </span>
+                    <div class="input-group-append">
+                        <button class="btn btn-default" data-dir="dwn"><i class="fa fa-minus"></i></button>
+                    </div>
                 </div>
             </div>
 
@@ -100,13 +101,13 @@
 
             <div class="col-md-3 number-spinner">
                 <div class="input-group">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" data-dir="up"><i class="fa fa-plus"></i></button>
-                </span>
+                    <div class="input-group-prepend">
+                        <button class="btn btn-default" data-dir="up"><i class="fa fa-plus"></i></button>
+                    </div>
                     <input id="children" class="form-control" name="yas" value="0"/>
-                    <span class="input-group-btn">
-                    <button class="btn btn-default" data-dir="dwn"><i class="fa fa-minus"></i></button>
-                </span>
+                    <div class="input-group-append">
+                        <button class="btn btn-default" data-dir="dwn"><i class="fa fa-minus"></i></button>
+                    </div>
                 </div>
             </div>
 
@@ -118,13 +119,13 @@
 
             <div class="col-md-3 number-spinner">
                 <div class="input-group">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" data-dir="up"><i class="fa fa-plus"></i></button>
-                </span>
+                    <div class="input-group-prepend">
+                        <button class="btn btn-default" data-dir="up"><i class="fa fa-plus"></i></button>
+                    </div>
                     <input id="babies" class="form-control" name="yas" value="0"/>
-                    <span class="input-group-btn">
-                    <button class="btn btn-default" data-dir="dwn"><i class="fa fa-minus"></i></button>
-                </span>
+                    <div class="input-group-append">
+                        <button class="btn btn-default" data-dir="dwn"><i class="fa fa-minus"></i></button>
+                    </div>
                 </div>
             </div>
 

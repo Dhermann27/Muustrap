@@ -11,7 +11,7 @@
         @foreach($chargetypes as $chargetype)
             <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
                  aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $chargetype->id }}">
-                <div id="{{ $chargetype->id }}-accordion" role="tablist">
+                @component('snippet.accordion', ['id' => $chargetype->id])
                     @foreach($charges as $ddate => $dcharges)
                         @if(count($dcharges->filter(function ($value) use ($chargetype) {
                                 return $value->chargetypeid == $chargetype->id;
@@ -72,7 +72,7 @@
                             @endcomponent
                         @endif
                     @endforeach
-                </div>
+                @endcomponent
             </div>
         @endforeach
     </div>

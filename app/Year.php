@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,7 +14,9 @@ class Year extends Model
 
     public function rates()
     {
-        return \App\Rate::where('start_year', '<=', $this->year)->where('end_year', '>=', $this->year)->get();
+        return DB::table('rates')->join('programs', 'programs.id', 'rates.programid')->where('start_year', '<=', $this->year)->where('end_year', '>', $this->year)
+            ->whereIn('buildingid', ['1000', '1007', '1017'])->orderBy('name')->orderBy('min_occupancy')
+            ->orderBy('max_occupancy');
     }
 
     public function isInProgress()

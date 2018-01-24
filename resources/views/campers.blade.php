@@ -47,16 +47,14 @@
                 @endforeach
             </div>
             @if(!isset($readonly) || $readonly === false)
-                @if(!isset($readonly) || $readonly === false)
-                    <div class="form-group row">
-                        <label for="submit" class="col-md-4 control-label">&nbsp;</label>
-                        <div class="col-md-6">
-                            <div class="text-lg-right">
-                                <button id="submit" class="btn btn-lg btn-primary py-3 px-4">Save Changes</button>
-                            </div>
+                <div class="form-group row">
+                    <label for="submit" class="col-md-4 control-label">&nbsp;</label>
+                    <div class="col-md-6">
+                        <div class="text-lg-right">
+                            <button id="submit" class="btn btn-lg btn-primary py-3 px-4">Save Changes</button>
                         </div>
                     </div>
-                @endif
+                </div>
             @endif
         </form>
     </div>

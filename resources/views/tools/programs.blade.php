@@ -31,15 +31,11 @@
 
                                 @if ($errors->has($program->id . '-blurb'))
                                     <span class="invalid-feedback">
-                                    <strong>{{ $errors->first($program->id . '-blurb') }}</strong>
-                                </span>
+                                        <strong>{{ $errors->first($program->id . '-blurb') }}</strong>
+                                    </span>
                                 @endif
                             </div>
                         </div>
-
-                        @include('snippet.formgroup', ['label' => $program->id == '1008' ? 'Medical Form Link (for all children <18)' :
-                            'Program Form Link (leave blank for no form)', 'attribs' => ['name' => $program->id . '-link',
-                            'placeholder' => 'https://docs.google.com/forms/.../edit'], 'formobject' => $program])
 
                         @include('snippet.formgroup', ['label' => 'Program Event Calendar',
                             'attribs' => ['name' => $program->id . '-calendar',
@@ -57,34 +53,33 @@
 
                                     @if ($errors->has($program->id . '-letter'))
                                         <span class="invalid-feedback">
-                                        <strong>{{ $errors->first($program->id . '-letter') }}</strong>
-                                    </span>
+                                            <strong>{{ $errors->first($program->id . '-letter') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group row{{ $errors->has($program->id . '-covenant') ? ' has-danger' : '' }}">
+                                <label for="{{ $program->id }}-letter" class="col-md-4 control-label">Text of
+                                    Covenant to be added to Medical Form</label>
+
+                                <div class="col-md-6">
+                                    <div class="summernote">{!! $program->covenant !!}</div>
+                                    <input type="hidden" id="{{ $program->id }}-covenant"
+                                           name="{{ $program->id }}-covenant"/>
+
+                                    @if ($errors->has($program->id . '-covenant'))
+                                        <span class="invalid-feedback">
+                                            <strong>{{ $errors->first($program->id . '-covenant') }}</strong>
+                                        </span>
                                     @endif
                                 </div>
                             </div>
                         @endif
                     </div>
                 @endforeach
-                <div role="tabpanel" class="tab-pane fade" id="100">
-                    <h3>Instructions for Creating a Google Form</h3>
-                    <ul>
-                        <li>Go to the <a href="https://www.google.com/forms/about/" target="_parent">Google
-                                Forms</a> site and log into any Google account.
-                        </li>
-                        <li>When you see the base page, click the red plus in the lower-right to create a new
-                            form.
-                        </li>
-                        <li>Fill out the questions you need answered as best you can. Please keep it as simple
-                            as possible.
-                        </li>
-                        <li>When finished, progress is automatically saved. Copy and paste the URL of the form
-                            (it should end in "/edit") into this page. Your form will automatically be imported
-                            to each relevant camper's confirmation letter in your program.
-                        </li>
-                    </ul>
-                </div>
             </div>
-            @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes (slow)']])
+            @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes']])
         </form>
     </div>
 @endsection

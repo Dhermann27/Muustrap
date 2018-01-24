@@ -82,17 +82,8 @@ class ToolsController extends Controller
             if ($request->input($program->id . "-blurb") != '<p><br></p>') {
                 $program->blurb = $request->input($program->id . "-blurb");
                 $program->letter = $request->input($program->id . "-letter");
+                $program->covenant = $request->input($program->id . "-covenant");
                 $program->calendar = $request->input($program->id . "-calendar");
-                if ($request->input($program->id . "-link") != '') {
-                    $program->link = $request->input($program->id . "-link");
-                    $client = new GuzzleHttp\Client();
-                    $res = $client->request('GET', env('GOOGLE_FORM_SCRIPT') . $program->link);
-                    if ($res->getStatusCode() == '200') {
-                        $program->form = $res->getBody();
-                    } else {
-                        $program->form = "Error: " . $res->getStatusCode();
-                    }
-                }
                 $program->save();
             }
         }

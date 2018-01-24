@@ -19,7 +19,7 @@
         @foreach($years as $thisyear => $states)
             <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
                  aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $thisyear }}">
-                <div id="{{ $thisyear }}-accordion" role="tablist">
+                @component('snippet.accordion', ['id' => $thisyear])
                     @foreach($states as $state)
                         @component('snippet.accordioncard', ['id' => $thisyear, 'loop' => $loop, 'heading' => $state->code, 'title' => $state->code])
                             @slot('badge')
@@ -47,7 +47,7 @@
                             </table>
                         @endcomponent
                     @endforeach
-                </div>
+                @endcomponent
             </div>
         @endforeach
     </div>

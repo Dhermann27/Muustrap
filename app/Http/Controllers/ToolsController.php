@@ -98,7 +98,7 @@ class ToolsController extends Controller
     }
 
     public function workshopStore(Request $request)
-    {DB::connection()->enableQueryLog();
+    {
         foreach ($request->all() as $key => $value) {
             $matches = array();
             if (preg_match('/(\d+)-(timeslotid|name|led_by|roomid|order|capacity)/', $key, $matches)) {

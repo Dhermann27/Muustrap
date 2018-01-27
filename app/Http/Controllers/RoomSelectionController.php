@@ -22,16 +22,24 @@ class RoomSelectionController extends Controller
 
         DB::statement('CALL generate_charges(getcurrentyear());');
 
-        $request->session()->flash('success', 'Room selection complete! Your room is locked in for the ' . count($family) . ' eligible members of your household.');
+        $success = 'Room selection complete! Your room is locked in for the ' . count($family) . ' eligible members of your household.';
+        if ($year->isLive()) $success .= ' Customize your nametag by clicking <a href="' . url('/nametag') . '">here</a>.';
 
-        return $this->index();
+        $request->session()->flash('success', $success);
+
+        return $this->index($request);
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $camper = \App\Thisyear_Camper::where('email', Auth::user()->email)->first();
         $count = \App\Thisyear_Camper::where('familyid', $camper->familyid)->where('is_program_housing', '0')->count();
         $rooms = \App\Room::where('xcoord', '>', '0')->where('ycoord', '>', '0')->get();
+
+        if (isset($camper->yearattending) && $camper->yearattending->is_setbyadmin == '1') {
+            $request->session()->flash('warning', 'Your room has been locked by the Registrar. Please use the Contact Us form above to request any changes at this point.');
+        }
+
         return view('roomselection', ['rooms' => $rooms, 'camper' => $camper, 'count' => $count]);
     }
 
@@ -58,7 +66,7 @@ class RoomSelectionController extends Controller
 
         $request->session()->flash('success', 'Awwwwwwww yeahhhhhhhhh');
 
-        return $this->read('f' , $id);
+        return $this->read('f', $id);
     }
 
     public function read($i, $id)

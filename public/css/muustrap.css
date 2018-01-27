@@ -48,19 +48,13 @@ nav a.navbar-brand h4 {
     margin-top: 0px;
 }
 
-div.preview {
-    width: 4in;
-    height: 3in;
-    margin: auto;
-    margin-bottom: 20px;
-    border: 3px dashed black;
-    padding: .25in;
+div.label {
+    width: 3.65in;
+    height: 2.875in;
+    padding: .125in .125in 0 .125in;
+    margin-right: 0in;
+    float: left;
     overflow: hidden;
-}
-
-div.preview div.name {
-    margin-left: .25in;
-    font-size: 3em;
 }
 
 div.preview div.surname {

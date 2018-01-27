@@ -144,7 +144,7 @@
             return paypal.rest.payment.create(env, client, {
                 transactions: [
                     {
-                        amount: {total: amt, currency: 'USD'}
+                        amount: {total: amt.toFixed(2), currency: 'USD'}
                     }
                 ]
             });

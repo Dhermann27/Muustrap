@@ -121,7 +121,7 @@ class ToolsController extends Controller
             $workshop->m = $request->input('days-m') == 'on' ? '1' : '0';
             $workshop->t = $request->input('days-t') == 'on' ? '1' : '0';
             $workshop->w = $request->input('days-w') == 'on' ? '1' : '0';
-            $workshop->th = $request->input('days-th') == 'on' ? '1' : '0';
+            $workshop->th = $request->input('days-h') == 'on' ? '1' : '0';
             $workshop->f = $request->input('days-f') == 'on' ? '1' : '0';
             $workshop->capacity = $request->input('capacity');
             $workshop->fee = 0;

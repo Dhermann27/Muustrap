@@ -21,8 +21,8 @@ class ContactController extends Controller
 
         if (Auth::check()) {
             $camper = \App\Camper::where('email', Auth::user()->email)->first();
-            $request->name = $camper->firstname . " " . $camper->lastname;
-            $request->email  = $camper->email;
+            $request["name"] = $camper->firstname . " " . $camper->lastname;
+            $request["email"]  = $camper->email;
         }
 
         $this->validate($request, [

@@ -113,7 +113,7 @@
                        class="form-control{{ $errors->has('email.' . $looper->index) ? ' is-invalid' : '' }}"
                        name="email[]" value="{{ old('email.' . $looper->index, $camper->email) }}"
                        aria-describedby="email-addon-{{ $looper->index }}">
-                <span class="input-group-addon" id="email-addon-{{ $looper->index }}">@</span>
+                <div class="input-group-append"><span class="input-group-text">@</span></div>
             </div>
             @if($camper->logged_in)
                 <span class="alert alert-warning p-0 m-0">
@@ -151,8 +151,10 @@
                  data-date-format="yyyy-mm-dd" data-date-autoclose="true">
                 <input id="birthdate-{{ $looper->index }}" type="text" class="form-control" name="birthdate[]"
                        value="{{ old('birthdate.' . $looper->index, $camper->birthdate) }}">
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                </div>
                 <div class="input-group-addon">
-                    <span class="fa fa-calendar"></span>
                 </div>
             </div>
             @if ($errors->has('birthdate.' . $looper->index))

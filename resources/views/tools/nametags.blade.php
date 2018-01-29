@@ -18,12 +18,7 @@
         }
 
         .label {
-            width: 3.65in;
-            height: 2.875in;
-            padding: .125in .3in 0;
-            margin-right: 0in;
             float: left;
-            overflow: hidden;
         }
 
         .page-break {
@@ -62,21 +57,7 @@
         }
         array_splice($backs, $pointer, 0, $camper->nametag_back);
     @endphp
-    <div class="label">
-        <div class="{{ $camper->yearattending->fontapply == '2' ? ' ' . $camper->yearattending->font_value : '' }}">
-            <div class="name {{ $camper->yearattending->font_value }}"
-                 style="font-size: {{ $camper->yearattending->namesize+1 }}em;">{{ $camper->yearattending->name_value }}</div>
-            <div class="pronoun">{{ $camper->yearattending->pronoun_value }}</div>
-            <div class="surname">{{ $camper->yearattending->surname_value  }}</div>
-            <div class="line1">{{ $camper->yearattending->line1_value }}</div>
-            <div class="line2">{{ $camper->yearattending->line2_value }}</div>
-            <div class="line3">{{ $camper->yearattending->line3_value }}</div>
-            <div class="line4">{{ $camper->yearattending->line4_value }}</div>
-            @if($camper->age<18)
-                <div class="parent">{!! $camper->parent !!}</div>
-            @endif
-        </div>
-    </div>
+    @include('snippet.nametag', ['camper' => $camper])
     @if((!$loop->first && ($loop->index+1) % 6 == 0) || $loop->last)
         <div class="page-break"></div>
         @foreach($backs as $back)

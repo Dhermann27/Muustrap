@@ -19,6 +19,7 @@
                         <table class="table table-sm w-auto">
                             <thead>
                             <tr>
+                                <th id="programid" class="select">Program</th>
                                 <th id="name">Name</th>
                                 <th id="compensationlevelid" class="select">Compensation Level</th>
                                 <th id="pctype" class="select">Position Type</th>
@@ -29,9 +30,10 @@
                             <tbody class="editable">
                             @foreach($program->staffpositions()->orderBy('name')->get()->load('compensationlevel') as $position)
                                 <tr id="{{ $position->id }}">
-                                    <td>{{ $position->name }}</td>
-                                    <td>{{ $position->compensationlevel->name }}</td>
-                                    <td>
+                                    <td class="teditable">{{ $position->program->name }}</td>
+                                    <td class="teditable">{{ $position->name }}</td>
+                                    <td class="teditable">{{ $position->compensationlevel->name }}</td>
+                                    <td class="teditable">
                                         @if($position->pctype == 1)
                                             APC
                                         @elseif($position->pctype == 2)
@@ -56,23 +58,30 @@
                             @endforeach
                             </tbody>
                         </table>
-
-                        @include('snippet.formgroup', ['label' => 'Add New Position',
-                            'attribs' => ['name' => $program->id . '-position', 'placeholder' => 'Position Name']])
-
-                        @include('snippet.formgroup', ['type' => 'select', 'class' => ' compensationlevelid',
-                            'label' => 'Compensation Level', 'attribs' => ['name' => $program->id . '-compensationlevel'],
-                            'default' => 'Choose a compensation level', 'list' => $levels, 'option' => 'name'])
-
-                        @include('snippet.formgroup', ['type' => 'select', 'label' => 'PC Type', 'attribs' => ['name' => 'pctype'],
-                            'list' => [['id' => '0', 'name' => 'None'], ['id' => '1', 'name' => 'APC'],
-                            ['id' => '2', 'name' => 'XC'], ['id' => '3', 'name' => 'Progams'],
-                            ['id' => '4', 'name' => 'Consultants']], 'option' => 'name'])
-
                     </div>
                 @endforeach
             </div>
-            @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes']])
+
+            <div class="well">
+                <h4>Add New Position</h4>
+                @include('snippet.formgroup', ['type' => 'select', 'class' => ' programid',
+                    'label' => 'Associated Program', 'attribs' => ['name' => 'programid'],
+                    'default' => 'Choose a program', 'list' => $programs, 'option' => 'name'])
+
+                @include('snippet.formgroup', ['label' => 'Position Name',
+                    'attribs' => ['name' => 'name', 'placeholder' => 'Position Name']])
+
+                @include('snippet.formgroup', ['type' => 'select', 'class' => ' compensationlevelid',
+                    'label' => 'Compensation Level', 'attribs' => ['name' => 'compensationlevelid'],
+                    'default' => 'Choose a compensation level', 'list' => $levels, 'option' => 'name'])
+
+                @include('snippet.formgroup', ['type' => 'select', 'label' => 'PC Type', 'attribs' => ['name' => 'pctype'],
+                    'list' => [['id' => '0', 'name' => 'None'], ['id' => '1', 'name' => 'APC'],
+                    ['id' => '2', 'name' => 'XC'], ['id' => '3', 'name' => 'Program Staff'],
+                    ['id' => '4', 'name' => 'Consultants']], 'option' => 'name'])
+
+                @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes']])
+            </div>
         </form>
     </div>
 @endsection

@@ -22,6 +22,7 @@
                         <table class="table table-bordered w-auto">
                             <thead>
                             <tr>
+                                <th id="timeslotid" class="select">Timeslot</th>
                                 <th id="name">Name</th>
                                 <th id="led_by">Led By</th>
                                 <th id="roomid" class="select">Room</th>
@@ -34,52 +35,57 @@
                             <tbody class="editable">
                             @foreach($timeslot->newworkshops()->orderBy('order')->get() as $workshop)
                                 <tr id="{{ $workshop->id }}">
-                                    <td>{{ $workshop->name }}</td>
-                                    <td>{{ $workshop->led_by}}</td>
-                                    <td>{{ $workshop->room->room_number }}</td>
-                                    <td>{{ $workshop->order }}</td>
+                                    <td class="teditable">{{ $workshop->timeslot->name }}</td>
+                                    <td class="teditable">{{ $workshop->name }}</td>
+                                    <td class="teditable">{{ $workshop->led_by}}</td>
+                                    <td class="teditable">{{ $workshop->room->room_number }}</td>
+                                    <td class="teditable">{{ $workshop->order }}</td>
                                     <td>{{ $workshop->blurb }}</td>
+                                    <td class="teditable">{{ $workshop->capacity }}</td>
                                     <td>{{ $workshop->display_days }}</td>
                                     <td>{{ $workshop->capacity }}</td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
-
-                        <div class="well">
-                            <h4>Add New Workshop</h4>
-                            @include('snippet.formgroup', ['label' => 'Workshop Name',
-                                'attribs' => ['name' => $timeslot->id . '-name',
-                                'placeholder' => 'Brief title of workshop']])
-
-                            @include('snippet.formgroup', ['label' => 'Workshop Leader',
-                                'attribs' => ['name' => $timeslot->id . '-led_by',
-                                'placeholder' => 'First and last name of the camper(s) (no \'led by\')']])
-
-                            @include('snippet.formgroup', ['type' => 'select', 'class' => ' roomid',
-                                'label' => 'Workshop Room', 'attribs' => ['name' => $timeslot->id . '-roomid'],
-                                'default' => 'Choose a room', 'list' => $rooms, 'option' => 'room_number'])
-
-                            @include('snippet.formgroup', ['label' => 'Display Order',
-                                'attribs' => ['name' => $timeslot->id . '-order', 'data-number-to-fixed' => '0',
-                                'placeholder' => 'Position in which to display the workshop', 'min' => '1']])
-
-                            @include('snippet.checkbox', ['label' => 'Days', 'id' => $timeslot->id,
-                                'list' => ['m' => 'Monday', 't' => 'Tuesday', 'w' => 'Wednesday',
-                                'h' => 'Thursday', 'f' => 'Friday']])
-
-                            @include('snippet.formgroup', ['label' => 'Capacity',
-                                'attribs' => ['name' => $timeslot->id . '-capacity', 'min' => '1',
-                                'placeholder' => '999 for unlimited', 'data-number-to-fixed' => '0']])
-
-                            @include('snippet.formgroup', ['type' => 'text', 'label' => 'Brief Summary',
-                                'attribs' => ['name' => $timeslot->id . '-blurb']])
-
-                        </div>
                     </div>
                 @endforeach
             </div>
-            @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes']])
+
+            <div class="well">
+                <h4>Add New Workshop</h4>
+                @include('snippet.formgroup', ['type' => 'select', 'class' => ' timeslotid',
+                    'label' => 'Timeslot', 'attribs' => ['name' => 'timeslotid'],
+                    'default' => 'Choose a timeslot', 'list' => $timeslots, 'option' => 'name'])
+
+                @include('snippet.formgroup', ['label' => 'Workshop Name',
+                    'attribs' => ['name' => 'name', 'placeholder' => 'Brief title of workshop']])
+
+                @include('snippet.formgroup', ['label' => 'Workshop Leader',
+                    'attribs' => ['name' => 'led_by',
+                    'placeholder' => 'First and last name of the camper(s) (no \'led by\')']])
+
+                @include('snippet.formgroup', ['type' => 'select', 'class' => ' roomid',
+                    'label' => 'Workshop Room', 'attribs' => ['name' => 'roomid'],
+                    'default' => 'Choose a room', 'list' => $rooms, 'option' => 'room_number'])
+
+                @include('snippet.formgroup', ['label' => 'Display Order',
+                    'attribs' => ['name' => 'order', 'data-number-to-fixed' => '0',
+                    'placeholder' => 'Position in which to display the workshop', 'min' => '1']])
+
+                @include('snippet.checkbox', ['label' => 'Days', 'id' => 'days',
+                    'list' => ['m' => 'Monday', 't' => 'Tuesday', 'w' => 'Wednesday',
+                    'h' => 'Thursday', 'f' => 'Friday']])
+
+                @include('snippet.formgroup', ['label' => 'Capacity',
+                    'attribs' => ['name' => 'capacity', 'min' => '1', 'placeholder' => '999 for unlimited',
+                    'data-number-to-fixed' => '0']])
+
+                @include('snippet.formgroup', ['type' => 'text', 'label' => 'Brief Summary',
+                    'attribs' => ['name' => 'blurb']])
+
+                @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes']])
+            </div>
         </form>
     </div>
 @endsection

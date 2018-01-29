@@ -3,6 +3,12 @@
 @section('css')
     <link href="https://fonts.googleapis.com/css?family=Bangers|Fredericka+the+Great|Great+Vibes|Indie+Flower|Mystery+Quest"
           rel="stylesheet">
+    <style>
+        div.label {
+            border: 2px dashed black;
+            margin: auto;
+        }
+    </style>
 @endsection
 
 @section('title')
@@ -29,23 +35,9 @@
                         <button class="btn btn-default copyAnswers float-right">
                             <i class="fa fa-copy fa-3x float-left pr-3"></i> Copy preferences to<br/> all family members
                         </button>
-                        <div class="preview{{ $camper->yearattending->fontapply == '2' ? ' ' . $camper->yearattending->font_value : '' }}">
-                            <div class="pronoun">{{ $camper->yearattending->pronoun_value }}</div>
-                            <div class="name {{ $camper->yearattending->font_value }}"
-                                 style="font-size: {{ $camper->yearattending->namesize+1 }}em;">{{ $camper->yearattending->name_value }}</div>
-                            <div class="surname">{{ $camper->yearattending->surname_value  }}</div>
-                            <div class="line1">{{ $camper->yearattending->line1_value }}</div>
-                            <div class="line2">{{ $camper->yearattending->line2_value }}</div>
-                            <div class="line3">{{ $camper->yearattending->line3_value }}</div>
-                            <div class="line4">{{ $camper->yearattending->line4_value }}</div>
-                            @if($camper->age<18)
-                                <div class="parent">{!! $camper->parent !!}</div>
-                            @endif
+                        <div class="row mb-3 col-md-10">
+                            @include('snippet.nametag', ['camper' => $camper])
                         </div>
-
-                        @include('snippet.formgroup', ['type' => 'select', 'label' => 'Pronoun',
-                        'attribs' => ['name' => $camper->id . '-nametag-pronoun'], 'formobject' => $camper->yearattending,
-                        'list' => [['id' => '2', 'name' => 'Displayed in Corner'], ['id' => '1', 'name' => 'Not Displayed']], 'option' => 'name'])
 
                         <div class="form-group row{{ $errors->has($camper->id . '-nametag-name') ? ' has-danger' : '' }}">
                             <label for="{{ $camper->id }}-nametag-name"
@@ -69,7 +61,7 @@
                                             data-content="{{ $camper->firstname }} {{ $camper->lastname }}||{{ $camper->family->family_name }}">
                                         First Last then Family Name (on next line)
                                     </option>
-                                    <option value="1"
+                                    <option value="4"
                                             {{ $camper->yearattending->name == '4' ? ' selected' : '' }}
                                             data-content="{{ $camper->firstname }}||">
                                         First Only
@@ -89,6 +81,11 @@
                         'list' => [['id' => '2', 'name' => 'Normal'], ['id' => '3', 'name' => 'Big'],
                             ['id' => '4', 'name' => 'Bigger'], ['id' => '5', 'name' => 'Bigly'],
                             ['id' => '1', 'name' => 'Small']], 'option' => 'name'])
+
+                        @include('snippet.formgroup', ['type' => 'select', 'label' => 'Pronoun',
+                        'attribs' => ['name' => $camper->id . '-nametag-pronoun'], 'formobject' => $camper->yearattending,
+                        'list' => [['id' => '2', 'name' => 'Displayed'], ['id' => '1', 'name' => 'Not Displayed']], 'option' => 'name'])
+
 
                         @for($i=1; $i<5; $i++)
                             <div class="form-group row{{ $errors->has($camper->id . '-nametag-line' . $i) ? ' has-danger' : '' }}">
@@ -207,16 +204,16 @@
             var font = $("#" + id + "-nametag-font option:selected").text();
             $("#" + id + "-nametag-pronoun").val() === '1' ? obj.find(".pronoun").hide() : obj.find(".pronoun").show();
             var names = $("#" + id + "-nametag-name option:selected").attr("data-content").split("||");
-            obj.find(".name").text(names[0]).attr("style", "font-size: " + (parseInt($("#" + id + "-nametag-namesize").val(), 10) + 1) + "em; font-family: '" + font + "';");
+            obj.find(".name").removeClass().addClass("name").text(names[0]).attr("style", "font-size: " + (parseInt($("#" + id + "-nametag-namesize").val(), 10) + 1) + "em; font-family: '" + font + "';");
             obj.find(".surname").text(names[1]);
             for (var i = 1; i < 5; i++) {
                 obj.find(".line" + i).text($("#" + id + "-nametag-line" + i + " option:selected").attr("data-content"));
             }
-            obj.find(".preview").removeClass().addClass("preview");
+            obj.find(".label").removeClass().addClass("label");
             if ($("#" + id + "-nametag-fontapply").val() === '2') {
-                obj.find(".preview").attr("style", "font-family: '" + font + "';");
+                obj.find(".label").attr("style", "font-family: '" + font + "';");
             } else {
-                obj.find(".preview div:not(.name)").attr("style", "font-family: 'Open Sans';");
+                obj.find(".label div:not(.name)").attr("style", "font-family: 'Open Sans';");
             }
         }
 

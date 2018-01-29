@@ -2,8 +2,8 @@
 @extends('layouts.app')
 
 @section('css')
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css"/>
-    <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css"/>
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css"/>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css"/>
 @endsection
 
@@ -47,14 +47,7 @@
                 @endforeach
             </div>
             @if(!isset($readonly) || $readonly === false)
-                <div class="form-group row">
-                    <label for="submit" class="col-md-4 control-label">&nbsp;</label>
-                    <div class="col-md-6">
-                        <div class="text-lg-right">
-                            <button id="submit" class="btn btn-lg btn-primary py-3 px-4">Save Changes</button>
-                        </div>
-                    </div>
-                </div>
+                @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes']])
             @endif
         </form>
     </div>
@@ -69,8 +62,7 @@
     <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"
             integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous">
     </script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
-    <script src="/js/bootstrap-datepicker.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
     <script type="text/javascript">
 
         $(function () {
@@ -96,16 +88,15 @@
                 bind(empty);
             });
 
-            $('button#submit').on('click', function (e) {
+            $('input:submit').on('click', function (e) {
                 e.preventDefault();
                 var form = $("#camperinfo");
-                var button = $('button#submit');
                 var fa = window.FontAwesome;
                 var spin = fa.findIconDefinition({iconName: 'spinner-third'});
-                button.html(fa.icon(spin, {classes: ['fa-spin']}).html + " Saving").removeClass("btn-primary btn-danger").prop("disabled", true);
+                $(this).html(fa.icon(spin, {classes: ['fa-spin']}).html + " Saving").removeClass("btn-primary btn-danger").prop("disabled", true);
                 if (!confirm("You are registering " + form.find('select.days option[value!="0"]:selected').length + " campers for {{ $home->year()->year }}. Is this correct?")) {
                     var times = fa.findIconDefinition({iconName: 'times'});
-                    button.html(fa.icon(times).html + " Resubmit").addClass("btn-danger").prop("disabled", false);
+                    $(this).html(fa.icon(times).html + " Resubmit").addClass("btn-danger").prop("disabled", false);
                     return false;
                 }
                 $(".has-danger").removeClass("has-danger");
@@ -120,7 +111,7 @@
                     success: function (data) {
                         $(".nav-tabs").before("<div class='alert alert-success'>" + data + "</div>");
                         var check = fa.findIconDefinition({iconName: 'check'});
-                        button.html(fa.icon(check).html + " Saved").addClass("btn-success");
+                        $(this).html(fa.icon(check).html + " Saved").addClass("btn-success");
                         $('html,body').animate({
                             scrollTop: 0
                         }, 700);
@@ -140,7 +131,7 @@
                             $('.nav-tabs a[href="#' + $("span.invalid-feedback:first").parents('div.tab-pane').attr('id') + '"]').tab('show');
                         }
                         var times = fa.findIconDefinition({iconName: 'times'});
-                        button.html(fa.icon(times).html + " Resubmit").addClass("btn-danger").prop("disabled", false);
+                        $(this).html(fa.icon(times).html + " Resubmit").addClass("btn-danger").prop("disabled", false);
                         $('html,body').animate({
                             scrollTop: 0
                         }, 700);

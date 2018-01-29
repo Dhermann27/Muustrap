@@ -13,7 +13,7 @@ class Staffposition extends Model
 
     public function program()
     {
-        return $this->hasOne(Program::class);
+        return $this->hasOne(Program::class, 'id', 'programid');
     }
 }
 

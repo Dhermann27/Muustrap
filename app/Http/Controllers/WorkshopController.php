@@ -11,6 +11,7 @@ class WorkshopController extends Controller
     public function store(Request $request)
     {
 
+        $year = \App\Year::where('is_current', '1')->first();
         $campers = $this->getCampers(\App\Camper::where('email', Auth::user()->email)->first()->familyid);
 
         foreach ($campers as $camper) {
@@ -38,9 +39,13 @@ class WorkshopController extends Controller
         }
 
         DB::statement('CALL workshops();');
-        DB::statement('CALL generate_charges(getcurrentyear());');
+        DB::statement('CALL generate_charges(' . $year->year . ');');
 
-        $request->session()->flash('Your workshop selections have been updated.');// Check out available rooms by clicking <a href="' . url('/roomselection') . '">here</a>.';
+        $success = 'Your workshop selections have been updated.';
+        if($year->isLive()) $success .= ' Check out available rooms by clicking <a href="' . url('/roomselection') . '">here</a>.';
+
+        $request->session()->flash('success', $success);
+
         return $this->index();
     }
 

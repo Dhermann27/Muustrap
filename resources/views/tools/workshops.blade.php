@@ -28,6 +28,7 @@
                                 <th id="roomid" class="select">Room</th>
                                 <th id="order">Order</th>
                                 <th>Blurb</th>
+                                <th>Days</th>
                                 <th id="capacity">Capacity</th>
                             </tr>
                             </thead>
@@ -40,7 +41,9 @@
                                     <td class="teditable">{{ $workshop->room->room_number }}</td>
                                     <td class="teditable">{{ $workshop->order }}</td>
                                     <td>{{ $workshop->blurb }}</td>
+                                    <td>{{ $workshop->display_days }}</td>
                                     <td class="teditable">{{ $workshop->capacity }}</td>
+                                    <td>{{ $workshop->capacity }}</td>
                                 </tr>
                             @endforeach
                             </tbody>

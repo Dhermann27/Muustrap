@@ -63,7 +63,7 @@
                 {
                     events: [
                             @foreach($camper->yearattending->workshops()->where('is_enrolled', '1')->get() as $signup)
-                            @foreach($signup->workshop->days($home->year()->year) as $day)
+                            @foreach($signup->workshop->days($home->year()) as $day)
                         {
                             'title': '{{  $signup->workshop->name }}',
                             'start': ' {{ $day[0] }}',

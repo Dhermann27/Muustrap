@@ -190,7 +190,7 @@
             var first = $("form.medicalresponse").first();
             var elements = myform.find("input, textarea, select");
             if (first.find('select[name*="is_insured"]').val() === '1') {
-                myform.find("div.d-none").removeClass("d-none");
+                myform.find("div.insurance").removeClass("d-none");
             }
             first.find("input, textarea, select").each(function (index) {
                 if ($(this).attr("type") !== "checkbox") {

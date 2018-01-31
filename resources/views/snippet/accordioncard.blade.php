@@ -11,7 +11,7 @@
         </a>
     </h4>
     <div id="collapse-{{ $id }}-{{ $heading }}" role="tabpanel"
-         class="collapse d-print-block{{ !isset($closed) && $loop->first ? ' in' : '' }}"
+         class="collapse d-print-block{{ !isset($closed) && $loop->first ? ' show' : '' }}"
          aria-labelledby="heading-{{ $id }}-{{ $heading }}">
         <div class="card-body">{{ $slot }}</div>
     </div>

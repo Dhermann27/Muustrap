@@ -45,11 +45,7 @@
     'formobject' => $camper->medicalresponse, 'label' => 'Please indicate if you carry health insurance for your child.',
     'list' => [['id' => '0', 'option' => 'No'], ['id' => '1', 'option' => 'Yes']]])
 
-<div
-        @if(!$camper->medicalresponse || $camper->medicalresponse->is_insured == '0')
-        class="d-none d-print-block"
-        @endif
->
+<div class="insurance {{ !$camper->medicalresponse || $camper->medicalresponse->is_insured == '0' ? 'd-none d-print-block' : '' }}">
     @include('snippet.formgroup', ['label' => 'Policy Holder Name', 'formobject' => $camper->medicalresponse,
         'attribs' => ['name' => $camper->yearattendingid . '-holder_name']])
 
@@ -83,34 +79,34 @@
 
     <div class="form-group row">
         <label class="col-md-4 control-label">Is your child under the care of a physician for:</label>
-        <div class="col-md-6 btn-group btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-default{{ $camper->medicalresponse && $camper->medicalresponse->is_epilepsy ? ' active' : '' }}">
+        <div class="col-md-6 btn-group" data-toggle="buttons">
+            <label class="btn btn-primary{{ $camper->medicalresponse && $camper->medicalresponse->is_epilepsy ? ' active' : '' }}">
                 <input type="checkbox" name="{{ $camper->yearattendingid }}-is_epilepsy" autocomplete="off"
                        @if($camper->medicalresponse && $camper->medicalresponse->is_epilepsy)
                        checked
                         @endif
-                />Epilepsy
+                /> Epilepsy
             </label>
-            <label class="btn btn-default{{ $camper->medicalresponse && $camper->medicalresponse->is_diabetes ? ' active' : '' }}">
+            <label class="btn btn-primary{{ $camper->medicalresponse && $camper->medicalresponse->is_diabetes ? ' active' : '' }}">
                 <input type="checkbox" name="{{ $camper->yearattendingid }}-is_diabetes" autocomplete="off"
                        @if($camper->medicalresponse && $camper->medicalresponse->is_diabetes)
                        checked
                         @endif
-                />Diabetes
+                /> Diabetes
             </label>
-            <label class="btn btn-default{{ $camper->medicalresponse && $camper->medicalresponse->is_add ? ' active' : '' }}">
+            <label class="btn btn-primary{{ $camper->medicalresponse && $camper->medicalresponse->is_add ? ' active' : '' }}">
                 <input type="checkbox" name="{{ $camper->yearattendingid }}-is_add" autocomplete="off"
                        @if($camper->medicalresponse && $camper->medicalresponse->is_add)
                        checked
                         @endif
-                />Attention Deficit Disorder
+                /> Attention Deficit Disorder
             </label>
-            <label class="btn btn-default{{ $camper->medicalresponse && $camper->medicalresponse->is_adhd ? ' active' : '' }}">
+            <label class="btn btn-primary{{ $camper->medicalresponse && $camper->medicalresponse->is_adhd ? ' active' : '' }}">
                 <input type="checkbox" name="{{ $camper->yearattendingid }}-is_adhd" autocomplete="off"
                        @if($camper->medicalresponse && $camper->medicalresponse->is_adhd)
                        checked
                         @endif
-                />Attention Deficit Hyperactivity Disorder
+                /> Attention Deficit Hyperactivity Disorder
             </label>
         </div>
     </div>

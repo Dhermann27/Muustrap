@@ -48,11 +48,8 @@
                                     <td>{{ $charge->memo }}</td>
                                     @if($readonly === false)
                                         @if(!empty($charge->timestamp))
-                                            <td class="btn-group" data-toggle="buttons">
-                                                <label class="btn btn-default">
-                                                    <input type="checkbox" name="{{ $charge->id }}-delete"
-                                                           autocomplete="off"/> Delete
-                                                </label>
+                                            <td>
+                                                @include('snippet.delete', ['id' => $charge->id])
                                             </td>
                                         @else
                                             <td>&nbsp;</td>

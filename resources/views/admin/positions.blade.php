@@ -47,12 +47,8 @@
                                     <td>
                                         ${{ money_format('%.2n', $position->compensationlevel->max_compensation) }}
                                     </td>
-                                    <td class="btn-group" data-toggle="buttons">
-                                        <label class="btn btn-default">
-                                            <input type="checkbox" name="{{ $position->id }}-delete"
-                                                   autocomplete="off"/>
-                                            Delete
-                                        </label>
+                                    <td>
+                                        @include('snippet.delete', ['id' => $position->id])
                                     </td>
                                 </tr>
                             @endforeach

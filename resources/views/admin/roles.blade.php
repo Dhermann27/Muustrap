@@ -34,11 +34,8 @@
                                     <td>
                                         @include('admin.controls', ['id' => 'c/' . $user->camper->id])
                                     </td>
-                                    <td class="btn-group" data-toggle="buttons">
-                                        <label class="btn btn-default">
-                                            <input type="checkbox" name="{{ $user->id }}-{{ $role->id }}-delete"
-                                                   autocomplete="off"/> Delete
-                                        </label>
+                                    <td>
+                                        @include('snippet.delete', ['id' => $user->id . '-' . $role->id])
                                     </td>
                                 </tr>
                             @endforeach

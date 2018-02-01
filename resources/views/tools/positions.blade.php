@@ -22,7 +22,7 @@
                             <tr>
                                 <th>Position</th>
                                 <th>Name</th>
-                                <th>Current Compensation</th>
+                                <th>Maximum Compensation</th>
                                 <th>Controls</th>
                                 <th>Delete?</th>
                             </tr>
@@ -32,13 +32,7 @@
                                 <tr>
                                     <td>{{ $assignment->staffpositionname }}</td>
                                     <td>{{ $assignment->lastname }}, {{ $assignment->firstname }}</td>
-                                    <td>
-                                        @if($assignment->compensation > 0)
-                                            ${{ money_format('%.2n', $assignment->compensation) }}
-                                        @else
-                                            Registered but not assigned
-                                        @endif
-                                    </td>
+                                    <td>${{ money_format('%.2n', $assignment->max_compensation) }}</td>
                                     <td>
                                         @include('admin.controls', ['id' => 'c/' . $assignment->camperid])
                                     </td>

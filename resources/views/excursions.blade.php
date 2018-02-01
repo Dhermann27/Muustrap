@@ -7,8 +7,9 @@
 @section('heading')
     These single-day trips off the YMCA of the Ozarks campus are a blast every year!
 @endsection
+
 @section('content')
-    @foreach($workshops as $workshop)
+    @foreach($timeslot->workshops as $workshop)
         <ul class="list-group">
             <li class="list-group-item">
                 @include('snippet.filling', ['workshop' => $workshop])

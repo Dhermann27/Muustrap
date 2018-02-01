@@ -110,4 +110,9 @@ class WorkshopController extends Controller
         return view('workshops', ['timeslots' => \App\Timeslot::all()->except('1005')]);
     }
 
+    public function excursions() {
+        return view('excursions', ['timeslot' => \App\Timeslot::where('id', '1005')->first()]);
+
+    }
+
 }

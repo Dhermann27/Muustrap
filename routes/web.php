@@ -8,6 +8,7 @@ Route::get('/home', 'HomeController@index');
 Auth::routes();
 
 Route::get('/workshops', 'WorkshopController@display');
+Route::get('/excursions', 'WorkshopController@excursions');
 
 Route::get('/contact', 'ContactController@contactIndex');
 Route::post('/contact', 'ContactController@contactStore');
@@ -129,9 +130,7 @@ Route::get('/themuse', function () {
 Route::get('/cost', function () {
     return view('campcost');
 });
-Route::get('/excursions', function () {
-    return view('excursions', ['workshops' => \App\Workshop::where('timeslotid', '1005')->get()]);
-});
+
 Route::get('/themespeaker', function () {
     return view('themespeaker');
 });

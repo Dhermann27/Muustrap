@@ -29,7 +29,7 @@
                         </thead>
                         <tbody>
                         @foreach($workshop->choices()->orderBy('is_leader', 'desc')->orderBy('created_at')->get() as $choice)
-                            <tr {{ $choice->is_enrolled == '0' ? ' class="table-danger"'}}>
+                            <tr {{ $choice->is_enrolled == '0' ? ' class="table-danger"' : ''}}>
                                 <td>{{ $choice->yearattending->camper->lastname }}
                                     , {{ $choice->yearattending->camper->firstname }}</td>
                                 <td>

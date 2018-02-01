@@ -43,7 +43,6 @@
                                     <td>{{ $workshop->blurb }}</td>
                                     <td>{{ $workshop->display_days }}</td>
                                     <td class="teditable">{{ $workshop->capacity }}</td>
-                                    <td>{{ $workshop->capacity }}</td>
                                 </tr>
                             @endforeach
                             </tbody>

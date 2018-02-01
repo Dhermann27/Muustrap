@@ -48,11 +48,12 @@ class WelcomeController extends Controller
                 $roomid = $signedup && $this->isRoomAssigned($yas);
                 $nametags = $roomid && $this->isNametagsCreated($yas);
                 $confirmed = $nametags && $this->isConfirmed($family);
+                return view('welcome', ['family' => $family, 'registered' => $registered, 'paid' => $paid, 'signedup' => $signedup,
+                    'nametags' => $nametags, 'roomid' => $roomid, 'confirmed' => $confirmed, 'muse' => $muse]);
+
             }
         }
-
-        return view('welcome', ['family' => $family, 'registered' => $registered, 'paid' => $paid, 'signedup' => $signedup,
-            'nametags' => $nametags, 'roomid' => $roomid, 'confirmed' => $confirmed, 'muse' => $muse]);
+        return view('welcome');
     }
 
     private function isRegistered($family)

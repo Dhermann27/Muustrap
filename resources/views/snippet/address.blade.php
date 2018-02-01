@@ -16,7 +16,7 @@
     'default' => $camper->family->city])
 
 @include('snippet.formgroup', ['type' => 'info', 'label' => 'State', 'attribs' => ['name' => 'state'],
-    'default' => $camper->family->statecode->name])
+    'default' => $camper->family->state_code])
 
 @include('snippet.formgroup', ['type' => 'info', 'label' => 'Zip Code', 'attribs' => ['name' => 'zip'],
     'default' => $camper->family->zipcd])

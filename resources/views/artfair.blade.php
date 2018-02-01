@@ -9,30 +9,30 @@
 @endsection
 
 @section('content')
-    <p>Thank you for your interest in the MUUSA Artists &amp; Crafters Show! Please complete the
-        following application and materials and send to the Show Coordinator, Karen Seymour-Ells, by
-        April 1st. Replies will be sent to all applicants by May 1st. Late applications received
-        after April 1st will not be accepted.</p>
-    <p><strong>Please note the following regarding the sale:</strong></p>
-    <ul>
-        <li>30% of the sale price will be donated to MUUSA.</li>
-        <li>All money will be collected by those working the sale and a check cut back to the artist
-            for their portion of the sales within 2 weeks.
-        </li>
-        <li>Each participant must volunteer for some aspect of the sale, please see opportunities
-            listed above.
-        </li>
-    </ul>
-    <p><strong>Each entry needs to include:</strong></p>
-    <ul>
-        <li>Multiple high-quality images of your work (use the attachment button below or provide
-            links in the description).
-        </li>
-        <li>A description of your process so we can confirm the handmade nature of the item.</li>
-        <li>The below application filled out and submitted by the due date.</li>
-    </ul>
-    @if(Auth::check() && !empty($camper))
-        <div class="container">
+    <div class="container">
+        <p>Thank you for your interest in the MUUSA Artists &amp; Crafters Show! Please complete the
+            following application and materials and send to the Show Coordinator, Karen Seymour-Ells, by
+            April 1st. Replies will be sent to all applicants by May 1st. Late applications received
+            after April 1st will not be accepted.</p>
+        <p><strong>Please note the following regarding the sale:</strong></p>
+        <ul>
+            <li>30% of the sale price will be donated to MUUSA.</li>
+            <li>All money will be collected by those working the sale and a check cut back to the artist
+                for their portion of the sales within 2 weeks.
+            </li>
+            <li>Each participant must volunteer for some aspect of the sale, please see opportunities
+                listed above.
+            </li>
+        </ul>
+        <p><strong>Each entry needs to include:</strong></p>
+        <ul>
+            <li>Multiple high-quality images of your work (use the attachment button below or provide
+                links in the description).
+            </li>
+            <li>A description of your process so we can confirm the handmade nature of the item.</li>
+            <li>The below application filled out and submitted by the due date.</li>
+        </ul>
+        @if(Auth::check() && !empty($camper))
             <form id="artfair" class="form-horizontal" role="form" method="POST" action="{{ url('/artfair') }}"
                   enctype="multipart/form-data">
                 @include('snippet.flash')
@@ -49,7 +49,7 @@
 
                 @include('snippet.formgroup', ['label' => 'Approximate Price Range', 'attribs' => ['name' => 'pricerange']])
 
-                <div class="form-group{{ $errors->has('images') ? ' has-danger' : '' }}">
+                <div class="form-group row{{ $errors->has('images') ? ' has-danger' : '' }}">
                     <label for="images" class="col-md-4 control-label">High-quality Images of Your
                         Work(s)</label>
 
@@ -109,16 +109,17 @@
                         </span>
                     @endif
                 </div>
+                <p>&nbsp;</p>
 
                 @include('snippet.formgroup', ['type' => 'captcha', 'label' => 'CAPTCHA Test',
                     'attribs' => ['name' => 'g-recaptcha-response']])
 
                 @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Send Application']])
             </form>
-        </div>
-    @else
-        <h3>Please register for camp (and login to your account) to complete this application.</h3>
-    @endif
+        @else
+            <h3>Please register for camp (and login to your account) to complete this application.</h3>
+        @endif
+    </div>
 @endsection
 
 @section('script')

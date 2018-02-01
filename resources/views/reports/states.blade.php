@@ -25,7 +25,7 @@
                             @slot('badge')
                                 <span class="badge badge-primary">{{ $state->total }} <i class="fa fa-male"></i></span>
                             @endslot
-                            <table class="table w-auto">
+                            <table class="table">
                                 <thead>
                                 <tr>
                                     <th width="50%">Church Name</th>

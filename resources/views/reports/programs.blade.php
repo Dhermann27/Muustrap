@@ -13,7 +13,7 @@
                 <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
                      aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $program->id }}">
                     <div class="panel-group" id="{{ $program->id }}" role="tablist">
-                        <table class="table w-auto">
+                        <table class="table">
                             <thead>
                             <tr>
                                 <th>Pronoun</th>

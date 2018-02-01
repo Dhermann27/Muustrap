@@ -25,7 +25,7 @@
                 @foreach($years as $thisyear => $charges)
                     <div role="tabpanel" class="tab-pane fade{{ $loop->last ? ' active show' : '' }}"
                          aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $thisyear }}">
-                        <table class="table table-striped table-bordered w-auto">
+                        <table class="table table-striped">
                             <thead>
                             <tr>
                                 <th id="chargetypeid" class="select"><label for="chargetypeid">Charge

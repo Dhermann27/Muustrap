@@ -39,7 +39,7 @@
     </div>
     @foreach($letters->groupBy('first') as $letter => $families)
         <div id="{{ $letter }}" class="letterdiv" {!!  !$loop->first ? ' style="display: none;"' : '' !!}>
-            <table class="table table-bordered w-auto">
+            <table class="table">
                 <thead>
                 <tr>
                     <th width="50%">Family</th>
@@ -55,7 +55,7 @@
                     </tr>
                     <tr class="members">
                         <td colspan="3">
-                            <table class="table table-sm w-auto">
+                            <table class="table table-sm">
                                 @foreach($family->allcampers()->orderBy('birthdate')->get() as $camper)
                                     <tr>
                                         <td width="4%">

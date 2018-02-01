@@ -20,7 +20,7 @@
 
 @section('content')
     @include('snippet.orderby', ['years' => $years, 'url' => url('/reports/payments'), 'orders' => ['name']])
-    <table class="table w-auto">
+    <table class="table">
         <thead>
         <tr>
             <th>Family Name</th>

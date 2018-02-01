@@ -16,7 +16,7 @@
                     <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
                          aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $program->id }}">
                         <p>&nbsp;</p>
-                        <table class="table table-sm w-auto">
+                        <table class="table">
                             <thead>
                             <tr>
                                 <th id="programid" class="select">Program</th>

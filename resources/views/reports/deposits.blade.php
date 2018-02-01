@@ -17,7 +17,7 @@
                                 return $value->chargetypeid == $chargetype->id;
                             })) > 0)
                             @component('snippet.accordioncard', ['id' => $chargetype->id, 'loop' => $loop, 'heading' => $ddate, 'title' => empty($ddate) ? 'Undeposited' : $ddate])
-                                <table class="table table-sm w-auto">
+                                <table class="table">
                                     <thead>
                                     <tr>
                                         <th>Camper Name</th>

@@ -17,7 +17,7 @@
                          id="{{ $role->id }}">
                         <p>&nbsp;</p>
                         <h4>{{ $role->description }}</h4>
-                        <table class="table table-sm .w-auto">
+                        <table class="table">
                             <thead>
                             <tr>
                                 <th>Name</th>

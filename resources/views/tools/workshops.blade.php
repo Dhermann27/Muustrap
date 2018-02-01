@@ -19,7 +19,7 @@
                             <h5>{{ $timeslot->start_time->format('g:i A') }}
                                 - {{ $timeslot->end_time->format('g:i A') }}</h5>
                         @endif
-                        <table class="table table-bordered w-auto">
+                        <table class="table">
                             <thead>
                             <tr>
                                 <th id="timeslotid" class="select">Timeslot</th>

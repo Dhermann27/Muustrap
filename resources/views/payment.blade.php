@@ -14,7 +14,7 @@
         <form id="muusapayment" class="form-horizontal" role="form" method="POST" action="{{ url('/payment') }}">
             @include('snippet.flash')
 
-            <table class="table table-striped table-bordered w-autox">
+            <table class="table table-striped">
                 <thead>
                 <tr>
                     <th>Charge Type</th>

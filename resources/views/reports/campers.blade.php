@@ -7,7 +7,7 @@
 @section('content')
     <div class="container">
         @include('snippet.orderby', ['years' => $years, 'url' => url('/reports/campers'), 'orders' => ['name', 'date']])
-        <table class="table table-bordered w-auto">
+        <table class="table">
             <thead>
             <tr align="right">
                 <td colspan="4"><strong>Total Campers
@@ -34,7 +34,7 @@
                 </tr>
                 <tr>
                     <td colspan="4">
-                        <table class="table table-sm w-auto">
+                        <table class="table table-sm">
                             @foreach($family->campers()->where('year', $thisyear)->get() as $camper)
                                 <tr>
                                     <td width="20%">{{ $camper->lastname }}, {{ $camper->firstname }}

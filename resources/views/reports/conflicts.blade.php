@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <table class="table w-auto">
+    <table class="table">
         <thead>
         <tr>
             <th>Camper Name</th>

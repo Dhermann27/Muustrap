@@ -91,7 +91,7 @@ class CamperController extends Controller
             $camper->phonenbr = str_replace('-', '', $request->input('phonenbr')[$i]);
         }
         $camper->birthdate = $request->input('birthdate')[$i];
-        $camper->gradyear= $request->input('gradyear')[$i];
+        $camper->gradyear = $request->input('gradyear')[$i];
         $camper->roommate = $request->input('roommate')[$i];
         $camper->sponsor = $request->input('sponsor')[$i];
         $camper->churchid = $request->input('churchid')[$i];
@@ -104,6 +104,13 @@ class CamperController extends Controller
             $ya = \App\Yearattending::updateOrCreate(['camperid' => $camper->id,
                 'year' => DB::raw("getcurrentyear()")], ['days' => $request->input('days')[$i]]);
             $camper->yearattendingid = $ya->id;
+            $staffs = \App\Camper__Staff::where('camperid', $camper->id)->get();
+            if (count($staffs) > 0) {
+                foreach ($staffs as $staff) {
+                    \App\Yearattending__Staff::updateOrCreate(['yearattendingid' => $ya->id, 'staffpositionid' => $staff->staffpositionid]);
+                }
+                \App\Camper__Staff::where('camperid', $camper->id)->delete();
+            }
         } else {
             $ya = \App\Yearattending::where(['camperid' => $camper->id, 'year' => DB::raw('getcurrentyear()')])->first();
             if ($ya != null) {
@@ -111,9 +118,6 @@ class CamperController extends Controller
                     \App\Yearattending__Workshop::where('yearattendingid', $ya->id)->delete();
                     \App\Yearattending__Staff::where('yearattendingid', $ya->id)->delete();
                     $ya->delete();
-                } else {
-                    $ya->days = $request->input('days')[$i];
-                    $ya->update();
                 }
             }
         }

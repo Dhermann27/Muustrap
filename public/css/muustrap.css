@@ -94,6 +94,23 @@ div#spacer2 {
     background-size: cover;
 }
 
+div#carousel-caption0 {
+    top: 8%;
+}
+
+div#carousel-caption1 {
+    left: 52%;
+    right: 1%
+}
+
+div#carousel-caption2 {
+    left: 5%;
+    right: 60%;
+    top: 25%;
+    color: #000;
+}
+
+
 @media only screen and (max-device-width: 1024px) {
     .parallax {
         background-attachment: scroll;

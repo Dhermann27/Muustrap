@@ -90,7 +90,7 @@
                     <a href="{{ url('/directory') }}" class="nav-link"> <i class="fa fa-address-book fa-2x"></i> <span
                                 class="sr-only">Online Directory</span> </a>
                     @if($home->year()->isLive())
-                        <a href="{{ url('/calendar') }}" class="nav-link"> <i class="fa fa-calendar fa-2x"></i> <span
+                        <a href="{{ url('/calendar') }}" class="nav-link"> <i class="fa fa-calendar-alt fa-2x"></i> <span
                                     class="sr-only">Your MUUSA Calendar</span>
                         </a>
                     @endif

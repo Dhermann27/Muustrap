@@ -84,7 +84,7 @@ SET c.pronounid = (SELECT n.id
                      n.code
                      =
                      cp.sexcd
-  AND c.id=cp.id
+                     AND c.id = cp.id
                    LIMIT 1);
 UPDATE muusa.campers c
 SET c.phonenbr = (SELECT n.phonenbr
@@ -319,10 +319,12 @@ CREATE VIEW byyear_families AS
     f.is_address_current,
     f.is_ecomm,
     f.is_scholar,
-    COUNT(ya.id) count,
-    SUM(IF(ya.roomid!=0,1,0)) assigned,
-    (SELECT SUM(bh.amount) FROM byyear_charges bh WHERE ya.year=bh.year AND f.id=bh.familyid) balance,
-    MIN(ya.created_at) created_at
+    COUNT(ya.id)                                     count,
+    SUM(IF(ya.roomid != 0, 1, 0))                    assigned,
+    (SELECT SUM(bh.amount)
+     FROM byyear_charges bh
+     WHERE ya.year = bh.year AND f.id = bh.familyid) balance,
+    MIN(ya.created_at)                               created_at
   FROM families f, campers c, yearsattending ya
   WHERE f.id = c.familyid AND c.id = ya.camperid
   GROUP BY f.id, ya.year;
@@ -332,8 +334,8 @@ DROP VIEW IF EXISTS byyear_campers;
 CREATE VIEW byyear_campers AS
   SELECT
     ya.year,
-    f.id                                         familyid,
-    f.name                                       familyname,
+    f.id                                 familyid,
+    f.name                               familyname,
     f.address1,
     f.address2,
     f.city,
@@ -344,33 +346,33 @@ CREATE VIEW byyear_campers AS
     f.is_address_current,
     c.id,
     c.pronounid,
-    o.name                                       pronounname,
+    o.name                               pronounname,
     c.firstname,
     c.lastname,
     c.email,
     c.phonenbr,
     c.birthdate,
-    DATE_FORMAT(c.birthdate, '%m/%d/%Y')         birthday,
-    getage(c.birthdate, ya.year)                 age,
+    DATE_FORMAT(c.birthdate, '%m/%d/%Y') birthday,
+    getage(c.birthdate, ya.year)         age,
     c.gradeoffset,
-    ya.year-c.gradyear+12 grade,
-    p.id                                         programid,
-    p.name                                       programname,
-    p.is_program_housing                         is_program_housing,
+    ya.year - c.gradyear + 12            grade,
+    p.id                                 programid,
+    p.name                               programname,
+    p.is_program_housing                 is_program_housing,
     c.roommate,
     c.sponsor,
     c.is_handicap,
     c.foodoptionid,
-    u.id                                         churchid,
-    u.name                                       churchname,
-    u.city                                       churchcity,
-    u.statecd                                    churchstatecd,
-    ya.id                                        yearattendingid,
+    u.id                                 churchid,
+    u.name                               churchname,
+    u.city                               churchcity,
+    u.statecd                            churchstatecd,
+    ya.id                                yearattendingid,
     ya.days,
     ya.roomid,
     r.room_number,
-    b.id                                         buildingid,
-    b.name                                       buildingname
+    b.id                                 buildingid,
+    b.name                               buildingname
   FROM (families f, campers c, yearsattending ya, programs p, pronouns o)
     LEFT JOIN (buildings b, rooms r) ON ya.roomid = r.id AND r.buildingid = b.id
     LEFT JOIN churches u ON c.churchid = u.id
@@ -500,92 +502,106 @@ CREATE VIEW thisyear_campers AS
   FROM byyear_campers bc, years y
   WHERE bc.year = y.year AND y.is_current = 1;
 
-    DROP VIEW IF EXISTS byyear_staff;
-    CREATE VIEW byyear_staff AS
-      SELECT
-        ya.year,
-        c.familyid,
-        c.id                                                                 camperid,
-        MAX(ya.id)                                                           yearattendingid,
-        c.firstname,
-        c.lastname,
-        c.email,
-        MAX(sp.name)                                                         staffpositionname,
-        MAX(sp.id)                                                           staffpositionid,
-        LEAST(IFNULL(getrate(c.id, ya.year), 150), SUM(cl.max_compensation)) +
-        IF(MAX(ysp.is_eaf_paid) = 1, (SELECT IFNULL(SUM(h.amount), 0)
-                                 FROM charges h
-                                 WHERE h.camperid IN (SELECT cp.id
-                                                      FROM campers cp
-                                                      WHERE cp.familyid = c.familyid) AND h.year = ya.year AND
-                                       h.chargetypeid = getchargetypeid('Early Arrival')), 0)
-                                                                             compensation,
-        MAX(sp.programid)                                                    programid,
-        MAX(sp.pctype)                                                       pctype,
-        MAX(ysp.created_at)
-      FROM campers c, yearsattending ya, yearattending__staff ysp, staffpositions sp, compensationlevels cl
-      WHERE c.id = ya.camperid AND ya.id = ysp.yearattendingid AND ysp.staffpositionid = sp.id
-            AND sp.compensationlevelid=cl.id AND ya.year >= sp.start_year AND ya.year <= sp.end_year
-      GROUP BY ya.year, c.id
-    UNION ALL
-    SELECT
-      MAX(y.year),
-      c.familyid,
-      c.id camperid,
-      0,
-      c.firstname,
-      c.lastname,
-      c.email,
-      MAX(sp.name),
-      MAX(sp.id),
-      LEAST(150, SUM(cl.max_compensation)),
-      MAX(sp.programid),
-      MAX(sp.pctype),
-      MAX(cs.created_at)
-    FROM camper__staff cs, campers c, staffpositions sp, compensationlevels cl, years y
-    WHERE cs.camperid = c.id AND cs.staffpositionid = sp.id AND y.is_current = 1 AND
-          sp.compensationlevelid=cl.id AND y.year >= sp.start_year AND y.year <= sp.end_year
-    GROUP BY c.id;
-  -- No staff position id because of multiple credits line, must be multiple credits due to amount limits
+DROP VIEW IF EXISTS byyear_staff;
+CREATE VIEW byyear_staff AS
+  SELECT
+    ya.year,
+    c.familyid,
+    c.id         camperid,
+    ya.id        yearattendingid,
+    c.firstname,
+    c.lastname,
+    c.email,
+    sp.name      staffpositionname,
+    sp.id        staffpositionid,
+    cl.max_compensation +
+    IF(ysp.is_eaf_paid = 1, (SELECT IFNULL(SUM(h.amount), 0)
+                             FROM charges h
+                             WHERE h.camperid IN (SELECT cp.id
+                                                  FROM campers cp
+                                                  WHERE cp.familyid = c.familyid) AND h.year = ya.year AND
+                                   h.chargetypeid = getchargetypeid('Early Arrival')), 0)
+                 max_compensation,
+    sp.programid programid,
+    sp.pctype    pctype,
+    ysp.created_at
+  FROM campers c, yearsattending ya, yearattending__staff ysp, staffpositions sp, compensationlevels cl
+  WHERE c.id = ya.camperid AND ya.id = ysp.yearattendingid AND ysp.staffpositionid = sp.id
+        AND sp.compensationlevelid = cl.id AND ya.year >= sp.start_year AND ya.year <= sp.end_year
+  UNION ALL
+  SELECT
+    y.year,
+    c.familyid,
+    c.id camperid,
+    0,
+    c.firstname,
+    c.lastname,
+    c.email,
+    sp.name,
+    sp.id,
+    cl.max_compensation,
+    sp.programid,
+    sp.pctype,
+    cs.created_at
+  FROM camper__staff cs, campers c, staffpositions sp, compensationlevels cl, years y
+  WHERE cs.camperid = c.id AND cs.staffpositionid = sp.id AND y.is_current = 1 AND
+        sp.compensationlevelid = cl.id AND y.year >= sp.start_year AND y.year <= sp.end_year;
+-- Now computing max_comp for each position, group in byyear_charges
 
-  DROP VIEW IF EXISTS thisyear_staff;
-  CREATE VIEW thisyear_staff AS
-    SELECT familyid, camperid, yearattendingid, firstname, lastname, email,
-      staffpositionname, staffpositionid, programid, compensation, pctype
-    FROM byyear_staff bsp, years y
-    WHERE bsp.year=y.year AND y.is_current=1;
+DROP VIEW IF EXISTS thisyear_staff;
+CREATE VIEW thisyear_staff AS
+  SELECT
+    familyid,
+    camperid,
+    yearattendingid,
+    firstname,
+    lastname,
+    email,
+    staffpositionname,
+    staffpositionid,
+    programid,
+    max_compensation,
+    pctype
+  FROM byyear_staff bsp, years y
+  WHERE bsp.year = y.year AND y.is_current = 1;
 
 DROP FUNCTION IF EXISTS getrate;
-CREATE FUNCTION getrate (mycamperid INT, myyear YEAR)
+CREATE FUNCTION getrate(mycamperid INT, myyear YEAR)
   RETURNS FLOAT DETERMINISTIC
   BEGIN
     DECLARE age, occupants, days, staff, programid INT DEFAULT 0;
-    SELECT getage(c.birthdate, myyear), COUNT(*), MAX(ya.days), IF(MAX(ysp.staffpositionid)>0,1,0),
+    SELECT
+      getage(c.birthdate, myyear),
+      COUNT(*),
+      MAX(ya.days),
+      IF(MAX(ysp.staffpositionid) > 0, 1, 0),
       getprogramidbycamperid(mycamperid, myyear)
     INTO age, occupants, days, staff, programid
     FROM (campers c, yearsattending ya, yearsattending yap, campers cp)
       LEFT JOIN yearattending__staff ysp
-        ON ysp.yearattendingid=ya.id AND ysp.staffpositionid IN (1023,1025)
-    WHERE c.id=mycamperid AND c.id=ya.camperid AND ya.year=myyear AND ya.roomid=yap.roomid
-          AND ya.year=yap.year AND yap.camperid=cp.id;
-    IF staff=1 THEN
+        ON ysp.yearattendingid = ya.id AND ysp.staffpositionid IN (1023, 1025)
+    WHERE c.id = mycamperid AND c.id = ya.camperid AND ya.year = myyear AND ya.roomid = yap.roomid
+          AND ya.year = yap.year AND yap.camperid = cp.id;
+    IF staff = 1
+    THEN
       RETURN days * 58;
     -- DAH Meyer/Burt Staff Housing Rate $58.00/night
     ELSE
-      RETURN (SELECT IFNULL(hr.rate*days,0)
+      RETURN (SELECT IFNULL(hr.rate * days, 0)
               FROM yearsattending ya, rooms r, rates hr
-              WHERE ya.camperid=mycamperid AND ya.year=myyear AND r.id=ya.roomid AND
-                    r.buildingid=hr.buildingid AND hr.programid=programid AND
-                    occupants>=hr.min_occupancy AND occupants<=hr.max_occupancy AND
-                    myyear>=hr.start_year AND myyear<=hr.end_year);
+              WHERE ya.camperid = mycamperid AND ya.year = myyear AND r.id = ya.roomid AND
+                    r.buildingid = hr.buildingid AND hr.programid = programid AND
+                    occupants >= hr.min_occupancy AND occupants <= hr.max_occupancy AND
+                    myyear >= hr.start_year AND myyear <= hr.end_year);
     END IF;
   END;
 
 DROP PROCEDURE IF EXISTS generate_charges;
 CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges(myyear YEAR)
   BEGIN
-    SET SQL_MODE='';
-    DELETE FROM gencharges WHERE year=myyear;
+    SET SQL_MODE = '';
+    DELETE FROM gencharges
+    WHERE year = myyear;
     INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
       SELECT
         bc.year,
@@ -594,7 +610,7 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges(myyear YEAR)
         1000,
         bc.buildingname
       FROM byyear_campers bc
-      WHERE bc.roomid!=0 AND bc.year=myyear;
+      WHERE bc.roomid != 0 AND bc.year = myyear;
     INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
       SELECT
         bf.year,
@@ -606,15 +622,26 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges(myyear YEAR)
         1003,
         CONCAT("Deposit for ", bf.year)
       FROM byyear_families bf
-      WHERE bf.year=myyear AND bf.assigned=0;
+      WHERE bf.year = myyear AND bf.assigned = 0;
     INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
-      SELECT bsp.year, bsp.camperid, -(bsp.compensation) amount, 1021, bsp.staffpositionname
+      SELECT
+        bsp.year,
+        bsp.camperid,
+        -(LEAST(SUM(bsp.max_compensation), IFNULL(getrate(bsp.camperid, bsp.year), 150.0))) amount,
+        1021,
+        IF(COUNT(*) = 1, bsp.staffpositionname, 'Staff Position Credits')
       FROM byyear_staff bsp
-      WHERE bsp.year=myyear;
+      WHERE bsp.year = myyear
+      GROUP BY bsp.year, bsp.camperid;
     INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
-      SELECT ya.year, ya.camperid, w.fee, 1002, w.name
+      SELECT
+        ya.year,
+        ya.camperid,
+        w.fee,
+        1002,
+        w.name
       FROM workshops w, yearattending__workshop yw, yearsattending ya
-      WHERE w.fee > 0 AND yw.is_enrolled=1 AND w.id=yw.workshopid AND yw.yearattendingid=ya.id;
+      WHERE w.fee > 0 AND yw.is_enrolled = 1 AND w.id = yw.workshopid AND yw.yearattendingid = ya.id;
   END;
 
 
@@ -623,70 +650,112 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE workshops()
   BEGIN
     DECLARE done INT DEFAULT FALSE;
     DECLARE myid, mycapacity INT;
-    DECLARE cur CURSOR FOR SELECT id, capacity-1 FROM workshops;
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done=TRUE;
+    DECLARE cur CURSOR FOR SELECT
+                             id,
+                             capacity - 1
+                           FROM workshops;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
-    UPDATE yearattending__workshop SET is_enrolled=0;
+    UPDATE yearattending__workshop
+    SET is_enrolled = 0;
 
     UPDATE workshops w
     SET w.enrolled = (SELECT COUNT(*)
                       FROM yearattending__workshop yw
                       WHERE w.id = yw.workshopid);
     UPDATE yearattending__workshop yw, thisyear_campers tc, workshops w
-      SET yw.is_leader = 1
-    WHERE yw.workshopid=w.id AND yw.yearattendingid=tc.yearattendingid
+    SET yw.is_leader = 1
+    WHERE yw.workshopid = w.id AND yw.yearattendingid = tc.yearattendingid
           AND w.led_by LIKE CONCAT('%', tc.firstname, ' ', tc.lastname, '%');
 
     OPEN cur;
 
     read_loop: LOOP
-      FETCH cur INTO myid, mycapacity;
-      IF done THEN
+      FETCH cur
+      INTO myid, mycapacity;
+      IF done
+      THEN
         LEAVE read_loop;
       END IF;
       UPDATE yearattending__workshop yw
-      SET yw.is_enrolled=1
-      WHERE yw.workshopid=myid AND (yw.is_leader=1 OR
-            yw.created_at<=(SELECT MAX(created_at) FROM
-              (SELECT ywp.created_at
-               FROM yearattending__workshop ywp
-               WHERE ywp.workshopid=myid AND ywp.is_leader=0
-               ORDER BY created_at
-               LIMIT mycapacity)
-                AS t1));
-      END LOOP;
+      SET yw.is_enrolled = 1
+      WHERE yw.workshopid = myid AND (yw.is_leader = 1 OR
+                                      yw.created_at <= (SELECT MAX(created_at)
+                                                        FROM
+                                                          (SELECT ywp.created_at
+                                                           FROM yearattending__workshop ywp
+                                                           WHERE ywp.workshopid = myid AND ywp.is_leader = 0
+                                                           ORDER BY created_at
+                                                           LIMIT mycapacity)
+                                                            AS t1));
+    END LOOP;
 
     CLOSE cur;
 
-END;
+  END;
 
 DROP PROCEDURE IF EXISTS `duplicate`;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `duplicate`(beforeid INT, afterid INT)
+CREATE DEFINER =`root`@`localhost` PROCEDURE `duplicate`(beforeid INT, afterid INT)
   BEGIN
     DECLARE family, count INT DEFAULT 0;
-    IF beforeid != 0 AND afterid != 0 THEN
-      SELECT familyid INTO family FROM campers WHERE id=beforeid;
-      UPDATE yearsattending ya SET ya.camperid=afterid WHERE ya.camperid=beforeid AND (SELECT COUNT(*) FROM yearsattending yap WHERE yap.camperid=afterid AND ya.year=yap.year)=0;
-      UPDATE oldgencharges SET camperid=afterid WHERE camperid=beforeid;
-      UPDATE gencharges SET camperid=afterid WHERE camperid=beforeid;
-      UPDATE charges SET camperid=afterid WHERE camperid=beforeid;
-      DELETE FROM campers WHERE id=beforeid;
-      SELECT COUNT(*) INTO count FROM campers WHERE familyid=family;
-      IF count = 0 THEN
-        DELETE FROM families WHERE id=family;
+    IF beforeid != 0 AND afterid != 0
+    THEN
+      SELECT familyid
+      INTO family
+      FROM campers
+      WHERE id = beforeid;
+      UPDATE yearsattending ya
+      SET ya.camperid = afterid
+      WHERE ya.camperid = beforeid AND (SELECT COUNT(*)
+                                        FROM yearsattending yap
+                                        WHERE yap.camperid = afterid AND ya.year = yap.year) = 0;
+      UPDATE oldgencharges
+      SET camperid = afterid
+      WHERE camperid = beforeid;
+      UPDATE gencharges
+      SET camperid = afterid
+      WHERE camperid = beforeid;
+      UPDATE charges
+      SET camperid = afterid
+      WHERE camperid = beforeid;
+      DELETE FROM campers
+      WHERE id = beforeid;
+      SELECT COUNT(*)
+      INTO count
+      FROM campers
+      WHERE familyid = family;
+      IF count = 0
+      THEN
+        DELETE FROM families
+        WHERE id = family;
       END IF;
     END IF;
   END;
 
 DROP FUNCTION IF EXISTS getprogramidbycamperid;
-CREATE FUNCTION getprogramidbycamperid (id INT, myyear INT) RETURNS INT DETERMINISTIC BEGIN
+CREATE FUNCTION getprogramidbycamperid(id INT, myyear INT)
+  RETURNS INT DETERMINISTIC BEGIN
   DECLARE age, grade INT DEFAULT 0;
-  SELECT getage(c.birthdate, myyear) INTO age FROM campers c WHERE c.id=id;
-  SELECT myyear-c.gradyear+12 INTO grade FROM campers c WHERE c.id=id;
-  RETURN(SELECT p.id FROM programs p WHERE p.age_min<=age AND p.age_max>=age AND p.grade_min<=grade AND p.grade_max>=grade LIMIT 1);
+  SELECT getage(c.birthdate, myyear)
+  INTO age
+  FROM campers c
+  WHERE c.id = id;
+  SELECT myyear - c.gradyear + 12
+  INTO grade
+  FROM campers c
+  WHERE c.id = id;
+  RETURN (SELECT p.id
+          FROM programs p
+          WHERE p.age_min <= age AND p.age_max >= age AND p.grade_min <= grade AND p.grade_max >= grade
+          LIMIT 1);
 END;
 
 DROP FUNCTION IF EXISTS getprogramidbyname;
-CREATE FUNCTION getprogramidbyname (programname VARCHAR(1024)) RETURNS INT DETERMINISTIC BEGIN
-    RETURN(SELECT p.id FROM programs p WHERE p.name LIKE CONCAT('%', programname, '%') ORDER BY age_min DESC LIMIT 1);
+CREATE FUNCTION getprogramidbyname(programname VARCHAR(1024))
+  RETURNS INT DETERMINISTIC BEGIN
+  RETURN (SELECT p.id
+          FROM programs p
+          WHERE p.name LIKE CONCAT('%', programname, '%')
+          ORDER BY age_min DESC
+          LIMIT 1);
 END;

@@ -37,26 +37,27 @@ class WelcomeController extends Controller
 
     public function normal($muse)
     {
-        $payload = ['updatedFamily' => '0', 'updatedCamper' => 0, 'registered' => 0, 'paid' => 0];
         if (Auth::check()) {
             $camper = \App\Camper::where('email', Auth::user()->email)->first();
             if ($camper !== null) {
                 $family = \App\Thisyear_Family::find($camper->family->id);
-                $payload['registered'] = $this->isRegistered($family);
-                $payload['paid'] = $this->isPaid($family);
-                $payload['signedup'] = $this->isSignedup($family);
-                $payload['roomid'] = \App\Thisyear_Camper::where('id', $camper->id)->first();
+                $yas = DB::table('thisyear_campers')->where('familyid', $camper->family->id)->pluck('yearattendingid');
+                $registered = $this->isRegistered($family);
+                $paid = $registered && $this->isPaid($family);
+                $signedup = $paid && $this->isSignedup($yas);
+                $roomid = $signedup && $this->isRoomAssigned($yas);
+                $nametags = $roomid && $this->isNametagsCreated($yas);
+                $confirmed = $nametags && $this->isConfirmed($family);
             }
         }
 
-        $payload['muse'] = $muse;
-
-        return view('welcome', $payload);
+        return view('welcome', ['family' => $family, 'registered' => $registered, 'paid' => $paid, 'signedup' => $signedup,
+            'nametags' => $nametags, 'roomid' => $roomid, 'confirmed' => $confirmed, 'muse' => $muse]);
     }
 
     private function isRegistered($family)
     {
-        return $family != null && $family->count > 0;
+        return $family != null && count($family) > 0;
     }
 
     private function isPaid($family)
@@ -65,19 +66,29 @@ class WelcomeController extends Controller
             \App\Thisyear_Charge::where('familyid', $family->id)
                 ->where(function ($query) {
                     $query->where('chargetypeid', 1003)->orWhere('amount', '<', '0');
-                })->get()->sum('amount') <= 0;
+                })->sum('amount') <= 0.0;
     }
 
-    private function isSignedup($family)
+    private function isSignedup($yas)
     {
-        if ($family != null) {
-            return DB::table('thisyear_campers')->where('familyid', $family->id)
-                ->join('yearsattending', 'yearsattending.camperid', '=', 'thisyear_campers.id')
-                ->join('yearattending__workshop', 'yearattending__workshop.yearattendingid', '=', 'yearsattending.id')
-                ->count();
-        } else {
-            return 0;
-        }
+        return \App\Yearattending__Workshop::whereIn('yearattendingid', $yas)->count() > 0;
+    }
+
+    public function isRoomAssigned($yas)
+    {
+        return \App\Yearattending::whereIn('id', $yas)->whereNotNull('roomid')->count() > 0;
+    }
+
+    public function isNametagsCreated($yas)
+    {
+        $nametags = \App\Yearattending::whereIn('id', $yas)->groupBy('yearsattending.nametag')->get();
+        return count($nametags) > 1 || (count($nametags) == 1 && $nametags->first()->nametag != '222215521');
+    }
+
+    public function isConfirmed($family)
+    {
+        $kids = DB::table('thisyear_campers')->where('familyid', $family->id)->where('age', '<', 18)->pluck('yearattendingid');
+        return \App\Medicalresponse::whereIn('yearattendingid', $kids)->count() == count($kids);
     }
 
 }

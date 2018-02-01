@@ -25,14 +25,14 @@
                 @foreach($years as $thisyear => $charges)
                     <div role="tabpanel" class="tab-pane fade{{ $loop->last ? ' active show' : '' }}"
                          aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $thisyear }}">
-                        <table class="table table-striped table-bordered w-auto">
+                        <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th id="chargetypeid" class="select"><label for="chargetypeid">Charge
+                                <th width="30%" id="chargetypeid" class="select"><label for="chargetypeid">Charge
                                         Type</label></th>
-                                <th id="amount" align="right"><label for="amount">Amount</label></th>
-                                <th id="timestamp" align="center"><label for="date">Date</label></th>
-                                <th id="memo"><label for="memo">Memo</label></th>
+                                <th width="15%" id="amount" align="right"><label for="amount">Amount</label></th>
+                                <th width="20%" id="timestamp" align="center"><label for="date">Date</label></th>
+                                <th width="35%" id="memo"><label for="memo">Memo</label></th>
                                 @if($readonly === false)
                                     <th>Delete?</th>
                                 @endif
@@ -48,11 +48,8 @@
                                     <td>{{ $charge->memo }}</td>
                                     @if($readonly === false)
                                         @if(!empty($charge->timestamp))
-                                            <td class="btn-group" data-toggle="buttons">
-                                                <label class="btn btn-default">
-                                                    <input type="checkbox" name="{{ $charge->id }}-delete"
-                                                           autocomplete="off"/> Delete
-                                                </label>
+                                            <td>
+                                                @include('snippet.delete', ['id' => $charge->id])
                                             </td>
                                         @else
                                             <td>&nbsp;</td>
@@ -78,7 +75,7 @@
                                     </td>
                                     <td class="form-group{{ $errors->has('amount') ? ' has-danger' : '' }}">
                                         <div class="input-group">
-                                            <span class="input-group-addon">$</span>
+                                            <div class="input-group-prepend"><span class="input-group-text">$</span></div>
                                             <input type="number" id="amount"
                                                    class="form-control{{ $errors->has('amount') ? ' is-invalid' : '' }}"
                                                    step="any" name="amount" data-number-to-fixed="2"
@@ -90,8 +87,10 @@
                                              data-date-format="yyyy-mm-dd" data-date-autoclose="true">
                                             <input id="date" type="text" class="form-control"
                                                    name="date" value="{{ old('date') }}">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                            </div>
                                             <div class="input-group-addon">
-                                                <span class="fa fa-calendar"></span>
                                             </div>
                                         </div>
                                     </td>

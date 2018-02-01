@@ -43,7 +43,7 @@
                         </div>
                     @endif
 
-                    <table class="table table-sm w-auto">
+                    <table class="table table-sm">
                         <thead>
                         <tr>
                             <th>Year</th>

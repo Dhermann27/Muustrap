@@ -7,24 +7,24 @@
 @section('content')
     @include('snippet.flash')
 
-    <form class="form-inline">
-        <div class="col-sm-2">
-            <label for="filter" class="sr-only">Filter By</label>
-            <select id="filter" class="form-control">
-                <option value="all">All Balances</option>
-                <option value="unpaid"
-                        {{ (strpos($_SERVER['REQUEST_URI'], '/unpaid') !== false) ? 'selected' : '' }}>
-                    Unpaid Deposits
-                </option>
-            </select>
-        </div>
-        <button id="filter-submit" type="button" class="btn btn-primary col-sm-1">Go</button>
-    </form>
-    <table class="table table-striped table-bordered w-auto">
+    <table class="table table-striped">
         <thead>
-        <tr align="right">
-            <td colspan="{{ $readonly === false ? '6' : '2' }}">
+        <tr>
+            <td colspan="{{ $readonly === false ? '5' : '1' }}">
                 Total Outstanding: ${{ money_format('%.2n', $charges->sum('amount')) }}
+            </td>
+            <td align="right">
+                <form class="form-inline">
+                    <label for="filter" class="sr-only">Filter By</label>
+                    <select id="filter" class="form-control">
+                        <option value="all">All Balances</option>
+                        <option value="unpaid"
+                                {{ (strpos($_SERVER['REQUEST_URI'], '/unpaid') !== false) ? 'selected' : '' }}>
+                            Unpaid Deposits
+                        </option>
+                    </select>
+                    <button id="filter-submit" type="button" class="btn btn-primary">Go</button>
+                </form>
             </td>
         </tr>
         <tr>

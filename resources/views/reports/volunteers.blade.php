@@ -31,7 +31,7 @@
                                         <i class="fa fa-handshake"></i>
                                 </span>
                                 @endslot
-                                <table class="table table-bordered w-auto">
+                                <table class="table">
                                     <thead>
                                     <tr>
                                         <th width="50%">Camper Name</th>

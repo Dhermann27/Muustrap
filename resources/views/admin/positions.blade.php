@@ -16,7 +16,7 @@
                     <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
                          aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $program->id }}">
                         <p>&nbsp;</p>
-                        <table class="table table-sm w-auto">
+                        <table class="table">
                             <thead>
                             <tr>
                                 <th id="programid" class="select">Program</th>
@@ -47,12 +47,8 @@
                                     <td>
                                         ${{ money_format('%.2n', $position->compensationlevel->max_compensation) }}
                                     </td>
-                                    <td class="btn-group" data-toggle="buttons">
-                                        <label class="btn btn-default">
-                                            <input type="checkbox" name="{{ $position->id }}-delete"
-                                                   autocomplete="off"/>
-                                            Delete
-                                        </label>
+                                    <td>
+                                        @include('snippet.delete', ['id' => $position->id])
                                     </td>
                                 </tr>
                             @endforeach

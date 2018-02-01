@@ -25,7 +25,7 @@
                 @include('snippet.formgroup', ['label' => 'Email Address', 'attribs' => ['name' => 'email']])
             @endif
 
-            @include('snippet.formgroup', ['type' => 'select', 'label' => 'Subject',
+            @include('snippet.formgroup', ['type' => 'select', 'label' => 'Recipient Mailbox',
                 'attribs' => ['name' => 'mailbox'], 'default' => 'Choose a recipient mailbox', 'list' => $mailboxes,
                 'option' => 'name'])
 

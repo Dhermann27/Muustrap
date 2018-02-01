@@ -14,7 +14,7 @@
                 @component('snippet.accordion', ['id' => $year->year])
                     @foreach($buildings as $building)
                         @component('snippet.accordioncard', ['id' => $year->year, 'loop' => $loop, 'heading' => $building->id, 'title' => $building->name])
-                            <table class="table table-striped w-auto">
+                            <table class="table table-striped">
                                 <thead>
                                 <tr>
                                     <th>&nbsp;</th>

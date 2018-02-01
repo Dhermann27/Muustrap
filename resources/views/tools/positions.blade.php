@@ -17,12 +17,12 @@
                     <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
                          aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $program->id }}">
                         <p>&nbsp;</p>
-                        <table class="table table-sm w-auto">
+                        <table class="table">
                             <thead>
                             <tr>
                                 <th>Position</th>
                                 <th>Name</th>
-                                <th>Current Compensation</th>
+                                <th>Maximum Compensation</th>
                                 <th>Controls</th>
                                 <th>Delete?</th>
                             </tr>
@@ -32,22 +32,12 @@
                                 <tr>
                                     <td>{{ $assignment->staffpositionname }}</td>
                                     <td>{{ $assignment->lastname }}, {{ $assignment->firstname }}</td>
-                                    <td>
-                                        @if($assignment->compensation > 0)
-                                            ${{ money_format('%.2n', $assignment->compensation) }}
-                                        @else
-                                            Registered but not assigned
-                                        @endif
-                                    </td>
+                                    <td>${{ money_format('%.2n', $assignment->max_compensation) }}</td>
                                     <td>
                                         @include('admin.controls', ['id' => 'c/' . $assignment->camperid])
                                     </td>
-                                    <td class="btn-group" data-toggle="buttons">
-                                        <label class="btn btn-default">
-                                            <input type="checkbox"
-                                                   name="{{ $assignment->camperid }}-{{ $assignment->staffpositionid }}-delete"
-                                                   autocomplete="off"/> Delete
-                                        </label>
+                                    <td>
+                                        @include('snippet.delete', ['id' => $assignment->camperid . '-' . $assignment->staffpositionid])
                                     </td>
                                 </tr>
                             @endforeach

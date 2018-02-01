@@ -19,7 +19,7 @@
                             <h5>{{ $timeslot->start_time->format('g:i A') }}
                                 - {{ $timeslot->end_time->format('g:i A') }}</h5>
                         @endif
-                        <table class="table table-bordered w-auto">
+                        <table class="table">
                             <thead>
                             <tr>
                                 <th id="timeslotid" class="select">Timeslot</th>
@@ -41,9 +41,8 @@
                                     <td class="teditable">{{ $workshop->room->room_number }}</td>
                                     <td class="teditable">{{ $workshop->order }}</td>
                                     <td>{{ $workshop->blurb }}</td>
-                                    <td class="teditable">{{ $workshop->capacity }}</td>
                                     <td>{{ $workshop->display_days }}</td>
-                                    <td>{{ $workshop->capacity }}</td>
+                                    <td class="teditable">{{ $workshop->capacity }}</td>
                                 </tr>
                             @endforeach
                             </tbody>

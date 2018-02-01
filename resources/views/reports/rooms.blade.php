@@ -22,7 +22,7 @@
                         <i class="fa fa-child"></i>
                 </span>
                 @endslot
-                <table class="table table-sm w-auto">
+                <table class="table">
                     <thead>
                     <tr>
                         <th width="10%">Room Number</th>

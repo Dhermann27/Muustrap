@@ -95,7 +95,7 @@ class PaymentController extends Controller
         if ($camper !== null) {
             $depositchargetype = DB::select('SELECT getchargetypeid(\'MUUSA Deposit\') id FROM users');
             $familyid = $camper->family->id;
-            $roomid = \App\Thisyear_Camper::find($camper->id)->roomid;
+            $roomid = \App\Thisyear_Camper::where('familyid', $familyid)->whereNotNull('roomid')->count();
             $charges = \App\Thisyear_Charge::where('familyid', $familyid)->orderBy('timestamp')->get();
             $deposit = $charges->where('amount', '<', 0)->sum('amount') +
                 $charges->where('chargetypeid', $depositchargetype[0]->id)->sum('amount');

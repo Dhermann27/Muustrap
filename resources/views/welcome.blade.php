@@ -111,13 +111,13 @@
                             </p>
                             <div class="card-body">
                                 <p>
-                                    @if($home->year()->isCrunch())
-                                        This close to camp, all housing will be assigned by the Registrar. Please use
-                                        the Contact Us form.
-                                    @else
+                                    {{--@if($home->year()->isCrunch())--}}
+                                        {{--This close to camp, all housing will be assigned by the Registrar. Please use--}}
+                                        {{--the Contact Us form.--}}
+                                    {{--@else--}}
                                         Find the right place for you and your family to stay, and who might be your
                                         neighbors.
-                                    @endif
+                                    {{--@endif--}}
                                 </p>
                                 <a href="{{ url('/roomselection') }}"
                                    class="btn btn-primary btn-block btn-rounded">

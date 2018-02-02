@@ -37,7 +37,7 @@
                     </td>
                     <td class="form-group{{ $errors->has('donation') ? ' has-danger' : '' }}">
                         <div class="input-group">
-                            <span class="input-group-addon">$</span>
+                            <div class="input-group-prepend"><span class="input-group-text">$</span></div>
                             <input type="number" id="donation"
                                    class="form-control{{ $errors->has('donation') ? ' is-invalid' : '' }}"
                                    step="any" name="donation" data-number-to-fixed="2" min="0"
@@ -83,7 +83,7 @@
                         <label for="amount" class="control-label">Payment:</label>
 
                         <div class="input-group">
-                            <span class="input-group-addon">$</span>
+                            <div class="input-group-prepend"><span class="input-group-text">$</span></div>
                             <input type="number" id="amount" name="amount"
                                    step="any" class="form-control{{ $errors->has('amount') ? ' is-invalid' : '' }}"
                                    data-number-to-fixed="2" min="0" placeholder="Enter Another Amount"

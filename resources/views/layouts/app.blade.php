@@ -226,25 +226,32 @@
                                     </div>
                                     <div class="tab-pane menu-tab-2" role="tabpanel">
                                         <div class="row text-center">
-                                            <div class="col-lg-4 py-2">
+                                            <div class="col-lg-3 py-2">
                                                 <a href="{{ url('/programs') }}">
                                                     <i class="fa fa-sitemap fa-5x"></i>
                                                     <h5 class="mt-2">Programs</h5>
                                                     <p>Fun for all ages</p>
                                                 </a>
                                             </div>
-                                            <div class="col-lg-4 py-2">
+                                            <div class="col-lg-3 py-2">
                                                 <a href="{{ url('/housing') }}">
                                                     <i class="fa fa-bath fa-5x"></i>
                                                     <h5 class="mt-2">Housing</h5>
                                                     <p>Available room types</p>
                                                 </a>
                                             </div>
-                                            <div class="col-lg-4 py-2">
+                                            <div class="col-lg-3 py-2">
                                                 <a href="{{ url('/campcalc') }}">
                                                     <i class="fa fa-calculator fa-5x"></i>
                                                     <h5 class="mt-2">Cost Calculator</h5>
                                                     <p>Estimate your fees</p>
+                                                </a>
+                                            </div>
+                                            <div class="col-lg-3 py-2">
+                                                <a href="{{ url('/scholarship') }}">
+                                                    <i class="fa fa-universal-access fa-5x"></i>
+                                                    <h5 class="mt-2">Scholarship</h5>
+                                                    <p>Financial assistance</p>
                                                 </a>
                                             </div>
                                         </div>
@@ -255,14 +262,14 @@
                                                 <a href="#">
                                                     <i class="fa fa-map fa-5x"></i>
                                                     <h5 class="mt-2">Workshops</h5>
-                                                    <p>Coming soon!</p>
+                                                    <p>Try something new</p>
                                                 </a>
                                             </div>
                                             <div class="col-lg-4 py-2">
                                                 <a href="#">
                                                     <i class="fa fa-binoculars fa-5x"></i>
                                                     <h5 class="mt-2">Excursions</h5>
-                                                    <p>Coming soon!</p>
+                                                    <p>Single-day adventures</p>
                                                 </a>
                                             </div>
                                             <div class="col-lg-4 py-2">

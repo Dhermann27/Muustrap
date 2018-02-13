@@ -53,7 +53,7 @@ class WelcomeController extends Controller
 
             }
         }
-        return view('welcome');
+        return view('welcome', ['registered' => '0']);
     }
 
     private function isRegistered($family)

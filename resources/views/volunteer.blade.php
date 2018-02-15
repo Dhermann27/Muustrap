@@ -31,7 +31,7 @@
                             @foreach($positions->sortBy('name') as $position)
                                 <button type="button" data-content="{{ $position->id }}"
                                         id="{{ $camper->id }}-{{ $position->id }}"
-                                        class="list-group-item">
+                                        class="list-group-item list-group-item-action">
                                     {{ $position->name }}
                                 </button>
                             @endforeach
@@ -57,7 +57,7 @@
             $("#{{ $camper->id }}-{{ $choice->volunteerpositionid }}").addClass("active");
             @endforeach
             @endforeach
-            $(".workshoplist button").on("click", function (e) {
+            $("button.list-group-item").on("click", function (e) {
                 e.preventDefault();
                 $(this).toggleClass("active");
             });

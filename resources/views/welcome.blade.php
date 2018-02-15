@@ -163,7 +163,7 @@
 
 
         <div class="mt-4 owl-dots-center owl-nav-over" data-toggle="owl-carousel"
-             data-owl-carousel-settings='{"responsive":{"0":{"items":1}, "600":{"items":1, "stagePadding":90, "margin":90}}, "center":true, "loop": true, "autoplay": true, "autoplayHoverPause": true, "dots":true, "autoHeight":true}'>
+             data-owl-carousel-settings='{"responsive":{"0":{"items":1}, "600":{"items":1, "stagePadding":90, "margin":90}}, "center":true, "loop": true, "autoplay": true, "dots":true, "autoHeight":true}'>
 
             <div class="item">
                 <img src="/images/volunteer.jpg" alt="Dana Cable, George Peck, et al">

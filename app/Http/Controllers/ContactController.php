@@ -40,7 +40,7 @@ class ContactController extends Controller
 
         $request->session()->flash('success', 'Message sent! Please expect a response in 1-3 business days.');
 
-        return $this->contactIndex();
+        return redirect()->action('ContactController@contactIndex');
     }
 
     public function contactIndex()
@@ -81,7 +81,7 @@ class ContactController extends Controller
 
         $request->session()->flash('success', 'Message sent! You will be contact by a member of the Adult Programming Committee.');
 
-        return $this->proposalIndex($camper);
+        return redirect()->action('ContactController@proposalIndex', ['camper' => $camper]);
     }
 
     public function proposalIndex($camper = null)
@@ -107,7 +107,7 @@ class ContactController extends Controller
 
         $request->session()->flash('success', 'Message sent! Replies will be sent to all applicants by May 1st.');
 
-        return $this->artfairIndex();
+        return redirect()->action('ContactController@artfairIndex');
     }
 
     public function artfairIndex()
@@ -135,7 +135,7 @@ class ContactController extends Controller
 
         $request->session()->flash('success', 'Muse uploaded! Check the homepage "Latest Muse" link to ensure it is correct.');
 
-        return $this->museIndex();
+        return redirect()->action('ContactController@museIndex');
     }
 
     public function museIndex()

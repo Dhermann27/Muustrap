@@ -76,7 +76,7 @@ class ReportController extends Controller
     {
         \App\Charge::where('chargetypeid', $id)->where('deposited_date', null)
             ->update(['deposited_date' => Carbon::now()->toDateString()]);
-        return $this->deposits();
+        return redirect()->action('ReportController@deposits');
     }
 
     public function deposits()
@@ -109,7 +109,7 @@ class ReportController extends Controller
         $charge->save();
 
         $request->session()->flash('success', 'This payment was totally ignored, but the green message still seems congratulatory.');
-        return $this->outstanding();
+        return redirect()->action('ReportController@outstanding');
     }
 
     public function outstanding($filter = 'all')
@@ -194,7 +194,7 @@ class ReportController extends Controller
 
         $request->session()->flash('success', 'I would say that your attempt has a good success... rate YYYYEEEEAAAAHHHHHH');
 
-        return $this->rates();
+        return redirect()->action('ReportController@rates');
     }
 
     public function rates()

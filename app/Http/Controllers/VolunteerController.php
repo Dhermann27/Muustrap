@@ -39,7 +39,7 @@ class VolunteerController extends Controller
         }
 
         $request->session()->flash('success', 'Your volunteer positions have been updated.');
-        return $this->index();
+        redirect()->action('VolunteerController@index');
     }
 
     private function getCampers($id)
@@ -84,7 +84,7 @@ class VolunteerController extends Controller
         }
 
         $request->session()->flash('success', 'I bet nobody reads these and all my clever quips are for nothing!');
-        return $this->read('f', $id);
+        return redirect()->action('VolunteerController@read', ['i' => 'f', 'id' => $id]);
     }
 
     public function read($i, $id)

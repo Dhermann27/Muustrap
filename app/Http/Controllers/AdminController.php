@@ -73,7 +73,7 @@ class AdminController extends Controller
             })->export('csv');
         } else {
             $request->session()->flash('warning', 'No campers found.');
-            return $this->distlistIndex($request);
+            return redirect()->action('AdminController@distlistIndex', ['request' => $request]);
         }
     }
 
@@ -107,7 +107,7 @@ class AdminController extends Controller
         }
         $request->session()->flash('success', 'Real artists ship.');
 
-        return $this->roleIndex();
+        return redirect()->action('AdminController@roleIndex');
     }
 
     public function roleIndex()
@@ -135,19 +135,19 @@ class AdminController extends Controller
             }
         }
 
-            if ($request->input('name') != '') {
-                $position = new \App\Staffposition();
-                $position->programid = $request->input('programid');
-                $position->name = $request->input('name');
-                $position->compensationlevelid = $request->input('compensationlevelid');
-                $position->start_year = '1901';
-                $position->end_year = '2100';
-                $position->save();
-            }
+        if ($request->input('name') != '') {
+            $position = new \App\Staffposition();
+            $position->programid = $request->input('programid');
+            $position->name = $request->input('name');
+            $position->compensationlevelid = $request->input('compensationlevelid');
+            $position->start_year = '1901';
+            $position->end_year = '2100';
+            $position->save();
+        }
 
         $request->session()->flash('success', 'You created those positions like a <i>pro</i>.');
 
-        return $this->positionIndex();
+        return redirect()->action('AdminController@positionIndex');
     }
 
     public function positionIndex()

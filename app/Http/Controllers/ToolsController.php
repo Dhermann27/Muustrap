@@ -102,11 +102,9 @@ class ToolsController extends Controller
         foreach ($request->all() as $key => $value) {
             $matches = array();
             if (preg_match('/(\d+)-(timeslotid|name|led_by|roomid|order|capacity)/', $key, $matches)) {
-                $workshop = \App\Workshop::find($matches[1]);
-                if (isset($workshop)) {
-                    $workshop->{$matches[2]} = $value;
-                    $workshop->save();
-                }
+                $workshop = \App\Workshop::findOrFail($matches[1]);
+                $workshop->{$matches[2]} = $value;
+                $workshop->save();
             }
         }
 

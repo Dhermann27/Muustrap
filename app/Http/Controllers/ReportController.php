@@ -158,6 +158,45 @@ class ReportController extends Controller
             ->with('participants.parents')->orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get()]);
     }
 
+    public function ratesMark(Request $request)
+    {
+        $year = \App\Year::where('is_current', '1')->first()->year;
+        foreach ($request->all() as $key => $value) {
+            $matches = array();
+            if (preg_match('/(\d+)-rate/', $key, $matches)) {
+                $rate = \App\Rate::findOrFail($matches[1]);
+                $rate->rate = $value;
+                $rate->save();
+            }
+        }
+
+        if ($request->input('buildingid') != '0') {
+            $rate = \App\Rate::where('buildingid', $request->input('buildingid'))
+                ->where('programid', $request->input('programid'))
+                ->where('min_occupancy', $request->input('min_occupancy'))
+                ->where('max_occupancy', $request->input('max_occupancy'))
+                ->where('start_year', '<', DB::raw('getcurrentyear()'))->where('end_year', '2100')->first();
+            if ($rate) {
+                $rate->end_year = $year - 1;
+                $rate->save();
+            }
+
+            $rate = new \App\Rate;
+            $rate->buildingid = $request->input('buildingid');
+            $rate->programid = $request->input('programid');
+            $rate->min_occupancy = $request->input('min_occupancy');
+            $rate->max_occupancy = $request->input('max_occupancy');
+            $rate->rate = floatval($request->input('rate'));
+            $rate->start_year = DB::raw('getcurrentyear()');
+            $rate->end_year = '2100';
+            $rate->save();
+        }
+
+        $request->session()->flash('success', 'I would say that your attempt has a good success... rate YYYYEEEEAAAAHHHHHH');
+
+        return $this->rates();
+    }
+
     public function rates()
     {
         return view('reports.rates', ['years' => \App\Year::where('year', '>', 2014)->orderBy('year', 'DESC')->get(),

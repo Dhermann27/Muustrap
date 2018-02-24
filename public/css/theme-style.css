@@ -1959,8 +1959,18 @@ small img {
   width: 100% !important;
 }
 
+#header .sticky {
+  -webkit-transition: all 0.15s ease-in-out;
+  transition: all 0.15s ease-in-out;
+}
+
 .jPanelMenu-panel {
   overflow: hidden;
+}
+
+.jpanel-menu-opening #header .is-sticky {
+  left: -280px !important;
+  width: 100% !important;
 }
 
 .navbar {
@@ -1996,11 +2006,13 @@ small img {
 }
 
 #header-hidden-link a.show-hide>i:before {
-  content: "\f107";
-  font-family: 'FontAwesome';
-  font-size: 20px;
-  font-weight: normal;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
   font-style: normal;
+  speak: none;
+  display: inline-block;
+  content: "\f107";
+  font-size: 20px;
 }
 
 #header-hidden-link a.show-hide.show {
@@ -2166,11 +2178,6 @@ small img {
   -webkit-transform: translate3d(-280px, 0, 0);
   transform: translate3d(-280px, 0, 0);
   right: 0 !important;
-}
-
-[data-menu-position="open"] #header .sticky {
-  -webkit-transition: none;
-  transition: none;
 }
 
 .jpanel-menu-left [data-menu-position="open"] .jPanelMenu-panel {
@@ -2535,12 +2542,16 @@ small img {
   }
   .navbar-expand.navbar-main.collapse .dropdown-menu .dropdown-item:before,
   .navbar-expand .navbar-main.collapse .dropdown-menu .dropdown-item:before {
-    font-family: FontAwesome;
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    font-style: normal;
+    speak: none;
+    display: inline-block;
+    content: "\f105";
     font-size: 12px;
     color: rgba(27, 27, 27, 0.6);
-    width: 30px;
-    height: 30px;
-    content: "" !important;
+    width: 20px;
+    height: 20px;
     padding-right: 10px;
     margin: 0 !important;
   }
@@ -3038,12 +3049,16 @@ small img {
   }
   .navbar-expand-sm.navbar-main.collapse .dropdown-menu .dropdown-item:before,
   .navbar-expand-sm .navbar-main.collapse .dropdown-menu .dropdown-item:before {
-    font-family: FontAwesome;
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    font-style: normal;
+    speak: none;
+    display: inline-block;
+    content: "\f105";
     font-size: 12px;
     color: rgba(27, 27, 27, 0.6);
-    width: 30px;
-    height: 30px;
-    content: "" !important;
+    width: 20px;
+    height: 20px;
     padding-right: 10px;
     margin: 0 !important;
   }
@@ -3541,12 +3556,16 @@ small img {
   }
   .navbar-expand-md.navbar-main.collapse .dropdown-menu .dropdown-item:before,
   .navbar-expand-md .navbar-main.collapse .dropdown-menu .dropdown-item:before {
-    font-family: FontAwesome;
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    font-style: normal;
+    speak: none;
+    display: inline-block;
+    content: "\f105";
     font-size: 12px;
     color: rgba(27, 27, 27, 0.6);
-    width: 30px;
-    height: 30px;
-    content: "" !important;
+    width: 20px;
+    height: 20px;
     padding-right: 10px;
     margin: 0 !important;
   }
@@ -4044,12 +4063,16 @@ small img {
   }
   .navbar-expand-lg.navbar-main.collapse .dropdown-menu .dropdown-item:before,
   .navbar-expand-lg .navbar-main.collapse .dropdown-menu .dropdown-item:before {
-    font-family: FontAwesome;
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    font-style: normal;
+    speak: none;
+    display: inline-block;
+    content: "\f105";
     font-size: 12px;
     color: rgba(27, 27, 27, 0.6);
-    width: 30px;
-    height: 30px;
-    content: "" !important;
+    width: 20px;
+    height: 20px;
     padding-right: 10px;
     margin: 0 !important;
   }
@@ -4567,12 +4590,16 @@ small img {
 
 .navbar-expand-xl.navbar-main.collapse .dropdown-menu .dropdown-item:before,
 .navbar-expand-xl .navbar-main.collapse .dropdown-menu .dropdown-item:before {
-  font-family: FontAwesome;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  font-style: normal;
+  speak: none;
+  display: inline-block;
+  content: "\f105";
   font-size: 12px;
   color: rgba(27, 27, 27, 0.6);
-  width: 30px;
-  height: 30px;
-  content: "" !important;
+  width: 20px;
+  height: 20px;
   padding-right: 10px;
   margin: 0 !important;
 }
@@ -5035,12 +5062,16 @@ small img {
 }
 
 .collapse .dropdown-menu .dropdown-item:before {
-  font-family: FontAwesome;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  font-style: normal;
+  speak: none;
+  display: inline-block;
+  content: "\f105";
   font-size: 12px;
   color: rgba(255, 255, 255, 0.6);
   width: 30px;
   height: 30px;
-  content: "";
   padding: 0 10px 0 0;
 }
 
@@ -6222,7 +6253,7 @@ body.page-translucent {
 
 .btn-icon.btn.btn-sm.btn-rounded {
   font-size: 16px;
-  line-height: 24px;
+  line-height: 22px;
 }
 
 .input-group-rounded .btn-icon.btn {
@@ -11378,11 +11409,6 @@ fieldset[disabled] .btn-green-bright.btn-link.focus {
   background-color: #2ECC71;
 }
 
-.btn-flat {
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-
 .nav-pills .nav-link {
   border-radius: 3px;
 }
@@ -12713,11 +12739,12 @@ button.list-group-item-inverse:focus {
 }
 
 .card-accordion .card-header a[data-toggle="collapse"]:after {
-  font-family: FontAwesome;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
   font-style: normal;
   speak: none;
   display: inline-block;
-  content: "";
+  content: "\f107";
   float: right;
   line-height: 1;
   width: 22px;
@@ -12726,11 +12753,12 @@ button.list-group-item-inverse:focus {
 }
 
 .card-accordion .card-header a[data-toggle="collapse"].collapsed:after {
-  font-family: FontAwesome;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
   font-style: normal;
   speak: none;
   display: inline-block;
-  content: "";
+  content: "\f105";
 }
 
 .card-accordion .card-header a[data-toggle="collapse"]:hover {
@@ -15979,10 +16007,13 @@ body.animates-pending *[data-animate].animated-done {
 }
 
 .flex-direction-nav a:before {
-  content: '\f105';
-  font-family: 'FontAwesome';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  font-style: normal;
+  speak: none;
+  display: inline-block;
+  content: "\f105";
   font-size: 60px;
-  font-weight: bold;
   color: #55A79A;
 }
 
@@ -18798,16 +18829,18 @@ all and (min-device-pixel-ratio: 1.5) {
 }
 
 .timeline-item:before {
-  font-family: FontAwesome;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
   font-style: normal;
   speak: none;
   display: inline-block;
-  content: "";
+  content: "\F0D8";
   color: #f6f6f6;
 }
 
 .timeline-item:after {
-  font-family: FontAwesome;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
   font-style: normal;
   speak: none;
   display: inline-block;
@@ -18849,11 +18882,12 @@ all and (min-device-pixel-ratio: 1.5) {
 }
 
 .timeline-stacked-down .timeline-item:before {
-  font-family: FontAwesome;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
   font-style: normal;
   speak: none;
   display: inline-block;
-  content: "";
+  content: "\F0D7";
 }
 
 .timeline-stacked-down .timeline-item:after {
@@ -18902,11 +18936,12 @@ all and (min-device-pixel-ratio: 1.5) {
     text-align: center;
   }
   .timeline-item:before {
-    font-family: FontAwesome;
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
     font-style: normal;
     speak: none;
     display: inline-block;
-    content: "";
+    content: "\F0DA";
   }
   .timeline-item:after {
     right: -46px;
@@ -18930,11 +18965,12 @@ all and (min-device-pixel-ratio: 1.5) {
   }
   .timeline-item.even:before,
   .timeline-item.right:before {
-    font-family: FontAwesome;
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
     font-style: normal;
     speak: none;
     display: inline-block;
-    content: "";
+    content: "\F0D9";
   }
   .timeline-item.even:after,
   .timeline-item.right:after {
@@ -19016,11 +19052,12 @@ all and (min-device-pixel-ratio: 1.5) {
   .timeline-stacked .timeline-item:before,
   .timeline-stacked .timeline-item.right:before,
   .timeline-stacked .timeline-item.even:before {
-    font-family: FontAwesome;
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
     font-style: normal;
     speak: none;
     display: inline-block;
-    content: "";
+    content: "\F0D8";
     color: #f6f6f6;
   }
   .timeline.timeline-stacked .timeline-item:after,
@@ -19029,7 +19066,8 @@ all and (min-device-pixel-ratio: 1.5) {
   .timeline-stacked .timeline-item:after,
   .timeline-stacked .timeline-item.right:after,
   .timeline-stacked .timeline-item.even:after {
-    font-family: FontAwesome;
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
     font-style: normal;
     speak: none;
     display: inline-block;
@@ -19098,11 +19136,12 @@ all and (min-device-pixel-ratio: 1.5) {
   }
   .timeline.timeline-stacked.timeline-stacked-down .timeline-item:before,
   .timeline-stacked.timeline-stacked-down .timeline-item:before {
-    font-family: FontAwesome;
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
     font-style: normal;
     speak: none;
     display: inline-block;
-    content: "";
+    content: "\F0D7";
   }
   .timeline.timeline-stacked.timeline-stacked-down .timeline-item:after,
   .timeline-stacked.timeline-stacked-down .timeline-item:after {
@@ -19201,11 +19240,12 @@ all and (min-device-pixel-ratio: 1.5) {
 .timeline-left .timeline-item:before,
 .timeline-left .timeline-item.even:before,
 .timeline-left .timeline-item.right:before {
-  font-family: FontAwesome;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
   font-style: normal;
   speak: none;
   display: inline-block;
-  content: "";
+  content: "\F0D9";
 }
 
 .timeline.timeline-left .timeline-item:after,
@@ -19305,11 +19345,12 @@ all and (min-device-pixel-ratio: 1.5) {
 .timeline-right .timeline-item:before,
 .timeline-right .timeline-item.even:before,
 .timeline-right .timeline-item.right:before {
-  font-family: FontAwesome;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
   font-style: normal;
   speak: none;
   display: inline-block;
-  content: "";
+  content: "\F0DA";
 }
 
 .timeline.timeline-right .timeline-item:after,
@@ -20239,11 +20280,12 @@ all and (min-device-pixel-ratio: 1.5) {
 }
 
 .code-block-link:before {
-  font-family: FontAwesome;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
   font-style: normal;
   speak: none;
   display: inline-block;
-  content: "";
+  content: "\f121";
   padding-right: 5px;
 }
 
@@ -22751,225 +22793,127 @@ a:hover.text-brand-whatsapp {
   padding: .15rem;
 }
 
+.text-x6 {
+  font-size: 0.6rem !important;
+}
+
+.text-x8 {
+  font-size: 0.8rem !important;
+}
+
 .text-x1 {
   font-size: 1rem !important;
-  line-height: 1.2;
 }
 
 .text-x2 {
   font-size: 2rem !important;
-  line-height: 1.2;
 }
 
 .text-x3 {
   font-size: 3rem !important;
-  line-height: 1.2;
 }
 
 .text-x4 {
   font-size: 4rem !important;
-  line-height: 1.2;
 }
 
 .text-x5 {
   font-size: 5rem !important;
-  line-height: 1.2;
-}
-
-.text-x6 {
-  font-size: 6rem !important;
-  line-height: 1.2;
-}
-
-.text-x7 {
-  font-size: 7rem !important;
-  line-height: 1.2;
-}
-
-.text-x8 {
-  font-size: 8rem !important;
-  line-height: 1.2;
-}
-
-.text-x9 {
-  font-size: 9rem !important;
-  line-height: 1.2;
-}
-
-.text-x10 {
-  font-size: 10rem !important;
-  line-height: 1.2;
 }
 
 @media (min-width: 576px) {
+  .text-sm-x6 {
+    font-size: 0.6rem !important;
+  }
+  .text-sm-x8 {
+    font-size: 0.8rem !important;
+  }
   .text-sm-x1 {
     font-size: 1rem !important;
-    line-height: 1.2;
   }
   .text-sm-x2 {
     font-size: 2rem !important;
-    line-height: 1.2;
   }
   .text-sm-x3 {
     font-size: 3rem !important;
-    line-height: 1.2;
   }
   .text-sm-x4 {
     font-size: 4rem !important;
-    line-height: 1.2;
   }
   .text-sm-x5 {
     font-size: 5rem !important;
-    line-height: 1.2;
-  }
-  .text-sm-x6 {
-    font-size: 6rem !important;
-    line-height: 1.2;
-  }
-  .text-sm-x7 {
-    font-size: 7rem !important;
-    line-height: 1.2;
-  }
-  .text-sm-x8 {
-    font-size: 8rem !important;
-    line-height: 1.2;
-  }
-  .text-sm-x9 {
-    font-size: 9rem !important;
-    line-height: 1.2;
-  }
-  .text-sm-x10 {
-    font-size: 10rem !important;
-    line-height: 1.2;
   }
 }
 
 @media (min-width: 768px) {
+  .text-md-x6 {
+    font-size: 0.6rem !important;
+  }
+  .text-md-x8 {
+    font-size: 0.8rem !important;
+  }
   .text-md-x1 {
     font-size: 1rem !important;
-    line-height: 1.2;
   }
   .text-md-x2 {
     font-size: 2rem !important;
-    line-height: 1.2;
   }
   .text-md-x3 {
     font-size: 3rem !important;
-    line-height: 1.2;
   }
   .text-md-x4 {
     font-size: 4rem !important;
-    line-height: 1.2;
   }
   .text-md-x5 {
     font-size: 5rem !important;
-    line-height: 1.2;
-  }
-  .text-md-x6 {
-    font-size: 6rem !important;
-    line-height: 1.2;
-  }
-  .text-md-x7 {
-    font-size: 7rem !important;
-    line-height: 1.2;
-  }
-  .text-md-x8 {
-    font-size: 8rem !important;
-    line-height: 1.2;
-  }
-  .text-md-x9 {
-    font-size: 9rem !important;
-    line-height: 1.2;
-  }
-  .text-md-x10 {
-    font-size: 10rem !important;
-    line-height: 1.2;
   }
 }
 
 @media (min-width: 992px) {
+  .text-lg-x6 {
+    font-size: 0.6rem !important;
+  }
+  .text-lg-x8 {
+    font-size: 0.8rem !important;
+  }
   .text-lg-x1 {
     font-size: 1rem !important;
-    line-height: 1.2;
   }
   .text-lg-x2 {
     font-size: 2rem !important;
-    line-height: 1.2;
   }
   .text-lg-x3 {
     font-size: 3rem !important;
-    line-height: 1.2;
   }
   .text-lg-x4 {
     font-size: 4rem !important;
-    line-height: 1.2;
   }
   .text-lg-x5 {
     font-size: 5rem !important;
-    line-height: 1.2;
-  }
-  .text-lg-x6 {
-    font-size: 6rem !important;
-    line-height: 1.2;
-  }
-  .text-lg-x7 {
-    font-size: 7rem !important;
-    line-height: 1.2;
-  }
-  .text-lg-x8 {
-    font-size: 8rem !important;
-    line-height: 1.2;
-  }
-  .text-lg-x9 {
-    font-size: 9rem !important;
-    line-height: 1.2;
-  }
-  .text-lg-x10 {
-    font-size: 10rem !important;
-    line-height: 1.2;
   }
 }
 
 @media (min-width: 1200px) {
+  .text-xl-x6 {
+    font-size: 0.6rem !important;
+  }
+  .text-xl-x8 {
+    font-size: 0.8rem !important;
+  }
   .text-xl-x1 {
     font-size: 1rem !important;
-    line-height: 1.2;
   }
   .text-xl-x2 {
     font-size: 2rem !important;
-    line-height: 1.2;
   }
   .text-xl-x3 {
     font-size: 3rem !important;
-    line-height: 1.2;
   }
   .text-xl-x4 {
     font-size: 4rem !important;
-    line-height: 1.2;
   }
   .text-xl-x5 {
     font-size: 5rem !important;
-    line-height: 1.2;
-  }
-  .text-xl-x6 {
-    font-size: 6rem !important;
-    line-height: 1.2;
-  }
-  .text-xl-x7 {
-    font-size: 7rem !important;
-    line-height: 1.2;
-  }
-  .text-xl-x8 {
-    font-size: 8rem !important;
-    line-height: 1.2;
-  }
-  .text-xl-x9 {
-    font-size: 9rem !important;
-    line-height: 1.2;
-  }
-  .text-xl-x10 {
-    font-size: 10rem !important;
-    line-height: 1.2;
   }
 }
 

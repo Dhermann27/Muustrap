@@ -15584,6 +15584,11 @@ input[type=range].form-control {
   border-radius: 30px;
 }
 
+.input-group-quantity {
+  min-width: 115px;
+  max-width: 200px;
+}
+
 .input-group-quantity .quantity {
   text-align: center;
 }

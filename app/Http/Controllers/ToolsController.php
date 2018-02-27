@@ -45,7 +45,7 @@ class ToolsController extends Controller
 
         $request->session()->flash('success', 'Assigned. Suckers! No backsies.');
 
-        return $this->positionIndex();
+        return redirect()->action('ToolsController@positionIndex');
     }
 
     public function positionIndex()
@@ -88,7 +88,7 @@ class ToolsController extends Controller
         }
         $request->session()->flash('success', 'Psssssh, great job updating your program. Yeah, you\'re a big deal now, I\'m sure. Whatever.');
 
-        return $this->programIndex();
+        return redirect()->action('ToolsController@programIndex');
     }
 
     public function programIndex()
@@ -102,11 +102,9 @@ class ToolsController extends Controller
         foreach ($request->all() as $key => $value) {
             $matches = array();
             if (preg_match('/(\d+)-(timeslotid|name|led_by|roomid|order|capacity)/', $key, $matches)) {
-                $workshop = \App\Workshop::find($matches[1]);
-                if (isset($workshop)) {
-                    $workshop->{$matches[2]} = $value;
-                    $workshop->save();
-                }
+                $workshop = \App\Workshop::findOrFail($matches[1]);
+                $workshop->{$matches[2]} = $value;
+                $workshop->save();
             }
         }
 
@@ -131,7 +129,7 @@ class ToolsController extends Controller
 
         $request->session()->flash('success', 'Underwater New Age Basket Weaving? AGAIN??');
 
-        return $this->workshopIndex();
+        return redirect()->action('ToolsController@workshopIndex');
     }
 
     public function workshopIndex()

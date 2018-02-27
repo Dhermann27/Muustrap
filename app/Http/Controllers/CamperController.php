@@ -59,7 +59,10 @@ class CamperController extends Controller
                 Auth::user()->save();
             }
             if ($id == 0 || $camper->familyid == $logged_in->familyid) {
-                array_push($campers, $this->upsertCamper($request, $i, $logged_in->familyid));
+                $thiscamper = $this->upsertCamper($request, $i, $logged_in->familyid);
+                if ($thiscamper->yearattendingid != null) {
+                    array_push($campers, $thiscamper);
+                }
             }
         }
 

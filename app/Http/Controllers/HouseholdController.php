@@ -39,7 +39,7 @@ class HouseholdController extends Controller
 
         $request->session()->flash('success', 'Your information has been saved successfully. Proceed to the next screen by clicking <a href="' . url('/camper') . '">here</a>.');
 
-        return $this->index($camper, $family);
+        return redirect()->action('HouseholdController@index', ['camper' => $camper, 'family' => $family]);
 
     }
 
@@ -63,14 +63,14 @@ class HouseholdController extends Controller
                 'is_address_current', 'is_ecomm', 'is_scholar'));
         $success = 'Nice work! Need to make changes to the <a href="' . url('/camper/f/' . $family->id) . '">camper</a> next?';
 
-        if($id == 0) {
+        if ($id == 0) {
             \App\Camper::create(['familyid' => $family->id, 'firstname' => 'Mister', 'lastname' => 'MUUSA']);
             $success .= ' Since you just created a new family, I added a camper named &quot;Mister MUUSA&quot; to it if you need to find the family later. (Hint: not a real person.)';
         }
 
         $request->session()->flash('success', $success);
 
-        return $this->read('f', $id, $family);
+        return redirect()->action('HouseholdController@read', ['i' => 'f', 'id' => $id, 'family' => $family]);
     }
 
     public function read($i, $id, $family = null)

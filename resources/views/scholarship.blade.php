@@ -83,12 +83,15 @@
                         <address> Nicolle Wright<br/> YMCA Trout Lodge<br/> 13528 State Highway AA<br/> Potosi, MO 63664<br/>
                             <a href="mailto:nicolle.wright@gwrymca.org">nicolle.wright@gwrymca.org</a></address>
                     </li>
-                    <li><h5>Notify Maya Rao, Scholarship Committee Coordinator, once you have submitted your
-                            application.</h5>
-                        <p>Send
-                            <a href="mailto:maya.m.rao3@gmail.com?subject=MUUSA%20Scholarship%20Application%20Submitted">Maya
-                                Rao</a> an email (maya.m.rao3@gmail.com). In the body of the email please list the names
-                            and ages (in July 2018) of those in your application.</p></li>
+                    <li><h5>Submit the supplemental application form (found <a
+                                    href="/Supplemental_Scholarship_Form.pdf">here</a>) by email or mail by April 15 to
+                            the Scholarship Committee Coordinator.</h5>
+                        <address>Maya Rao<br/>
+                            <a href="mailto:maya.m.rao3@gmail.com?subject=MUUSA%20Scholarship%20Application%20Submitted">maya.m.rao3@gmail.com</a><br/>
+                            914 N. Woodbridge Dr.<br/>
+                            Bloomington, IN 47408
+                        </address>
+                    </li>
                 </ol>
                 <p><strong>Scholarships are limited and cannot be guaranteed. Campers should not make any travel or
                         financial plans on the assumption that they will receive a scholarship or any specific
@@ -106,7 +109,7 @@
                     </tr>
                     <tr>
                         <td class="pb-3"><strong>April 15</strong></td>
-                        <td>Applications due, including receipt of all financial information</td>
+                        <td>Applications due, including receipt of all financial information and supplemental form.</td>
                     </tr>
                     <tr>
                         <td class="pb-3"><strong>May 15</td>

@@ -80,7 +80,7 @@ class PaymentController extends Controller
             $request->session()->flash('error', 'Payment was not processed by MUUSA. If you believe that PayPal has transmitted funds, please contact the Treasurer so we can confirm and update your account.');
         }
 
-        return $this->index();
+        return redirect()->action('PaymentController@index');
 
     }
 
@@ -152,7 +152,7 @@ class PaymentController extends Controller
 
         $request->session()->flash('success', $success . 'Rocking it today! But what about their <a href="' . url('/workshopchoice/f/' . $id) . '">workshops</a>?');
 
-        return $this->read('f', $id);
+        return redirect()->action('PaymentController@read', ['i' => 'f', 'id' => $id]);
 
     }
 

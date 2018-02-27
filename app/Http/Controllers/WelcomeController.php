@@ -42,23 +42,17 @@ class WelcomeController extends Controller
             if ($camper !== null) {
                 $family = \App\Thisyear_Family::find($camper->family->id);
                 $yas = DB::table('thisyear_campers')->where('familyid', $camper->family->id)->pluck('yearattendingid');
-                $registered = $this->isRegistered($family);
-                $paid = $registered && $this->isPaid($family);
+                $paid = $this->isPaid($family);
                 $signedup = $paid && $this->isSignedup($yas);
                 $roomid = $signedup && $this->isRoomAssigned($yas);
                 $nametags = $roomid && $this->isNametagsCreated($yas);
                 $confirmed = $nametags && $this->isConfirmed($family);
-                return view('welcome', ['family' => $family, 'registered' => $registered, 'paid' => $paid, 'signedup' => $signedup,
+                return view('welcome', ['family' => $family, 'paid' => $paid, 'signedup' => $signedup,
                     'nametags' => $nametags, 'roomid' => $roomid, 'confirmed' => $confirmed, 'muse' => $muse]);
 
             }
         }
         return view('welcome', ['registered' => '0']);
-    }
-
-    private function isRegistered($family)
-    {
-        return $family != null && count($family) > 0;
     }
 
     private function isPaid($family)

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+
 class HomeController extends Controller
 {
     /**
@@ -39,6 +41,10 @@ class HomeController extends Controller
 
     public function programs() {
         return \App\Thisyear_Staff::where('pctype', '3')->get();
+    }
+
+    public function registered() {
+        return Auth::check() && \App\Thisyear_Camper::where('email', Auth::user()->email)->first();
     }
 
     public function year()

@@ -35,16 +35,16 @@
         <div class="alert alert-info" role="alert">Welcome to muusa.org! If you're interested in beginning the
             registration process, please start by logging in or creating a website account in the upper-left.
         </div>
-    @elseif($registered && !$paid)
+    @elseif($home->registered() && !$paid)
         <div class="alert alert-warning" role="alert">
             Your payment has not yet been processed. Either visit the Payment screen by clicking the link below or
             mail your check to the address on the same page.
         </div>
-    @elseif(!$registered)
+    @elseif(!$home->registered())
         <div class="alert alert-info" role="alert">Ready to register for MUUSA {{ $home->year()->year }}? Start the
             3-step process by clicking the Register button below.
         </div>
-    @elseif($registered && $home->year()->isLive())
+    @elseif($home->year()->isLive())
         @if(!$signedup)
             <div class="alert alert-warning" role="alert">
                 You are all paid up, but have not yet chosen any workshops. Use the button below to select any in which
@@ -217,7 +217,7 @@
             </div>
         </div>
     @endif
-    @if(Auth::guest() || !$registered)
+    @if(Auth::guest() || !$home->registered())
         <div class="row bg-faded p-3">
             <div class="col-12 col-lg-7 py-2">
                 <h3 class="text-uppercase font-weight-bold mt-0 mb-2">Get Registered

@@ -90,7 +90,8 @@
                     <a href="{{ url('/directory') }}" class="nav-link"> <i class="fa fa-address-book fa-2x"></i> <span
                                 class="sr-only">Online Directory</span> </a>
                     @if($home->year()->isLive())
-                        <a href="{{ url('/calendar') }}" class="nav-link"> <i class="fa fa-calendar-alt fa-2x"></i> <span
+                        <a href="{{ url('/calendar') }}" class="nav-link"> <i class="fa fa-calendar-alt fa-2x"></i>
+                            <span
                                     class="sr-only">Your MUUSA Calendar</span>
                         </a>
                     @endif
@@ -188,18 +189,57 @@
                             <div class="dropdown-menu dropdown-menu-right">
                                 <ul class="nav nav-pills nav-pills-border-bottom-inside flex-column flex-lg-row"
                                     role="tablist">
-                                    <li class="nav-item"><a class="nav-link p-3 active text-center font-weight-bold"
-                                                            data-toggle="tab" data-target=".menu-tab-1" role="tab">
+                                    @if(Auth::check() && $home->registered() && $home->year()->isLive())
+                                        <li class="nav-item"><a class="nav-link p-3 active text-center font-weight-bold"
+                                                                data-toggle="tab" data-target=".menu-tab-1" role="tab">
+                                                {{ $home->year()->year }} Options</a></li>
+                                    @endif
+                                    <li class="nav-item"><a class="nav-link p-3 text-center font-weight-bold{{ Auth::guest() || !$home->registered() || !$home->year()->isLive() ? ' active' : ''}}"
+                                                            data-toggle="tab" data-target=".menu-tab-2" role="tab">
                                             Register for {{ $home->year()->year }}</a></li>
                                     <li class="nav-item"><a class="nav-link p-3 text-center font-weight-bold"
-                                                            data-toggle="tab" data-target=".menu-tab-2" role="tab">
+                                                            data-toggle="tab" data-target=".menu-tab-3" role="tab">
                                             General Info</a></li>
                                     <li class="nav-item"><a class="nav-link p-3 text-center font-weight-bold"
-                                                            data-toggle="tab" data-target=".menu-tab-3" role="tab">
+                                                            data-toggle="tab" data-target=".menu-tab-4" role="tab">
                                             2018 Info</a></li>
                                 </ul>
                                 <div class="tab-content py-3">
-                                    <div class="tab-pane active show menu-tab-1" role="tabpanel">
+                                    @if(Auth::check() && $home->registered() && $home->year()->isLive())
+                                        <div class="tab-pane active show menu-tab-1" role="tabpanel">
+                                            <div class="row text-center">
+                                                <div class="col-lg-3 py-2">
+                                                    <a href="{{ url('/workshopchoice') }}">
+                                                        <i class="fa fa-rocket fa-5x"></i>
+                                                        <h5 class="mt-2">Workshops</h5>
+                                                        <p>Choose workshop preferences</p>
+                                                    </a>
+                                                </div>
+                                                <div class="col-lg-3 py-2">
+                                                    <a href="{{ url('/roomselection') }}">
+                                                        <i class="fa fa-bed fa-5x"></i>
+                                                        <h5 class="mt-2">Room Selection</h5>
+                                                        <p>Choose housing option</p>
+                                                    </a>
+                                                </div>
+                                                <div class="col-lg-3 py-2">
+                                                    <a href="{{ url('/nametag') }}">
+                                                        <i class="fa fa-id-card fa-5x"></i>
+                                                        <h5 class="mt-2">Nametags</h5>
+                                                        <p>Customize displayed information</p>
+                                                    </a>
+                                                </div>
+                                                <div class="col-lg-3 py-2">
+                                                    <a href="{{ url('/confirm') }}">
+                                                        <i class="fa fa-envelope fa-5x"></i>
+                                                        <h5 class="mt-2">Confirmation</h5>
+                                                        <p>View confirmation and send medical forms</p>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    <div class="tab-pane menu-tab-2{{ Auth::guest() || !$home->registered() || !$home->year()->isLive() ? ' active show' : ''}}" role="tabpanel">
                                         <div class="row text-center">
                                             <div class="col-lg-4 py-2">
                                                 <a href="{{ url('/household') }}">
@@ -224,7 +264,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane menu-tab-2" role="tabpanel">
+                                    <div class="tab-pane menu-tab-3" role="tabpanel">
                                         <div class="row text-center">
                                             <div class="col-lg-3 py-2">
                                                 <a href="{{ url('/programs') }}">
@@ -256,7 +296,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane menu-tab-3" role="tabpanel">
+                                    <div class="tab-pane menu-tab-4" role="tabpanel">
                                         <div class="row text-center">
                                             <div class="col-lg-4 py-2">
                                                 <a href="#">

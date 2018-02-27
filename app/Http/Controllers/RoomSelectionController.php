@@ -27,7 +27,7 @@ class RoomSelectionController extends Controller
 
         $request->session()->flash('success', $success);
 
-        return $this->index($request);
+        return redirect()->action('RoomSelectionController@index', ['request' => $request]);
     }
 
     public function index(Request $request)
@@ -66,7 +66,7 @@ class RoomSelectionController extends Controller
 
         $request->session()->flash('success', 'Awwwwwwww yeahhhhhhhhh');
 
-        return $this->read('f', $id);
+        return redirect()->action('RoomSelectionController@read',['i' => 'f', 'id' => $id]);
     }
 
     public function read($i, $id)

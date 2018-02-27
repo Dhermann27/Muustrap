@@ -21,7 +21,7 @@ class NametagController extends Controller
 
         $request->session()->flash('success', 'You have successfully customized your nametag(s).');
 
-        return $this->index($campers);
+        return redirect()->action('NametagController@index', ['campers' => $campers]);
 
     }
 
@@ -64,7 +64,7 @@ class NametagController extends Controller
 
         $request->session()->flash('success', 'It worked, but did you ever consider that all of this is meaningless in the grand scheme of things?');
 
-        return $this->read('f', $id);
+        return redirect()->action('NametagController@read', ['i' => 'f', 'id' => $id]);
     }
 
     public function read($i, $id)

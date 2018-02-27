@@ -313,9 +313,7 @@
                                                                                 MUUSA {{ $home->year()->year }}:</p>
                                                                             <ul>
                                                                                 @foreach($campers as $camper)
-                                                                                    @if($camper->yearattendingid != 0)
-                                                                                        <li>{{ $camper->firstname }} {{ $camper->lastname }}</li>
-                                                                                    @endif
+                                                                                    <li>{{ $camper->firstname }} {{ $camper->lastname }}</li>
                                                                                 @endforeach
                                                                             </ul>
 

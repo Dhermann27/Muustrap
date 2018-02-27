@@ -111,7 +111,7 @@
                     success: function (data) {
                         $(".nav-tabs").before("<div class='alert alert-success'>" + data + "</div>");
                         var check = fa.findIconDefinition({iconName: 'check'});
-                        $(this).html(fa.icon(check).html + " Saved").addClass("btn-success");
+                        $(this).html(fa.icon(check).html + " Saved").addClass("btn-success").prop("disabled", false);
                         $('html,body').animate({
                             scrollTop: 0
                         }, 700);

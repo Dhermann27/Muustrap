@@ -46,7 +46,7 @@ class WorkshopController extends Controller
 
         $request->session()->flash('success', $success);
 
-        return $this->index();
+        return redirect()->action('WorkshopController@index');
     }
 
     private function getCampers($id)
@@ -94,7 +94,7 @@ class WorkshopController extends Controller
 
         $request->session()->flash('success', 'Green means good! Yayyyyyy');
 
-        return $this->read('f', $id);
+        redirect()->action('WorkshopController@read', ['i' => 'f', 'id' => $id]);
     }
 
     public function read($i, $id)

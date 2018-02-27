@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <button class="p-2 float-right printme" data-toggle="tooltip" title="Print Signup Sheets"><i class="fa fa-print fa-2x"></i>
+    <button class="btn btn-primary float-right printme" data-toggle="tooltip" title="Print Signup Sheets"><i class="fa fa-print fa-2x"></i>
     </button>
     @include('snippet.navtabs', ['tabs' => $timeslots, 'id'=> 'id', 'option' => 'name'])
 

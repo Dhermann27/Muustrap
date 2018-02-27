@@ -76,7 +76,7 @@ class ReportController extends Controller
     {
         \App\Charge::where('chargetypeid', $id)->where('deposited_date', null)
             ->update(['deposited_date' => Carbon::now()->toDateString()]);
-        return $this->deposits();
+        return redirect()->action('ReportController@deposits');
     }
 
     public function deposits()
@@ -109,7 +109,7 @@ class ReportController extends Controller
         $charge->save();
 
         $request->session()->flash('success', 'This payment was totally ignored, but the green message still seems congratulatory.');
-        return $this->outstanding();
+        return redirect()->action('ReportController@outstanding');
     }
 
     public function outstanding($filter = 'all')
@@ -156,6 +156,45 @@ class ReportController extends Controller
     {
         return view('reports.programs', ['programs' => \App\Program::where('name', '!=', 'Adult')
             ->with('participants.parents')->orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get()]);
+    }
+
+    public function ratesMark(Request $request)
+    {
+        $year = \App\Year::where('is_current', '1')->first()->year;
+        foreach ($request->all() as $key => $value) {
+            $matches = array();
+            if (preg_match('/(\d+)-rate/', $key, $matches)) {
+                $rate = \App\Rate::findOrFail($matches[1]);
+                $rate->rate = $value;
+                $rate->save();
+            }
+        }
+
+        if ($request->input('buildingid') != '0') {
+            $rate = \App\Rate::where('buildingid', $request->input('buildingid'))
+                ->where('programid', $request->input('programid'))
+                ->where('min_occupancy', $request->input('min_occupancy'))
+                ->where('max_occupancy', $request->input('max_occupancy'))
+                ->where('start_year', '<', DB::raw('getcurrentyear()'))->where('end_year', '2100')->first();
+            if ($rate) {
+                $rate->end_year = $year - 1;
+                $rate->save();
+            }
+
+            $rate = new \App\Rate;
+            $rate->buildingid = $request->input('buildingid');
+            $rate->programid = $request->input('programid');
+            $rate->min_occupancy = $request->input('min_occupancy');
+            $rate->max_occupancy = $request->input('max_occupancy');
+            $rate->rate = floatval($request->input('rate'));
+            $rate->start_year = DB::raw('getcurrentyear()');
+            $rate->end_year = '2100';
+            $rate->save();
+        }
+
+        $request->session()->flash('success', 'I would say that your attempt has a good success... rate YYYYEEEEAAAAHHHHHH');
+
+        return redirect()->action('ReportController@rates');
     }
 
     public function rates()

@@ -56,9 +56,16 @@
                         <h5>{{ $firstday->toDateString() }}</h5>
                         <ul class="list-group sortable col-md-4 col-sm-6">
                             @foreach($acts->where('date', $firstday->toDateString())->all() as $act)
-                                <li id="{{ $act->id }}" class="list-group-item list-group-item-action">
+                                <li id="{{ $act->id }}"
+                                    class="list-group-item list-group-item-action {{ $act->is_onstage == '1' ? ' list-group-item-primary' : '' }}">
                                     @if($readonly === false)
                                         <div class="float-right">
+                                            <label for="{{ $act->id }}-is_onstage" class="sr-only">Delete</label>
+                                            <input id="{{ $act->id }}-is_onstage" name="{{ $act->id }}-is_onstage"
+                                                   {{ $act->is_onstage == '1' ? 'checked="checked"' : '' }} value="1"
+                                                   type="checkbox"/>
+                                            On Stage?
+
                                             <label for="{{ $act->id }}-delete" class="sr-only">Delete</label>
                                             <input id="{{ $act->id }}-delete" name="{{ $act->id }}-delete"
                                                    type="checkbox"/>
@@ -106,6 +113,8 @@
     <script type="text/javascript">
         $("ul.sortable").sortable({
             placeholder: "ui-state-highlight"
+        }).each(function () {
+            $(this).find("li.list-group-item-primary").not(":last").removeClass("list-group-item-primary").addClass("list-group-item-dark");
         });
 
         $('#coffeform').on('submit', function (e) {

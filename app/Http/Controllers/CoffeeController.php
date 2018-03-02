@@ -25,7 +25,7 @@ class CoffeeController extends Controller
             $year = \App\Year::where('is_current', '1')->first();
             foreach ($request->all() as $key => $value) {
                 $matches = array();
-                if (preg_match('/(\d+)-(delete|order)/', $key, $matches)) {
+                if (preg_match('/(\d+)-(delete|order|is_onstage)/', $key, $matches)) {
                     $workshop = \App\Coffeehouseact::find($matches[1]);
                     if ($matches[2] == "delete") {
                         $workshop->delete();

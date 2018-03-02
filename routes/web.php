@@ -50,7 +50,8 @@ Route::get('/museupload', 'ContactController@museIndex')->middleware('auth', 'ro
 Route::post('/museupload', 'ContactController@museStore')->middleware('auth', 'role:admin|council');
 Route::get('/calendar/c/{id}', 'CalendarController@read')->middleware('auth', 'role:admin|council');
 Route::get('/directory', 'DirectoryController@index')->middleware('auth');
-Route::get('/av', 'WelcomeController@time')->middleware('auth');
+Route::get('/coffeehouse', 'CoffeeController@index')->middleware('auth');
+Route::post('/coffeehouse', 'CoffeeController@store')->middleware('auth');
 
 if ($year->isLive()) {
     Route::get('/confirm', 'ConfirmController@index')->middleware('auth');

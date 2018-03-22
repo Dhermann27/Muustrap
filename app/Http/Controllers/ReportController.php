@@ -192,6 +192,8 @@ class ReportController extends Controller
             $rate->save();
         }
 
+        DB::statement('CALL generate_charges(getcurrentyear());');
+
         $request->session()->flash('success', 'I would say that your attempt has a good success... rate YYYYEEEEAAAAHHHHHH');
 
         return redirect()->action('ReportController@rates');

@@ -405,6 +405,24 @@
 <script src="/js/custom-script.js"></script>
 <script src="/js/script.min.js"></script>
 
+<script type="text/javascript">
+    function nextCamper() {
+        var next = $('.nav-tabs .active').parent().next('li').find('a');
+        if (next !== undefined && next.attr("id") !== 'newcamper') {
+            next.tab('show');
+            $('html,body').animate({
+                scrollTop: 0
+            }, 700);
+        } else {
+            $('input[type="submit"]').trigger("focus");
+            $('html,body').animate({
+                scrollTop: 9999
+            }, 100);
+        }
+    }
+
+    $('button.nextcamper').click(nextCamper);
+</script>
 @role(['admin', 'council'])
 <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"
         integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
@@ -456,23 +474,6 @@
         }
     });
     @endrole
-
-    function nextCamper() {
-        var next = $('.nav-tabs .active').parent().next('li').find('a');
-        if (next !== undefined && next.attr("id") !== 'newcamper') {
-            next.tab('show');
-            $('html,body').animate({
-                scrollTop: 0
-            }, 700);
-        } else {
-            $('input[type="submit"]').trigger("focus");
-            $('html,body').animate({
-                scrollTop: 9999
-            }, 100);
-        }
-    }
-
-    $('button.nextcamper').click(nextCamper);
 </script>
 @endrole
 

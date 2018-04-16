@@ -29,7 +29,7 @@ class CoffeeController extends Controller
                     $workshop = \App\Coffeehouseact::find($matches[1]);
                     if ($matches[2] == "delete") {
                         $workshop->delete();
-                    } elseif($workshop) {
+                    } elseif ($workshop) {
                         $workshop->{$matches[2]} = $value;
                         $workshop->save();
                     }
@@ -52,10 +52,10 @@ class CoffeeController extends Controller
             $request->session()->flash('error', 'No access to this function. How did you get here?');
         }
 
-        return redirect()->action('CoffeeController@index');
+        return redirect()->action('CoffeeController@index', ['day' => $request->input('day')]);
     }
 
-    public function index()
+    public function index($day = null)
     {
         $year = \App\Year::where('is_current', '1')->first();
         $firstday = Carbon::createFromFormat('Y-m-d', $year->start_date, 'America/Chicago');
@@ -72,6 +72,6 @@ class CoffeeController extends Controller
             }
         }
 
-        return view('coffeehouse', ['firstday' => $firstday, 'acts' => $acts, 'readonly' => $readonly]);
+        return view('coffeehouse', ['firstday' => $firstday, 'day' => $day, 'acts' => $acts, 'readonly' => $readonly]);
     }
 }

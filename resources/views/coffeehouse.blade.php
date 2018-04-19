@@ -26,32 +26,36 @@
 
 @section('content')
     <div class="container">
-        <form id="coffeform" class="form-horizontal" role="form" method="POST" action="{{ url('/coffeehouse') }}">
+        <form id="coffeeform" class="form-horizontal" role="form" method="POST" action="{{ url('/coffeehouse') }}">
             @include('snippet.flash')
 
             <ul class="nav nav-tabs flex-column flex-lg-row" role="tablist">
                 <li role="presentation" class="nav-item">
-                    <a href="#1" aria-controls="1" role="tab" class="nav-link active" data-toggle="tab">Monday</a>
+                    <a href="#1" aria-controls="1" role="tab" class="nav-link{{ $day == '1' || $day == null ? ' active' : '' }}"
+                       data-toggle="tab">Monday{{ $day }}</a>
                 </li>
                 <li role="presentation" class="nav-item">
-                    <a href="#2" aria-controls="1" role="tab" class="nav-link" data-toggle="tab">Tuesday</a>
+                    <a href="#2" aria-controls="2" role="tab" class="nav-link{{ $day == '2' ? ' active' : '' }}"
+                       data-toggle="tab">Tuesday</a>
                 </li>
                 <li role="presentation" class="nav-item">
-                    <a href="#3" aria-controls="1" role="tab" class="nav-link" data-toggle="tab">Wednesday</a>
+                    <a href="#3" aria-controls="3" role="tab" class="nav-link{{ $day == '3' ? ' active' : '' }}"
+                       data-toggle="tab">Wednesday</a>
                 </li>
                 <li role="presentation" class="nav-item">
-                    <a href="#4" aria-controls="1" role="tab" class="nav-link" data-toggle="tab">Thursday (Raunch
-                        Night)</a>
+                    <a href="#4" aria-controls="4" role="tab" class="nav-link{{ $day == '4' ? ' active' : '' }}"
+                       data-toggle="tab">Thursday (Raunch Night)</a>
                 </li>
                 <li role="presentation" class="nav-item">
-                    <a href="#5" aria-controls="1" role="tab" class="nav-link" data-toggle="tab">Friday</a>
+                    <a href="#5" aria-controls="5" role="tab" class="nav-link{{ $day == '5' ? ' active' : '' }}"
+                       data-toggle="tab">Friday</a>
                 </li>
             </ul>
             <div class="tab-content">
                 @while($firstday->dayOfWeek < 6)
                     <div role="tabpanel"
-                         class="tab-pane fade{{ $firstday->addDay()->dayOfWeek == 1 ? ' active show' : '' }}"
-                         aria-expanded="{{ $firstday->dayOfWeek ==  1 ? 'true' : 'false' }}"
+                         class="tab-pane fade{{ $firstday->addDay()->dayOfWeek == $day || ($day == null && $firstday->dayOfWeek == 1) ? ' active show' : '' }}"
+                         aria-expanded="{{ $firstday->dayOfWeek == $day || ($day == null && $firstday->dayOfWeek ==  1) ? 'true' : 'false' }}"
                          id="{{ $firstday->dayOfWeek }}">
                         <h5>{{ $firstday->toDateString() }}</h5>
                         <ul class="list-group sortable col-md-4 col-sm-6">

@@ -330,15 +330,13 @@
                                                                                 online registration process, thank you!
                                                                                 Your remaining balance is due on the
                                                                                 first day of
-                                                                                camp, {{ $home->year()->first_day }}
-                                                                                .
-                                                                                @if($home->year()->isLive())))
-                                                                                Room selection, workshop
-                                                                                preferences, nametag customization,
-                                                                                and confirmation letters are
-                                                                                available at <a
-                                                                                        href="https://muusa.org">muusa.org</a>
-                                                                                .
+                                                                                camp, {{ $home->year()->first_day }}.
+                                                                                @if($home->year()->isLive())
+                                                                                    Room selection, workshop
+                                                                                    preferences, nametag customization,
+                                                                                    and confirmation letters are
+                                                                                    available at <a
+                                                                                        href="https://muusa.org">muusa.org</a>.
                                                                                 @else
                                                                                     If you attended
                                                                                     in {{ ((int)$home->year()->year)-1 }}
@@ -351,8 +349,7 @@
                                                                                     available
                                                                                     on {{ $home->year()->start_open }}
                                                                                     at <a
-                                                                                            href="https://muusa.org">muusa.org</a>
-                                                                                    .
+                                                                                            href="https://muusa.org">muusa.org</a>.
                                                                                 @endif
                                                                             </p>
 

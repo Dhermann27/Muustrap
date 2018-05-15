@@ -354,8 +354,6 @@ CREATE VIEW byyear_campers AS
     c.birthdate,
     DATE_FORMAT(c.birthdate, '%m/%d/%Y') birthday,
     getage(c.birthdate, ya.year)         age,
-    c.gradeoffset,
-    ya.year - c.gradyear + 12            grade,
     p.id                                 programid,
     p.name                               programname,
     p.is_program_housing                 is_program_housing,
@@ -376,7 +374,7 @@ CREATE VIEW byyear_campers AS
   FROM (families f, campers c, yearsattending ya, programs p, pronouns o)
     LEFT JOIN (buildings b, rooms r) ON ya.roomid = r.id AND r.buildingid = b.id
     LEFT JOIN churches u ON c.churchid = u.id
-  WHERE f.id = c.familyid AND c.id = ya.camperid AND p.id = getprogramidbycamperid(c.id, ya.year)
+  WHERE f.id = c.familyid AND c.id = ya.camperid AND p.id = ya.programid
         AND c.pronounid = o.id;
 
 DROP VIEW IF EXISTS byyear_charges;
@@ -481,7 +479,6 @@ CREATE VIEW thisyear_campers AS
     birthdate,
     birthday,
     age,
-    grade,
     programid,
     programname,
     is_program_housing,
@@ -563,20 +560,21 @@ CREATE VIEW thisyear_staff AS
     max_compensation,
     pctype
   FROM byyear_staff bsp, years y
+
   WHERE bsp.year = y.year AND y.is_current = 1;
 
 DROP FUNCTION IF EXISTS getrate;
 CREATE FUNCTION getrate(mycamperid INT, myyear YEAR)
   RETURNS FLOAT DETERMINISTIC
   BEGIN
-    DECLARE age, occupants, days, staff, programid INT DEFAULT 0;
+    DECLARE age, occupants, days, staff, program INT DEFAULT 0;
     SELECT
       getage(c.birthdate, myyear),
       COUNT(*),
       MAX(ya.days),
       IF(MAX(ysp.staffpositionid) > 0, 1, 0),
-      getprogramidbycamperid(mycamperid, myyear)
-    INTO age, occupants, days, staff, programid
+      MAX(ya.programid)
+    INTO age, occupants, days, staff, program
     FROM (campers c, yearsattending ya, yearsattending yap, campers cp)
       LEFT JOIN yearattending__staff ysp
         ON ysp.yearattendingid = ya.id AND ysp.staffpositionid IN (1023, 1025)
@@ -590,7 +588,7 @@ CREATE FUNCTION getrate(mycamperid INT, myyear YEAR)
       RETURN (SELECT IFNULL(hr.rate * days, 0)
               FROM yearsattending ya, rooms r, rates hr
               WHERE ya.camperid = mycamperid AND ya.year = myyear AND r.id = ya.roomid AND
-                    r.buildingid = hr.buildingid AND hr.programid = programid AND
+                    r.buildingid = hr.buildingid AND hr.programid = program AND
                     occupants >= hr.min_occupancy AND occupants <= hr.max_occupancy AND
                     myyear >= hr.start_year AND myyear <= hr.end_year);
     END IF;
@@ -733,22 +731,6 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE `duplicate`(beforeid INT, afterid I
   END;
 
 DROP FUNCTION IF EXISTS getprogramidbycamperid;
-CREATE FUNCTION getprogramidbycamperid(id INT, myyear INT)
-  RETURNS INT DETERMINISTIC BEGIN
-  DECLARE age, grade INT DEFAULT 0;
-  SELECT getage(c.birthdate, myyear)
-  INTO age
-  FROM campers c
-  WHERE c.id = id;
-  SELECT myyear - c.gradyear + 12
-  INTO grade
-  FROM campers c
-  WHERE c.id = id;
-  RETURN (SELECT p.id
-          FROM programs p
-          WHERE p.age_min <= age AND p.age_max >= age AND p.grade_min <= grade AND p.grade_max >= grade
-          LIMIT 1);
-END;
 
 DROP FUNCTION IF EXISTS getprogramidbyname;
 CREATE FUNCTION getprogramidbyname(programname VARCHAR(1024))

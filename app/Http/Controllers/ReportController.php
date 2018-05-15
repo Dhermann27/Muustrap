@@ -32,7 +32,7 @@ class ReportController extends Controller
                 $sheet->setOrientation('landscape');
                 $sheet->with(\App\Thisyear_Camper::select('familyname', 'address1', 'address2', 'city', 'statecd',
                     'zipcd', 'country', 'pronounname', 'firstname', 'lastname', 'email', 'phonenbr', 'birthday', 'age',
-                    'grade', 'programname', 'roommate', 'sponsor', 'churchname', 'churchcity', 'churchstatecd', 'days',
+                    'programname', 'roommate', 'sponsor', 'churchname', 'churchcity', 'churchstatecd', 'days',
                     'room_number', 'buildingname')->orderBy('familyname')->orderBy('familyid')->orderBy('birthdate')->get());
             });
         })->export('xls');
@@ -155,7 +155,7 @@ class ReportController extends Controller
     public function programs()
     {
         return view('reports.programs', ['programs' => \App\Program::where('name', '!=', 'Adult')
-            ->with('participants.parents')->orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get()]);
+            ->with('participants.parents')->orderBy('order')->get()]);
     }
 
     public function ratesMark(Request $request)
@@ -203,7 +203,7 @@ class ReportController extends Controller
     {
         return view('reports.rates', ['years' => \App\Year::where('year', '>', 2014)->orderBy('year', 'DESC')->get(),
             'buildings' => \App\Building::all(), 'rates' => \App\Rate::all(),
-            'programs' => \App\Program::orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get()]);
+            'programs' => \App\Program::orderBy('order')->get()]);
     }
 
     public function rooms($year = 0)

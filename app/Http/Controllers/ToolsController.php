@@ -53,8 +53,7 @@ class ToolsController extends Controller
         $year = \App\Year::where('is_current', '1')->first()->year;
         return view('tools.positions', ['programs' => \App\Program::with(['staffpositions' => function ($query) use ($year) {
             $query->where('start_year', '<=', $year)->where('end_year', '>=', $year);
-        }])->with('assignments')
-            ->orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get()]);
+        }])->with('assignments')->orderBy('order')->get()]);
     }
 
     public function nametags()
@@ -93,8 +92,7 @@ class ToolsController extends Controller
 
     public function programIndex()
     {
-        return view('tools.programs', ['programs' => \App\Program::orderBy('age_min', 'desc')
-            ->orderBy('grade_min', 'desc')->get()]);
+        return view('tools.programs', ['programs' => \App\Program::orderBy('order')->get()]);
     }
 
     public function workshopStore(Request $request)

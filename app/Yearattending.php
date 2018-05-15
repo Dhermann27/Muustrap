@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class Yearattending extends Model
 {
     protected $table = "yearsattending";
-    protected $fillable = ['camperid', 'year', 'roomid', 'days', 'nametag'];
+    protected $fillable = ['camperid', 'year', 'roomid', 'programid', 'days', 'nametag'];
 
     public function camper()
     {

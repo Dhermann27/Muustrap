@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Mail\Confirm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,7 @@ class CamperController extends Controller
     public function store(Request $request)
     {
         $logged_in = \App\Camper::where('email', Auth::user()->email)->first();
+        $year = \App\Year::where('is_current', '1')->first();
 
         $messages = ['pronounid.*.exists' => 'Please choose a preferred pronoun.',
             'firstname.*.required' => 'Please enter a first name.',
@@ -33,7 +35,7 @@ class CamperController extends Controller
             'email.*' => 'email|max:255|distinct',
             'phonenbr.*' => 'regex:/^\d{3}-\d{3}-\d{4}$/',
             'birthdate.*' => 'required|regex:/^\d{4}-\d{2}-\d{2}$/',
-            'gradyear.*' => 'required|regex:/^\d{4}$/',
+            'programid.*' => 'required|exists:programs,id',
             'roommate.*' => 'max:255',
             'sponsor.*' => 'max:255',
             'churchid.*' => 'exists:churches,id',
@@ -59,7 +61,7 @@ class CamperController extends Controller
                 Auth::user()->save();
             }
             if ($id == 0 || $camper->familyid == $logged_in->familyid) {
-                $thiscamper = $this->upsertCamper($request, $i, $logged_in->familyid);
+                $thiscamper = $this->upsertCamper($request, $i, $logged_in->familyid, $year);
                 if ($thiscamper->yearattendingid != null) {
                     array_push($campers, $thiscamper);
                 }
@@ -75,7 +77,7 @@ class CamperController extends Controller
         return 'You have successfully saved your changes and registered. Click <a href="' . url('/payment') . '">here</a> to remit payment.';
     }
 
-    private function upsertCamper(Request $request, $i, $familyid)
+    private function upsertCamper(Request $request, $i, $familyid, $year)
     {
         if ($request->input('id')[$i] != '0') {
             $camper = \App\Camper::findOrFail($request->input('id')[$i]);
@@ -94,7 +96,11 @@ class CamperController extends Controller
             $camper->phonenbr = str_replace('-', '', $request->input('phonenbr')[$i]);
         }
         $camper->birthdate = $request->input('birthdate')[$i];
-        $camper->gradyear = $request->input('gradyear')[$i];
+        $programid = $request->input('programid')[$i];
+        if($programid == '1009' && Carbon::createFromFormat('Y-m-d', $camper->birthdate)->diffInYears(Carbon::createFromFormat('Y-m-d', $year->start_date)) < 21) {
+            $programid = '1006';
+        }
+
         $camper->roommate = $request->input('roommate')[$i];
         $camper->sponsor = $request->input('sponsor')[$i];
         $camper->churchid = $request->input('churchid')[$i];
@@ -104,8 +110,8 @@ class CamperController extends Controller
         $camper->save();
 
         if ((int)$request->input('days')[$i] > 0) {
-            $ya = \App\Yearattending::updateOrCreate(['camperid' => $camper->id,
-                'year' => DB::raw("getcurrentyear()")], ['days' => $request->input('days')[$i]]);
+            $ya = \App\Yearattending::updateOrCreate(['camperid' => $camper->id, 'year' => DB::raw("getcurrentyear()")],
+                ['days' => $request->input('days')[$i], 'programid' => $programid]);
             $camper->yearattendingid = $ya->id;
             $staffs = \App\Camper__Staff::where('camperid', $camper->id)->get();
             if (count($staffs) > 0) {
@@ -136,7 +142,8 @@ class CamperController extends Controller
         $empty->id = 0;
         $empty->churchid = 2084;
         return view('campers', ['pronouns' => \App\Pronoun::all(), 'foodoptions' => \App\Foodoption::all(),
-            'campers' => $campers, 'empties' => array($empty), 'readonly' => null]);
+            'campers' => $campers, 'programs' => \App\Program::whereNotNull('display')->orderBy('order')->get(),
+            'empties' => array($empty), 'readonly' => null]);
 
     }
 
@@ -147,6 +154,7 @@ class CamperController extends Controller
 
     public function write(Request $request, $id)
     {
+        $year = \App\Year::where('is_current', '1')->first();
 
         $messages = ['pronounid.*.exists' => 'Please choose a preferred pronoun.',
             'firstname.*.required' => 'Please enter a first name.',
@@ -164,7 +172,7 @@ class CamperController extends Controller
             'email.*' => 'email|max:255|distinct',
             'phonenbr.*' => 'regex:/^\d{3}-\d{3}-\d{4}$/',
             'birthdate.*' => 'required|regex:/^\d{4}-\d{2}-\d{2}$/',
-            'gradyear.*' => 'required|regex:/^\d{4}$/',
+            'programid.*' => 'required|exists:programs,id',
             'roommate.*' => 'max:255',
             'sponsor.*' => 'max:255',
             'churchid.*' => 'exists:churches,id',
@@ -178,7 +186,7 @@ class CamperController extends Controller
                 'email.' . $i => 'unique:campers,email,' . $request->input('id')[$i],
             ], $messages);
 
-            $this->upsertCamper($request, $i, $id);
+            $this->upsertCamper($request, $i, $id, $year);
         }
 
         DB::statement('CALL generate_charges(getcurrentyear());');
@@ -197,7 +205,8 @@ class CamperController extends Controller
         $empty->churchid = 2084;
 
         return view('campers', ['pronouns' => \App\Pronoun::all(), 'foodoptions' => \App\Foodoption::all(),
-            'campers' => $campers, 'empties' => array($empty), 'readonly' => $readonly]);
+            'campers' => $campers, 'programs' => \App\Program::whereNotNull('display')->orderBy('order')->get(),
+            'empties' => array($empty), 'readonly' => $readonly]);
     }
 
     private function getFamilyId($i, $id)

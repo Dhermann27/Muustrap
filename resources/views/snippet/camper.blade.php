@@ -164,27 +164,29 @@
             @endif
         </div>
     </div>
-    <div class="form-group row{{ $errors->has('gradyear.' . $looper->index) ? ' has-danger' : '' }}">
-        <label for="gradyear-{{ $looper->index }}" class="col-md-4 control-label">
-            <a href="#" class="p-2 float-right" data-toggle="tooltip" data-html="true"
-               title="@lang('messages.gradyear')"><i class="fa fa-info"></i></a>
-            High School Graduation Year
+    <div class="form-group row{{ $errors->has('programid.' . $looper->index) ? ' has-danger' : '' }}">
+        <label for="programid-{{ $looper->index }}" class="col-md-4 control-label">
+            Program
         </label>
 
         <div class="col-md-6">
-            <select class="form-control{{ $errors->has('gradyear.' . $looper->index) ? ' is-invalid' : '' }}"
-                    id="gradyear-{{ $looper->index }}" name="gradyear[]">
-                @for($i=($home->year()->year+18); $i>=1901; $i--)
-                    <option value="{{ $i }}"
-                            {{ $i == old('gradyear.' . $looper->index, $camper->gradyear) ? ' selected' : '' }}>
-                        {{ $i }}
+            <select class="form-control select-program{{ $errors->has('programid.' . $looper->index) ? ' is-invalid' : '' }}"
+                    id="programid-{{ $looper->index }}" name="programid[]">
+                <option value="0">Choose a program</option>
+                @foreach($programs as $program)
+                    <option value="{{ $program->id }}"
+                            {{ $program->id == old('programid.' . $looper->index, $camper->last_programid) ? ' selected' : '' }}>
+                        {{ str_replace("YEAR", $home->year()->year, $program->display) }}
                     </option>
-                @endfor
+                @endforeach
             </select>
+            <span class="alert alert-warning p-0 m-0 d-none">
+                    Changing this value will only save if the camper is attending this year.
+            </span>
 
-            @if ($errors->has('gradyear.' . $looper->index))
+            @if ($errors->has('programid.' . $looper->index))
                 <span class="invalid-feedback">
-                    <strong>{{ $errors->first('gradyear.' . $looper->index) }}</strong>
+                    <strong>{{ $errors->first('programid.' . $looper->index) }}</strong>
                 </span>
             @endif
         </div>

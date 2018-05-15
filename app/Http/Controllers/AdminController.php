@@ -12,12 +12,12 @@ class AdminController extends Controller
 
     public function distlistStore(Request $request)
     {
-        $programs = \App\Program::orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get();
+        $programs = \App\Program::orderBy('order')->get();
 
         $rows = \App\Byyear_Camper::select('familyname', 'address1', 'address2', 'city', 'statecd',
             'zipcd', 'country', 'pronounname', 'firstname', 'lastname', 'email', 'phonenbr', 'birthday', 'age',
-            'grade', 'programname', 'roommate', 'sponsor', 'churchname', 'churchcity', 'churchstatecd', 'days',
-            'room_number', 'buildingname');
+            'programname', 'roommate', 'sponsor', 'churchname', 'churchcity', 'churchstatecd', 'days', 'room_number',
+            'buildingname');
         if ($request->input("campers") == "reg") {
             $rows->where('year', DB::raw('getcurrentyear()'));
         } elseif ($request->input("campers") == "unp") {
@@ -58,7 +58,7 @@ class AdminController extends Controller
             }
         }
         if (count($programids) > 0) {
-            $rows->whereIn(DB::raw('getprogramidbycamperid(id, year)'), $programids);
+            $rows->whereIn('programid', $programids);
         }
 
         $rows->groupBy("byyear_campers." . $request->input("groupby"));
@@ -79,8 +79,8 @@ class AdminController extends Controller
 
     public function distlistIndex($request = null)
     {
-        return view('admin.distlist', ['programs' => \App\Program::orderBy('age_min', 'desc')
-            ->orderBy('grade_min', 'desc')->get(), 'request' => $request ? $request : new Request()]);
+        return view('admin.distlist', ['programs' => \App\Program::orderBy('order')->get(),
+            'request' => $request ? $request : new Request()]);
     }
 
     public function roleStore(Request $request)
@@ -152,8 +152,7 @@ class AdminController extends Controller
 
     public function positionIndex()
     {
-        $programs = \App\Program::with('staffpositions')
-            ->orderBy('age_min', 'desc')->orderBy('grade_min', 'desc')->get();
+        $programs = \App\Program::with('staffpositions')->orderBy('order')->get();
         return view('admin.positions', ['programs' => $programs,
             'levels' => \App\Compensationlevel::all()]);
     }

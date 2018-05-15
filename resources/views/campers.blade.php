@@ -162,6 +162,15 @@
                     $('a[href="#' + tab.attr('id') + '"]').text(name[0].value + " " + name[1].value);
                 }
             });
+            obj.find(".select-program").on("change", function() {
+                var tab = $(this).parents('div.tab-pane');
+                var days = tab.find("select.days");
+                if(days.val() === "0") {
+                    $(this).next(".alert").removeClass("d-none");
+                } else {
+                    $(this).next(".alert").addClass("d-none");
+                }
+            });
             obj.find(".easycamper").each(function () {
                 $(this).autocomplete({
                     source: "/data/camperlist",

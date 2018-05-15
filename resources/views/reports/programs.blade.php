@@ -20,7 +20,6 @@
                                 <th>Name</th>
                                 <th>Age</th>
                                 @if($program->participants->first()->age<18)
-                                    <th>Grade</th>
                                     <th>Parent/Sponsor</th>
                                     <th>Room</th>
                                     <th>Phone Number</th>
@@ -47,7 +46,6 @@
                                         @endif
                                     </td>
                                     @if($program->participants->first()->age<18)
-                                        <td>{{ max($participant->grade, 0) }}</td>
                                         <td>{!! $participant->parent !!}</td>
                                         <td>{{ $participant->parent_room }}</td>
                                         <td>{{ $participant->parent_phone }}</td>

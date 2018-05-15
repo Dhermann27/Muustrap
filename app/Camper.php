@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class Camper extends Model
 {
     protected $fillable = ['familyid', 'sexcd', 'firstname', 'lastname', 'email', 'phonenbr', 'birthdate',
-        'gradyear', 'sponsor', 'is_handicap', 'foodoptionid', 'churchid', 'updated_at'];
+        'sponsor', 'is_handicap', 'foodoptionid', 'churchid', 'updated_at'];
 
     public function charge()
     {
@@ -56,6 +56,12 @@ class Camper extends Model
         return $this->belongsTo(Yearattending::class);
     }
 
+    public function getLastProgramidAttribute()
+    {
+        $ya = \App\Yearattending::where('camperid', $this->id)->orderBy('year', 'desc')->first();
+        return $ya ? ($ya->programid == '1006' ? '1009' : $ya->programid) : null;
+    }
+
     public function getFormattedPhoneAttribute()
     {
         if (preg_match('/^(\d{3})(\d{3})(\d{4})$/', $this->phonenbr, $matches)) {
@@ -76,15 +82,6 @@ class Camper extends Model
             return DB::table('users')->value(DB::raw("getage('" . $this->birthdate . "',getcurrentyear())"));
         } else {
             return "";
-        }
-    }
-
-    public function getGradeAttribute()
-    {
-        if ($this->birthdate != '' && $this->gradyear != '') {
-            return DB::table('users')->value(DB::raw("getcurrentyear())-" . $this->gradyear . "+12"));
-        } else {
-            return "0";
         }
     }
 

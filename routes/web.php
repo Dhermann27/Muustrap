@@ -140,7 +140,7 @@ Route::get('/scholarship', function () {
     return view('scholarship');
 });
 Route::get('/programs', function () {
-    return view('programs', ['programs' => \App\Program::whereNotNull('blurb')->orderBy('age_min')->orderBy('grade_min')->get()]);
+    return view('programs', ['programs' => \App\Program::whereNotNull('blurb')->orderBy('order')->get()]);
 });
 Route::get('/housing', function () {
     return view('housing', ['buildings' => \App\Building::whereNotNull('blurb')->get()]);

@@ -135,6 +135,7 @@
                             <div class="dropdown-menu">
                                 <a href="{{ url('/reports/deposits') }}" class="dropdown-item">Bank Deposits</a>
                                 <a href="{{ url('/reports/firsttime') }}" class="dropdown-item">First-time Campers</a>
+                                <a href="{{ url('/reports/guarantee') }}" class="dropdown-item">Guarantee Status</a>
                                 <a href="{{ url('/reports/payments') }}" class="dropdown-item">Ledger</a>
                                 <a href="{{ url('/reports/outstanding') }}" class="dropdown-item">Outstanding
                                     Balances</a>

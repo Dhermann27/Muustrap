@@ -97,6 +97,14 @@ class ReportController extends Controller
             'thisyear' => $year, 'years' => [$year]]);
     }
 
+    public function guarantee()
+    {
+        $groups = DB::table('thisyear_campers')->selectRaw('side, age, IF(age>12,0,IF(age>5,1,2)) AS agegroup, COUNT(*) AS count')
+            ->where('days', '>', 5)->whereNotNull('roomid')->join('buildings', 'thisyear_campers.buildingid', 'buildings.id')
+            ->groupBy('side')->groupBy('agegroup')->orderBy('side')->orderBy('agegroup')->get();
+        return view('reports.guarantee', ['groups' => $groups]);
+    }
+
     public function outstandingMark(Request $request, $id)
     {
         $charge = new \App\Charge();

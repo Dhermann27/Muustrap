@@ -11,6 +11,7 @@ class DirectoryController extends Controller
 {
     public function index()
     {
+        $pictures = [];
         try {
             $client = new \GuzzleHttp\Client();
             $fb = new Facebook([
@@ -25,7 +26,6 @@ class DirectoryController extends Controller
             );
 
             $graph = json_decode($response->getGraphEdge());
-            $pictures = [];
             foreach ($graph as $picture) {
                 $pictures[$picture->name]["url"] = $picture->picture->url;
                 $pictures[$picture->name]["link"] = $picture->link;

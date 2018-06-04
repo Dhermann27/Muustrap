@@ -61,9 +61,9 @@
                         </form>
                     @endif
                     <div class="header-divider header-divider-sm"></div>
-                    @if(isset($muse) && $muse)
-                        <a href="{{ url('/themuse') }}" class="nav-link text-s text-uppercase d-md-block">Today's
-                            Muse</a>
+                    @if($home->year()->next_muse !== false)
+                        <a href="{{ url('/themuse') }}"
+                           class="nav-link text-s text-uppercase d-md-block">{{ $home->year()->next_muse }}</a>
                     @endif
                     @if($home->year()->isLive())
                         <a href="{{ url('MUUSA_' . $home->year()->year . '_Brochure.pdf') }}"
@@ -199,8 +199,9 @@
                                                                 data-toggle="tab" data-target=".menu-tab-2" role="tab">
                                                 Special News</a></li>
                                     @endif
-                                    <li class="nav-item"><a class="nav-link p-3 text-center font-weight-bold{{ Auth::guest() || !$home->registered() || !$home->year()->isLive() ? ' active' : ''}}"
-                                                            data-toggle="tab" data-target=".menu-tab-3" role="tab">
+                                    <li class="nav-item"><a
+                                                class="nav-link p-3 text-center font-weight-bold{{ Auth::guest() || !$home->registered() || !$home->year()->isLive() ? ' active' : ''}}"
+                                                data-toggle="tab" data-target=".menu-tab-3" role="tab">
                                             Register for {{ $home->year()->year }}</a></li>
                                     <li class="nav-item"><a class="nav-link p-3 text-center font-weight-bold"
                                                             data-toggle="tab" data-target=".menu-tab-4" role="tab">
@@ -262,7 +263,8 @@
                                             </div>
                                         </div>
                                     @endif
-                                    <div class="tab-pane menu-tab-3{{ Auth::guest() || !$home->registered() || !$home->year()->isLive() ? ' active show' : ''}}" role="tabpanel">
+                                    <div class="tab-pane menu-tab-3{{ Auth::guest() || !$home->registered() || !$home->year()->isLive() ? ' active show' : ''}}"
+                                         role="tabpanel">
                                         <div class="row text-center">
                                             <div class="col-lg-4 py-2">
                                                 <a href="{{ url('/household') }}">

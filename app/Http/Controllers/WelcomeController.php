@@ -12,9 +12,8 @@ class WelcomeController extends Controller
     public function index()
     {
         $year = \App\Year::where('is_current', '1')->first();
-        $muse = Storage::disk('local')->exists('public/muses/' . $year->next_day->format('Ymd') . '.pdf');
         if ($year->isCrunch()) {
-            return $this->normal($muse);
+            return $this->normal();
         } else {
             $client = new GuzzleHttp\Client();
             $res = $client->request('GET', env('GOOGLE_CAL_SCRIPT') . env('COFFEEHOUSE_CALENDAR') . "&date=" . $year->next_weekday->toDateString());
@@ -30,12 +29,11 @@ class WelcomeController extends Controller
                     }
                 }
             }
-            return view('crunch', ['muse' => $muse, 'av' => $av, 'camper' => $camper,
-                'list' => json_decode($res->getBody())]);
+            return view('crunch', ['av' => $av, 'camper' => $camper, 'list' => json_decode($res->getBody())]);
         }
     }
 
-    public function normal($muse)
+    public function normal()
     {
         if (Auth::check()) {
             $camper = \App\Camper::where('email', Auth::user()->email)->first();
@@ -48,7 +46,7 @@ class WelcomeController extends Controller
                 $nametags = $roomid && $this->isNametagsCreated($yas);
                 $confirmed = $nametags && $this->isConfirmed($family);
                 return view('welcome', ['family' => $family, 'paid' => $paid, 'signedup' => $signedup,
-                    'nametags' => $nametags, 'roomid' => $roomid, 'confirmed' => $confirmed, 'muse' => $muse]);
+                    'nametags' => $nametags, 'roomid' => $roomid, 'confirmed' => $confirmed]);
 
             }
         }

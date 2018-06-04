@@ -3,8 +3,8 @@
 namespace App;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class Year extends Model
@@ -52,5 +52,19 @@ class Year extends Model
             return $now;
         }
         return $now->max(Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago'));
+    }
+
+    public function getNextMuseAttribute()
+    {
+        $now = Carbon::now('America/Chicago');
+        if (Storage::disk('local')->exists('public/muses/' . $now->format('Ymd') . '.pdf')) {
+            return "Today's Muse";
+        } elseif (Storage::disk('local')->exists('public/muses/' . $now->subDay()->format('Ymd') . '.pdf')) {
+            return "Yesterday's Muse";
+        } elseif (Storage::disk('local')->exists('public/muses/' . $this->year . '0601.pdf')) {
+            return "Pre-Camp Muse";
+        } else {
+            return false;
+        }
     }
 }

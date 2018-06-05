@@ -72,7 +72,7 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($family->charges()->orderBy('timestamp')->get() as $charge)
+            @foreach($family->charges()->orderBy('timestamp')->orderBy('amount', 'desc')->get() as $charge)
                 <tr>
                     <td>{{ $charge->chargetypename }}</td>
                     <td class="amount" align="right">${{ money_format('%.2n', $charge->amount) }}</td>

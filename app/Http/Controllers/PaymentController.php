@@ -96,7 +96,7 @@ class PaymentController extends Controller
             $depositchargetype = DB::select('SELECT getchargetypeid(\'MUUSA Deposit\') id FROM users');
             $familyid = $camper->family->id;
             $roomid = \App\Thisyear_Camper::where('familyid', $familyid)->whereNotNull('roomid')->count();
-            $charges = \App\Thisyear_Charge::where('familyid', $familyid)->orderBy('timestamp')->get();
+            $charges = \App\Thisyear_Charge::where('familyid', $familyid)->orderBy('timestamp')->orderBy('amount', 'desc')->get();
             $deposit = $charges->where('amount', '<', 0)->sum('amount') +
                 $charges->where('chargetypeid', $depositchargetype[0]->id)->sum('amount');
         }
@@ -161,7 +161,7 @@ class PaymentController extends Controller
         $readonly = \Entrust::can('read') && !\Entrust::can('write');
         $family = \App\Family::find($this->getFamilyId($i, $id));
         $years = \App\Byyear_Charge::where('familyid', $family->id)
-            ->orderBy('year')->orderBy('timestamp')->get()->groupBy('year');
+            ->orderBy('year')->orderBy('timestamp')->orderBy('amount', 'desc')->get()->groupBy('year');
 
         return view('admin.payment', ['chargetypes' => \App\Chargetype::where('is_shown', '1')->orderBy('name')->get(),
             'years' => $years, 'readonly' => $readonly, 'family' => $family]);

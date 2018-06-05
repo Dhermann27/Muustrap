@@ -738,6 +738,6 @@ CREATE FUNCTION getprogramidbyname(programname VARCHAR(1024))
   RETURN (SELECT p.id
           FROM programs p
           WHERE p.name LIKE CONCAT('%', programname, '%')
-          ORDER BY age_min DESC
+          ORDER BY display DESC
           LIMIT 1);
 END;

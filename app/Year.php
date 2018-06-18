@@ -54,6 +54,11 @@ class Year extends Model
         return $now->max(Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago'));
     }
 
+    public function getNextWeekdayAttribute()
+    {
+        return Carbon::now('America/Chicago')->max(Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago')->addDay());
+    }
+
     public function getNextMuseAttribute()
     {
         $now = Carbon::now('America/Chicago');

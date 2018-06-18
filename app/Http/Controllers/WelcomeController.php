@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use GuzzleHttp;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 class WelcomeController extends Controller
 {
@@ -15,8 +13,6 @@ class WelcomeController extends Controller
         if ($year->isCrunch()) {
             return $this->normal();
         } else {
-            $client = new GuzzleHttp\Client();
-            $res = $client->request('GET', env('GOOGLE_CAL_SCRIPT') . env('COFFEEHOUSE_CALENDAR') . "&date=" . $year->next_weekday->toDateString());
             $av = false;
             $camper = null;
             if (Auth::check()) {
@@ -29,7 +25,8 @@ class WelcomeController extends Controller
                     }
                 }
             }
-            return view('crunch', ['av' => $av, 'camper' => $camper, 'list' => json_decode($res->getBody())]);
+            return view('crunch', ['av' => $av, 'camper' => $camper,
+                'actslist' => \App\Coffeehouseact::where('year', $year->year)->orderBy('order')->get()]);
         }
     }
 

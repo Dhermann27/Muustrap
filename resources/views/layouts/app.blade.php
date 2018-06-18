@@ -185,6 +185,38 @@
                         </li>
                         @endrole
 
+                        @if(isset($actslist) && count($actslist) > 0)
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" id="tool-drop" data-toggle="dropdown"
+                                   data-hover="dropdown">Coffeehouse Schedule <i class="fa fa-music"></i></a>
+                                <div class="dropdown-menu">
+                                    <p>{{ $home->year()->next_weekday->format('l F jS') }}</p>
+                                    @if(!empty($actslist) && $actslist[0]->is_onstage === true)
+                                        @for($i=0; $i<count($actslist); $i++)
+                                            @if($actslist[$i]->is_onstage === false)
+                                                <p>Now on stage: <strong>{{ $actslist[$i-1]->summary }}</strong></p>
+                                                <p>Coming up:</p>
+                                                @break
+                                            @endif
+                                        @endfor
+                                    @else
+                                        <p>Evening's acts:</p>
+                                    @endif
+                                    <p>
+                                        @foreach($actslist as $item)
+                                            @if($item->is_onstage)
+                                                {{ $item->name }}
+                                                @if($av && isset($item->equipment))
+                                                    ({{ $item->equipment }})
+                                                @endif
+                                                <br/>
+                                            @endif
+                                        @endforeach
+                                    </p>
+                                </div>
+                            </li>
+                        @endif
+
                         <li class="nav-item dropdown dropdown-persist dropdown-mega-menu dropdown-mega-menu-75">
                             <a href="#" class="nav-link dropdown-toggle" id="megamenu-drop" data-toggle="dropdown"
                                data-hover="dropdown">Menu</a>
@@ -367,7 +399,7 @@
     </div>
     @endrole
 </div>
-<div id="content" class="p-0 ">
+<div id="content" class="p-0">
     @hassection('title')
         <p>&nbsp;</p>
         <h2 class="text-center text-uppercase font-weight-bold my-0 d-print-none">

@@ -48,8 +48,8 @@
                 <tr>
                     <td>{{ $camper->firstname }} {{ $camper->lastname }}</td>
                     <td>{{ $camper->pronounname }}</td>
-                    <td>{{ !empty($camper->email) ? $camper->email : '&nbsp;' }}</td>
-                    <td>{{ !empty($camper->phonenbr) ? $camper->formatted_phone : '&nbsp;' }}</td>
+                    <td>{!! !empty($camper->email) ? $camper->email : '&nbsp;' !!}</td>
+                    <td>{!! !empty($camper->phonenbr) ? $camper->formatted_phone : '&nbsp;' !!}</td>
                     <td>{{ $camper->birthday }}</td>
                     <td>{{ $camper->programname }}</td>
                     <td>{{ $camper->churchname }}</td>

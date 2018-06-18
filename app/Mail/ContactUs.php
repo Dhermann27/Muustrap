@@ -29,6 +29,6 @@ class ContactUs extends Mailable
      */
     public function build()
     {
-        return $this->from('muusa@muusa.org')->text('mail.contact');
+        return $this->from('muusa@muusa.org')->replyTo($this->request->email)->text('mail.contact');
     }
 }

@@ -67,7 +67,7 @@
                     @endif
                     @if($home->year()->isLive())
                         <a href="{{ url('MUUSA_' . $home->year()->year . '_Brochure.pdf') }}"
-                           class="nav-link text-s text-uppercase d-none d-md-block">Web Brochure</a>
+                           class="nav-link text-s text-uppercase d-md-block">Web Brochure</a>
                     @elseif(Auth::check())
                         <a href="{{ url('/proposal') }}" class="nav-link text-s text-uppercase d-md-block">Workshop
                             Proposal</a>

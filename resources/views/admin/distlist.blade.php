@@ -17,6 +17,7 @@
                             ['id' => 'uns', 'name' => 'All registered families with children missing medical responses'],
                             ['id' => 'oneyear', 'name' => 'All campers from last year'],
                             ['id' => 'lost', 'name' => 'All campers from last year who have not registered for this year'],
+                            ['id' => 'loster', 'name' => 'All campers from last 3 years who have not registered for this year'],
                             ['id' => 'threeyears', 'name' => 'All campers from the last 3 years']], 'option' => 'name'])
 
             @include('snippet.formgroup', ['type' => 'select',

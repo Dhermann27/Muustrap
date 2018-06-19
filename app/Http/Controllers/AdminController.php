@@ -36,6 +36,9 @@ class AdminController extends Controller
         } elseif ($request->input("campers") == "lost") {
             $rows->where('year', DB::raw('getcurrentyear()-1'));
             $rows->where(DB::raw('(SELECT COUNT(*) FROM thisyear_campers WHERE byyear_campers.id=thisyear_campers.id)'), 0);
+        } elseif ($request->input("campers") == "loster") {
+            $rows->where('year', DB::raw('getcurrentyear()-3'));
+            $rows->where(DB::raw('(SELECT COUNT(*) FROM thisyear_campers WHERE byyear_campers.id=thisyear_campers.id)'), 0);
         } elseif ($request->input("campers") == "threeyears") {
             $rows->where('year', '>', DB::raw('getcurrentyear()-3'));
         }

@@ -41,7 +41,7 @@
             @elseif($type == 'captcha')
                 {{--@include('snippet.formgroup', ['type' => 'captcha', 'label' => 'CAPTCHA Test',--}}
                 {{--'attribs' => ['name' => 'g-recaptcha-response']])--}}
-                {!! app('captcha')->display() !!}
+                {!! NoCaptcha::display() !!}
             @elseif($type == 'submit')
                 {{--@include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes']])--}}
                 <div class="text-lg-right">

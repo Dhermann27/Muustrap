@@ -100,3 +100,7 @@
         </form>
     </div>
 @endsection
+
+@section('script')
+    {!! NoCaptcha::renderJs() !!}
+@endsection

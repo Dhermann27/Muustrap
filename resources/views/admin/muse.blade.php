@@ -54,5 +54,6 @@
 @endsection
 
 @section('script')
+    {!! NoCaptcha::renderJs() !!}
     <script src="/js/bootstrap-datepicker.min.js"></script>
 @endsection

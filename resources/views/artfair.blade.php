@@ -123,6 +123,7 @@
 @endsection
 
 @section('script')
+    {!! NoCaptcha::renderJs() !!}
     <script>
         $(".timelist button").on("click", function (e) {
             e.preventDefault();

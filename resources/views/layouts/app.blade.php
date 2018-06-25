@@ -40,7 +40,7 @@
 <a href="#content" id="top" class="sr-only">Skip to content</a>
 
 <div id="header d-print-none">
-    <div class="header-upper">
+    <div class="header-upper d-print-none">
         <div class="header-inner container">
             <div class="header-block-flex order-1 mr-auto">
                 <nav class="nav nav-sm header-block-flex">

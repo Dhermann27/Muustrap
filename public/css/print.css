@@ -14,7 +14,7 @@
         opacity: 1 !important;
     }
 
-    nav, ul.nav-pills, .nav-tabs {
+    div.header, nav, ul.nav-pills, .nav-tabs {
         display: none;
     }
 

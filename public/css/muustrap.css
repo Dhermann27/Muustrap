@@ -117,12 +117,6 @@ div#carousel-caption2 {
     }
 }
 
-@media print {
-    @page {
-        size: landscape
-    }
-}
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;

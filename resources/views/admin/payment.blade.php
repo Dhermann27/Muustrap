@@ -4,6 +4,11 @@
     {{ $family->name }} Statement
 @endsection
 
+@section('css')
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css"/>
+@endsection
+
 @section('content')
     <div class="container">
         <form id="paymentadmin" class="form-horizontal" role="form" method="POST"
@@ -88,7 +93,7 @@
                                             <input id="date" type="text" class="form-control"
                                                    name="date" value="{{ old('date') }}">
                                             <div class="input-group-append">
-                                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                                <span class="input-group-text"><i class="far fa-calendar"></i></span>
                                             </div>
                                             <div class="input-group-addon">
                                             </div>

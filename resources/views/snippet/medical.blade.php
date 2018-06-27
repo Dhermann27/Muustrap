@@ -59,7 +59,7 @@
                        name="{{ $camper->yearattendingid }}-holder_birthday"
                        value="{{ old($camper->yearattendingid . '-holder_birthday', $camper->medicalresponse ? $camper->medicalresponse->holder_birthday : '') }}"/>
                 <div class="input-group-append">
-                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                    <span class="input-group-text"><i class="far fa-calendar"></i></span>
                 </div>
                 <div class="input-group-addon">
                 </div>

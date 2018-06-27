@@ -15,11 +15,11 @@
                     {{ count($campers->filter(function ($value) use ($building) {
                         return $value->buildingid==$building->id && $value->age>17;
                     })) }}
-                        <i class="fa fa-male"></i>
+                        <i class="far fa-male"></i>
                         {{ count($campers->filter(function ($value) use ($building) {
                             return $value->buildingid==$building->id && $value->age<=17 && $value->age>5;
                         })) }}
-                        <i class="fa fa-child"></i>
+                        <i class="far fa-child"></i>
                 </span>
                 @endslot
                 <table class="table">
@@ -56,22 +56,22 @@
         {{ count($campers->filter(function ($value) use ($building) {
             return $value->yearattending->room && $value->yearattending->room->building->side == 0 && $value->age>17;
         })) }}
-        <i class="fa fa-male"></i>
+        <i class="far fa-male"></i>
         {{ count($campers->filter(function ($value) use ($building) {
             return $value->yearattending->room && $value->yearattending->room->building->side == 0 && $value->age<=17 && $value->age>5;
         })) }}
-        <i class="fa fa-child"></i>
+        <i class="far fa-child"></i>
     </div>
     <div class="mb-5 pr-2" align="right">
         <strong>Total Camp Lakewood Side: </strong>
         {{ count($campers->filter(function ($value) use ($building) {
             return $value->yearattending->room && $value->yearattending->room->building->side == 2 && $value->age>17;
         })) }}
-        <i class="fa fa-male"></i>
+        <i class="far fa-male"></i>
         {{ count($campers->filter(function ($value) use ($building) {
             return $value->yearattending->room && $value->yearattending->room->building->side == 2 && $value->age<=17 && $value->age>5;
         })) }}
-        <i class="fa fa-child"></i>
+        <i class="far fa-child"></i>
     </div>
 @endsection
 

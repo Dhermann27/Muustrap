@@ -28,7 +28,7 @@
                                     {{ count($volunteers->filter(function ($value) use ($thisyear, $position) {
                                         return $value->year==$thisyear && $value->volunteerpositionid==$position->id;
                                     })) }}
-                                        <i class="fa fa-handshake"></i>
+                                        <i class="far fa-handshake"></i>
                                 </span>
                                 @endslot
                                 <table class="table">

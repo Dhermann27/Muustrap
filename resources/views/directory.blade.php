@@ -16,7 +16,7 @@
         <ul class="pagination justify-content-center pt-3">
             <li class="page-item">
                 <a href="#" class="page-link" id="prev" aria-label="Previous">
-                    <i class="fa fa-chevron-left fa-fw"></i>
+                    <i class="far fa-chevron-left fa-fw"></i> Previous
                 </a>
             </li>
             @foreach($letters->groupBy('first') as $letter => $families)
@@ -26,7 +26,7 @@
             @endforeach
             <li class="page-item">
                 <a href="#" class="page-link" id="next" aria-label="Next">
-                    <i class="fa fa-chevron-right fa-fw"></i>
+                    Next <i class="far fa-chevron-right fa-fw"></i>
                 </a>
             </li>
         </ul>
@@ -69,7 +69,7 @@
                                             , {{ $camper->firstname }}
                                             @if(isset($camper->email))
                                                 <a href="mailto:{{ $camper->email }}">
-                                                    <i class="fa fa-envelope"></i>
+                                                    <i class="far fa-envelope"></i>
                                                 </a>
                                             @endif
                                         </td>

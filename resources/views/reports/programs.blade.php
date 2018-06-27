@@ -35,13 +35,13 @@
                                         {{ $participant->lastname }}, {{ $participant->firstname }}
                                         @if(isset($participant->email))
                                             <a href="mailto:{{ $participant->email }}" class="d-print-none">
-                                                <i class="fa fa-envelope"></i>
+                                                <i class="far fa-envelope"></i>
                                             </a>
                                         @endif
                                     </td>
                                     <td>{{ $participant->age }}
                                         @if(isset($participant->medicalresponse))
-                                            <i class="fa fa-pencil-alt"
+                                            <i class="far fa-pencil-alt"
                                                title="This camper has submitted their medical response."></i>
                                         @endif
                                     </td>

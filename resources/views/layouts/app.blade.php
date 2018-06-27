@@ -16,9 +16,8 @@
 
     <link rel="stylesheet" href="/css/muustrap.css" type="text/css"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto:500"/>
-    <script defer src="/js/fa-brands.min.js"></script>
-    <script defer src="/js/fa-solid.min.js"></script>
-    <script defer src="/js/fontawesome.min.js"></script>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.1.0/css/all.css"
+          integrity="sha384-87DrmpqHRiY8hPLIr7ByqhPIywuSsjuQAfMXAE0sMUpY3BM7nXjf+mLIUSvhDArs" crossorigin="anonymous">
 
     @role(['admin', 'council'])
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css"/>
@@ -87,10 +86,10 @@
                     <i class="fab fa-facebook-square fa-2x"></i> <span
                             class="sr-only">Facebook</span> </a>
                 @if(Auth::check())
-                    <a href="{{ url('/directory') }}" class="nav-link"> <i class="fa fa-address-book fa-2x"></i> <span
+                    <a href="{{ url('/directory') }}" class="nav-link"> <i class="far fa-address-book fa-2x"></i> <span
                                 class="sr-only">Online Directory</span> </a>
                     @if($home->year()->isLive())
-                        <a href="{{ url('/calendar') }}" class="nav-link"> <i class="fa fa-calendar-alt fa-2x"></i>
+                        <a href="{{ url('/calendar') }}" class="nav-link"> <i class="far fa-calendar-alt fa-2x"></i>
                             <span
                                     class="sr-only">Your MUUSA Calendar</span>
                         </a>
@@ -109,7 +108,7 @@
             </div>
 
             <a href="#top" class="btn btn-link btn-icon header-btn float-right d-xl-none" data-toggle="jpanel-menu"
-               data-target=".navbar-main" data-direction="right"> <i class="fa fa-bars"></i> </a>
+               data-target=".navbar-main" data-direction="right"> <i class="far fa-bars"></i> </a>
 
             <div class="navbar navbar-expand-lg">
                 <div class="navbar-main collapse">
@@ -188,7 +187,7 @@
                         @if(isset($actslist) && count($actslist) > 0)
                             <li class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" id="tool-drop" data-toggle="dropdown"
-                                   data-hover="dropdown">Coffeehouse Schedule <i class="fa fa-music"></i></a>
+                                   data-hover="dropdown">Coffeehouse Schedule <i class="far fa-music"></i></a>
                                 <div class="dropdown-menu">
                                     <p>{{ $home->year()->next_weekday->format('l F jS') }}</p>
                                     @if(!empty($actslist) && $actslist[0]->is_onstage === true)
@@ -248,28 +247,28 @@
                                             <div class="row text-center">
                                                 <div class="col-lg-3 py-2">
                                                     <a href="{{ url('/workshopchoice') }}">
-                                                        <i class="fa fa-rocket fa-5x"></i>
+                                                        <i class="far fa-rocket fa-5x"></i>
                                                         <h5 class="mt-2">Workshops</h5>
                                                         <p>Choose workshop preferences</p>
                                                     </a>
                                                 </div>
                                                 <div class="col-lg-3 py-2">
                                                     <a href="{{ url('/roomselection') }}">
-                                                        <i class="fa fa-bed fa-5x"></i>
+                                                        <i class="far fa-bed fa-5x"></i>
                                                         <h5 class="mt-2">Room Selection</h5>
                                                         <p>Choose housing option</p>
                                                     </a>
                                                 </div>
                                                 <div class="col-lg-3 py-2">
                                                     <a href="{{ url('/nametag') }}">
-                                                        <i class="fa fa-id-card fa-5x"></i>
+                                                        <i class="far fa-id-card fa-5x"></i>
                                                         <h5 class="mt-2">Nametags</h5>
                                                         <p>Customize displayed information</p>
                                                     </a>
                                                 </div>
                                                 <div class="col-lg-3 py-2">
                                                     <a href="{{ url('/confirm') }}">
-                                                        <i class="fa fa-envelope fa-5x"></i>
+                                                        <i class="far fa-envelope fa-5x"></i>
                                                         <h5 class="mt-2">Confirmation</h5>
                                                         <p>View confirmation and send medical forms</p>
                                                     </a>
@@ -280,14 +279,14 @@
                                             <div class="row text-center">
                                                 <div class="col-lg-6 py-2">
                                                     <a href="{{ url('/volunteer') }}">
-                                                        <i class="fa fa-handshake fa-5x"></i>
+                                                        <i class="far fa-handshake fa-5x"></i>
                                                         <h5 class="mt-2">Volunteer</h5>
                                                         <p>Donate your time during MUUSA</p>
                                                     </a>
                                                 </div>
                                                 <div class="col-lg-6 py-2">
                                                     <a href="{{ url('/artfair') }}">
-                                                        <i class="fa fa-shopping-bag fa-5x"></i>
+                                                        <i class="far fa-shopping-bag fa-5x"></i>
                                                         <h5 class="mt-2">Camper Art Fair</h5>
                                                         <p>Show your creations at camp</p>
                                                     </a>
@@ -300,21 +299,21 @@
                                         <div class="row text-center">
                                             <div class="col-lg-4 py-2">
                                                 <a href="{{ url('/household') }}">
-                                                    <i class="fa fa-home fa-5x"></i>
+                                                    <i class="far fa-home fa-5x"></i>
                                                     <h5 class="mt-2">Household</h5>
                                                     <p>Update mailing information</p>
                                                 </a>
                                             </div>
                                             <div class="col-lg-4 py-2">
                                                 <a href="{{ url('/camper') }}">
-                                                    <i class="fa fa-users fa-5x"></i>
+                                                    <i class="far fa-users fa-5x"></i>
                                                     <h5 class="mt-2">Campers</h5>
                                                     <p>Update information on each individual</p>
                                                 </a>
                                             </div>
                                             <div class="col-lg-4 py-2">
                                                 <a href="{{ url('/payment') }}">
-                                                    <i class="fa fa-usd-square fa-5x"></i>
+                                                    <i class="far fa-usd-square fa-5x"></i>
                                                     <h5 class="mt-2">Statement</h5>
                                                     <p>View and pay your bill</p>
                                                 </a>
@@ -325,28 +324,28 @@
                                         <div class="row text-center">
                                             <div class="col-lg-3 py-2">
                                                 <a href="{{ url('/programs') }}">
-                                                    <i class="fa fa-sitemap fa-5x"></i>
+                                                    <i class="far fa-sitemap fa-5x"></i>
                                                     <h5 class="mt-2">Programs</h5>
                                                     <p>Fun for all ages</p>
                                                 </a>
                                             </div>
                                             <div class="col-lg-3 py-2">
                                                 <a href="{{ url('/housing') }}">
-                                                    <i class="fa fa-bath fa-5x"></i>
+                                                    <i class="far fa-bath fa-5x"></i>
                                                     <h5 class="mt-2">Housing</h5>
                                                     <p>Available room types</p>
                                                 </a>
                                             </div>
                                             <div class="col-lg-3 py-2">
-                                                <a href="{{ url('/campcalc') }}">
-                                                    <i class="fa fa-calculator fa-5x"></i>
+                                                <a href="{{ url('/cost') }}">
+                                                    <i class="far fa-calculator fa-5x"></i>
                                                     <h5 class="mt-2">Cost Calculator</h5>
                                                     <p>Estimate your fees</p>
                                                 </a>
                                             </div>
                                             <div class="col-lg-3 py-2">
                                                 <a href="{{ url('/scholarship') }}">
-                                                    <i class="fa fa-universal-access fa-5x"></i>
+                                                    <i class="far fa-universal-access fa-5x"></i>
                                                     <h5 class="mt-2">Scholarship</h5>
                                                     <p>Financial assistance</p>
                                                 </a>
@@ -357,21 +356,21 @@
                                         <div class="row text-center">
                                             <div class="col-lg-4 py-2">
                                                 <a href="#">
-                                                    <i class="fa fa-map fa-5x"></i>
+                                                    <i class="far fa-map fa-5x"></i>
                                                     <h5 class="mt-2">Workshops</h5>
                                                     <p>Try something new</p>
                                                 </a>
                                             </div>
                                             <div class="col-lg-4 py-2">
                                                 <a href="#">
-                                                    <i class="fa fa-binoculars fa-5x"></i>
+                                                    <i class="far fa-binoculars fa-5x"></i>
                                                     <h5 class="mt-2">Excursions</h5>
                                                     <p>Single-day adventures</p>
                                                 </a>
                                             </div>
                                             <div class="col-lg-4 py-2">
                                                 <a href="{{ url('/themespeaker') }}">
-                                                    <i class="fa fa-microphone fa-5x"></i>
+                                                    <i class="far fa-microphone fa-5x"></i>
                                                     <h5 class="mt-2">Theme Speaker</h5>
                                                     <p>Reverend Nic Cable</p>
                                                 </a>
@@ -425,7 +424,7 @@
             </div>
         </div>
         <a href="#top" class="btn btn-icon btn-inverse pos-fixed pos-b pos-r mr-3 mb-3 scroll-state-active"
-           title="Back to top" data-scroll="scroll-state"><i class="fa fa-chevron-up"></i></a>
+           title="Back to top" data-scroll="scroll-state"><i class="far fa-chevron-up"></i></a>
     </div>
 </footer>
 

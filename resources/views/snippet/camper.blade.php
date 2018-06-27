@@ -8,10 +8,10 @@
         <label for="days-{{ $looper->index }}" class="col-md-4 control-label">
             @if($readonly === false)
                 <button id="quickme" class="float-right" data-toggle="tooltip" title="@lang('messages.quickcopy')">
-                    <i class="fa fa-copy"></i></button>
+                    <i class="far fa-copy"></i></button>
             @else
                 <a href="#" class="p-2 float-right" data-toggle="tooltip" data-html="true"
-                   title="@lang('messages.attending')"><i class="fa fa-info"></i></a>
+                   title="@lang('messages.attending')"><i class="far fa-info"></i></a>
             @endif
             Attending in {{ $home->year()->year }}?
         </label>
@@ -52,7 +52,7 @@
     <div class="form-group row{{ $errors->has('pronounid.' . $looper->index) ? ' has-danger' : '' }}">
         <label for="pronounid-{{ $looper->index }}" class="col-md-4 control-label">
             <a href="#" class="p-2 float-right" data-toggle="tooltip" data-html="true"
-               title="@lang('messages.pronoun')"><i class="fa fa-info"></i></a>
+               title="@lang('messages.pronoun')"><i class="far fa-info"></i></a>
             Gender Pronoun(s)
         </label>
 
@@ -152,7 +152,7 @@
                 <input id="birthdate-{{ $looper->index }}" type="text" class="form-control" name="birthdate[]"
                        value="{{ old('birthdate.' . $looper->index, $camper->birthdate) }}">
                 <div class="input-group-append">
-                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                    <span class="input-group-text"><i class="far fa-calendar"></i></span>
                 </div>
                 <div class="input-group-addon">
                 </div>
@@ -194,7 +194,7 @@
     <div class="form-group row{{ $errors->has('roommate.' . $looper->index) ? ' has-danger' : '' }}">
         <label for="roommate-{{ $looper->index }}" class="col-md-4 control-label">
             <a href="#" class="p-2 float-right" data-toggle="tooltip" data-html="true"
-               title="@lang('messages.roommate')"><i class="fa fa-info"></i></a>
+               title="@lang('messages.roommate')"><i class="far fa-info"></i></a>
             Roommate Preference
         </label>
 
@@ -215,7 +215,7 @@
     <div class="form-group row{{ $errors->has('sponsor.' . $looper->index) ? ' has-danger' : '' }}">
         <label for="sponsor-{{ $looper->index }}" class="col-md-4 control-label">
             <a href="#" class="p-2 float-right" data-toggle="tooltip" data-html="true"
-               title="@lang('messages.sponsor')"><i class="fa fa-info"></i></a>
+               title="@lang('messages.sponsor')"><i class="far fa-info"></i></a>
             Sponsor (if necessary)
         </label>
 
@@ -253,7 +253,7 @@
         <label for="is_handicap-{{ $looper->index }}" class="col-md-8 control-label">Do you require assistance or any
             needs of which the Registrar should be aware?
             <a href="#" class="p-2 float-right" data-toggle="tooltip" data-html="true"
-               title="@lang('messages.specialneeds')"><i class="fa fa-info"></i></a>
+               title="@lang('messages.specialneeds')"><i class="far fa-info"></i></a>
         </label>
         <div class="col-md-2">
             <select class="form-control{{ $errors->has('is_handicap.' . $looper->index) ? ' is-invalid' : '' }}"

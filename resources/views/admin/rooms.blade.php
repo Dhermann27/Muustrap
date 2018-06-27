@@ -14,7 +14,7 @@
                 <div class="form-group row{{ $errors->has($camper->id . '-roomid') ? ' has-danger' : '' }}">
                     <label for="{{ $camper->id }}-roomid" class="col-md-4 control-label">
                         <a id="quickcopy" href="#" class="p-2 float-right" data-toggle="tooltip"
-                           title="Assign entire family to this room"><i class="fa fa-copy"></i></a>
+                           title="Assign entire family to this room"><i class="far fa-copy"></i></a>
                         {{ $camper->firstname }} {{ $camper->lastname }}
                     </label>
 

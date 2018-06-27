@@ -26,7 +26,7 @@
                     <td>{{ $family->city }}, {{ $family->statecd }}</td>
                     <td>${{ money_format('%.2n', $family->balance) }}
                         @if($family->is_scholar == '1')
-                            <i class="fa fa-universal-access" data-toggle="tooltip"
+                            <i class="far fa-universal-access" data-toggle="tooltip"
                                title="This family has indicated that they are applying for a scholarship."></i>
                         @endif
                     </td>
@@ -40,12 +40,12 @@
                                     <td width="20%">{{ $camper->lastname }}, {{ $camper->firstname }}
                                         @if(isset($camper->email))
                                             <a href="mailto:{{ $camper->email }}" class="px-2 float-right"><i
-                                                        class="fa fa-envelope"></i></a>
+                                                        class="far fa-envelope"></i></a>
                                         @endif
                                     </td>
                                     <td width="20%">{{ $camper->birthdate }}
                                         @if(isset($camper->medicalresponse))
-                                            <i class="fa fa-pencil-alt"
+                                            <i class="far fa-pencil-alt"
                                                title="This camper has submitted their medical response."></i>
                                         @endif
                                     </td>

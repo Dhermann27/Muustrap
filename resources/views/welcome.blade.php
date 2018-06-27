@@ -13,18 +13,18 @@
             </h4>
             <div class="row">
                 <div class="col-md-4" data-animate="fadeIn" data-animate-delay="1.0">
-                    <i class="fa fa-map-marker-alt fa-3x"></i>
+                    <i class="far fa-map-marker-alt fa-3x"></i>
                     <p><strong>Located</strong><br/>
                         at Trout Lodge in the YMCA of the Ozarks near Potosi, Missouri</p>
                 </div>
                 <div class="col-md-4" data-animate="fadeIn" data-animate-delay="1.2">
-                    <i class="fa fa-calendar-alt fa-3x"></i>
+                    <i class="far fa-calendar-alt fa-3x"></i>
                     <p><strong>Scheduled</strong><br/>
                         {{ $home->year()->first_day }} through {{ $home->year()->last_day }} {{ $home->year()->year }}
                     </p>
                 </div>
                 <div class="col-md-4" data-animate="fadeIn" data-animate-delay="1.4">
-                    <i class="fa fa-fire fa-3x"></i>
+                    <i class="far fa-fire fa-3x"></i>
                     <p><strong>All are welcome</strong><br/>
                         regardless of age, race, ethnicity, gender, sexual orientation, social class or ability</p>
                 </div>
@@ -91,7 +91,7 @@
                              data-animate-delay="0.2">
                             <h3>Workshops</h3>
                             <p class="price-banner border-grey card-body-overlap"><i
-                                        class="fa fa-rocket fa-5x"></i>
+                                        class="far fa-rocket fa-5x"></i>
                             </p>
                             <div class="card-body">
                                 <p>Sign up for entertaining and intriguing seminars, organized by our Adult
@@ -107,7 +107,7 @@
                              data-animate-delay="0.4">
                             <h3>Room Selection</h3>
                             <p class="price-banner border-grey card-body-overlap"><i
-                                        class="fa fa-bed fa-5x"></i>
+                                        class="far fa-bed fa-5x"></i>
                             </p>
                             <div class="card-body">
                                 <p>
@@ -130,7 +130,7 @@
                              data-animate-delay="0.6">
                             <h3>Nametags</h3>
                             <p class="price-banner border-grey card-body-overlap"><i
-                                        class="fa fa-id-card fa-5x"></i>
+                                        class="far fa-id-card fa-5x"></i>
                             </p>
                             <div class="card-body">
                                 <p>Choose the best fields and format for the information that will be displayed on your
@@ -146,7 +146,7 @@
                              data-animate-delay="0.8">
                             <h3>Confirmation</h3>
                             <p class="price-banner border-grey card-body-overlap"><i
-                                        class="fa fa-envelope fa-5x"></i>
+                                        class="far fa-envelope fa-5x"></i>
                             </p>
                             <div class="card-body">
                                 <p>See the current status of your registration and fill out medical and program forms
@@ -173,7 +173,7 @@
                         opportunities. Coordinators will contact you with expectations and details before camp
                         begins.<br/><br/></p>
                     <a class="btn btn-primary btn-rounded" href="{{ url('/volunteer') }}">Volunteer Now <i
-                                class="fa fa-arrow-right"></i>
+                                class="far fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
@@ -202,7 +202,7 @@
                         must be original, handmade visual arts or crafts created by the artist attending MUUSA.
                         Applications and images need to be submitted by May 1st.</p>
                     <a class="btn btn-primary btn-rounded" href="{{ url('/artfair') }}">Apply Online <i
-                                class="fa fa-arrow-right"></i>
+                                class="far fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
@@ -226,7 +226,7 @@
             </div>
             <div class="col-12 col-lg-5 py-2 text-lg-right">
                 <a href="{{ Auth::guest() ? url('/register') : url('/household') }}"
-                   class="btn btn-lg btn-primary py-3 px-4">Register <i class="fa fa-arrow-right"></i></a>
+                   class="btn btn-lg btn-primary py-3 px-4">Register <i class="far fa-arrow-right"></i></a>
             </div>
         </div>
     @else
@@ -250,7 +250,7 @@
                              data-animate-delay="0.2">
                             <h3>Household Information</h3>
                             <p class="price-banner border-grey card-body-overlap"><i
-                                        class="fa fa-home fa-5x"></i>
+                                        class="far fa-home fa-5x"></i>
                             </p>
                             <div class="card-body">
                                 <p>Go to this page to update your address and other information communal to
@@ -266,7 +266,7 @@
                              data-animate-delay="0.4">
                             <h3>Camper Listing</h3>
                             <p class="price-banner border-grey card-body-overlap"><i
-                                        class="fa fa-users fa-5x"></i>
+                                        class="far fa-users fa-5x"></i>
                             </p>
                             <div class="card-body">
                                 <p>This page can help you update your information specific
@@ -283,7 +283,7 @@
                              data-animate-delay="0.6">
                             <h3>Payment</h3>
                             <p class="price-banner border-grey card-body-overlap"><i
-                                        class="fa fa-usd-square fa-5x"></i>
+                                        class="far fa-usd-square fa-5x"></i>
                             </p>
                             <div class="card-body">
                                 <p>After completing your registration, go to this page to check your balance and
@@ -314,7 +314,7 @@
                          data-animate-delay="0.2">
                         <h3>Programs</h3>
                         <p class="price-banner border-grey card-body-overlap"><i
-                                    class="fa fa-sitemap fa-5x"></i>
+                                    class="far fa-sitemap fa-5x"></i>
                         </p>
                         <div class="card-body">
                             <p>Most of MUUSA programming is divided into age groups. Find out what to expect for
@@ -328,7 +328,7 @@
                     <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft"
                          data-animate-delay="0.4">
                         <h3>Housing</h3>
-                        <p class="price-banner border-grey card-body-overlap"><i class="fa fa-bath fa-5x"></i>
+                        <p class="price-banner border-grey card-body-overlap"><i class="far fa-bath fa-5x"></i>
                         </p>
                         <div class="card-body">
                             <p>Thanks to the amazing staff and facilities at YMCA of the Ozarks, we have several
@@ -344,7 +344,7 @@
                          data-animate-delay="0.6">
                         <h3>Cost Calculator</h3>
                         <p class="price-banner border-grey card-body-overlap"><i
-                                    class="fa fa-calculator fa-5x"></i>
+                                    class="far fa-calculator fa-5x"></i>
                         </p>
                         <div class="card-body">
                             <p>Use this helpful tool to help estimate how much MUUSA will cost this year. Full
@@ -359,7 +359,7 @@
                          data-animate-delay="0.8">
                         <h3>Scholarships</h3>
                         <p class="price-banner border-grey card-body-overlap"><i
-                                    class="fa fa-universal-access fa-5x"></i>
+                                    class="far fa-universal-access fa-5x"></i>
                         </p>
                         <div class="card-body">
                             <p>By partnering with our facility, YMCA of the Ozarks, MUUSA is able to offer
@@ -387,7 +387,7 @@
                     <div class="card bg-shadow text-center rounded py-3" data-animate="bounceInLeft"
                          data-animate-delay="0.2">
                         <h3>Workshops</h3>
-                        <p class="price-banner border-grey card-body-overlap"><i class="fa fa-map fa-5x"></i>
+                        <p class="price-banner border-grey card-body-overlap"><i class="far fa-map fa-5x"></i>
                         </p>
                         <div class="card-body">
                             <p>Here is a list of all
@@ -411,7 +411,7 @@
                          data-animate-delay="0.4">
                         <h3>Excursions</h3>
                         <p class="price-banner border-grey card-body-overlap"><i
-                                    class="fa fa-binoculars fa-5x"></i>
+                                    class="far fa-binoculars fa-5x"></i>
                         </p>
                         <div class="card-body">
                             <p>This is where you can find more details about single-day trips planned in
@@ -432,7 +432,7 @@
                          data-animate-delay="0.6">
                         <h3>Theme Speaker</h3>
                         <p class="price-banner border-grey card-body-overlap"><i
-                                    class="fa fa-microphone fa-5x"></i>
+                                    class="far fa-microphone fa-5x"></i>
                         </p>
                         <div class="card-body">
                             <p>Find out more information about our {{ $home->year()->year }} Theme Speaker,

@@ -4,6 +4,11 @@
     Muse Upload
 @endsection
 
+@section('css')
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css"/>
+@endsection
+
 @section('content')
     @if(Auth::check())
         <div class="container">
@@ -18,8 +23,10 @@
                              data-date-format="yyyy-mm-dd" data-date-autoclose="true">
                             <input id="date" type="text" class="form-control{{ $errors->has('date') ? ' is-invalid' : '' }}"
                                    name="date" value="{{ old('date') }}" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="far fa-calendar"></i></span>
+                            </div>
                             <div class="input-group-addon">
-                                <span class="fa fa-calendar"></span>
                             </div>
                         </div>
                         @if ($errors->has('date'))

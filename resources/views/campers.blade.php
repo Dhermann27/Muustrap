@@ -36,7 +36,7 @@
                 @if(!isset($readonly) || $readonly === false)
                     <li>
                         <a id="newcamper" class="nav-link" href="#" role="tab">Create New Camper <i
-                                    class="fa fa-plus"></i></a>
+                                    class="far fa-plus"></i></a>
                     </li>
                 @endif
             </ul>

@@ -21,12 +21,12 @@
             <div class="col-md-3 number-spinner">
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <button class="btn btn-default" data-dir="up"><i class="fa fa-plus"></i></button>
+                        <button class="btn btn-default" data-dir="up"><i class="far fa-plus"></i></button>
                     </div>
                     <input id="adults" class="form-control" name="adults" value="0"/>
 
                     <div class="input-group-append">
-                        <button class="btn btn-default" data-dir="dwn"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-default" data-dir="dwn"><i class="far fa-minus"></i></button>
                     </div>
                 </div>
             </div>
@@ -56,11 +56,11 @@
             <div class="col-md-3 number-spinner">
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <button class="btn btn-default" data-dir="up"><i class="fa fa-plus"></i></button>
+                        <button class="btn btn-default" data-dir="up"><i class="far fa-plus"></i></button>
                     </div>
                     <input id="yas" class="form-control" name="yas" value="0"/>
                     <div class="input-group-append">
-                        <button class="btn btn-default" data-dir="dwn"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-default" data-dir="dwn"><i class="far fa-minus"></i></button>
                     </div>
                 </div>
             </div>
@@ -83,11 +83,11 @@
             <div class="col-md-3 number-spinner">
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <button class="btn btn-default" data-dir="up"><i class="fa fa-plus"></i></button>
+                        <button class="btn btn-default" data-dir="up"><i class="far fa-plus"></i></button>
                     </div>
                     <input id="jrsrs" class="form-control" name="yas" value="0"/>
                     <div class="input-group-append">
-                        <button class="btn btn-default" data-dir="dwn"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-default" data-dir="dwn"><i class="far fa-minus"></i></button>
                     </div>
                 </div>
             </div>
@@ -102,11 +102,11 @@
             <div class="col-md-3 number-spinner">
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <button class="btn btn-default" data-dir="up"><i class="fa fa-plus"></i></button>
+                        <button class="btn btn-default" data-dir="up"><i class="far fa-plus"></i></button>
                     </div>
                     <input id="children" class="form-control" name="yas" value="0"/>
                     <div class="input-group-append">
-                        <button class="btn btn-default" data-dir="dwn"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-default" data-dir="dwn"><i class="far fa-minus"></i></button>
                     </div>
                 </div>
             </div>
@@ -120,11 +120,11 @@
             <div class="col-md-3 number-spinner">
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <button class="btn btn-default" data-dir="up"><i class="fa fa-plus"></i></button>
+                        <button class="btn btn-default" data-dir="up"><i class="far fa-plus"></i></button>
                     </div>
                     <input id="babies" class="form-control" name="yas" value="0"/>
                     <div class="input-group-append">
-                        <button class="btn btn-default" data-dir="dwn"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-default" data-dir="dwn"><i class="far fa-minus"></i></button>
                     </div>
                 </div>
             </div>

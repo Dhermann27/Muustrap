@@ -33,7 +33,7 @@
                          aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $camper->id }}">
                         <p>&nbsp;</p>
                         <button class="btn btn-default copyAnswers float-right">
-                            <i class="fa fa-copy fa-3x float-left pr-3"></i> Copy preferences to<br/> all family members
+                            <i class="far fa-copy fa-3x float-left pr-3"></i> Copy preferences to<br/> all family members
                         </button>
                         <div class="row mb-3 col-md-10">
                             @include('snippet.nametag', ['camper' => $camper])

@@ -18,7 +18,7 @@
     @endif
     <div class="container">
         <a href="/MUUSA_Scholarship_Process_2018.pdf" class="p-2 float-right btn btn-primary" data-toggle="tooltip"
-           title="Printer Friendly Version"><i class="fa fa-print fa-2x"></i>
+           title="Printer Friendly Version"><i class="far fa-print fa-2x"></i>
         </a>
 
         <ul class="nav nav-tabs flex-column flex-lg-row" role="tablist">

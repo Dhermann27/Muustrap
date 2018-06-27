@@ -23,7 +23,7 @@
                     @foreach($states as $state)
                         @component('snippet.accordioncard', ['id' => $thisyear, 'loop' => $loop, 'heading' => $state->code, 'title' => $state->code])
                             @slot('badge')
-                                <span class="badge badge-primary">{{ $state->total }} <i class="fa fa-male"></i></span>
+                                <span class="badge badge-primary">{{ $state->total }} <i class="far fa-male"></i></span>
                             @endslot
                             <table class="table">
                                 <thead>

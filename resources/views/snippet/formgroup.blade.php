@@ -13,7 +13,7 @@
     <label for="{{ $attribs["name"] }}" class="col-md-4 control-label">
         @if(isset($title))
             <a href="#" class="p-2 float-right" data-toggle="tooltip" data-html="true"
-               title="@lang('messages.' . $title)"><i class="fa fa-info"></i></a>
+               title="@lang('messages.' . $title)"><i class="far fa-info"></i></a>
         @endif
         {{ $label }}
     </label>
@@ -52,7 +52,7 @@
                 <div class="form-group row">
                     <div class="col-md-10 text-md-right">
                         <button type="button" class="btn btn-default nextcamper">{{ $attribs["name"] }}<i
-                                    class="fa fa-chevron-right"></i>
+                                    class="far fa-chevron-right"></i>
                         </button>
                     </div>
                 </div>

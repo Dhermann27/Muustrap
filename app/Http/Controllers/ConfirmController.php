@@ -43,9 +43,7 @@ class ConfirmController extends Controller
             '*-holder_name' => 'max:255',
             '*-holder_birthday' => 'regex:/^\d{4}-\d{2}-\d{2}$/',
             '*-carrier' => 'max:255',
-            '*-carrier_nbr' => 'regex:/^\d{3}-\d{3}-\d{4}$/',
-            '*-carrier_id' => 'numeric',
-            '*-carrier_group' => 'numeric'
+            '*-carrier_nbr' => 'regex:/^\d{3}-\d{3}-\d{4}$/'
         ], $messages);
 
         if ($logged_in && (in_array($id, $logged_in->family->campers()->pluck('yearattendingid')->all()) || \Entrust::can('write'))) {

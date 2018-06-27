@@ -127,58 +127,62 @@
 
         <footer style="text-align: center;"><h4>See you next week!</h4></footer>
 
-        @component('snippet.accordion', ['id' => $family->id])
-            @foreach($family->campers()->where('age', '<', '18')->get() as $camper)
-                @component('snippet.accordioncard', ['id' => $family->id, 'loop' => $loop, 'heading' => $camper->id,
-                    'title' => $camper->firstname . ' ' . $camper->lastname, 'closed' => $camper->medicalresponse])
-                    @slot('badge')
-                        @if($camper->medicalresponse)
-                            <span class="badge badge-primary">
+        @if(count($families) == 1)
+            @component('snippet.accordion', ['id' => $family->id])
+                @foreach($family->campers()->where('age', '<', '18')->get() as $camper)
+                    @component('snippet.accordioncard', ['id' => $family->id, 'loop' => $loop, 'heading' => $camper->id,
+                        'title' => $camper->firstname . ' ' . $camper->lastname, 'closed' => $camper->medicalresponse])
+                        @slot('badge')
+                            @if($camper->medicalresponse)
+                                <span class="badge badge-primary">
                                 <i class="far fa-check" title="Medical Response Submitted"></i>
                             </span>
+                            @endif
+                        @endslot
+                        @if(count($families) == 1 && !empty($camper->program->letter))
+                            {!! $camper->program->letter !!}
                         @endif
-                    @endslot
-                    @if(count($families) == 1 && !empty($camper->program->letter))
-                        {!! $camper->program->letter !!}
-                    @endif
 
-                    <div class="container">
-                        <form class="form-horizontal medicalresponse" role="form" method="POST"
-                              action="{{ url('/confirm') . '/y/' . $camper->yearattendingid }}">
-                            @include('snippet.flash')
+                        <div class="container">
+                            <form class="form-horizontal medicalresponse" role="form" method="POST"
+                                  action="{{ url('/confirm') . '/y/' . $camper->yearattendingid }}">
+                                @include('snippet.flash')
 
-                            @include('snippet.medical', ['camper' => $camper, 'first' => $loop->first])
+                                @include('snippet.medical', ['camper' => $camper, 'first' => $loop->first])
 
-                            @if(!isset($readonly) || $readonly === false)
-                                <div class="form-group row d-print-none">
-                                    <label for="submit" class="col-md-4 control-label">&nbsp;</label>
-                                    <div class="col-md-6">
-                                        <div class="text-lg-right">
-                                            @if($camper->medicalresponse)
-                                                <button class="btn btn-lg btn-success submit py-3 px-4"><i
-                                                            class="far fa-check"></i> Saved
-                                                </button>
-                                            @else
-                                                <button class="btn btn-lg btn-primary submit py-3 px-4">Save
-                                                    Response
-                                                </button>
-                                            @endif
+                                @if(!isset($readonly) || $readonly === false)
+                                    <div class="form-group row d-print-none">
+                                        <label for="submit" class="col-md-4 control-label">&nbsp;</label>
+                                        <div class="col-md-6">
+                                            <div class="text-lg-right">
+                                                @if($camper->medicalresponse)
+                                                    <button class="btn btn-lg btn-success submit py-3 px-4"><i
+                                                                class="far fa-check"></i> Saved
+                                                    </button>
+                                                @else
+                                                    <button class="btn btn-lg btn-primary submit py-3 px-4">Save
+                                                        Response
+                                                    </button>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="d-none d-print-block" align="right">
-                                    <h4>Signature of parent/guardian:
-                                        ____________________________________________________</h4>
-                                    <h4>Signature of camper:
-                                        ____________________________________________________</h4>
-                                </div>
-                            @endif
-                        </form>
-                    </div>
-                @endcomponent
-                <footer>Please print this page using your browser's print (Ctrl+P or .</footer>
-            @endforeach
-        @endcomponent
+                                    <div class="d-none d-print-block" align="right">
+                                        <h4>Signature of parent/guardian:
+                                            ____________________________________________________</h4>
+                                        <h4>Signature of camper:
+                                            ____________________________________________________</h4>
+                                    </div>
+                                @endif
+                            </form>
+                        </div>
+                    @endcomponent
+                @endforeach
+            @endcomponent
+            <footer>Please print this page using your browser's print (Ctrl+P or &#8984+P) function. Regardless
+                of appearance on your screen, forms will be paginated correctly.
+            </footer>
+        @endif
     @endforeach
 @endsection
 

@@ -16,6 +16,7 @@ Route::post('/contact', 'ContactController@contactStore');
 Route::get('/confirm/{i}/{id}', 'ConfirmController@read')->middleware('auth', 'role:admin|council');
 Route::post('/confirm/y/{id}', 'ConfirmController@respond')->middleware('role:admin|council');
 Route::get('/confirm/all', 'ConfirmController@all')->middleware('auth', 'role:admin');
+Route::get('/confirm/letters', 'ConfirmController@letters')->middleware('auth', 'role:admin');
 
 Route::get('/household', 'HouseholdController@index')->middleware('auth');
 Route::post('/household', 'HouseholdController@store')->middleware('auth');

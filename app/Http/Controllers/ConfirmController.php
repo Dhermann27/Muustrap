@@ -86,8 +86,14 @@ class ConfirmController extends Controller
 
     public function all()
     {
-        return view('confirm', ['families' => \App\Thisyear_Family::with('campers.yearattending.workshops.workshop')
-            ->orderBy('name')->get()]);
+        return view('confirm', ['families' => \App\Thisyear_Family::orderBy('name')->get()]);
+
+    }
+
+    public function letters()
+    {
+        return view('medicals', ['campers' => \App\Thisyear_Camper::where('age', '<', '18')
+            ->orderBy('programid')->orderBy('lastname')->get()]);
 
     }
 }

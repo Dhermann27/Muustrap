@@ -1,7 +1,7 @@
 @if(!empty($camper->program->covenant))
     <h3>{{ $camper->program->name }} Covenant</h3>
     {!! $camper->program->covenant !!}
-    <p><strong>By submitting this form, you are agreeing to this covenant.</strong></p>
+    <p class="d-print-none"><strong>By submitting this form, you are agreeing to this covenant.</strong></p>
 @endif
 <h3>MUUSA Youth Medical Release Form</h3>
 <p>By submitting this form, I affirm that I am the parent or legal guardian
@@ -16,7 +16,7 @@
     date below.</p>
 
 @if(!$first)
-    <button class="btn btn-info copyanswers float-right mb-2">Copy Answers from Above</button>
+    <button class="btn btn-info copyanswers float-right mb-2 d-print-none">Copy Answers from Above</button>
 @endif
 
 <h4>Emergency Contact</h4>

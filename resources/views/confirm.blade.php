@@ -167,12 +167,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="d-none d-print-block" align="right">
-                                        <h4>Signature of parent/guardian:
-                                            ____________________________________________________</h4>
-                                        <h4>Signature of camper:
-                                            ____________________________________________________</h4>
-                                    </div>
                                 @endif
                             </form>
                         </div>

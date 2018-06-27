@@ -33,10 +33,9 @@ class ContactController extends Controller
             'g-recaptcha-response' => 'required|captcha',
         ], $messages);
 
-        $emails = \App\Contactbox::findOrFail($request->mailbox)->emails;
-        $users = User::whereIn('email', explode(',', $emails))->get()->toArray();
+        $emails = explode(',', \App\Contactbox::findOrFail($request->mailbox)->emails);
 
-        Mail::to($users)->send(new ContactUs($request));
+        Mail::to($emails)->send(new ContactUs($request));
 
         $request->session()->flash('success', 'Message sent! Please expect a response in 1-3 business days.');
 

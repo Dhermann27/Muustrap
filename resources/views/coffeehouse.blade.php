@@ -31,7 +31,8 @@
 
             <ul class="nav nav-tabs flex-column flex-lg-row" role="tablist">
                 <li role="presentation" class="nav-item">
-                    <a href="#1" aria-controls="1" role="tab" class="nav-link{{ $day == '1' || $day == null ? ' active' : '' }}"
+                    <a href="#1" aria-controls="1" role="tab"
+                       class="nav-link{{ $day == '1' || $day == null ? ' active' : '' }}"
                        data-toggle="tab">Monday{{ $day }}</a>
                 </li>
                 <li role="presentation" class="nav-item">
@@ -58,7 +59,7 @@
                          aria-expanded="{{ $firstday->dayOfWeek == $day || ($day == null && $firstday->dayOfWeek ==  1) ? 'true' : 'false' }}"
                          id="{{ $firstday->dayOfWeek }}">
                         <h5>{{ $firstday->toDateString() }}</h5>
-                        <ul class="list-group sortable col-md-4 col-sm-6">
+                        <ul class="list-group sortable col-md-10 col-sm-4">
                             @foreach($acts->where('date', $firstday->toDateString())->all() as $act)
                                 <li id="{{ $act->id }}"
                                     class="list-group-item list-group-item-action {{ $act->is_onstage == '1' ? ' list-group-item-primary' : '' }}">
@@ -74,6 +75,8 @@
                                             <input id="{{ $act->id }}-delete" name="{{ $act->id }}-delete"
                                                    type="checkbox"/>
                                             Delete?
+
+                                            <i class="far fa-sort fa-2x"></i>
                                         </div>
                                         <input type="hidden" id="{{ $act->id }}-order" name="{{ $act->id }}-order"/>
                                     @endif
@@ -114,6 +117,7 @@
 @endsection
 
 @section('script')
+    <script src="/js/jquery.ui.touch-punch.min.js"></script>
     <script type="text/javascript">
         $("ul.sortable").sortable({
             placeholder: "ui-state-highlight"

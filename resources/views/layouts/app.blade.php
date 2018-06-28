@@ -189,11 +189,13 @@
                                 <a href="#" class="nav-link dropdown-toggle" id="tool-drop" data-toggle="dropdown"
                                    data-hover="dropdown">Coffeehouse Schedule <i class="far fa-music"></i></a>
                                 <div class="dropdown-menu">
-                                    <p>{{ $home->year()->next_weekday->format('l F jS') }}</p>
-                                    @if(!empty($actslist) && $actslist[0]->is_onstage === true)
+                                    <p><i>{{ $home->year()->next_weekday->format('l F jS') }}</i></p>
+                                    @if($actslist[0]->is_onstage == 1)
                                         @for($i=0; $i<count($actslist); $i++)
-                                            @if($actslist[$i]->is_onstage === false)
-                                                <p>Now on stage: <strong>{{ $actslist[$i-1]->summary }}</strong></p>
+                                            @if($actslist[$i]->is_onstage == 0)
+                                                <p>Now on stage:</p>
+                                                <p class="dropdown-item">
+                                                    <strong>{{ $actslist[$i-1]->name }}</strong></p>
                                                 <p>Coming up:</p>
                                                 @break
                                             @endif
@@ -201,17 +203,15 @@
                                     @else
                                         <p>Evening's acts:</p>
                                     @endif
-                                    <p>
-                                        @foreach($actslist as $item)
-                                            @if($item->is_onstage)
-                                                {{ $item->name }}
+                                    @foreach($actslist as $item)
+                                        @if($item->is_onstage == 0)
+                                            <p class="dropdown-item">{{ $item->name }}
                                                 @if($av && isset($item->equipment))
                                                     ({{ $item->equipment }})
                                                 @endif
-                                                <br/>
-                                            @endif
-                                        @endforeach
-                                    </p>
+                                            </p>
+                                        @endif
+                                    @endforeach
                                 </div>
                             </li>
                         @endif

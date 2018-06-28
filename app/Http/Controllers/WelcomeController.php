@@ -26,7 +26,7 @@ class WelcomeController extends Controller
                 }
             }
             return view('crunch', ['av' => $av, 'camper' => $camper,
-                'actslist' => \App\Coffeehouseact::where('year', $year->year)->orderBy('order')->get()]);
+                'actslist' => \App\Coffeehouseact::where('date', $year->next_weekday->toDateString())->orderBy('order')->get()]);
         }
     }
 

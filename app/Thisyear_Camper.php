@@ -121,12 +121,11 @@ class Thisyear_Camper extends Model
     public function getEachCalendarAttribute()
     {
         $cal = explode(';', $this->program->calendar);
-        $age = $this->birthdate->diffInYears(Carbon::now());
         switch (count($cal)) {
             case 3:
-                if ($age < 8) {
+                if ($this->age < 8) {
                     return $cal[0];
-                } elseif ($age > 9) {
+                } elseif ($this->age > 9) {
                     return $cal[2];
                 } else {
                     return $cal[1];
@@ -134,7 +133,7 @@ class Thisyear_Camper extends Model
                 break;
 
             case 2:
-                return $age > 3 ? $cal[1] : $cal[0];
+                return $this->age > 3 ? $cal[1] : $cal[0];
                 break;
 
             default:

@@ -33,7 +33,7 @@
                 <li role="presentation" class="nav-item">
                     <a href="#1" aria-controls="1" role="tab"
                        class="nav-link{{ $day == '1' || $day == null ? ' active' : '' }}"
-                       data-toggle="tab">Monday{{ $day }}</a>
+                       data-toggle="tab">Monday</a>
                 </li>
                 <li role="presentation" class="nav-item">
                     <a href="#2" aria-controls="2" role="tab" class="nav-link{{ $day == '2' ? ' active' : '' }}"
@@ -127,7 +127,7 @@
             $(this).find("li.list-group-item-primary").not(":last").removeClass("list-group-item-primary").addClass("list-group-item-dark");
         });
 
-        $('#coffeform').on('submit', function (e) {
+        $('#coffeeform').on('submit', function (e) {
             $("ul.sortable").each(function () {
                 $(this).find("li").each(function (index) {
                     $("#" + $(this).attr("id") + "-order").val(index + 1);

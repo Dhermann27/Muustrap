@@ -16,8 +16,6 @@
 
     <link rel="stylesheet" href="/css/muustrap.css" type="text/css"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto:500"/>
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.1.0/css/all.css"
-          integrity="sha384-87DrmpqHRiY8hPLIr7ByqhPIywuSsjuQAfMXAE0sMUpY3BM7nXjf+mLIUSvhDArs" crossorigin="anonymous">
 
     @role(['admin', 'council'])
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css"/>
@@ -123,7 +121,8 @@
                                 <a href="{{ url('/household/f/0') }}" class="dropdown-item">Create New Family</a>
                                 <a href="{{ url('/admin/distlist') }}" class="dropdown-item">Distribution Lists</a>
                                 <a href="{{ url('/confirm/all') }}" class="dropdown-item">Invoices (all)</a>
-                                <a href="{{ url('/confirm/letters') }}" class="dropdown-item">Medical/Program Letters (all)</a>
+                                <a href="{{ url('/confirm/letters') }}" class="dropdown-item">Medical/Program Letters
+                                    (all)</a>
                                 <a href="{{ url('/admin/positions') }}" class="dropdown-item">Staff Positions</a>
                                 <a href="{{ url('/admin/roles') }}" class="dropdown-item">User Roles</a>
                             </div>
@@ -437,6 +436,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+<script defer src="https://pro.fontawesome.com/releases/v5.1.0/js/all.js"
+        integrity="sha384-E5SpgaZcbSJx0Iabb3Jr2AfTRiFnrdOw1mhO19DzzrT9L+wCpDyHUG2q07aQdO6E"
+        crossorigin="anonymous"></script>
 <script src="/js/custom-script.js"></script>
 <script src="/js/script.min.js"></script>
 
@@ -461,7 +463,6 @@
 @role(['admin', 'council'])
 <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"
         integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-
 <script type="text/javascript">
     @if(isset($readonly) && $readonly === true)
     $("input:not(#camper), select").prop("disabled", "true");

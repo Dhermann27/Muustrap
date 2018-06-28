@@ -51,8 +51,8 @@
                 {{--@include('snippet.formgroup', ['type' => 'next', 'label' => '', 'attribs' => ['name' => 'Next Camper']])--}}
                 <div class="form-group row">
                     <div class="col-md-10 text-md-right">
-                        <button type="button" class="btn btn-default nextcamper">{{ $attribs["name"] }}<i
-                                    class="far fa-chevron-right"></i>
+                        <button type="button" class="btn btn-default nextcamper">{{ $attribs["name"] }}
+                            <i class="far fa-chevron-right"></i>
                         </button>
                     </div>
                 </div>

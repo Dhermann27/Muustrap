@@ -91,12 +91,9 @@
             $('input:submit').on('click', function (e) {
                 e.preventDefault();
                 var form = $("#camperinfo");
-                var fa = window.FontAwesome;
-                var spin = fa.findIconDefinition({iconName: 'spinner-third'});
-                $(this).html(fa.icon(spin, {classes: ['fa-spin']}).html + " Saving").removeClass("btn-primary btn-danger").prop("disabled", true);
+                $(this).val("Saving").removeClass("btn-primary btn-danger").prop("disabled", true);
                 if (!confirm("You are registering " + form.find('select.days option[value!="0"]:selected').length + " campers for {{ $home->year()->year }}. Is this correct?")) {
-                    var times = fa.findIconDefinition({iconName: 'times'});
-                    $(this).html(fa.icon(times).html + " Resubmit").addClass("btn-danger").prop("disabled", false);
+                    $(this).val("Resubmit").addClass("btn-danger").prop("disabled", false);
                     return false;
                 }
                 $(".has-danger").removeClass("has-danger");
@@ -107,11 +104,9 @@
                     url: form.attr("action"),
                     type: 'post',
                     data: form.serialize(),
-                    async: false,
                     success: function (data) {
                         $(".nav-tabs").before("<div class='alert alert-success'>" + data + "</div>");
-                        var check = fa.findIconDefinition({iconName: 'check'});
-                        $(this).html(fa.icon(check).html + " Saved").addClass("btn-success").prop("disabled", false);
+                        $("input:submit").val("Saved").addClass("btn-success").prop("disabled", false);
                         $('html,body').animate({
                             scrollTop: 0
                         }, 700);
@@ -130,8 +125,7 @@
                             $(".nav-tabs").before("<div class='alert alert-danger'>You have " + errorCount + " error(s) in your form. Please adjust your entries and resubmit.</div>");
                             $('.nav-tabs a[href="#' + $("span.invalid-feedback:first").parents('div.tab-pane').attr('id') + '"]').tab('show');
                         }
-                        var times = fa.findIconDefinition({iconName: 'times'});
-                        $(this).html(fa.icon(times).html + " Resubmit").addClass("btn-danger").prop("disabled", false);
+                        $("input:submit").val("Resubmit").addClass("btn-danger").prop("disabled", false);
                         $('html,body').animate({
                             scrollTop: 0
                         }, 700);

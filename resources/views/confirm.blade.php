@@ -213,9 +213,7 @@
         $('form.medicalresponse button.submit').on('click', function (e) {
             e.preventDefault();
             var form = $(this).parents("form");
-            var fa = window.FontAwesome;
-            var spin = fa.findIconDefinition({iconName: 'spinner-third'});
-            $(this).html(fa.icon(spin, {classes: ['fa-spin']}).html + " Saving").removeClass("btn-primary btn-danger").prop("disabled", true);
+            $(this).val("Saving").removeClass("btn-primary btn-danger").prop("disabled", true);
             form.find(".has-danger").removeClass("has-danger");
             form.find(".is-invalid").removeClass("is-invalid");
             form.find(".invalid-feedback").remove();
@@ -227,8 +225,7 @@
                 async: false,
                 success: function (data) {
                     form.before("<div class='alert alert-success'>" + data + "</div>");
-                    var check = fa.findIconDefinition({iconName: 'check'});
-                    form.find("button").html(fa.icon(check).html + " Saved").addClass("btn-success").prop("disabled", false);
+                    form.find("button").val("Saved").addClass("btn-success").prop("disabled", false);
                     if (form.parents(".card").next(".card") !== undefined) {
                         form.parents(".card").next(".card").find(".collapse").collapse('show');
                     }
@@ -246,8 +243,7 @@
                         $("span.invalid-feedback").show();
                         form.before("<div class='alert alert-danger'>You have " + errorCount + " error(s) in your form. Please adjust your entries and resubmit.</div>");
                     }
-                    var times = fa.findIconDefinition({iconName: 'times'});
-                    form.find("button").html(fa.icon(times).html + " Resubmit").addClass("btn-danger").prop("disabled", false);
+                    form.find("button").val("Resubmit").addClass("btn-danger").prop("disabled", false);
                 }
             });
         });

@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <title>Nametags</title>
     <link rel="stylesheet" href="/css/muustrap.css" type="text/css"/>
-    <script src="//use.fontawesome.com/9364904132.js"></script>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.1.0/css/all.css"
+          integrity="sha384-87DrmpqHRiY8hPLIr7ByqhPIywuSsjuQAfMXAE0sMUpY3BM7nXjf+mLIUSvhDArs" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans|Bangers|Fredericka+the+Great|Great+Vibes|Indie+Flower|Mystery+Quest"
           rel="stylesheet">
     <style>

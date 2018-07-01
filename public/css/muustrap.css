@@ -49,10 +49,9 @@ nav a.navbar-brand h4 {
 }
 
 div.label {
-    width: 3.4in; /* plus .6 inches from padding */
-    height: 2.875in; /* plus .125 inches from padding */
+    width: 3.6in;
+    height: 2.89in;
     padding: .125in .3in 0;
-    margin-right: .125in; /* the gutter */
     float: left;
     overflow: hidden;
 }

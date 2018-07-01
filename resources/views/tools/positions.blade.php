@@ -44,8 +44,8 @@
                             </tbody>
                             <tfoot>
                             <tr>
-                                <td colspan="5" align="right"><strong>Total Compensation:</strong>
-                                    ${{ money_format('%.2n', $program->assignments->sum('compensation')) }}</td>
+                                <td colspan="5" align="right"><strong>Maximum Compensation:</strong>
+                                    ${{ money_format('%.2n', $program->assignments->sum('max_compensation')) }}</td>
                             </tr>
                             </tfoot>
                         </table>

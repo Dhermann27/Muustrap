@@ -14,7 +14,7 @@
             <a class="dropdown-item" href="{{ url('/confirm/' . $id) }}"><i class="far fa-envelope"></i> Confirmation</a>
             <a class="dropdown-item" href="{{ url('/nametag/' . $id) }}"><i class="far fa-id-card"></i> Customize
                 Nametags</a>
-            <a class="dropdown-item" href="{{ url('/nametags/' . $id) }}"><i class="far fa-print"></i> Print Nametags</a>
+            <a class="dropdown-item" href="{{ url('/tools/nametags/' . $id) }}"><i class="far fa-print"></i> Print Nametags</a>
             <a class="dropdown-item" href="{{ url('/calendar/' . $id) }}"><i class="far fa-calendar"></i> Calendar</a>
         </div>
         @if(!isset($inputgroup))

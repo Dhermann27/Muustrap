@@ -175,7 +175,8 @@
                                            class="dropdown-item">Email Program Personnel</a>
                                     @endif
                                 @endif
-                                <a href="{{ url('/tools/nametags') }}" class="dropdown-item">Nametags (all)</a>
+                                <a href="{{ url('/tools/nametags') }}" class="dropdown-item">Nametag Printer</a>
+                                <a href="{{ url('/tools/nametags/all') }}" class="dropdown-item">Nametags (all)</a>
                                 <a href="{{ url('/tools/programs') }}" class="dropdown-item">Programs</a>
                                 <a href="{{ url('/roomselection/map') }}" class="dropdown-item">Room Selection Map</a>
                                 <a href="{{ url('/tools/staffpositions') }}" class="dropdown-item">Staff Assignments</a>

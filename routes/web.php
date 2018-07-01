@@ -45,7 +45,6 @@ Route::post('/roomselection/f/{id}', 'RoomSelectionController@write')->middlewar
 
 Route::get('/nametag/{i}/{id}', 'NametagController@read')->middleware('auth', 'role:admin|council');
 Route::post('/nametag/f/{id}', 'NametagController@write')->middleware('auth', 'role:admin');
-Route::get('/nametags/{i}/{id}', 'ToolsController@nametagsFamily')->middleware('auth', 'role:admin|council');
 
 Route::get('/museupload', 'ContactController@museIndex')->middleware('auth', 'role:admin|council');
 Route::post('/museupload', 'ContactController@museStore')->middleware('auth', 'role:admin|council');
@@ -107,7 +106,10 @@ Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'reports'], fu
 });
 
 Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'tools'], function () {
-    Route::get('nametags', 'ToolsController@nametags');
+    Route::get('nametags', 'ToolsController@nametagsList');
+    Route::post('nametags', 'ToolsController@nametagsPrint');
+    Route::get('nametags/all', 'ToolsController@nametags');
+    Route::get('nametags/{i}/{id}', 'ToolsController@nametagsFamily');
     Route::get('programs', 'ToolsController@programIndex');
     Route::post('programs', 'ToolsController@programStore');
     Route::get('staffpositions', 'ToolsController@positionIndex');

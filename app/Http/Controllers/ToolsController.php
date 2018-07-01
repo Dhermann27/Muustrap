@@ -58,15 +58,33 @@ class ToolsController extends Controller
 
     public function nametags()
     {
-        return view('tools.nametags', ['campers' => \App\Thisyear_Camper::join('families', 'families.id', 'thisyear_campers.familyid')
-            ->orderBy('families.name')->orderBy('families.id')->orderBy('thisyear_campers.birthdate')->get()]);
+        return view('tools.nametags', ['campers' => \App\Thisyear_Camper::orderBy('familyname')
+            ->orderBy('familyid')->orderBy('birthdate')->get()]);
+    }
+
+    public function nametagsList()
+    {
+        return view('tools.nametagslist', ['campers' => \App\Thisyear_Camper::orderBy('familyname')
+            ->orderBy('familyid')->orderBy('birthdate')->get()]);
+    }
+
+    public function nametagsPrint(Request $request)
+    {
+        $ids = array();
+        foreach ($request->all() as $key => $value) {
+            if (preg_match('/(\d+)-print/', $key, $matches) && $value == 'on') {
+                array_push($ids, $matches[1]);
+            }
+        }
+        $campers = \App\Thisyear_Camper::whereIn('id', $ids)->orderBy('familyname')->orderBy('familyid')
+            ->orderBy('birthdate')->get();
+        return view('tools.nametags', ['campers' => $campers]);
     }
 
     public function nametagsFamily($i, $id)
     {
         return view('tools.nametags', ['campers' => \App\Thisyear_Camper::where('familyid', $this->getFamilyId($i, $id))
-            ->join('families', 'families.id', 'thisyear_campers.familyid')
-            ->orderBy('families.name')->orderBy('thisyear_campers.birthdate')->get()]);
+            ->orderBy('familyname')->orderBy('birthdate')->get()]);
     }
 
     private function getFamilyId($i, $id)

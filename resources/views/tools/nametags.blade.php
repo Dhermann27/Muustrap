@@ -11,7 +11,7 @@
     <style>
         body {
             width: 8.5in;
-            margin: 0in;
+            margin: 0in .1875in;
         }
 
         @page {

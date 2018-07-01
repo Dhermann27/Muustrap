@@ -121,6 +121,8 @@ Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'tools'], func
 Route::group(['middleware' => ['role:admin'], 'prefix' => 'admin'], function () {
     Route::get('distlist', 'AdminController@distlistIndex');
     Route::post('distlist', 'AdminController@distlistStore');
+    Route::get('master', 'AdminController@masterIndex');
+    Route::post('master', 'AdminController@masterStore');
     Route::get('roles', 'AdminController@roleIndex');
     Route::post('roles', 'AdminController@roleStore');
     Route::get('positions', 'AdminController@positionIndex');

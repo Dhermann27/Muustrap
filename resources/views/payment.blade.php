@@ -54,12 +54,14 @@
                     <td colspan='2'>Please consider at least a $10.00 donation to the MUUSA Scholarship fund.
                     </td>
                 </tr>
-                <tr align="right">
-                    <td><strong>Amount Due Now:</strong></td>
-                    <td align="right">$<span id="amountNow">{{ money_format('%.2n', max($deposit, 0)) }}</span>
-                    </td>
-                    <td colspan="2"></td>
-                </tr>
+                @if($home->year()->is_accept_paypal)
+                    <tr align="right">
+                        <td><strong>Amount Due Now:</strong></td>
+                        <td align="right">$<span id="amountNow">{{ money_format('%.2n', max($deposit, 0)) }}</span>
+                        </td>
+                        <td colspan="2"></td>
+                    </tr>
+                @endif
                 @if(!empty($housing))
                     <tr align="right">
                         <td><strong>Amount Due Upon Arrival:</strong></td>
@@ -70,98 +72,116 @@
                 @endif
             </table>
             <div class="row p-7">
-                <div class="col-md-6">
-                    <h4>To Pay via Mail:</h4>
-                    Make checks payable to <strong>MUUSA, Inc.</strong><br/>
-                    Mail check by May 31, {{ $home->year()->year }} to<br/>
-                    MUUSA, Inc.<br/>423 North Waiola<br/>
-                    La Grange Park, IL 60526<br/> <br/>
-                </div>
-                <div class="col-md-6">
-                    <h4>To Pay via PayPal:</h4>
-                    <div class="form-group row{{ $errors->has('amount') ? ' has-danger' : '' }}">
-                        <label for="amount" class="control-label">Payment:</label>
+                @if($home->year()->is_accept_paypal)
+                    <div class="col-md-6">
+                        <h4>To Pay via Mail:</h4>
+                        Make checks payable to <strong>MUUSA, Inc.</strong><br/>
+                        Mail check by May 31, {{ $home->year()->year }} to<br/>
+                        MUUSA, Inc.<br/>423 North Waiola<br/>
+                        La Grange Park, IL 60526<br/> <br/>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>To Pay via PayPal:</h4>
+                        <div class="form-group row{{ $errors->has('amount') ? ' has-danger' : '' }}">
+                            <label for="amount" class="control-label">Payment:</label>
 
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span class="input-group-text">$</span></div>
-                            <input type="number" id="amount" name="amount"
-                                   step="any" class="form-control{{ $errors->has('amount') ? ' is-invalid' : '' }}"
-                                   data-number-to-fixed="2" min="0" placeholder="Enter Another Amount"
-                                   value="{{ money_format('%.2n', max($charges->sum('amount'), 0)) }}"/>
-                        </div>
-
-                        <div class="input-group pt-3">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" id="addthree" name="addthree"> Add 3% to my payment to cover the PayPal
-                                    service fee
-                                </label>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text">$</span></div>
+                                <input type="number" id="amount" name="amount"
+                                       step="any" class="form-control{{ $errors->has('amount') ? ' is-invalid' : '' }}"
+                                       data-number-to-fixed="2" min="0" placeholder="Enter Another Amount"
+                                       value="{{ money_format('%.2n', max($charges->sum('amount'), 0)) }}"/>
                             </div>
-                        </div>
 
-                        @if ($errors->has('amount'))
-                            <span class="invalid-feedback">
+                            <div class="input-group pt-3">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="addthree" name="addthree"> Add 3% to my payment to
+                                        cover the PayPal service fee
+                                    </label>
+                                </div>
+                            </div>
+
+                            @if ($errors->has('amount'))
+                                <span class="invalid-feedback">
                                 <strong>{{ $errors->first('amount') }}</strong>
                             </span>
-                        @endif
+                            @endif
+                        </div>
+                        <input type="hidden" id="txn" name="txn"/>
+                        <div id="paypal-button"></div>
                     </div>
-                    <input type="hidden" id="txn" name="txn"/>
-                    <div id="paypal-button"></div>
-                </div>
+                @else
+                    Please bring payment to the first day of camp on {{ $home->year()->start_date }}. While we do accept
+                    VISA, Mastercard, Discover, we prefer a check a minimize fees.
+                @endif
             </div>
         </form>
     </div>
 @endsection
 
 @section('script')
-    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
-    <script>
-        $(document).on('change', '#donation', function () {
-            var total = parseFloat($(this).val());
-            $("#amount").val(Math.max(0, parseFloat($("#amountNow").text()) + total).toFixed(2));
-            $("td.amount").each(function () {
-                total += parseFloat($(this).text().replace('$', ''));
+    @if($home->year()->is_accept_paypal)
+        <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+        <script>
+            $(document).on('change', '#donation', function () {
+                var total = parseFloat($(this).val());
+                $("#amount").val(Math.max(0, parseFloat($("#amountNow").text()) + total).toFixed(2));
+                $("td.amount").each(function () {
+                    total += parseFloat($(this).text().replace('$', ''));
+                });
+                $("#amountArrival").text(Math.max(0, total).toFixed(2));
             });
-            $("#amountArrival").text(Math.max(0, total).toFixed(2));
-        });
 
-        paypal.Button.render({
-            env: '{{ $env }}',
-            client: { {{ $env }}: '{{ $token }}'
-        },
+            paypal.Button.render({
+                env: '{{ $env }}',
+                client: { {{ $env }}:
+            '{{ $token }}'
+            },
 
-        style: {
-            size: 'large',
-            label: 'pay'
-        },
+            style: {
+                size: 'large',
+                    label
+            :
+                'pay'
+            }
+            ,
 
-        payment: function () {
-            var amt = parseFloat($("#amount").val());
-            var env = this.props.env;
-            var client = this.props.client;
-            if ($('input#addthree').is(':checked')) amt *= 1.03;
+            payment: function () {
+                var amt = parseFloat($("#amount").val());
+                var env = this.props.env;
+                var client = this.props.client;
+                if ($('input#addthree').is(':checked')) amt *= 1.03;
 
-            return paypal.rest.payment.create(env, client, {
-                transactions: [
-                    {
-                        amount: {total: amt.toFixed(2), currency: 'USD'}
+                return paypal.rest.payment.create(env, client, {
+                    transactions: [
+                        {
+                            amount: {total: amt.toFixed(2), currency: 'USD'}
+                        }
+                    ]
+                });
+            }
+            ,
+
+            commit: true,
+
+                onAuthorize
+            :
+
+            function (data, actions) {
+                return actions.payment.execute().then(function (payment) {
+                    if (payment.transactions.length > 0 && payment.transactions[0].related_resources.length > 0) {
+                        $("#txn").val(payment.transactions[0].related_resources[0].sale.id);
                     }
-                ]
-            });
-        },
+                    $("form#muusapayment").submit();
+                });
+            }
 
-        commit: true,
-
-        onAuthorize: function (data, actions) {
-            return actions.payment.execute().then(function (payment) {
-                if (payment.transactions.length > 0 && payment.transactions[0].related_resources.length > 0) {
-                    $("#txn").val(payment.transactions[0].related_resources[0].sale.id);
-                }
-                $("form#muusapayment").submit();
-            });
-        }
-
-        }, '#paypal-button');
-    </script>
+            },
+            '#paypal-button'
+            )
+            ;
+        </script>
+    @endif
 
 @endsection

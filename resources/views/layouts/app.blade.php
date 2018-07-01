@@ -121,6 +121,7 @@
                                 <a href="{{ url('/household/f/0') }}" class="dropdown-item">Create New Family</a>
                                 <a href="{{ url('/admin/distlist') }}" class="dropdown-item">Distribution Lists</a>
                                 <a href="{{ url('/confirm/all') }}" class="dropdown-item">Invoices (all)</a>
+                                <a href="{{ url('/admin/master') }}" class="dropdown-item">Master Control Program</a>
                                 <a href="{{ url('/confirm/letters') }}" class="dropdown-item">Medical/Program Letters
                                     (all)</a>
                                 <a href="{{ url('/admin/positions') }}" class="dropdown-item">Staff Positions</a>

@@ -86,6 +86,44 @@ class AdminController extends Controller
             'request' => $request ? $request : new Request()]);
     }
 
+    public function masterStore(Request $request)
+    {
+        $thisyear = null;
+        foreach ($request->all() as $key => $value) {
+            if (preg_match('/(\d+)-(start_date|start_open|is_current|is_live|is_crunch|is_accept_paypal|is_room_select|is_workshop_proposal|is_artfair)/', $key, $matches)) {
+                if ($thisyear == null) {
+                    $thisyear = \App\Year::findOrFail($matches[1]);
+                }
+                if ($matches[2] == "is_current" && $value == 'on') {
+                    $lastyear = \App\Year::where('is_current', '1')->first();
+                    $lastyear->is_current = 0;
+                    $lastyear->save();
+
+                    $newyear = \App\Year::findOrFail($matches[1]);
+                    $newyear->is_current = 1;
+                    $newyear->save();
+
+                    $thisyear = null;
+                    break;
+                }
+                $thisyear->{$matches[2]} = $value;
+            }
+        }
+        if ($thisyear != null) {
+            $thisyear->save();
+        }
+
+
+        $request->session()->flash('success', 'That\'s Tron. He fights for the Users.');
+
+        return redirect()->action('AdminController@masterIndex');
+    }
+
+    public function masterIndex()
+    {
+        return view('admin.master', ['years' => \App\Year::all()]);
+    }
+
     public function roleStore(Request $request)
     {
         foreach ($request->all() as $key => $value) {

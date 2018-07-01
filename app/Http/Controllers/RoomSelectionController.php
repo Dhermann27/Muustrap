@@ -23,7 +23,7 @@ class RoomSelectionController extends Controller
         DB::statement('CALL generate_charges(getcurrentyear());');
 
         $success = 'Room selection complete! Your room is locked in for the ' . count($family) . ' eligible members of your household.';
-        if (\App\Year::where('is_current', '1')->first()->isLive()) $success .= ' Customize your nametag by clicking <a href="' . url('/nametag') . '">here</a>.';
+        if (\App\Year::where('is_current', '1')->first()->is_live) $success .= ' Customize your nametag by clicking <a href="' . url('/nametag') . '">here</a>.';
 
         $request->session()->flash('success', $success);
 

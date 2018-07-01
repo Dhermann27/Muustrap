@@ -20,19 +20,14 @@ class Year extends Model
             ->orderBy('max_occupancy');
     }
 
-    public function isInProgress()
-    {
-        return Carbon::now('America/Chicago')->lte(Carbon::createFromFormat('Y-m-d', $this->start_date)->addWeek());
-    }
-
-    public function isLive()
+    public function hasBrochure()
     {
         return Storage::disk('local')->exists('public/MUUSA_' . $this->year . '_Brochure.pdf');
     }
 
-    public function isCrunch()
+    public function isInProgress()
     {
-        return Carbon::now('America/Chicago')->lte(Carbon::createFromFormat('Y-m-d', $this->start_date)->subWeeks(2));
+        return Carbon::now('America/Chicago')->lte(Carbon::createFromFormat('Y-m-d', $this->start_date)->addWeek());
     }
 
     public function getFirstDayAttribute()

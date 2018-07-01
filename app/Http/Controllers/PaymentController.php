@@ -59,7 +59,7 @@ class PaymentController extends Controller
                 $year = \App\Year::where('is_current', '1')->first();
                 $campers = \App\Byyear_Camper::where('familyid', $thiscamper->familyid)
                     ->where('year', ((int)$year->year) - 1)->where('is_program_housing', '0')->get();
-                if (!$year->isLive() && count($campers) > 0 && \App\Thisyear_Charge::where('familyid', $thiscamper->familyid)
+                if (!$year->is_live && count($campers) > 0 && \App\Thisyear_Charge::where('familyid', $thiscamper->familyid)
                         ->where(function ($query) {
                             $query->where('chargetypeid', 1003)->orWhere('amount', '<', '0');
                         })->get()->sum('amount') <= 0) {
@@ -137,7 +137,7 @@ class PaymentController extends Controller
         }
 
         $success = "";
-        if (!$year->isLive() && \App\Thisyear_Charge::where('familyid', $id)->where('chargetypeid', 1003)
+        if (!$year->is_live && \App\Thisyear_Charge::where('familyid', $id)->where('chargetypeid', 1003)
                 ->orWhere('amount', '<', '0')->get()->sum('amount') <= 0) {
             $campers = \App\Byyear_Camper::where('familyid', $id)->where('year', ((int)$year->year) - 1)
                 ->where('is_program_housing', '0')->get();

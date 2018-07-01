@@ -1,5 +1,5 @@
 @inject('home', 'App\Http\Controllers\HomeController')
-@if($home->year()->isLive())
+@if($home->year()->is_live)
     @if($workshop->capacity == 999)
         <span class="alert alert-success badge float-right">Unlimited Enrollment</span>
     @elseif($workshop->enrolled >= $workshop->capacity)

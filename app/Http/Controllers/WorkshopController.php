@@ -42,7 +42,7 @@ class WorkshopController extends Controller
         DB::statement('CALL generate_charges(' . $year->year . ');');
 
         $success = 'Your workshop selections have been updated.';
-        if($year->isLive()) $success .= ' Check out available rooms by clicking <a href="' . url('/roomselection') . '">here</a>.';
+        if($year->is_live) $success .= ' Check out available rooms by clicking <a href="' . url('/roomselection') . '">here</a>.';
 
         $request->session()->flash('success', $success);
 

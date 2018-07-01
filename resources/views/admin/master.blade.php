@@ -48,6 +48,14 @@
             <div class="well">
                 <h4>{{ $home->year()->year }} Options</h4>
 
+                <div class="alert alert-warning p-0 m-0">
+                    @if($home->year()->hasBrochure())
+                        A Web Brochure exists on the server for this year.
+                    @else
+                        The Web Brochure is missing for this year.
+                    @endif
+                </div>
+
                 <div class="form-group row{{ $errors->has($home->year()->year . '-start_date') ? ' has-danger' : '' }}">
                     <label for="date" class="col-md-4 control-label">Start Date (yyyy-mm-dd)
                         <a href="#" class="p-2 float-right" data-toggle="tooltip" data-html="true"

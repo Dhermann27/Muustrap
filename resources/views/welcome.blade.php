@@ -44,7 +44,7 @@
         <div class="alert alert-info" role="alert">Ready to register for MUUSA {{ $home->year()->year }}? Start the
             3-step process by clicking the Register button below.
         </div>
-    @elseif($home->year()->isLive())
+    @elseif($home->year()->is_live)
         @if(!$signedup)
             <div class="alert alert-warning" role="alert">
                 You are all paid up, but have not yet chosen any workshops. Use the button below to select any in which
@@ -111,13 +111,13 @@
                             </p>
                             <div class="card-body">
                                 <p>
-                                    {{--@if($home->year()->isCrunch())--}}
-                                        {{--This close to camp, all housing will be assigned by the Registrar. Please use--}}
-                                        {{--the Contact Us form.--}}
-                                    {{--@else--}}
+                                    @if($home->year()->is_room_select)
                                         Find the right place for you and your family to stay, and who might be your
                                         neighbors.
-                                    {{--@endif--}}
+                                    @else
+                                        This close to camp, all housing will be assigned by the Registrar. Please use
+                                        the Contact Us form.
+                                    @endif
                                 </p>
                                 <a href="{{ url('/roomselection') }}"
                                    class="btn btn-primary btn-block btn-rounded">
@@ -391,7 +391,7 @@
                         </p>
                         <div class="card-body">
                             <p>Here is a list of all
-                                @if($home->year()->isLive())
+                                @if($home->year()->is_live)
                                     {{ $home->year()->year }} workshops available, as organized by our Adult
                                     Programming
                                     Committee.
@@ -415,7 +415,7 @@
                         </p>
                         <div class="card-body">
                             <p>This is where you can find more details about single-day trips planned in
-                                @if($home->year()->isLive())
+                                @if($home->year()->is_live)
                                     {{ $home->year()->year }}, if you're looking to try something new.
                                 @else
                                     {{ ($home->year()->year)-1 }}, which may change in {{ $home->year()->year }}

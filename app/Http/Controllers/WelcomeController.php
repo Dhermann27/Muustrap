@@ -10,9 +10,7 @@ class WelcomeController extends Controller
     public function index()
     {
         $year = \App\Year::where('is_current', '1')->first();
-        if ($year->isCrunch()) {
-            return $this->normal();
-        } else {
+        if ($year->is_crunch == 1) {
             $av = false;
             $camper = null;
             if (Auth::check()) {
@@ -27,6 +25,8 @@ class WelcomeController extends Controller
             }
             return view('crunch', ['av' => $av, 'camper' => $camper,
                 'actslist' => \App\Coffeehouseact::where('date', $year->next_weekday->toDateString())->orderBy('order')->get()]);
+        } else {
+            return $this->normal();
         }
     }
 

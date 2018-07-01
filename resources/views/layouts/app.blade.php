@@ -62,10 +62,10 @@
                         <a href="{{ url('/themuse') }}"
                            class="nav-link text-s text-uppercase d-md-block">{{ $home->year()->next_muse }}</a>
                     @endif
-                    @if($home->year()->isLive())
+                    @if($home->year()->is_live)
                         <a href="{{ url('MUUSA_' . $home->year()->year . '_Brochure.pdf') }}"
                            class="nav-link text-s text-uppercase d-md-block">Web Brochure</a>
-                    @elseif(Auth::check())
+                    @elseif(Auth::check() && $home->year()->is_workshop_proposal)
                         <a href="{{ url('/proposal') }}" class="nav-link text-s text-uppercase d-md-block">Workshop
                             Proposal</a>
                     @endif
@@ -86,7 +86,7 @@
                 @if(Auth::check())
                     <a href="{{ url('/directory') }}" class="nav-link"> <i class="far fa-address-book fa-2x"></i> <span
                                 class="sr-only">Online Directory</span> </a>
-                    @if($home->year()->isLive())
+                    @if($home->year()->is_live)
                         <a href="{{ url('/calendar') }}" class="nav-link"> <i class="far fa-calendar-alt fa-2x"></i>
                             <span
                                     class="sr-only">Your MUUSA Calendar</span>
@@ -224,7 +224,7 @@
                             <div class="dropdown-menu dropdown-menu-right">
                                 <ul class="nav nav-pills nav-pills-border-bottom-inside flex-column flex-lg-row"
                                     role="tablist">
-                                    @if(Auth::check() && $home->registered() && $home->year()->isLive())
+                                    @if(Auth::check() && $home->registered() && $home->year()->is_live)
                                         <li class="nav-item"><a class="nav-link p-3 active text-center font-weight-bold"
                                                                 data-toggle="tab" data-target=".menu-tab-1" role="tab">
                                                 {{ $home->year()->year }} Options</a></li>
@@ -233,7 +233,7 @@
                                                 Special News</a></li>
                                     @endif
                                     <li class="nav-item"><a
-                                                class="nav-link p-3 text-center font-weight-bold{{ Auth::guest() || !$home->registered() || !$home->year()->isLive() ? ' active' : ''}}"
+                                                class="nav-link p-3 text-center font-weight-bold{{ Auth::guest() || !$home->registered() || !$home->year()->is_live ? ' active' : ''}}"
                                                 data-toggle="tab" data-target=".menu-tab-3" role="tab">
                                             Register for {{ $home->year()->year }}</a></li>
                                     <li class="nav-item"><a class="nav-link p-3 text-center font-weight-bold"
@@ -244,7 +244,7 @@
                                             2018 Info</a></li>
                                 </ul>
                                 <div class="tab-content py-3">
-                                    @if(Auth::check() && $home->registered() && $home->year()->isLive())
+                                    @if(Auth::check() && $home->registered() && $home->year()->is_live)
                                         <div class="tab-pane active show menu-tab-1" role="tabpanel">
                                             <div class="row text-center">
                                                 <div class="col-lg-3 py-2">
@@ -296,7 +296,7 @@
                                             </div>
                                         </div>
                                     @endif
-                                    <div class="tab-pane menu-tab-3{{ Auth::guest() || !$home->registered() || !$home->year()->isLive() ? ' active show' : ''}}"
+                                    <div class="tab-pane menu-tab-3{{ Auth::guest() || !$home->registered() || !$home->year()->is_live ? ' active show' : ''}}"
                                          role="tabpanel">
                                         <div class="row text-center">
                                             <div class="col-lg-4 py-2">

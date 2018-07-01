@@ -53,7 +53,7 @@ Route::get('/directory', 'DirectoryController@index')->middleware('auth');
 Route::get('/coffeehouse/{day?}', 'CoffeeController@index')->middleware('auth');
 Route::post('/coffeehouse', 'CoffeeController@store')->middleware('auth');
 
-if ($year->isLive()) {
+if ($year->is_live) {
     Route::get('/confirm', 'ConfirmController@index')->middleware('auth');
     Route::post('/confirm/y/{id}', 'ConfirmController@respond')->middleware('auth');
     Route::get('/artfair', 'ContactController@artfairIndex');

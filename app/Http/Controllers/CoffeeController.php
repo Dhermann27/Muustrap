@@ -60,6 +60,7 @@ class CoffeeController extends Controller
         $year = \App\Year::where('is_current', '1')->first();
         $firstday = Carbon::createFromFormat('Y-m-d', $year->start_date, 'America/Chicago');
         $acts = \App\Coffeehouseact::where('year', $year->year)->orderBy('order')->get();
+        $starttime = Carbon::now('America/Chicago')->hour(21)->minute(50);
 
         $camper = null;
         $readonly = \Entrust::can('read') && !\Entrust::can('write');
@@ -72,6 +73,7 @@ class CoffeeController extends Controller
             }
         }
 
-        return view('coffeehouse', ['firstday' => $firstday, 'day' => $day, 'acts' => $acts, 'readonly' => $readonly]);
+        return view('coffeehouse', ['firstday' => $firstday, 'day' => $day, 'acts' => $acts,
+            'starttime' => $starttime, 'readonly' => $readonly]);
     }
 }

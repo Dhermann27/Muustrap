@@ -80,7 +80,7 @@
                                         </div>
                                         <input type="hidden" id="{{ $act->id }}-order" name="{{ $act->id }}-order"/>
                                     @endif
-                                    {{ $act->name }}
+                                    {{ $starttime->addMinutes(10)->format('g:iA') }} {{ $act->name }}
                                     @if($readonly === false)
                                         ({{ $act->equipment }})
                                     @endif

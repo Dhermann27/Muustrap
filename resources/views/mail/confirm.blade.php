@@ -331,7 +331,7 @@
                                                                                 Your remaining balance is due on the
                                                                                 first day of
                                                                                 camp, {{ $home->year()->first_day }}.
-                                                                                @if($home->year()->isLive())
+                                                                                @if($home->year()->is_live)
                                                                                     Room selection, workshop
                                                                                     preferences, nametag customization,
                                                                                     and confirmation letters are

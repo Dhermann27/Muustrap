@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -10,9 +11,7 @@ class WelcomeController extends Controller
     public function index()
     {
         $year = \App\Year::where('is_current', '1')->first();
-        if ($year->isCrunch()) {
-            return $this->normal();
-        } else {
+        if ($year->is_crunch == 1) {
             $av = false;
             $camper = null;
             if (Auth::check()) {
@@ -25,8 +24,16 @@ class WelcomeController extends Controller
                     }
                 }
             }
-            return view('crunch', ['av' => $av, 'camper' => $camper,
-                'actslist' => \App\Coffeehouseact::where('date', $year->next_weekday->toDateString())->orderBy('order')->get()]);
+            $onstage = \App\Coffeehouseact::where('date', $year->next_weekday->toDateString())->where('is_onstage', '1')
+                ->orderBy('order', 'desc')->first();
+            $starttime = $onstage != null ? new Carbon($onstage->updated_at) : Carbon::now('America/Chicago')
+                ->hour(21)->minute(50);
+            $acts = \App\Coffeehouseact::where('date', $year->next_weekday->toDateString())->where('is_onstage', '0')
+                ->orderBy('order')->get();
+            return view('crunch', ['av' => $av, 'camper' => $camper, 'onstage' => $onstage,
+                'starttime' => $starttime, 'actslist' => $acts]);
+        } else {
+            return $this->normal();
         }
     }
 

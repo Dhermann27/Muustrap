@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -164,15 +163,13 @@ class Thisyear_Camper extends Model
                 return $parents;
                 break;
             default:
-                $parents = "";
+                $workshops = "";
                 if (count($this->yearattending->workshops()->where('is_enrolled', '1')->get()) > 0) {
                     foreach ($this->yearattending->workshops()->where('is_enrolled', '1')->get() as $workshop) {
-                        if ($workshop->workshop->timeslotid == 1001 || $workshop->workshop->timeslotid == 1002) {
-                            $parents .= $workshop->workshop->timeslot->name . " (" . $workshop->workshop->display_days . "): " . $workshop->workshop->name . " in " . $workshop->workshop->room->room_number . "<br />";
-                        }
+                        $workshops .= $workshop->workshop->timeslot->name . " (" . $workshop->workshop->display_days . "): " . $workshop->workshop->name . " in " . $workshop->workshop->room->room_number . "<br />";
                     }
                 }
-                return $parents;
+                return $workshops;
                 break;
         }
     }

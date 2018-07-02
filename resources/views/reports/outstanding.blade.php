@@ -62,7 +62,7 @@
                         <td class="form-group{{ $errors->has('amount-' . $charge->familyid) ? ' has-error' : '' }}">
                             <div class="input-group">
                                 <label for="amount-{{ $charge->familyid }}" class="sr-only">Amount</label>
-                                <span class="input-group-addon">$</span>
+                                <div class="input-group-prepend"><span class="input-group-text">$</span></div>
                                 <input type="number" id="amount-{{ $charge->familyid }}"
                                        class="form-control" step="any" name="amount"
                                        data-number-to-fixed="2" value="{{ old('amount') }}"/>

@@ -14,7 +14,7 @@ class Timeslot extends Model
     {
         $year = \App\Year::where('is_current', '1')->first();
         return $this->hasMany(Workshop::class, 'timeslotid', 'id')
-            ->where('year', $year->isLive() ? $year->year : $year->year - 1);
+            ->where('year', $year->is_live ? $year->year : $year->year - 1);
     }
 
     public function newworkshops()

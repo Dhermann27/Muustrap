@@ -192,27 +192,20 @@
                                    data-hover="dropdown">Coffeehouse Schedule <i class="far fa-music"></i></a>
                                 <div class="dropdown-menu">
                                     <p><i>{{ $home->year()->next_weekday->format('l F jS') }}</i></p>
-                                    @if($actslist[0]->is_onstage == 1)
-                                        @for($i=0; $i<count($actslist); $i++)
-                                            @if($actslist[$i]->is_onstage == 0)
-                                                <p>Now on stage:</p>
-                                                <p class="dropdown-item">
-                                                    <strong>{{ $actslist[$i-1]->name }}</strong></p>
-                                                <p>Coming up:</p>
-                                                @break
-                                            @endif
-                                        @endfor
+                                    @if(isset($onstage))
+                                        <p>Now on stage:</p>
+                                        <p class="dropdown-item">
+                                            <strong>{{ $onstage->name }}</strong></p>
+                                        <p>Coming up:</p>
                                     @else
                                         <p>Evening's acts:</p>
                                     @endif
                                     @foreach($actslist as $item)
-                                        @if($item->is_onstage == 0)
-                                            <p class="dropdown-item">{{ $item->name }}
-                                                @if($av && isset($item->equipment))
-                                                    ({{ $item->equipment }})
-                                                @endif
-                                            </p>
-                                        @endif
+                                        <p class="dropdown-item">{{ $starttime->addMinutes(10)->format('g:iA') }} {{ $item->name }}
+                                            @if($av && isset($item->equipment))
+                                                ({{ $item->equipment }})
+                                            @endif
+                                        </p>
                                     @endforeach
                                 </div>
                             </li>

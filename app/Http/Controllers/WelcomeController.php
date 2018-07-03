@@ -27,7 +27,7 @@ class WelcomeController extends Controller
             $onstage = \App\Coffeehouseact::where('date', $year->next_weekday->toDateString())->where('is_onstage', '1')
                 ->orderBy('order', 'desc')->first();
             $starttime = $onstage != null ? new Carbon($onstage->updated_at) : Carbon::now('America/Chicago')
-                ->hour(21)->minute(50);
+                ->hour(20)->minute(50);
             $acts = \App\Coffeehouseact::where('date', $year->next_weekday->toDateString())->where('is_onstage', '0')
                 ->orderBy('order')->get();
             return view('crunch', ['av' => $av, 'camper' => $camper, 'onstage' => $onstage,

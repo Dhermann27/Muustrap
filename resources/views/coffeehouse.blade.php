@@ -58,7 +58,8 @@
                          class="tab-pane fade{{ $firstday->addDay()->dayOfWeek == $day || ($day == null && $firstday->dayOfWeek == 1) ? ' active show' : '' }}"
                          aria-expanded="{{ $firstday->dayOfWeek == $day || ($day == null && $firstday->dayOfWeek ==  1) ? 'true' : 'false' }}"
                          id="{{ $firstday->dayOfWeek }}">
-                        <h5>{{ $firstday->toDateString() }}</h5>
+                        <?php $starttime->hour(20)->minute(50); ?>
+                        <h5>{{ $firstday->toDateString() }} </h5>
                         <ul class="list-group sortable col-md-10 col-sm-4">
                             @foreach($acts->where('date', $firstday->toDateString())->all() as $act)
                                 <li id="{{ $act->id }}"

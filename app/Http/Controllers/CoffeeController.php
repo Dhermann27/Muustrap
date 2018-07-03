@@ -30,8 +30,11 @@ class CoffeeController extends Controller
                     if ($matches[2] == "delete") {
                         $workshop->delete();
                     } elseif ($workshop) {
-                        $workshop->{$matches[2]} = $value;
-                        $workshop->save();
+                        if ($workshop->{$matches[2]} != $value) {
+                            $workshop->{$matches[2]} = $value;
+                            $workshop->updated_at = Carbon::now('America/Chicago');
+                            $workshop->save();
+                        }
                     }
                 }
             }

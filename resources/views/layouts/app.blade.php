@@ -101,8 +101,10 @@
         <div class="header-inner container">
             <div class="header-brand">
                 <a class="header-brand-text" href="/" title="Home">
-                    <img alt="Brand" src="/images/brand.png"> <span class="hidden-md">Midwest Unitarian Universalist Summer Assembly</span>
+                    <img alt="Brand" src="/images/brand.png">
                 </a>
+                <div class="header-divider d-none d-lg-block"></div>
+                <div class="header-slogan d-none d-lg-block">Midwest Unitarian Universalist Summer Assembly</div>
             </div>
 
             <a href="#top" class="btn btn-link btn-icon header-btn float-right d-xl-none" data-toggle="jpanel-menu"

@@ -32,7 +32,7 @@ class CoffeeController extends Controller
                     } elseif ($workshop) {
                         if ($workshop->{$matches[2]} != $value) {
                             $workshop->{$matches[2]} = $value;
-                            $workshop->updated_at = Carbon::now('America/Chicago');
+                            $workshop->updated_at = Carbon::now('America/Chicago')->toDateTimeString();
                             $workshop->save();
                         }
                     }

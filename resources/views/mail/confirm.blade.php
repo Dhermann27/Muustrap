@@ -321,7 +321,7 @@
                                                                             <p style="line-height: 1.5em; color: #555555; font-family: &#39;Helvetica Neue&#39;, Helvetica, Arial, sans-serif; font-size: 15px; text-align: left; unicode-bidi: embed; vertical-align: baseline; margin-top: 0; margin-right: 0; margin-bottom: 1.3em; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;"
                                                                                align="left">
                                                                                 Your deposit of
-                                                                                ${{ count($campers) > 1 ? '300' : '150'}}
+                                                                                ${{ count($campers) > 1 ? '400' : '200'}}
                                                                                 is now due. If you with to pay by check
                                                                                 (which saves MUUSA a few bucks!), please
                                                                                 send a check to the Registrar at the
@@ -336,11 +336,11 @@
                                                                                     preferences, nametag customization,
                                                                                     and confirmation letters are
                                                                                     available at <a
-                                                                                        href="https://muusa.org">muusa.org</a>.
+                                                                                            href="https://muusa.org">muusa.org</a>
+                                                                                    .
                                                                                 @else
                                                                                     If you attended
-                                                                                    in {{ ((int)$home->year()->year)-1 }}
-                                                                                    ,
+                                                                                    in {{ ((int)$home->year()->year)-1 }},
                                                                                     you <i>must pay your deposit to be
                                                                                         assigned your old room</i>.
                                                                                     Room selection, workshop
@@ -349,7 +349,8 @@
                                                                                     available
                                                                                     on {{ $home->year()->start_open }}
                                                                                     at <a
-                                                                                            href="https://muusa.org">muusa.org</a>.
+                                                                                            href="https://muusa.org">muusa.org</a>
+                                                                                    .
                                                                                 @endif
                                                                             </p>
 

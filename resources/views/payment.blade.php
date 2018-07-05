@@ -171,6 +171,7 @@
             function (data, actions) {
                 return actions.payment.execute().then(function (payment) {
                     if (payment.transactions.length > 0 && payment.transactions[0].related_resources.length > 0) {
+                        $("#amount").val(payment.transactions[0].amount.total);
                         $("#txn").val(payment.transactions[0].related_resources[0].sale.id);
                     }
                     $("form#muusapayment").submit();

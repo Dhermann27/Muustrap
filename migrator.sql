@@ -616,7 +616,7 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges(myyear YEAR)
          FROM campers
          WHERE familyid = bf.id
          LIMIT 1),
-        IF(bf.count = 1, 150.0, 300),
+        IF(bf.count = 1, 200.0, 400.0),
         1003,
         CONCAT("Deposit for ", bf.year)
       FROM byyear_families bf
@@ -625,7 +625,7 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE generate_charges(myyear YEAR)
       SELECT
         bsp.year,
         bsp.camperid,
-        -(LEAST(SUM(bsp.max_compensation), IFNULL(getrate(bsp.camperid, bsp.year), 150.0))) amount,
+        -(LEAST(SUM(bsp.max_compensation), IFNULL(getrate(bsp.camperid, bsp.year), 200.0))) amount,
         1021,
         IF(COUNT(*) = 1, bsp.staffpositionname, 'Staff Position Credits')
       FROM byyear_staff bsp

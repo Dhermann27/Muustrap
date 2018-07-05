@@ -435,11 +435,10 @@
                                     class="far fa-microphone fa-5x"></i>
                         </p>
                         <div class="card-body">
-                            <p>Find out more information about our {{ $home->year()->year }} Theme Speaker,
-                                Reverend Nic
-                                Cable.</p>
+                            <p>Find out more information about our {{ $home->year()->year }} Theme Speakers,
+                                Rev. Karen Mooney &amp; Rev. Pam Rumancik.</p>
                             <a href="{{ url('/themespeaker') }}" class="btn btn-primary btn-block btn-rounded">View
-                                Biography</a>
+                                Biographies</a>
                         </div>
                     </div>
                 </div>

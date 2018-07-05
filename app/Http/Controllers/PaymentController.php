@@ -35,10 +35,9 @@ class PaymentController extends Controller
             if (!empty($request->txn)) {
                 if (!empty($request->addthree)) {
                     \App\Charge::updateOrCreate(
-                        ['camperid' => $thiscamper->id, 'chargetypeid' => DB::raw('getchargetypeid(\'Paypal Service Charge\')'),
-                            'year' => DB::raw('getcurrentyear()'), 'timestamp' => date("Y-m-d")],
-                        ['camperid' => $thiscamper->id, 'amount' => '-' . ($request->amount * .03),
-                            'memo' => 'Optional PayPal Payment',
+                        ['camperid' => $thiscamper->id, 'memo' => 'Optional payment to offset PayPal ' . $request->txn],
+                        ['camperid' => $thiscamper->id, 'amount' => ($request->amount * .03),
+                            'memo' => 'Optional payment to offset PayPal ' . $request->txn,
                             'chargetypeid' => DB::raw('getchargetypeid(\'Paypal Service Charge\')'),
                             'year' => DB::raw('getcurrentyear()'), 'timestamp' => date("Y-m-d"),
                             'created_at' => DB::raw('CURRENT_TIMESTAMP')]

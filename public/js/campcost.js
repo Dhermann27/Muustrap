@@ -37,10 +37,10 @@ function calc() {
         case 0:
             break;
         case 1:
-            deposit = 150.0;
+            deposit = 200.0;
             break;
         default:
-            deposit = 300.0;
+            deposit = 400.0;
     }
     singlealert.hide();
     adultalert.hide();

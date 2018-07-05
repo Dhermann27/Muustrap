@@ -188,7 +188,7 @@
                         </li>
                         @endrole
 
-                        @if(count($actslist) > 0)
+                        @if(isset($actslist) && count($actslist) > 0)
                             <li class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" id="tool-drop" data-toggle="dropdown"
                                    data-hover="dropdown">Coffeehouse Schedule <i class="far fa-music"></i></a>

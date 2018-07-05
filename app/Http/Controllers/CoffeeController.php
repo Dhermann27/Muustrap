@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CoffeeController extends Controller
 {
@@ -59,14 +60,14 @@ class CoffeeController extends Controller
 
     public function index($day = null)
     {
-        $year = \App\Year::where('is_current', '1')->first();
+        $year = $this->getInProgressYear();
         $firstday = Carbon::createFromFormat('Y-m-d', $year->start_date, 'America/Chicago');
         $acts = \App\Coffeehouseact::where('year', $year->year)->orderBy('order')->get();
         $starttime = Carbon::now('America/Chicago')->hour(21)->minute(50);
 
         $camper = null;
         $readonly = \Entrust::can('read') && !\Entrust::can('write');
-        $camper = \App\Thisyear_Camper::where('email', Auth::user()->email)->first();
+        $camper = \App\Byyear_Camper::where('year', $year->year)->where('email', Auth::user()->email)->first();
         if (isset($camper)) {
             foreach ($camper->yearattending->positions as $position) {
                 if ($position->staffpositionid == '1117' || $position->staffpositionid == '1103') {
@@ -78,4 +79,12 @@ class CoffeeController extends Controller
         return view('coffeehouse', ['firstday' => $firstday, 'day' => $day, 'acts' => $acts,
             'starttime' => $starttime, 'readonly' => $readonly]);
     }
+
+    public function getInProgressYear()
+    {
+        $year = DB::table('years')->whereRaw('NOW() BETWEEN `start_date` and DATE_ADD(`start_date`, INTERVAL 7 DAY)')->first();
+        return $year != null ? $year : \App\Year::where('is_current', '1')->first();
+    }
 }
+
+

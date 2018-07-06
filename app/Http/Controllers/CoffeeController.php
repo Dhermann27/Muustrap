@@ -14,7 +14,7 @@ class CoffeeController extends Controller
         $year = $this->getInProgressYear();
         $camper = null;
         $readonly = \Entrust::can('read') && !\Entrust::can('write');
-        $camper = \App\Thisyear_Camper::where('year', $year->year)->where('email', Auth::user()->email)->first();
+        $camper = \App\Byyear_Camper::where('year', $year->year)->where('email', Auth::user()->email)->first();
         if (isset($camper)) {
             foreach ($camper->yearattending->positions as $position) {
                 if ($position->staffpositionid == '1117' || $position->staffpositionid == '1103') {

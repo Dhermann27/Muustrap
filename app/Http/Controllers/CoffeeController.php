@@ -11,9 +11,10 @@ class CoffeeController extends Controller
 {
     public function store(Request $request)
     {
+        $year = $this->getInProgressYear();
         $camper = null;
         $readonly = \Entrust::can('read') && !\Entrust::can('write');
-        $camper = \App\Thisyear_Camper::where('email', Auth::user()->email)->first();
+        $camper = \App\Thisyear_Camper::where('year', $year->year)->where('email', Auth::user()->email)->first();
         if (isset($camper)) {
             foreach ($camper->yearattending->positions as $position) {
                 if ($position->staffpositionid == '1117' || $position->staffpositionid == '1103') {
@@ -23,7 +24,6 @@ class CoffeeController extends Controller
         }
 
         if ($readonly === false) {
-            $year = \App\Year::where('is_current', '1')->first();
             foreach ($request->all() as $key => $value) {
                 $matches = array();
                 if (preg_match('/(\d+)-(delete|order|is_onstage)/', $key, $matches)) {

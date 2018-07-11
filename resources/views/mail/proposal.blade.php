@@ -27,7 +27,8 @@
 
 <p><strong>Preferred Days of Week</strong>: {{ $request->days }}</p>
 
-<p><strong>Preferred Timeslot</strong>: {{ $request->timeslot }}</p>
+<p><strong>Preferred Timeslot</strong>: {{ $request->timeslot }} <br />
+    Details: {{ $request->timeslotpref }}</p>
 
 <p><strong>Room Requirements</strong>: {{ $request->room }}</p>
 
@@ -38,5 +39,7 @@
 <p><strong>Maximum Number of Participants</strong>: {{ $request->capacity }}</p>
 
 <p><strong>Waive Credit</strong>: {{ $request->waive}}</p>
+
+<p><strong>Additional Details</strong>: {{ $request->details }}</p>
 
 

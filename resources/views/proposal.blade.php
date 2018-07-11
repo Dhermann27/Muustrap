@@ -77,6 +77,10 @@
                 </div>
             </div>
 
+            @include('snippet.formgroup', ['label' => 'Please add any details about your time slot preference.',
+                'attribs' => ['name' => 'timeslotpref']])
+
+
             @include('snippet.formgroup', ['label' => 'Room Requirements (table, chairs, etc.)',
                 'attribs' => ['name' => 'room']])
 
@@ -92,6 +96,9 @@
                 'label' => 'Are you willing to volunteer your time and waive camp credit?', 'attribs' => ['name' => 'waive'],
                 'list' => [['id' => 'No', 'name' => 'No'],
                             ['id' => 'Yes', 'name' => 'Yes']], 'option' => 'name'])
+
+            @include('snippet.formgroup', ['label' => 'Please list any additional details of which we should be aware.',
+                'attribs' => ['name' => 'details']])
 
             @include('snippet.formgroup', ['type' => 'captcha', 'label' => 'CAPTCHA Test',
                 'attribs' => ['name' => 'g-recaptcha-response']])

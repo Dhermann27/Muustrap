@@ -58,14 +58,7 @@
                             <table class="table table-sm">
                                 @foreach($family->allcampers()->orderBy('birthdate')->get() as $camper)
                                     <tr>
-                                        <td width="4%">
-                                            @if(isset($pix[$camper->firstname . ' ' . $camper->lastname]))
-                                                <a href="{{ $pix[$camper->firstname . ' ' . $camper->lastname]["link"] }}"><img
-                                                            src="{{ $pix[$camper->firstname . ' ' . $camper->lastname]["url"] }}"
-                                                            alt="{{ $camper->firstname }} {{ $camper->lastname }}"/></a>
-                                            @endif
-                                        </td>
-                                        <td width="33%" class="name align-middle">{{ $camper->lastname }}
+                                        <td width="34%" class="name align-middle">{{ $camper->lastname }}
                                             , {{ $camper->firstname }}
                                             @if(isset($camper->email))
                                                 <a href="mailto:{{ $camper->email }}">
@@ -73,11 +66,11 @@
                                                 </a>
                                             @endif
                                         </td>
-                                        <td width="31%" class="align-middle"><a href="tel:+1{{ $camper->phonenbr }}">
+                                        <td width="33%" class="align-middle"><a href="tel:+1{{ $camper->phonenbr }}">
                                                 {{ $camper->formatted_phone }}
                                             </a>
                                         </td>
-                                        <td width="31%" class="align-middle">{{ $camper->birthday }}</td>
+                                        <td width="33%" class="align-middle">{{ $camper->birthday }}</td>
                                     </tr>
                                 @endforeach
                             </table>

@@ -16,6 +16,7 @@ class ContactController extends Controller
     public function contactStore(Request $request)
     {
         $messages = [
+            'message.not_regex' => 'This contact form does not accept the Bible as the Word of God.',
             'g-recaptcha-response.required' => 'Please check the CAPTCHA box and follow any additional instructions.',
         ];
 
@@ -29,7 +30,7 @@ class ContactController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|max:255',
             'mailbox' => 'required|exists:contactboxes,id',
-            'message' => 'required|min:5',
+            'message' => 'required|min:5|not_regex:/scripture/|not_regex:/gospel/|not_regex:/infallible/',
             'g-recaptcha-response' => 'required|captcha',
         ], $messages);
 

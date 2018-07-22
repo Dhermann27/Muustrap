@@ -42,35 +42,38 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th width="50%">Family</th>
-                    <th width="25%">Location</th>
+                    <th width="25%">Family</th>
+                    <th width="50%">Address</th>
                     <th width="25%">Years Attended</th>
                 </tr>
                 </thead>
                 @foreach($families as $family)
                     <tr class="family">
                         <td>{{ $family->name }}</td>
-                        <td>{{ $family->city }}, {{ $family->statecd }}</td>
+                        <td>{{ $family->address1 }} |
+                            @if(!empty($family->address2))
+                                {{ $family->address2 }} |
+                            @endif
+                            {{ $family->city }}, {{ $family->statecd }}</td>
                         <td align="right">{!! $family->formatted_years !!}</td>
                     </tr>
                     <tr class="members">
                         <td colspan="3">
                             <table class="table table-sm">
-                                @foreach($family->allcampers()->orderBy('birthdate')->get() as $camper)
+                                @foreach($campers[$family->id] as $camper)
                                     <tr>
                                         <td width="34%" class="name align-middle">{{ $camper->lastname }}
                                             , {{ $camper->firstname }}
+                                        </td>
+                                        <td width="33%" class="align-middle">
                                             @if(isset($camper->email))
-                                                <a href="mailto:{{ $camper->email }}">
-                                                    <i class="far fa-envelope"></i>
-                                                </a>
+                                                <a href="mailto:{{ $camper->email }}">{{ $camper->email }}</a>
                                             @endif
                                         </td>
                                         <td width="33%" class="align-middle"><a href="tel:+1{{ $camper->phonenbr }}">
                                                 {{ $camper->formatted_phone }}
                                             </a>
                                         </td>
-                                        <td width="33%" class="align-middle">{{ $camper->birthday }}</td>
                                     </tr>
                                 @endforeach
                             </table>

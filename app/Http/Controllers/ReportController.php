@@ -44,7 +44,7 @@ class ReportController extends Controller
         $dates = DB::select(DB::raw('SELECT ya.year AS theleft, RIGHT(DATE(ya.created_at),5) AS theright, DATE(ya.created_at) AS thedate, 
             (SELECT COUNT(*) FROM yearsattending yap WHERE yap.year=MAX(ya.year) AND DATE(yap.created_at) <= thedate) AS total
             FROM yearsattending ya, staticdates sd WHERE RIGHT(DATE(ya.created_at), 5)=RIGHT(DATE(sd.date), 5) AND ya.year>getcurrentyear()-7 
-            GROUP BY DATE(ya.created_at) ORDER BY RIGHT(DATE(ya.created_at), 5)'));
+            GROUP BY DATE(ya.created_at) ORDER BY sd.day'));
         $summaries = DB::select(DB::raw('SELECT ya.year, COUNT(*) total, SUM(IF((SELECT COUNT(*) FROM yearsattending yap WHERE ya.year>yap.year AND c.id=yap.camperid)=0, 1, 0)) newcampers, 
             SUM(IF((SELECT COUNT(*) FROM yearsattending yap WHERE ya.year-1=yap.year AND c.id=yap.camperid)=0 AND (SELECT COUNT(*) FROM yearsattending yap WHERE ya.year-2=yap.year AND c.id=yap.camperid)=1,1,0)) oldcampers, 
             SUM(IF((SELECT COUNT(*) FROM yearsattending yap WHERE ya.year-3<yap.year AND yap.year<ya.year AND c.id=yap.camperid)=0 AND (SELECT COUNT(*) FROM yearsattending yap WHERE ya.year-3>=yap.year AND c.id=yap.camperid)>0,1,0)) voldcampers, 

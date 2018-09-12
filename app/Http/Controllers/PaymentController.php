@@ -104,6 +104,23 @@ class PaymentController extends Controller
             ['token' => $token, 'env' => $env, 'housing' => $roomid, 'charges' => $charges, 'deposit' => $deposit]);
     }
 
+    public function test()
+    {
+        $env = env('APP_ENV');
+        $token = env('PAYPAL_CLIENT');
+
+        $camper = \App\Camper::find(1399);
+        $depositchargetype = DB::select('SELECT getchargetypeid(\'MUUSA Deposit\') id FROM users');
+        $familyid = $camper->family->id;
+        $roomid = \App\Thisyear_Camper::where('familyid', $familyid)->whereNotNull('roomid')->count();
+        $charges = \App\Thisyear_Charge::where('familyid', $familyid)->orderBy('timestamp')->orderBy('amount', 'desc')->get();
+        $deposit = $charges->where('amount', '<', 0)->sum('amount') +
+            $charges->where('chargetypeid', $depositchargetype[0]->id)->sum('amount');
+
+        return view('payment',
+            ['token' => $token, 'env' => $env, 'housing' => $roomid, 'charges' => $charges, 'deposit' => $deposit]);
+    }
+
     public function write(Request $request, $id)
     {
         $thiscamper = \App\Camper::where('familyid', $id)->first();

@@ -29,6 +29,7 @@ Route::get('/camper/{i}/{id}', 'CamperController@read')->middleware('auth', 'rol
 Route::post('/camper/f/{id}', 'CamperController@write')->middleware('auth', 'role:admin');
 
 Route::get('/payment', 'PaymentController@index')->middleware('auth');
+Route::get('/paypaltest', 'PaymentController@test');
 Route::post('/payment', 'PaymentController@store')->middleware('auth');
 Route::get('/payment/{i}/{id}', 'PaymentController@read')->middleware('auth', 'role:admin|council');
 Route::post('/payment/f/{id}', 'PaymentController@write')->middleware('auth', 'role:admin');

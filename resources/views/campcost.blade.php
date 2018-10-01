@@ -1,4 +1,3 @@
-@inject('home', 'App\Http\Controllers\HomeController')
 @extends('layouts.app')
 
 @section('title')
@@ -145,9 +144,9 @@
 @section('script')
     <script>
         // Adult (1-4), Burt, Cratty, Lumens, Meyer, YA, YA 18-20
-        var guestsuite = [{{ $home->year()->rates()->where('buildingid', '1000')->get()->implode('rate', ',') }}];
-        var tentcamp = [{{ $home->year()->rates()->where('buildingid', '1007')->get()->implode('rate', ',') }}];
-        var lakewood = [{{ $home->year()->rates()->where('buildingid', '1017')->get()->implode('rate', ',') }}];
+        var guestsuite = [{{ $year->rates()->where('buildingid', '1000')->get()->implode('rate', ',') }}];
+        var tentcamp = [{{ $year->rates()->where('buildingid', '1007')->get()->implode('rate', ',') }}];
+        var lakewood = [{{ $year->rates()->where('buildingid', '1017')->get()->implode('rate', ',') }}];
     </script>
     <script src="/js/campcost.js" type="text/javascript"></script>
 @endsection

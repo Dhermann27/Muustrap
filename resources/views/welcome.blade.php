@@ -20,7 +20,7 @@
                 <div class="col-md-4" data-animate="fadeIn" data-animate-delay="1.2">
                     <i class="far fa-calendar-alt fa-3x"></i>
                     <p><strong>Scheduled</strong><br/>
-                        {{ $home->year()->first_day }} through {{ $home->year()->last_day }} {{ $home->year()->year }}
+                        {{ $year->first_day }} through {{ $year->last_day }} {{ $year->year }}
                     </p>
                 </div>
                 <div class="col-md-4" data-animate="fadeIn" data-animate-delay="1.4">
@@ -41,10 +41,10 @@
             mail your check to the address on the same page.
         </div>
     @elseif(!$home->registered())
-        <div class="alert alert-info" role="alert">Ready to register for MUUSA {{ $home->year()->year }}? Start the
+        <div class="alert alert-info" role="alert">Ready to register for MUUSA {{ $year->year }}? Start the
             3-step process by clicking the Register button below.
         </div>
-    @elseif($home->year()->is_live)
+    @elseif($year->is_live)
         @if(!$signedup)
             <div class="alert alert-warning" role="alert">
                 You are all paid up, but have not yet chosen any workshops. Use the button below to select any in which
@@ -111,7 +111,7 @@
                             </p>
                             <div class="card-body">
                                 <p>
-                                    @if($home->year()->is_room_select)
+                                    @if($year->is_room_select)
                                         Find the right place for you and your family to stay, and who might be your
                                         neighbors.
                                     @else
@@ -221,7 +221,7 @@
         <div class="row bg-faded p-3">
             <div class="col-12 col-lg-7 py-2">
                 <h3 class="text-uppercase font-weight-bold mt-0 mb-2">Get Registered
-                    for {{ $home->year()->year }}</h3>
+                    for {{ $year->year }}</h3>
                 <h5 class="text-grey-dark">Complete the five-minute process to register yourself for camp.</h5>
             </div>
             <div class="col-12 col-lg-5 py-2 text-lg-right">
@@ -233,7 +233,7 @@
         <div class="bg-faded py-3 py-lg-6">
             <div class="container">
                 <h2 class="text-center text-uppercase font-weight-bold my-0">
-                    {{ $home->year()->year }} Registration
+                    {{ $year->year }} Registration
                 </h2>
                 <hr class="hr-lg mt-0 mb-3 w-10 mx-auto hr-primary"/>
 
@@ -270,7 +270,7 @@
                             </p>
                             <div class="card-body">
                                 <p>This page can help you update your information specific
-                                    to {{ $home->year()->year }}
+                                    to {{ $year->year }}
                                     and
                                     choose which campers to register.</p>
                                 <a href="{{ url('/camper') }}" class="btn btn-primary btn-block btn-rounded">Update
@@ -379,7 +379,7 @@
     <div class="bg-faded py-3 py-lg-6">
         <div class="container">
             <h2 class="text-center text-uppercase font-weight-bold my-0">
-                What is new for MUUSA in {{ $home->year()->year }}?
+                What is new for MUUSA in {{ $year->year }}?
             </h2>
             <hr class="hr-lg mt-0 mb-3 w-10 mx-auto hr-primary"/>
             <div class="row">
@@ -391,12 +391,12 @@
                         </p>
                         <div class="card-body">
                             <p>Here is a list of all
-                                @if($home->year()->is_live)
-                                    {{ $home->year()->year }} workshops available, as organized by our Adult
+                                @if($year->is_live)
+                                    {{ $year->year }} workshops available, as organized by our Adult
                                     Programming
                                     Committee.
                                 @else
-                                    {{ ($home->year()->year)-1 }} workshops, to give you a better idea of what
+                                    {{ ($year->year)-1 }} workshops, to give you a better idea of what
                                     to expect
                                     next year.
                                 @endif
@@ -415,10 +415,10 @@
                         </p>
                         <div class="card-body">
                             <p>This is where you can find more details about single-day trips planned in
-                                @if($home->year()->is_live)
-                                    {{ $home->year()->year }}, if you're looking to try something new.
+                                @if($year->is_live)
+                                    {{ $year->year }}, if you're looking to try something new.
                                 @else
-                                    {{ ($home->year()->year)-1 }}, which may change in {{ $home->year()->year }}
+                                    {{ ($year->year)-1 }}, which may change in {{ $year->year }}
                                     .
                                 @endif
                             </p>
@@ -435,7 +435,7 @@
                                     class="far fa-microphone fa-5x"></i>
                         </p>
                         <div class="card-body">
-                            <p>Find out more information about our {{ $home->year()->year }} Theme Speakers,
+                            <p>Find out more information about our {{ $year->year }} Theme Speakers,
                                 Rev. Karen Mooney &amp; Rev. Pam Rumancik.</p>
                             <a href="{{ url('/themespeaker') }}" class="btn btn-primary btn-block btn-rounded">View
                                 Biographies</a>

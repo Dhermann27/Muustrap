@@ -1,5 +1,3 @@
-@inject('home', 'App\Http\Controllers\HomeController')
-
 <div role="tabpanel" class="tab-pane fade{{ $looper->first && $camper->id != '0' ? ' active show' : '' }}"
      aria-expanded="{{ $loop->first && $camper->id != '0' ? 'true' : 'false' }}" id="{{ $camper->id }}">
     <p>&nbsp;</p>
@@ -13,7 +11,7 @@
                 <a href="#" class="p-2 float-right" data-toggle="tooltip" data-html="true"
                    title="@lang('messages.attending')"><i class="far fa-info"></i></a>
             @endif
-            Attending in {{ $home->year()->year }}?
+            Attending in {{ $year->year }}?
         </label>
 
         <div class="col-md-6">
@@ -176,7 +174,7 @@
                 @foreach($programs as $program)
                     <option value="{{ $program->id }}"
                             {{ $program->id == old('programid.' . $looper->index, $camper->last_programid) ? ' selected' : '' }}>
-                        {{ str_replace("YEAR", $home->year()->year, $program->display) }}
+                        {{ str_replace("YEAR", $year->year, $program->display) }}
                     </option>
                 @endforeach
             </select>

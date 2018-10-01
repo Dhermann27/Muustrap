@@ -1,4 +1,3 @@
-@inject('home', 'App\Http\Controllers\HomeController')
 @extends('layouts.app')
 
 @section('css')
@@ -50,7 +49,7 @@
             allDaySlot: false,
             minTime: '06:00:00',
             defaultView: $(window).width() < 768 ? 'agendaDay' : 'agendaWeek',
-            defaultDate: $(window).width() < 768 ? '{{ $home->year()->next_day }}' : '{{  $home->year()->start_date }}',
+            defaultDate: $(window).width() < 768 ? '{{ $year->next_day }}' : '{{  $year->start_date }}',
             @if(!empty($camper->program->calendar))
             events: {
                 googleCalendarId: '{{ $camper->each_calendar }}',
@@ -63,7 +62,7 @@
                 {
                     events: [
                             @foreach($camper->yearattending->workshops()->where('is_enrolled', '1')->get() as $signup)
-                            @foreach($signup->workshop->days($home->year()) as $day)
+                            @foreach($signup->workshop->days($year) as $day)
                         {
                             'title': '{{  $signup->workshop->name }}',
                             'start': ' {{ $day[0] }}',

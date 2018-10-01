@@ -58,14 +58,14 @@
                         </form>
                     @endif
                     <div class="header-divider header-divider-sm"></div>
-                    @if($home->year()->next_muse !== false)
+                    @if($year->next_muse !== false)
                         <a href="{{ url('/themuse') }}"
-                           class="nav-link text-s text-uppercase d-md-block">{{ $home->year()->next_muse }}</a>
+                           class="nav-link text-s text-uppercase d-md-block">{{ $year->next_muse }}</a>
                     @endif
-                    @if($home->year()->is_live)
-                        <a href="{{ url('MUUSA_' . $home->year()->year . '_Brochure.pdf') }}"
+                    @if($year->is_live)
+                        <a href="{{ url('MUUSA_' . $year->year . '_Brochure.pdf') }}"
                            class="nav-link text-s text-uppercase d-md-block">Web Brochure</a>
-                    @elseif(Auth::check() && $home->year()->is_workshop_proposal)
+                    @elseif(Auth::check() && $year->is_workshop_proposal)
                         <a href="{{ url('/proposal') }}" class="nav-link text-s text-uppercase d-md-block">Workshop
                             Proposal</a>
                     @endif
@@ -86,7 +86,7 @@
                 @if(Auth::check())
                     <a href="{{ url('/directory') }}" class="nav-link"> <i class="far fa-address-book fa-2x"></i> <span
                                 class="sr-only">Online Directory</span> </a>
-                    @if($home->year()->is_live)
+                    @if($year->is_live)
                         <a href="{{ url('/calendar') }}" class="nav-link"> <i class="far fa-calendar-alt fa-2x"></i>
                             <span
                                     class="sr-only">Your MUUSA Calendar</span>
@@ -175,7 +175,7 @@
                                 <a href="#" class="nav-link dropdown-toggle" id="tool-drop" data-toggle="dropdown"
                                    data-hover="dropdown">Coffeehouse Schedule <i class="far fa-music"></i></a>
                                 <div class="dropdown-menu">
-                                    <p><i>{{ $home->year()->next_weekday->format('l F jS') }}</i></p>
+                                    <p><i>{{ $year->next_weekday->format('l F jS') }}</i></p>
                                     @if(isset($onstage))
                                         <p>Now on stage:</p>
                                         <p class="dropdown-item">
@@ -201,18 +201,18 @@
                             <div class="dropdown-menu dropdown-menu-right">
                                 <ul class="nav nav-pills nav-pills-border-bottom-inside flex-column flex-lg-row"
                                     role="tablist">
-                                    @if(Auth::check() && $home->registered() && $home->year()->is_live)
+                                    @if(Auth::check() && $home->registered() && $year->is_live)
                                         <li class="nav-item"><a class="nav-link p-3 active text-center font-weight-bold"
                                                                 data-toggle="tab" data-target=".menu-tab-1" role="tab">
-                                                {{ $home->year()->year }} Options</a></li>
+                                                {{ $year->year }} Options</a></li>
                                         <li class="nav-item"><a class="nav-link p-3 text-center font-weight-bold"
                                                                 data-toggle="tab" data-target=".menu-tab-2" role="tab">
                                                 Special News</a></li>
                                     @endif
                                     <li class="nav-item"><a
-                                                class="nav-link p-3 text-center font-weight-bold{{ Auth::guest() || !$home->registered() || !$home->year()->is_live ? ' active' : ''}}"
+                                                class="nav-link p-3 text-center font-weight-bold{{ Auth::guest() || !$home->registered() || !$year->is_live ? ' active' : ''}}"
                                                 data-toggle="tab" data-target=".menu-tab-3" role="tab">
-                                            Register for {{ $home->year()->year }}</a></li>
+                                            Register for {{ $year->year }}</a></li>
                                     <li class="nav-item"><a class="nav-link p-3 text-center font-weight-bold"
                                                             data-toggle="tab" data-target=".menu-tab-4" role="tab">
                                             General Info</a></li>
@@ -221,7 +221,7 @@
                                             2018 Info</a></li>
                                 </ul>
                                 <div class="tab-content py-3">
-                                    @if(Auth::check() && $home->registered() && $home->year()->is_live)
+                                    @if(Auth::check() && $home->registered() && $year->is_live)
                                         <div class="tab-pane active show menu-tab-1" role="tabpanel">
                                             <div class="row text-center">
                                                 <div class="col-lg-3 py-2">
@@ -273,7 +273,7 @@
                                             </div>
                                         </div>
                                     @endif
-                                    <div class="tab-pane menu-tab-3{{ Auth::guest() || !$home->registered() || !$home->year()->is_live ? ' active show' : ''}}"
+                                    <div class="tab-pane menu-tab-3{{ Auth::guest() || !$home->registered() || !$year->is_live ? ' active show' : ''}}"
                                          role="tabpanel">
                                         <div class="row text-center">
                                             <div class="col-lg-4 py-2">
@@ -399,7 +399,7 @@
         <div class="row">
             <div class="col-md-12">
                 <p class="mb-0">Site template by <a href="http://appstraptheme.com/" class="footer-link">AppStrap</a> |
-                    Copyright {{ $home->year()->year }} © Midwest Unitarian Universalist Summmer Assembly</p>
+                    Copyright {{ $year->year }} © Midwest Unitarian Universalist Summmer Assembly</p>
             </div>
         </div>
         <a href="#top" class="btn btn-icon btn-inverse pos-fixed pos-b pos-r mr-3 mb-3 scroll-state-active"

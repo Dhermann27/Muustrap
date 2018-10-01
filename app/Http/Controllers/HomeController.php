@@ -26,11 +26,6 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function year()
-    {
-        return \App\Year::where('is_current', '1')->first();
-    }
-
     public function registered()
     {
         return Auth::check() && \App\Thisyear_Camper::where('email', Auth::user()->email)->first();

@@ -1,4 +1,3 @@
-@inject('home', 'App\Http\Controllers\HomeController')
 @extends('layouts.app')
 
 @section('css')
@@ -100,7 +99,7 @@
                     <input type="submit" class="btn btn-lg btn-primary disabled py-3 px-4"
                            value="Room Locked By Registrar"/>
                 </div>
-            @elseif(!empty($camper->lastname) && $home->year()->is_room_select)
+            @elseif(!empty($camper->lastname) && $year->is_room_select)
                 <input type="hidden" id="roomid" name="roomid"/>
                 @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Lock Room']])
             @endif

@@ -1,4 +1,3 @@
-@inject('home', 'App\Http\Controllers\HomeController')
 @extends('layouts.app')
 
 @section('title')
@@ -10,10 +9,10 @@
 @endsection
 
 @section('content')
-    @if($home->year()->is_scholarship_full == '1')
+    @if($year->is_scholarship_full == '1')
         <div class="alert alert-warning">
-            Unfortunately, all {{ $home->year()->year }} scholarship funds have been awarded. Please check back
-            in {{ $home->year()->year+1 }}.
+            Unfortunately, all {{ $year->year }} scholarship funds have been awarded. Please check back
+            in {{ $year->year+1 }}.
         </div>
     @endif
     <div class="container">

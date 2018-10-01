@@ -1,4 +1,3 @@
-@inject('home', 'App\Http\Controllers\HomeController')
 @extends('layouts.app')
 
 @section('title')

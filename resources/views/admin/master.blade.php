@@ -1,4 +1,3 @@
-@inject('home', 'App\Http\Controllers\HomeController')
 @extends('layouts.app')
 
 @section('title')
@@ -46,17 +45,17 @@
             </table>
 
             <div class="well">
-                <h4>{{ $home->year()->year }} Options</h4>
+                <h4>{{ $year->year }} Options</h4>
 
                 <div class="alert alert-warning p-0 m-0">
-                    @if($home->year()->hasBrochure())
+                    @if($year->hasBrochure())
                         A Web Brochure exists on the server for this year.
                     @else
                         The Web Brochure is missing for this year.
                     @endif
                 </div>
 
-                <div class="form-group row{{ $errors->has($home->year()->year . '-start_date') ? ' has-danger' : '' }}">
+                <div class="form-group row{{ $errors->has($year->year . '-start_date') ? ' has-danger' : '' }}">
                     <label for="date" class="col-md-4 control-label">Start Date (yyyy-mm-dd)
                         <a href="#" class="p-2 float-right" data-toggle="tooltip" data-html="true"
                            title="First day of camp"><i class="far fa-info"></i></a>
@@ -65,8 +64,8 @@
                         <div class="input-group date" data-provide="datepicker"
                              data-date-format="yyyy-mm-dd" data-date-autoclose="true">
                             <input id="date" type="text"
-                                   class="form-control{{ $errors->has($home->year()->year . '-start_date') ? ' is-invalid' : '' }}"
-                                   name="{{ $home->year()->year }}-start_date" value="{{ old($home->year()->year . '-start_date', $home->year()->start_date) }}"
+                                   class="form-control{{ $errors->has($year->year . '-start_date') ? ' is-invalid' : '' }}"
+                                   name="{{ $year->year }}-start_date" value="{{ old($year->year . '-start_date', $year->start_date) }}"
                                    required>
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="far fa-calendar"></i></span>
@@ -74,15 +73,15 @@
                             <div class="input-group-addon">
                             </div>
                         </div>
-                        @if ($errors->has($home->year()->year . '-start_date'))
+                        @if ($errors->has($year->year . '-start_date'))
                             <span class="invalid-feedback">
-                                <strong>{{ $errors->first($home->year()->year . '-start_date') }}</strong>
+                                <strong>{{ $errors->first($year->year . '-start_date') }}</strong>
                             </span>
                         @endif
                     </div>
                 </div>
 
-                <div class="form-group row{{ $errors->has($home->year()->year . '-start_open') ? ' has-danger' : '' }}">
+                <div class="form-group row{{ $errors->has($year->year . '-start_open') ? ' has-danger' : '' }}">
                     <label for="date" class="col-md-4 control-label">Open Date (yyyy-mm-dd)
                         <a href="#" class="p-2 float-right" data-toggle="tooltip" data-html="true"
                            title="Expected date of brochure mailing"><i class="far fa-info"></i></a>
@@ -91,8 +90,8 @@
                         <div class="input-group date" data-provide="datepicker"
                              data-date-format="yyyy-mm-dd" data-date-autoclose="true">
                             <input id="date" type="text"
-                                   class="form-control{{ $errors->has($home->year()->year . '-start_open') ? ' is-invalid' : '' }}"
-                                   name="{{ $home->year()->year }}-start_open" value="{{ old($home->year()->year . '-start_open', $home->year()->start_open) }}"
+                                   class="form-control{{ $errors->has($year->year . '-start_open') ? ' is-invalid' : '' }}"
+                                   name="{{ $year->year }}-start_open" value="{{ old($year->year . '-start_open', $year->start_open) }}"
                                    required>
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="far fa-calendar"></i></span>
@@ -100,36 +99,40 @@
                             <div class="input-group-addon">
                             </div>
                         </div>
-                        @if ($errors->has($home->year()->year . '-start_open'))
+                        @if ($errors->has($year->year . '-start_open'))
                             <span class="invalid-feedback">
-                                <strong>{{ $errors->first($home->year()->year . '-start_open') }}</strong>
+                                <strong>{{ $errors->first($year->year . '-start_open') }}</strong>
                             </span>
                         @endif
                     </div>
                 </div>
 
-                @include('snippet.formgroup', ['type' => 'select', 'label' => 'Show ' . $home->year()->year . ' Information',
-                    'attribs' => ['name' => $home->year()->year . '-is_live'], 'formobject' => $home->year(),
+                @include('snippet.formgroup', ['type' => 'select', 'label' => 'Show ' . $year->year . ' Information',
+                    'attribs' => ['name' => $year->year . '-is_live'], 'formobject' => $year,
                     'list' => [['id' => '0', 'name' => 'No'], ['id' => '1', 'name' => 'Yes']], 'option' => 'name'])
 
                 @include('snippet.formgroup', ['type' => 'select', 'label' => 'Home Page',
-                    'attribs' => ['name' => $home->year()->year . '-is_crunch'], 'formobject' => $home->year(),
+                    'attribs' => ['name' => $year->year . '-is_crunch'], 'formobject' => $year,
                     'list' => [['id' => '0', 'name' => 'Normal'], ['id' => '1', 'name' => 'Crunch Mode']], 'option' => 'name'])
 
                 @include('snippet.formgroup', ['type' => 'select', 'label' => 'Accept PayPal Payments',
-                    'attribs' => ['name' => $home->year()->year . '-is_accept_paypal'], 'formobject' => $home->year(),
+                    'attribs' => ['name' => $year->year . '-is_accept_paypal'], 'formobject' => $year,
                     'list' => [['id' => '0', 'name' => 'No'], ['id' => '1', 'name' => 'Yes']], 'option' => 'name'])
 
                 @include('snippet.formgroup', ['type' => 'select', 'label' => 'Allow Room Selection',
-                    'attribs' => ['name' => $home->year()->year . '-is_room_select'], 'formobject' => $home->year(),
+                    'attribs' => ['name' => $year->year . '-is_room_select'], 'formobject' => $year,
                     'list' => [['id' => '0', 'name' => 'No'], ['id' => '1', 'name' => 'Yes']], 'option' => 'name'])
 
                 @include('snippet.formgroup', ['type' => 'select', 'label' => 'Accept Workshop Proposals',
-                    'attribs' => ['name' => $home->year()->year . '-is_workshop_proposal'], 'formobject' => $home->year(),
+                    'attribs' => ['name' => $year->year . '-is_workshop_proposal'], 'formobject' => $year,
                     'list' => [['id' => '0', 'name' => 'No'], ['id' => '1', 'name' => 'Yes']], 'option' => 'name'])
 
                 @include('snippet.formgroup', ['type' => 'select', 'label' => 'Accept Art Fair Submissions',
-                    'attribs' => ['name' => $home->year()->year . '-is_artfair'], 'formobject' => $home->year(),
+                    'attribs' => ['name' => $year->year . '-is_artfair'], 'formobject' => $year,
+                    'list' => [['id' => '0', 'name' => 'No'], ['id' => '1', 'name' => 'Yes']], 'option' => 'name'])
+
+                @include('snippet.formgroup', ['type' => 'select', 'label' => 'Show Coffeehouse Now Playing',
+                    'attribs' => ['name' => $year->year . '-is_coffeehouse'], 'formobject' => $year,
                     'list' => [['id' => '0', 'name' => 'No'], ['id' => '1', 'name' => 'Yes']], 'option' => 'name'])
 
                 @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes']])

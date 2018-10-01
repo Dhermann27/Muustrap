@@ -1,4 +1,3 @@
-@inject('home', 'App\Http\Controllers\HomeController')
 @extends('layouts.app')
 
 @section('title')
@@ -6,7 +5,7 @@
 @endsection
 
 @section('heading')
-    Learn more about the {{ $home->year()->year }} theme speakers.
+    Learn more about the {{ $year->year }} theme speakers.
 @endsection
 
 @section('content')

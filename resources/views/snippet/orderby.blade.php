@@ -1,4 +1,3 @@
-@inject('home', 'App\Http\Controllers\HomeController')
 <div class="row float-right pb-2">
     <a href="{{ $url }}.xls" class="btn btn-info" data-toggle="tooltip" title="Download Excel"><i
                 class="far fa-download"></i></a>
@@ -6,7 +5,7 @@
         <div class="dropdown px-2">
             <a class="btn btn-info dropdown-toggle" href="#" role="button" id="orderByYearLink" data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
-                {{ !empty($thisyear) ? $thisyear : $home->year()->year }}
+                {{ !empty($thisyear) ? $thisyear : $year->year }}
             </a>
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="orderByYearLink">
@@ -27,7 +26,7 @@
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="orderByOrderLink">
                 @foreach($orders as $order)
                     <a class="dropdown-item"
-                       href="{{ $url }}/{{ !empty($thisyear) ? $thisyear : $home->year()->year }}/{{ $order }}">Order
+                       href="{{ $url }}/{{ !empty($thisyear) ? $thisyear : $year->year }}/{{ $order }}">Order
                         by {{ ucwords($order) }}</a>
                 @endforeach
             </div>

@@ -1,4 +1,3 @@
-@inject('home', 'App\Http\Controllers\HomeController')
 @extends('layouts.app')
 
 @section('css')
@@ -92,7 +91,7 @@
                 e.preventDefault();
                 var form = $("#camperinfo");
                 $(this).val("Saving").removeClass("btn-primary btn-danger").prop("disabled", true);
-                if (!confirm("You are registering " + form.find('select.days option[value!="0"]:selected').length + " campers for {{ $home->year()->year }}. Is this correct?")) {
+                if (!confirm("You are registering " + form.find('select.days option[value!="0"]:selected').length + " campers for {{ $year->year }}. Is this correct?")) {
                     $(this).val("Resubmit").addClass("btn-danger").prop("disabled", false);
                     return false;
                 }

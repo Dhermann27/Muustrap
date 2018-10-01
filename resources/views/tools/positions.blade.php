@@ -1,4 +1,3 @@
-@inject('home', 'App\Http\Controllers\HomeController')
 @extends('layouts.app')
 
 @section('title')
@@ -56,7 +55,7 @@
                         @include('snippet.formgroup', ['type' => 'select',
                             'label' => 'Position', 'attribs' => ['name' => $program->id . '-staffpositionid'],
                             'default' => 'Choose a position', 'option' => 'name',
-                            'list' => $program->staffpositions($home->year()->year)->orderBy('name')->get()])
+                            'list' => $program->staffpositions($year->year)->orderBy('name')->get()])
                     </div>
                 @endforeach
             </div>

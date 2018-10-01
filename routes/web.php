@@ -107,6 +107,7 @@ Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'reports'], fu
 });
 
 Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'tools'], function () {
+    Route::get('cognoscenti', 'ToolsController@cognoscenti');
     Route::get('nametags', 'ToolsController@nametagsList');
     Route::post('nametags', 'ToolsController@nametagsPrint');
     Route::get('nametags/all', 'ToolsController@nametags');

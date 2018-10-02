@@ -1,7 +1,7 @@
 @if(!isset($inputgroup))
     <div class="dropdown d-print-none">
         @endif
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+        <button type="button" class="btn btn-outline-secondary dropdown-toggle m-0" data-toggle="dropdown" aria-haspopup="true"
                 id="controls-{{ $id }}" aria-expanded="false">Details <span class="caret"></span></button>
         <div class="dropdown-menu" aria-labelledby="controls{{ $id }}">
             <a class="dropdown-item" href="{{ url('/household/' . $id) }}"><i class="far fa-home"></i> Household</a>

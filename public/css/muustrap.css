@@ -1,14 +1,14 @@
 
 body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Krub', sans-serif;
 }
 
 h1 {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Krub', sans-serif;
 }
 
 h2, h3, h4, div.panel-heading, table.table-responsive thead, a.header-brand-text {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Alfa Slab One', cursive;
 }
 
 div.jumbotron {
@@ -131,8 +131,8 @@ td.teditable:hover {
     cursor: text;
 }
 
-.opensans {
-    font-family: 'Open Sans', Helvetica, sans-serif;
+.krub {
+    font-family: 'Krub', Helvetica, sans-serif;
 }
 
 .indie {

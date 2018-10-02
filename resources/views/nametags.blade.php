@@ -143,7 +143,7 @@
 
                         @include('snippet.formgroup', ['type' => 'select', 'label' => 'Font', 'title' => 'fonts',
                             'attribs' => ['name' => $camper->id . '-nametag-font'], 'formobject' => $camper->yearattending,
-                            'list' => [['id' => '1', 'name' => 'Open Sans'], ['id' => '2', 'name' => 'Indie Flower'],
+                            'list' => [['id' => '1', 'name' => 'Krub'], ['id' => '2', 'name' => 'Indie Flower'],
                             ['id' => '3', 'name' => 'Fredericka the Great'], ['id' => '4', 'name' => 'Mystery Quest'],
                             ['id' => '5', 'name' => 'Great Vibes'], ['id' => '6', 'name' => 'Bangers'],
                             ['id' => '7', 'name' => 'Comic Sans MS']], 'option' => 'name'])
@@ -213,7 +213,7 @@
             if ($("#" + id + "-nametag-fontapply").val() === '2') {
                 obj.find(".label").attr("style", "font-family: '" + font + "';");
             } else {
-                obj.find(".label div:not(.name)").attr("style", "font-family: 'Open Sans';");
+                obj.find(".label div:not(.name)").attr("style", "font-family: 'Krub';");
             }
         }
 

@@ -184,7 +184,7 @@ class Yearattending extends Model
                 return "comic";
                 break;
             default:
-                return "opensans";
+                return "krub";
         }
     }
 

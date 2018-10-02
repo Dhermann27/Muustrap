@@ -62,16 +62,16 @@
             @include('snippet.flash')
 
             <svg id="rooms" height="731" width="1152">
-                <text x="30" y="40" font-family="Roboto" font-size="36px" fill="white">Trout Lodge</text>
-                <text x="15" y="80" font-family="Roboto" font-size="36px" fill="white">Guest Rooms</text>
-                <text x="320" y="-215" transform="rotate(90)" font-family="Roboto" font-size="36px" fill="white">Loft
+                <text x="30" y="40" font-family="Alfa Slab One" font-size="36px" fill="white">Trout Lodge</text>
+                <text x="15" y="80" font-family="Alfa Slab One" font-size="36px" fill="white">Guest Rooms</text>
+                <text x="320" y="-215" transform="rotate(90)" font-family="Alfa Slab One" font-size="36px" fill="white">Loft
                     Suites
                 </text>
-                <text x="402" y="450" font-family="Roboto" font-size="36px" fill="white">Lakeview Cabins</text>
-                <text x="255" y="200" font-family="Roboto" font-size="36px" fill="white">Forestview Cabins</text>
-                <text x="540" y="267" font-family="Roboto" font-size="36px" fill="white">Tent Camping</text>
-                <text x="740" y="85" font-family="Roboto" font-size="36px" fill="white">Camp Lakewood Cabins</text>
-                <text x="910" y="460" font-family="Roboto" font-size="36px" fill="white">Commuter</text>
+                <text x="402" y="450" font-family="Alfa Slab One" font-size="36px" fill="white">Lakeview Cabins</text>
+                <text x="255" y="200" font-family="Alfa Slab One" font-size="36px" fill="white">Forestview Cabins</text>
+                <text x="540" y="267" font-family="Alfa Slab One" font-size="36px" fill="white">Tent Camping</text>
+                <text x="740" y="85" font-family="Alfa Slab One" font-size="36px" fill="white">Camp Lakewood Cabins</text>
+                <text x="910" y="460" font-family="Alfa Slab One" font-size="36px" fill="white">Commuter</text>
                 @foreach($rooms as $room)
                     <g>
                         <rect id="{{ $room->id }}"

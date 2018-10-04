@@ -54,7 +54,7 @@
                             @if(!empty($family->address2))
                                 {{ $family->address2 }} |
                             @endif
-                            {{ $family->city }}, {{ $family->statecd }}</td>
+                            {{ $family->city }}, {{ $family->statecd }} {{ $family->zipcd }}</td>
                         <td align="right">{!! $family->formatted_years !!}</td>
                     </tr>
                     <tr class="members">

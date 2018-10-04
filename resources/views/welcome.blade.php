@@ -203,7 +203,7 @@
             <div class="row">
                 <div class="col-md-11 text-right aos-init aos-animate" data-aos="fade-up">
                     <h1 class="single-block" style="color: white;">
-                        Join us
+                        Join us.
                         <a href="{{ url('/register') }}" class="btn btn-large">Register now</a>
                     </h1>
                 </div>

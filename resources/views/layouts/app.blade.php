@@ -178,20 +178,39 @@
                             <a href="{{ url('/register') }}" class="dropdown-toggle" data-toggle="dropdown">Register</a>
 
                             <ul class="dropdown-menu">
-                                <li><a href="{{ url('/household') }}"><i class="far fa-home"></i> Household</a></li>
-                                <li><a href="{{ url('/camper') }}"><i class="far fa-users"></i> Campers</a></li>
-                                <li>
-                                    <a href="{{ url('/payment') }}"><i class="far fa-usd-square"></i> Payment</a></li>
-                                <li>
-                                    <a href="{{ url('/workshopchoice') }}"><i class="far fa-rocket"></i> Workshops</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('/roomselection') }}"><i class="far fa-bed"></i> Room Selection</a>
-                                </li>
-                                <li><a href="{{ url('/nametag') }}"><i class="far fa-id-card"></i> Nametags</a></li>
-                                <li>
-                                    <a href="{{ url('/confirm') }}"><i class="far fa-envelope"></i> Confirmation</a>
-                                </li>
+                                @if (Auth::guest())
+                                    <li><a href="{{ url('/login') }}">Login</a>
+                                    </li>
+                                    <li><a href="{{ url('/register') }}">Create Account</a></li>
+                                @elseif(true)
+                                    <li><a href="{{ url('/household') }}"><i class="far fa-chevron-right fa-fw"></i>
+                                            Start Registration</a>
+                                    </li>
+                                @else
+                                    <li><a href="{{ url('/household') }}"><i class="far fa-home fa-fw"></i>
+                                            Household</a>
+                                    </li>
+                                    <li><a href="{{ url('/camper') }}"><i class="far fa-users fa-fw"></i> Campers</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url('/payment') }}"><i class="far fa-usd-square fa-fw"></i> Payment</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url('/workshopchoice') }}"><i class="far fa-rocket fa-fw"></i>
+                                            Workshops</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url('/roomselection') }}"><i class="far fa-bed fa-fw"></i> Room
+                                            Selection</a>
+                                    </li>
+                                    <li><a href="{{ url('/nametag') }}"><i class="far fa-id-card fa-fw"></i>
+                                            Nametags</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url('/confirm') }}"><i class="far fa-envelope fa-fw"></i>
+                                            Confirmation</a>
+                                    </li>
+                                @endif
                             </ul>
                         </li>
 
@@ -199,68 +218,77 @@
                             <a href="{{ url('/information') }}" class="dropdown-toggle" data-toggle="dropdown">Information</a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="{{ url('/cost') }}"><i class="far fa-calculator"></i> Cost Calculator</a>
+                                    <a href="{{ url('/cost') }}"><i class="far fa-calculator fa-fw"></i> Cost Calculator</a>
                                 </li>
                                 <li>
-                                    <a href="{{ url('/excursions') }}"><i class="far fa-binoculars"></i> Excursions</a>
+                                    <a href="{{ url('/excursions') }}"><i class="far fa-binoculars fa-fw"></i>
+                                        Excursions</a>
                                 </li>
-                                <li><a href="{{ url('/housing') }}"><i class="far fa-bath"></i> Housing Options</a></li>
-                                <li><a href="{{ url('/programs') }}"><i class="far fa-sitemap"></i> Programs</a></li>
+                                <li><a href="{{ url('/housing') }}"><i class="far fa-bath fa-fw"></i> Housing
+                                        Options</a></li>
+                                <li><a href="{{ url('/programs') }}"><i class="far fa-sitemap fa-fw"></i> Programs</a>
+                                </li>
                                 <li>
-                                    <a href="{{ url('/themespeaker') }}"><i class="far fa-microphone"></i> Theme
+                                    <a href="{{ url('/themespeaker') }}"><i class="far fa-microphone fa-fw"></i> Theme
                                         Speakers</a>
                                 </li>
-                                <li><a href="{{ url('/workshops') }}"><i class="far fa-map"></i> Workshop List</a></li>
+                                <li><a href="{{ url('/workshops') }}"><i class="far fa-map fa-fw"></i> Workshop List</a>
+                                </li>
                             </ul>
                         </li>
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Your Details</a>
                             <ul class="dropdown-menu">
-                                @if($year->is_artfair)
-                                    <li>
-                                        <a href="{{ url('/artfair') }}">
-                                            <i class="far fa-shopping-bag"></i>
-                                            Art Fair Submission
-                                        </a>
+                                @if (Auth::guest())
+                                    <li><a href="{{ url('/login') }}">Login</a>
+                                    </li>
+                                @else
+                                    @if($year->is_artfair)
+                                        <li>
+                                            <a href="{{ url('/artfair') }}">
+                                                <i class="far fa-shopping-bag fa-fw"></i>
+                                                Art Fair Submission
+                                            </a>
 
-                                    </li>
-                                @endif
-                                @if($year->is_calendar)
+                                        </li>
+                                    @endif
+                                    @if($year->is_calendar)
+                                        <li>
+                                            <a href="{{ url('/calendar') }}">
+                                                <i class="far fa-calendar-alt fa-fw"></i> Daily Schedule
+                                            </a>
+                                        </li>
+                                    @endif
+                                    @if($year->next_muse !== false)
+                                        <li>
+                                            <a href="{{ url('/themuse') }}">
+                                                <i class="fal fa-newspaper fa-fw"></i> {{ $year->next_muse }}
+                                            </a>
+                                        </li>
+                                    @endif
                                     <li>
-                                        <a href="{{ url('/calendar') }}">
-                                            <i class="far fa-calendar-alt"></i> Daily Schedule
+                                        <a href="{{ url('/directory') }}">
+                                            <i class="far fa-address-book fa-fw"></i> Online Directory
                                         </a>
                                     </li>
-                                @endif
-                                @if($year->next_muse !== false)
                                     <li>
-                                        <a href="{{ url('/themuse') }}">
-                                            <i class="fal fa-newspaper"></i> {{ $year->next_muse }}
+                                        <a href="{{ url('/volunteer') }}">
+                                            <i class="far fa-handshake fa-fw"></i> Volunteer Opportunities
                                         </a>
                                     </li>
-                                @endif
-                                <li>
-                                    <a href="{{ url('/directory') }}">
-                                        <i class="far fa-address-book"></i> Online Directory
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('/volunteer') }}">
-                                        <i class="far fa-handshake"></i> Volunteer Opportunities
-                                    </a>
-                                </li>
-                                @if($year->is_live)
-                                    <li><a href="{{ url('/brochure') }}">
-                                            <i class="far fa-desktop"></i> Web Brochure
-                                        </a>
-                                    </li>
-                                @endif
-                                @if($year->is_workshop_proposal)
-                                    <li><a href="{{ url('/proposal') }}">
-                                            <i class="fal fa-chalkboard-teacher"></i> Workshop Proposal
-                                        </a>
-                                    </li>
+                                    @if($year->is_live)
+                                        <li><a href="{{ url('/brochure') }}">
+                                                <i class="far fa-desktop fa-fw"></i> Web Brochure
+                                            </a>
+                                        </li>
+                                    @endif
+                                    @if($year->is_workshop_proposal)
+                                        <li><a href="{{ url('/proposal') }}">
+                                                <i class="fal fa-chalkboard-teacher fa-fw"></i> Workshop Proposal
+                                            </a>
+                                        </li>
+                                    @endif
                                 @endif
                             </ul>
                         </li>
@@ -297,9 +325,9 @@
                                 @yield('title')
                             </h1>
                             @hassection('heading')
-                                <p>
+                                <h3>
                                     @yield('heading')
-                                </p>
+                                </h3>
                             @endif
                         </header>
                     </div>
@@ -343,11 +371,12 @@
             <div class="col-lg-4 col-md-6 inner">
                 <h4>Mailing List</h4>
                 <p>Interested in receiving our web brochure when it is published in February?</p>
-                <form id="mailing" class="form-inline" role="form">
+                <form id="mailinglist" class="form-inline newsletter" role="form" method="POST"
+                      action="{{ url('/mailinglist') }}">
                     <label class="sr-only" for="email">Email address</label>
-                    <input type="email" class="form-control" id="email"
+                    <input type="email" class="form-control" id="email" required
                            placeholder="Enter your email address">
-                    <button type="submit" class="btn btn-submit">Send</button>
+                    <button type="submit" class="btn btn-submit">Sign Up</button>
                 </form>
             </div>
 
@@ -411,6 +440,23 @@
     }
 
     $('button.nextcamper').click(nextCamper);
+
+    $('form#mailinglist button:submit').on('click', function (e) {
+        e.preventDefault();
+        var form = $("form#mailinglist");
+        $(this).val("Sending").removeClass("btn-success btn-danger").prop("disabled", true);
+        $.ajax({
+            url: form.attr("action"),
+            type: 'post',
+            data: form.serialize(),
+            success: function () {
+                $("button:submit").val("Success").addClass("btn-success").prop("disabled", false);
+            },
+            error: function () {
+                $("input:submit").val("Error").addClass("btn-danger").prop("disabled", false);
+            }
+        });
+    });
 </script>
 @role(['admin', 'council'])
 <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"

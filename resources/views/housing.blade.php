@@ -9,45 +9,41 @@
 @endsection
 
 @section('content')
-    @foreach($buildings as $building)
-        <ul class="list-group">
-            <li class="list-group-item">
-                <h3>{{ $building->name }}</h3>
-                {!! $building->blurb !!}
-                <p>&nbsp;</p>
-                @if(isset($building->image))
-                    <div id="carousel-{{ $building->id }}" class="carousel slide" data-ride="carousel"
-                         data-interval="3500">
-                        <ol class="carousel-indicators">
-                            @foreach($building->image_array as $image)
-                                <li data-target="#carousel-{{ $building->id }}"
-                                    data-slide-to="{{ $loop->index }}" {{ $loop->first ? ' class="active"' : '' }}></li>
-                            @endforeach
-                        </ol>
-                        <div class="carousel-inner">
-                            @foreach($building->image_array as $image)
-                                <div class="carousel-item{{ $loop->first ? ' active' : '' }}">
-                                    <img class="d-block w-100" src="/images/buildings/{{ $image }}"
-                                         alt="Image of {{ $building->name }} room">
+    <section id="blog" class="light-bg">
+        <div class="container inner-top-sm inner-bottom classic-blog no-sidebar">
+            <div class="row">
+                <div class="col-lg-9 mx-auto">
+
+                    <div class="posts sidemeta">
+
+                        <div class="post format-gallery">
+
+                            @foreach($buildings as $building)
+                                <div class="post-content">
+
+                                    <h2 class="post-title">{{ $building->name }}</h2>
+
+                                    <p>{!! $building->blurb !!}</p>
+
+                                    @if(isset($building->image))
+                                        <div id="owl-work"
+                                             class="owl-carousel owl-inner-pagination owl-inner-nav post-media">
+                                            @foreach($building->image_array as $image)
+                                                <div class="item">
+                                                    <figure>
+                                                        <img src="/images/buildings/{{ $image }}"
+                                                             alt="Image of {{ $building->name }} room">
+                                                    </figure>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                 </div>
                             @endforeach
                         </div>
-                        @if(count($building->image_array) > 1)
-                            <a class="carousel-control-prev" href="#carousel-{{ $building->id }}" role="button"
-                               data-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="carousel-control-next" href="#carousel-{{ $building->id }}" role="button"
-                               data-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        @endif
                     </div>
-                    <p>&nbsp;</p>
-                @endif
-            </li>
-        </ul>
-    @endforeach
+                </div>
+            </div>
+        </div>
+    </section>
 @endsection

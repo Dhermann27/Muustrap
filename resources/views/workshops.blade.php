@@ -14,25 +14,38 @@
 @endsection
 
 @section('content')
-    @include('snippet.navtabs', ['tabs' => $timeslots, 'id'=> 'id', 'option' => 'name'])
+    <section id="workshops">
+        @component('snippet.navtabs', ['tabs' => $timeslots, 'id'=> 'id', 'option' => 'name'])
+            @foreach($timeslots as $timeslot)
+                <div class="tab-content" id="{{ $timeslot->id }}">
 
-    <div class="tab-content">
-        @foreach($timeslots as $timeslot)
-            <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }} p-3"
-                 aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $timeslot->id }}">
-                <h4>{{ $timeslot->start_time->format('g:i A') }}
-                    - {{ $timeslot->end_time->format('g:i A') }}</h4>
-                @foreach($timeslot->workshops as $workshop)
-                    <ul class="list-group">
-                        <li class="list-group-item">
+                    <h2 class="ml-3">{{ $timeslot->start_time->format('g:i A') }}
+                        - {{ $timeslot->end_time->format('g:i A') }}</h2>
+                    @foreach($timeslot->workshops as $workshop)
+
+                        <div class="col-lg-11 col-lg-offset-1 mb-5">
+
+                            <h3 class="post-title">
+                                {{ $workshop->name }}
+                            </h3>
+
+                            <ul class="meta">
+                                <li class="categories">Led by {{ $workshop->led_by }}</li>
+                                <li class="comments">Days: {{ $workshop->displayDays }}</li>
+                                @if($workshop->fee > 0)
+                                    <li class="likes">Fee: {{ $workshop->fee }}</a></li>
+                                @endif
+                            </ul>
                             @include('snippet.filling', ['workshop' => $workshop])
-                            <h3>{{ $workshop->name }}</h3>
-                            <h5>Led by {{ $workshop->led_by }}</h5>
-                            <p>{{ $workshop->blurb }} <i>Days: {{ $workshop->displayDays }}</i></p>
-                        </li>
-                    </ul>
-                @endforeach
-            </div>
-        @endforeach
-    </div>
+
+                            <p>{{ $workshop->blurb }}</p>
+
+                            <hr/>
+
+                        </div>
+                    @endforeach
+                </div>
+            @endforeach
+        @endcomponent
+    </section>
 @endsection

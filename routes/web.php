@@ -137,6 +137,14 @@ Route::get('/themuse', function () {
     return redirect('/muses/' . substr($muse, strpos($muse, '/20') + 1));
 });
 
+Route::get('/register', function () {
+    return view('register');
+});
+
+Route::get('/information', function () {
+    return view('information');
+});
+
 Route::get('/cost', function () {
     return view('campcost');
 });
@@ -144,12 +152,21 @@ Route::get('/cost', function () {
 Route::get('/themespeaker', function () {
     return view('themespeaker');
 });
+
 Route::get('/scholarship', function () {
     return view('scholarship');
 });
+
 Route::get('/programs', function () {
     return view('programs', ['programs' => \App\Program::whereNotNull('blurb')->orderBy('order')->get()]);
 });
+
 Route::get('/housing', function () {
     return view('housing', ['buildings' => \App\Building::whereNotNull('blurb')->get()]);
+});
+
+Route::get('/brochure', function () {
+    $year = date('Y');
+    if(!is_file(public_path('MUUSA_' . $year . '_Brochure.pdf'))) $year--;
+    return redirect('MUUSA_' . $year . '_Brochure.pdf');
 });

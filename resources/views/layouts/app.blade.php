@@ -10,8 +10,8 @@
     <meta name="author" content="Dan Hermann">
     <title>Midwest Unitarian Universalist Summer Assembly</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <!-- Core CSS -->
     <link href="/css/main.css" rel="stylesheet">
@@ -23,7 +23,7 @@
     <link href="/css/animate.min.css" rel="stylesheet">
     <link href="/css/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/muustrap.css" type="text/css"/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alfa+Slab+One|Krub"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans+Extra+Condensed|Krub"/>
     <link href="/fonts/fontello.css" rel="stylesheet">
     <link rel="shortcut icon" href="/favicon.ico">
 
@@ -100,14 +100,15 @@
             <div class="navbar-collapse collapse">
                 <div class="container">
 
-                    <a class="navbar-brand" href="/"><img src="/images/print_logo.png" class="logo"
-                                                          alt="Midwest Unitarian Universalist Summer Assembly"></a>
+                    <a class="navbar-brand" href="/">
+                        <img src="/images/print_logo.png" class="logo"
+                             alt="Midwest Unitarian Universalist Summer Assembly">
+                    </a>
+
                     <ul class="nav navbar-nav">
-
-
                         @role(['admin', 'council'])
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration</a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin</a>
 
                             <ul class="dropdown-menu">
 
@@ -174,7 +175,7 @@
                         @endrole
 
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Registration</a>
+                            <a href="{{ url('/register') }}" class="dropdown-toggle" data-toggle="dropdown">Register</a>
 
                             <ul class="dropdown-menu">
                                 <li><a href="{{ url('/household') }}"><i class="far fa-home"></i> Household</a></li>
@@ -195,21 +196,72 @@
                         </li>
 
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Information</a>
+                            <a href="{{ url('/information') }}" class="dropdown-toggle" data-toggle="dropdown">Information</a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{ url('/programs') }}"><i class="far fa-sitemap"></i> Programs</a></li>
-                                <li><a href="{{ url('/housing') }}"><i class="far fa-bath"></i> Housing Options</a></li>
                                 <li>
                                     <a href="{{ url('/cost') }}"><i class="far fa-calculator"></i> Cost Calculator</a>
                                 </li>
-                                <li><a href="{{ url('/workshops') }}"><i class="far fa-map"></i> Workshop List</a></li>
                                 <li>
                                     <a href="{{ url('/excursions') }}"><i class="far fa-binoculars"></i> Excursions</a>
                                 </li>
+                                <li><a href="{{ url('/housing') }}"><i class="far fa-bath"></i> Housing Options</a></li>
+                                <li><a href="{{ url('/programs') }}"><i class="far fa-sitemap"></i> Programs</a></li>
                                 <li>
                                     <a href="{{ url('/themespeaker') }}"><i class="far fa-microphone"></i> Theme
                                         Speakers</a>
                                 </li>
+                                <li><a href="{{ url('/workshops') }}"><i class="far fa-map"></i> Workshop List</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Your Details</a>
+                            <ul class="dropdown-menu">
+                                @if($year->is_artfair)
+                                    <li>
+                                        <a href="{{ url('/artfair') }}">
+                                            <i class="far fa-shopping-bag"></i>
+                                            Art Fair Submission
+                                        </a>
+
+                                    </li>
+                                @endif
+                                @if($year->is_calendar)
+                                    <li>
+                                        <a href="{{ url('/calendar') }}">
+                                            <i class="far fa-calendar-alt"></i> Daily Schedule
+                                        </a>
+                                    </li>
+                                @endif
+                                @if($year->next_muse !== false)
+                                    <li>
+                                        <a href="{{ url('/themuse') }}">
+                                            <i class="fal fa-newspaper"></i> {{ $year->next_muse }}
+                                        </a>
+                                    </li>
+                                @endif
+                                <li>
+                                    <a href="{{ url('/directory') }}">
+                                        <i class="far fa-address-book"></i> Online Directory
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('/volunteer') }}">
+                                        <i class="far fa-handshake"></i> Volunteer Opportunities
+                                    </a>
+                                </li>
+                                @if($year->is_live)
+                                    <li><a href="{{ url('/brochure') }}">
+                                            <i class="far fa-desktop"></i> Web Brochure
+                                        </a>
+                                    </li>
+                                @endif
+                                @if($year->is_workshop_proposal)
+                                    <li><a href="{{ url('/proposal') }}">
+                                            <i class="fal fa-chalkboard-teacher"></i> Workshop Proposal
+                                        </a>
+                                    </li>
+                                @endif
                             </ul>
                         </li>
 
@@ -232,31 +284,98 @@
     @endrole
 </header>
 
-<div id="content" class="p-0">
+<main class="js-reveal">
+
     @hassection('title')
-        <p>&nbsp;</p>
-        <h2 class="text-center text-uppercase font-weight-bold my-0 d-print-none">
-            @yield('title')
-        </h2>
-        <hr class="hr-lg mt-0 mb-3 w-10 mx-auto hr-primary"/>
-    @endif
-    @hassection('heading')
-        <h5 class="text-center font-weight-light mt-2 mb-0 text-muted d-print-none">
-            @yield('heading')
-        </h5>
-        <hr class="mb-5 w-50 mx-auto d-print-none"/>
+        <section id="hero" class="light-bg img-bg-bottom img-bg-softer"
+                 style="background-image: url(/images/jumbotron.jpg);">
+            <div class="container inner">
+                <div class="row">
+                    <div class="col-lg-8 col-md-9 aos-init aos-animate" data-aos="fade-up">
+                        <header>
+                            <h1>
+                                @yield('title')
+                            </h1>
+                            @hassection('heading')
+                                <p>
+                                    @yield('heading')
+                                </p>
+                            @endif
+                        </header>
+                    </div>
+                </div>
+            </div>
+        </section>
     @endif
     @yield('content')
-</div>
+</main>
+
+<footer class="dark-bg">
+    <div class="container inner">
+        <div class="row">
+
+            <div class="col-lg-4 col-md-6 inner">
+                <h4>Important Dates</h4>
+                <ul>
+                    <li><strong>February 1</strong>: Workshop registration and scholarship applications open. Housing
+                        selection and changes open to all campers who have paid their deposit.
+                    </li>
+                    <li><strong>April 15</strong>: Scholarship applications due.</li>
+                    <li><strong>May 15</strong>: Scholarships granted and applicants notified of awards.</li>
+                    <li><strong>May 31</strong>: Deadline for cancellations. Deposits will not be refunded for
+                        cancellations after May 31.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-lg-4 col-md-6 inner">
+                <h4>Get In Touch</h4>
+                <p>Mail checks to the address below, or call our Registrar with questions.</p>
+                <ul class="contacts">
+                    <li><i class="far fa-money-check-alt fa-fw"></i> 423 N Waiola Ave., La Grange Park, IL 60526</li>
+                    <li><a href="tel:+16304303493"> <i class="far fa-mobile fa-fw"></i> 630-430-3493</a></li>
+                    <li><a href="mailto:registrar@muusa.org"><i class="far fa-envelope fa-fw"></i>
+                            registrar@muusa.org</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-lg-4 col-md-6 inner">
+                <h4>Mailing List</h4>
+                <p>Interested in receiving our web brochure when it is published in February?</p>
+                <form id="mailing" class="form-inline" role="form">
+                    <label class="sr-only" for="email">Email address</label>
+                    <input type="email" class="form-control" id="email"
+                           placeholder="Enter your email address">
+                    <button type="submit" class="btn btn-submit">Send</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <div class="container inner clearfix">
+            <p class="float-left">&copy; {{ $year->year }} Midwest Unitarian Universalist Summer Assembly. All rights
+                reserved.</p>
+            <ul class="footer-menu float-right">
+                <li><a href="/">Home</a></li>
+                <li><a href="{{ url('/register') }}">Register</a></li>
+                <li><a href="{{ url('/information') }}">Information</a></li>
+                <li><a href="{{ url('/contact') }}">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 <script defer src="https://pro.fontawesome.com/releases/v5.3.1/js/all.js"
         integrity="sha384-eAVkiER0fL/ySiqS7dXu8TLpoR8d9KRzIYtG0Tz7pi24qgQIIupp0fn2XA1H90fP"
@@ -326,7 +445,10 @@
             return $("<li>").append("<div>" + item.lastname + ", " + item.firstname + "</div>").appendTo(ul);
         };
     });
+</script>
+@endrole
 @role(['admin'])
+<script type="text/javascript">
     $('tbody.editable td').on('click', function () {
         var tr = $(this).parent('tr');
         var index = tr.children().index($(this));
@@ -342,7 +464,6 @@
             $(this).off('click');
         }
     });
-@endrole
 </script>
 @endrole
 

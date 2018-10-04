@@ -119,6 +119,10 @@
                     'attribs' => ['name' => $year->year . '-is_accept_paypal'], 'formobject' => $year,
                     'list' => [['id' => '0', 'name' => 'No'], ['id' => '1', 'name' => 'Yes']], 'option' => 'name'])
 
+                @include('snippet.formgroup', ['type' => 'select', 'label' => 'Show Personalized Calendars',
+                    'attribs' => ['name' => $year->year . '-is_calendar'], 'formobject' => $year,
+                    'list' => [['id' => '0', 'name' => 'No'], ['id' => '1', 'name' => 'Yes']], 'option' => 'name'])
+
                 @include('snippet.formgroup', ['type' => 'select', 'label' => 'Allow Room Selection',
                     'attribs' => ['name' => $year->year . '-is_room_select'], 'formobject' => $year,
                     'list' => [['id' => '0', 'name' => 'No'], ['id' => '1', 'name' => 'Yes']], 'option' => 'name'])

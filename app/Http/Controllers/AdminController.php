@@ -90,7 +90,7 @@ class AdminController extends Controller
     {
         $thisyear = null;
         foreach ($request->all() as $key => $value) {
-            if (preg_match('/(\d+)-(start_date|start_open|is_current|is_live|is_crunch|is_accept_paypal|is_room_select|is_workshop_proposal|is_artfair|is_coffeehouse)/', $key, $matches)) {
+            if (preg_match('/(\d+)-(start_date|start_open|is_current|is_live|is_crunch|is_accept_paypal|is_calendar|is_room_select|is_workshop_proposal|is_artfair|is_coffeehouse)/', $key, $matches)) {
                 if ($thisyear == null) {
                     $thisyear = \App\Year::findOrFail($matches[1]);
                 }

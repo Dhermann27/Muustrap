@@ -56,7 +56,7 @@ iframe {
 	-webkit-backface-visibility: hidden; /* Fixes transition flickering in Chrome and Safari */
 }
 body {
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Krub', sans-serif;
     background-color: #283645;
     color: #73879C;
     font-size: 18px;
@@ -117,7 +117,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'Lato', sans-serif;
+    font-family: 'Fira Sans Extra Condensed', sans-serif;
     font-weight: 700;
 	letter-spacing: 0.025em;
     color: #506A85;
@@ -243,11 +243,10 @@ footer ul.contacts li {
 	font-size: 20px;
 }
 #hero h1 {
-	font-size: 78px;
+	font-size: 42px;
 	line-height: 110%;
 	font-weight: 900;
 	letter-spacing: .05em;
-	text-transform: uppercase;
 	margin-bottom: 0;
 	-webkit-transition: font 200ms ease-out;
 	   -moz-transition: font 200ms ease-out;
@@ -265,7 +264,7 @@ footer ul.contacts li {
 	line-height: 120%;
 }
 #hero p {
-	font-size: 24px;
+	font-size: 18px;
 	line-height: 150%;
 	font-weight: 400;
 	letter-spacing: .015em;
@@ -290,7 +289,7 @@ footer ul.contacts li {
 	padding: 18px 70px 20px;
 }
 header p {
-	font-size: 22px;
+	font-size: 18px;
 	line-height: 150%;
 }
 p + h2,
@@ -581,7 +580,7 @@ figure.post-media + * {
 .member figcaption h2 span,
 .member figcaption h3 span {
 	display: block;
-	font-family: 'Source Sans Pro', sans-serif;
+	font-family: 'Krub', sans-serif;
 	font-weight: 400;
 	letter-spacing: 0.015em;
 }
@@ -636,7 +635,7 @@ figure.post-media + * {
     color: #3B5998;
     color: #4668B3;
 }
-.member .text-overlay .info .social li a:hover .icon-s-gplus {
+.member .text-overlay .info .social li a:hover .icon-s-youtube {
     color: #DD4B39;
     color: #DE5745;
 }
@@ -1675,7 +1674,7 @@ aside .thumb figure {
     background: #1ABB9C;
     padding: 11px 20px 13px;
 	margin: 15px 0;
-	font-family: 'Source Sans Pro', sans-serif;
+	font-family: 'Krub', sans-serif;
     font-weight: 700;
     font-size: 14px;
     line-height: 1.4;
@@ -1896,10 +1895,10 @@ aside .thumb figure {
     background: #3B5998;
     background: #4668B3;
 }
-.btn-share-lg:hover .icon-s-gplus:after,
-.btn-share-md:hover .icon-s-gplus:after,
-.btn-share-sm:hover .icon-s-gplus:after,
-.btn-share-xs:hover .icon-s-gplus:after {
+.btn-share-lg:hover .icon-s-youtube:after,
+.btn-share-md:hover .icon-s-youtube:after,
+.btn-share-sm:hover .icon-s-youtube:after,
+.btn-share-xs:hover .icon-s-youtube:after {
     background: #DD4B39;
     background: #DE5745;
 }
@@ -1916,7 +1915,7 @@ aside .thumb figure {
 .btn-share-xs p {
 	position: absolute;
 	height: 1.1em;
-	font-family: 'Lato', sans-serif;
+	font-family: 'Fira Sans Extra Condensed', sans-serif;
 	line-height: 100%;
 	color: #FFF;
 	margin: auto;
@@ -2045,7 +2044,7 @@ p .btn {
     background: #3B5998;
     background: #4668B3;
 }
-.social a .icon-s-gplus:after {
+.social a .icon-s-youtube:after {
     background: #DD4B39;
     background: #DE5745;
 }
@@ -2125,7 +2124,7 @@ p .btn {
 	border-top-color: #1ABB9C;
 }
 .tabs-side .tab a div {
-	font-family: 'Lato', sans-serif;
+	font-family: 'Fira Sans Extra Condensed', sans-serif;
 	font-size: 40px;
 	line-height: 100%;
 	font-weight: 200;
@@ -2184,7 +2183,7 @@ p .btn {
 	overflow: hidden;
 }
 .tabs-top .tab a div {
-	font-family: 'Lato', sans-serif;
+	font-family: 'Fira Sans Extra Condensed', sans-serif;
 	font-size: 40px;
 	line-height: 100%;
 	font-weight: 200;
@@ -2257,7 +2256,7 @@ p .btn {
 	overflow: hidden;
 }
 .tabs-circle-top .tab a div {
-	font-family: 'Lato', sans-serif;
+	font-family: 'Fira Sans Extra Condensed', sans-serif;
 	font-size: 40px;
 	line-height: 100%;
 	font-weight: 200;
@@ -2487,7 +2486,7 @@ blockquote:before {
 	border-color: inherit !important;
 }
 .panel-title {
-	font-family: 'Source Sans Pro', sans-serif;
+	font-family: 'Krub', sans-serif;
     font-size: 15px;
 	line-height: 1.42857;
     font-weight: 700;
@@ -2794,7 +2793,7 @@ blockquote:before {
 	vertical-align: middle;
 	width: 100%;
 	height: auto;
-	font-family: 'Source Sans Pro', sans-serif;
+	font-family: 'Krub', sans-serif;
 	font-size: 14px;
 	line-height: 22px;
 	/*color: #FFF;*/
@@ -3510,7 +3509,7 @@ blockquote:before {
 	margin-bottom: 15px;
 }
 .pricing .plan .price * {
-	font-family: 'Lato', sans-serif;
+	font-family: 'Fira Sans Extra Condensed', sans-serif;
 	line-height: 100%;
 }
 .pricing .plan .price .amount {
@@ -4135,7 +4134,7 @@ input:focus:-ms-input-placeholder {
 /*===================================================================================*/
 
 .author {
-	font-family: 'Lato', sans-serif;
+	font-family: 'Fira Sans Extra Condensed', sans-serif;
     font-size: 14px;
 	font-weight: 700;
     line-height: 160%;
@@ -4310,7 +4309,7 @@ input:focus:-ms-input-placeholder {
 	float: none;
 	display: inline-block;
     color: #fff;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Krub', sans-serif;
     background: #1ABB9C;
     padding: 11px 20px 13px;
 	margin-left: 0;
@@ -5451,7 +5450,7 @@ input:focus:-ms-input-placeholder {
 		height: 88vh;
 	}
 	#hero h1 {
-		font-size: 38px;
+		font-size: 32px;
 		line-height: 115%;
 		letter-spacing: 0.031em;
 	}
@@ -5932,11 +5931,11 @@ input:focus:-ms-input-placeholder {
 		height: 480px;
 	}
 	#hero h1 {
-		font-size: 60px;
+		font-size: 40px;
 		line-height: 115%;
 	}
 	#hero p {
-		font-size: 22px;
+		font-size: 20px;
 		line-height: 135%;
 		margin-top: 17px;
 	}

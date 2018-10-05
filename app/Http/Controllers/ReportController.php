@@ -152,7 +152,8 @@ class ReportController extends Controller
             $excel->sheet('payments', function ($sheet) {
                 $sheet->setOrientation('landscape');
                 $sheet->with(\App\Thisyear_Charge::select('families.name', 'campers.firstname', 'campers.lastname',
-                    'thisyear_charges.amount', 'thisyear_charges.chargetypename', 'thisyear_charges.timestamp')
+                    'thisyear_charges.amount', 'thisyear_charges.chargetypename', 'thisyear_charges.timestamp',
+                    'thisyear_charges.memo')
                     ->join('campers', 'thisyear_charges.camperid', 'campers.id')
                     ->join('families', 'campers.familyid', 'families.id')->orderBy('families.name')
                     ->orderBy('thisyear_charges.familyid')->orderBy('thisyear_charges.timestamp')->get());

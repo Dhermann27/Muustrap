@@ -18,12 +18,10 @@
               action="{{ url('/volunteer' . (isset($readonly) && $readonly === false ? '/f/' . $campers->first()->familyid : '')) }}">
             @include('snippet.flash')
 
-            @include('snippet.navtabs', ['tabs' => $campers, 'id'=> 'id', 'option' => 'fullname'])
+            @component('snippet.navtabs', ['tabs' => $campers, 'id'=> 'id', 'option' => 'fullname'])
 
-            <div class="tab-content">
                 @foreach($campers as $camper)
-                    <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
-                         aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $camper->id }}">
+                    <div class="tab-content" id="{{ $camper->id }}">
                         <input type="hidden" id="{{ $camper->id }}-volunteer"
                                name="{{ $camper->id }}-volunteer" class="volunteer-choices"/>
                         <div class="list-group col-md-4 col-sm-6">
@@ -41,7 +39,7 @@
                         @endif
                     </div>
                 @endforeach
-            </div>
+            @endcomponent
             @if(!isset($readonly) || $readonly === false)
                 @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes']])
             @endif

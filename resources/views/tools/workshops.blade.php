@@ -9,12 +9,9 @@
         <form class="form-horizontal" role="form" method="POST" action="{{ url('/tools/workshops') }}">
             @include('snippet.flash')
 
-            @include('snippet.navtabs', ['tabs' => $timeslots, 'id'=> 'id', 'option' => 'name'])
-
-            <div class="tab-content">
+            @component('snippet.navtabs', ['tabs' => $timeslots, 'id'=> 'id', 'option' => 'name'])
                 @foreach($timeslots as $timeslot)
-                    <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
-                         aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $timeslot->id }}">
+                    <div class="tab-content" id="{{ $timeslot->id }}">
                         @if($timeslot->id != '1005')
                             <h5>{{ $timeslot->start_time->format('g:i A') }}
                                 - {{ $timeslot->end_time->format('g:i A') }}</h5>
@@ -49,7 +46,7 @@
                         </table>
                     </div>
                 @endforeach
-            </div>
+            @endcomponent
 
             <div class="well">
                 <h4>Add New Workshop</h4>

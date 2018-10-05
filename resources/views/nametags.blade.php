@@ -25,15 +25,13 @@
                  (isset($readonly) && $readonly === false ? '/f/' . $campers->first()->familyid : '')}}">
             @include('snippet.flash')
 
-            @include('snippet.navtabs', ['tabs' => $campers, 'id'=> 'id', 'option' => 'fullname'])
-
-            <div class="tab-content">
+            @component('snippet.navtabs', ['tabs' => $campers, 'id'=> 'id', 'option' => 'fullname'])
                 @foreach($campers as $camper)
-                    <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
-                         aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $camper->id }}">
+                    <div class="tab-content" id="{{ $camper->id }}">
                         <p>&nbsp;</p>
                         <button class="btn btn-default copyAnswers float-right">
-                            <i class="far fa-copy fa-3x float-left pr-3"></i> Copy preferences to<br/> all family members
+                            <i class="far fa-copy fa-3x float-left pr-3"></i> Copy preferences to<br/> all family
+                            members
                         </button>
                         <div class="row mb-3 col-md-10">
                             @include('snippet.nametag', ['camper' => $camper])
@@ -151,7 +149,7 @@
                         @include('snippet.formgroup', ['type' => 'next', 'label' => '', 'attribs' => ['name' => 'Next Camper']])
                     </div>
                 @endforeach
-            </div>
+            @endcomponent
             @if(!isset($readonly) || $readonly === false)
                 @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes']])
             @endif

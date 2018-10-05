@@ -17,10 +17,10 @@ class ComposerServiceProvider extends ServiceProvider
     {
         View::composer('*', function($view) {
             $year = \App\Year::where('is_current', '1')->first();
-            $camper = \App\Camper::where('email', Auth::user()->email)->first();
+            //$camper = \App\Camper::where('email', Auth::user()->email)->first();
             $view->with('year', $year);
-            $view->with('logged_in', $camper);
-            $view->with('registered', \App\Yearattending::where('camperid', $camper->id)->where('year', $year->year)->first());
+            //$view->with('logged_in', $camper);
+            //$view->with('registered', \App\Yearattending::where('camperid', $camper->id)->where('year', $year->year)->first());
         });
 
     }

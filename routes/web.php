@@ -13,6 +13,8 @@ Route::get('/excursions', 'WorkshopController@excursions');
 Route::get('/contact', 'ContactController@contactIndex');
 Route::post('/contact', 'ContactController@contactStore');
 
+Route::get('/confirm', 'ConfirmController@index')->middleware('auth');
+Route::post('/confirm/y/{id}', 'ConfirmController@respond')->middleware('auth');
 Route::get('/confirm/{i}/{id}', 'ConfirmController@read')->middleware('auth', 'role:admin|council');
 Route::post('/confirm/y/{id}', 'ConfirmController@respond')->middleware('role:admin|council');
 Route::get('/confirm/all', 'ConfirmController@all')->middleware('auth', 'role:admin');
@@ -34,16 +36,24 @@ Route::post('/payment', 'PaymentController@store')->middleware('auth');
 Route::get('/payment/{i}/{id}', 'PaymentController@read')->middleware('auth', 'role:admin|council');
 Route::post('/payment/f/{id}', 'PaymentController@write')->middleware('auth', 'role:admin');
 
+Route::get('/workshopchoice', 'WorkshopController@index')->middleware('auth');
+Route::post('/workshopchoice', 'WorkshopController@store')->middleware('auth');
 Route::get('/workshopchoice/{i}/{id}', 'WorkshopController@read')->middleware('auth', 'role:admin|council');
 Route::post('/workshopchoice/f/{id}', 'WorkshopController@write')->middleware('auth', 'role:admin');
 
+Route::get('/volunteer', 'VolunteerController@index')->middleware('auth');
+Route::post('/volunteer', 'VolunteerController@store')->middleware('auth');
 Route::get('/volunteer/{i}/{id}', 'VolunteerController@read')->middleware('auth', 'role:admin|council');
 Route::post('/volunteer/f/{id}', 'VolunteerController@write')->middleware('auth', 'role:admin');
 
+Route::get('/roomselection', 'RoomSelectionController@index')->middleware('auth');
+Route::post('/roomselection', 'RoomSelectionController@store')->middleware('auth');
 Route::get('/roomselection/map', 'RoomSelectionController@map')->middleware('auth', 'role:admin|council');
 Route::get('/roomselection/{i}/{id}', 'RoomSelectionController@read')->middleware('auth', 'role:admin|council');
 Route::post('/roomselection/f/{id}', 'RoomSelectionController@write')->middleware('auth', 'role:admin');
 
+Route::get('/nametag', 'NametagController@index')->middleware('auth');
+Route::post('/nametag', 'NametagController@store')->middleware('auth');
 Route::get('/nametag/{i}/{id}', 'NametagController@read')->middleware('auth', 'role:admin|council');
 Route::post('/nametag/f/{id}', 'NametagController@write')->middleware('auth', 'role:admin');
 
@@ -54,24 +64,12 @@ Route::get('/directory', 'DirectoryController@index')->middleware('auth');
 Route::get('/coffeehouse/{day?}', 'CoffeeController@index')->middleware('auth');
 Route::post('/coffeehouse', 'CoffeeController@store')->middleware('auth');
 
-if ($year->is_live) {
-    Route::get('/confirm', 'ConfirmController@index')->middleware('auth');
-    Route::post('/confirm/y/{id}', 'ConfirmController@respond')->middleware('auth');
-    Route::get('/artfair', 'ContactController@artfairIndex');
-    Route::post('/artfair', 'ContactController@artfairStore')->middleware('auth');
-    Route::get('/workshopchoice', 'WorkshopController@index')->middleware('auth');
-    Route::post('/workshopchoice', 'WorkshopController@store')->middleware('auth');
-    Route::get('/volunteer', 'VolunteerController@index')->middleware('auth');
-    Route::post('/volunteer', 'VolunteerController@store')->middleware('auth');
-    Route::get('/roomselection', 'RoomSelectionController@index')->middleware('auth');
-    Route::post('/roomselection', 'RoomSelectionController@store')->middleware('auth');
-    Route::get('/nametag', 'NametagController@index')->middleware('auth');
-    Route::post('/nametag', 'NametagController@store')->middleware('auth');
-    Route::get('/calendar', 'CalendarController@index')->middleware('auth');
-} else {
-    Route::get('/proposal', 'ContactController@proposalIndex')->middleware('auth');
-    Route::post('/proposal', 'ContactController@proposalStore')->middleware('auth');
-}
+Route::get('/artfair', 'ContactController@artfairIndex');
+Route::post('/artfair', 'ContactController@artfairStore')->middleware('auth');
+Route::get('/calendar', 'CalendarController@index')->middleware('auth');
+
+Route::get('/proposal', 'ContactController@proposalIndex')->middleware('auth');
+Route::post('/proposal', 'ContactController@proposalStore')->middleware('auth');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'data'], function () {
     Route::get('camperlist', 'DataController@campers');
@@ -167,6 +165,6 @@ Route::get('/housing', function () {
 
 Route::get('/brochure', function () {
     $year = date('Y');
-    if(!is_file(public_path('MUUSA_' . $year . '_Brochure.pdf'))) $year--;
+    if (!is_file(public_path('MUUSA_' . $year . '_Brochure.pdf'))) $year--;
     return redirect('MUUSA_' . $year . '_Brochure.pdf');
 });

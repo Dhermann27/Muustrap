@@ -14,16 +14,13 @@
 @endsection
 
 @section('content')
-    @include('snippet.navtabs', ['tabs' => $campers, 'id'=> 'id', 'option' => 'fullname'])
-
-    <div class="tab-content">
+    @component('snippet.navtabs', ['tabs' => $campers, 'id'=> 'id', 'option' => 'fullname'])
         @foreach($campers as $camper)
-            <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
-                 aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $camper->id }}">
+            <div class="tab-content" id="{{ $camper->id }}">
                 <div id="calendar-{{ $camper->id }}"></div>
             </div>
         @endforeach
-    </div>
+    @endcomponent
 @endsection
 
 @section('script')

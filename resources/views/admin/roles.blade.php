@@ -9,12 +9,9 @@
         <form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/roles') }}">
             @include('snippet.flash')
 
-            @include('snippet.navtabs', ['tabs' => $roles, 'id'=> 'id', 'option' => 'display_name'])
-
-            <div class="tab-content">
+            @component('snippet.navtabs', ['tabs' => $roles, 'id'=> 'id', 'option' => 'display_name'])
                 @foreach($roles as $role)
-                    <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
-                         id="{{ $role->id }}">
+                    <div class="tab-content" id="{{ $role->id }}">
                         <p>&nbsp;</p>
                         <h4>{{ $role->description }}</h4>
                         <table class="table">
@@ -48,7 +45,7 @@
 
                     </div>
                 @endforeach
-            </div>
+            @endcomponent
             @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes']])
         </form>
     </div>

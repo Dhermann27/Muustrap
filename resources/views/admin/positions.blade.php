@@ -9,12 +9,9 @@
         <form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/positions') }}">
             @include('snippet.flash')
 
-            @include('snippet.navtabs', ['tabs' => $programs, 'id'=> 'id', 'option' => 'name'])
-
-            <div class="tab-content">
+            @component('snippet.navtabs', ['tabs' => $programs, 'id'=> 'id', 'option' => 'name'])
                 @foreach($programs as $program)
-                    <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
-                         aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $program->id }}">
+                    <div class="tab-content" id="{{ $program->id }}">
                         <p>&nbsp;</p>
                         <table class="table">
                             <thead>
@@ -56,7 +53,7 @@
                         </table>
                     </div>
                 @endforeach
-            </div>
+            @endcomponent
 
             <div class="well">
                 <h4>Add New Position</h4>

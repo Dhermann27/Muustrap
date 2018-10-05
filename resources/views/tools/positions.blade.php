@@ -9,12 +9,9 @@
         <form class="form-horizontal" role="form" method="POST" action="{{ url('/tools/staffpositions') }}">
             @include('snippet.flash')
 
-            @include('snippet.navtabs', ['tabs' => $programs, 'id'=> 'id', 'option' => 'name'])
-
-            <div class="tab-content">
+            @component('snippet.navtabs', ['tabs' => $programs, 'id'=> 'id', 'option' => 'name'])
                 @foreach($programs as $program)
-                    <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
-                         aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $program->id }}">
+                    <div class="tab-content" id="{{ $program->id }}">
                         <p>&nbsp;</p>
                         <table class="table">
                             <thead>
@@ -58,7 +55,7 @@
                             'list' => $program->staffpositions($year->year)->orderBy('name')->get()])
                     </div>
                 @endforeach
-            </div>
+            @endcomponent
             @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes']])
         </form>
     </div>

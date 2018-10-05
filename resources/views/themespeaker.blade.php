@@ -9,14 +9,15 @@
 @endsection
 
 @section('content')
-    <div class="container">
-        <div class="row px-5">
+    <section>
+        <div class="col-md-11 inner-top inner-left-sm aos-init aos-animate" data-aos="fade-up">
+
             <p>
                 <img class="float-right" src="/images/karenpamsm.jpg" alt="Rev Karen Mooney &amp; Rev Pam Rumancik"/>
-                Rev Pam Rumancik is a white, cis-gendered, queer, woman currently serving the
-                Unitarian Church of Hinsdale, Il. Coming from working class roots, Pam has run a home
-                childcare business, a restaurant in Estes Park, CO, spent a year as a food cart carnie at
-                Bluegrass music festivals, and until attending seminary, was a house painter.<br /><br />
+                <span class="dropcap-lg tint-bg">R</span>ev Pam Rumancik is a white, cis-gendered, queer, woman
+                currently serving the Unitarian Church of Hinsdale, Il. Coming from working class roots, Pam has run a
+                home childcare business, a restaurant in Estes Park, CO, spent a year as a food cart carnie at
+                Bluegrass music festivals, and until attending seminary, was a house painter.<br/><br/>
                 She’s passionate about finding ways to communicate across cultural and theological
                 divides that honor the essential truth of each person without devolving to the lowest
                 common denominator. She believes that we must live our vision of Beloved Community
@@ -45,5 +46,5 @@
                 called life.
             </p>
         </div>
-    </div>
+    </section>
 @endsection

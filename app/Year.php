@@ -13,12 +13,6 @@ class Year extends Model
     protected $primaryKey = "year";
     protected $fillable = ['start_date', 'start_open', 'is_live', 'is_crunch', 'is_accept_paypal', 'is_workshop_proposal', 'is_artfair'];
 
-    public function rates()
-    {
-        return DB::table('rates')->join('programs', 'programs.id', 'rates.programid')->where('start_year', '<=', $this->year)->where('end_year', '>', $this->year)
-            ->whereIn('buildingid', ['1000', '1007', '1017'])->orderBy('name')->orderBy('min_occupancy')
-            ->orderBy('max_occupancy');
-    }
 
     public function hasBrochure()
     {

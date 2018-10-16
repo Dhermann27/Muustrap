@@ -14,7 +14,7 @@ class CamperController extends Controller
 
     public function store(Request $request)
     {
-        $logged_in = \App\Camper::where('email', Auth::user()->email)->first();
+        $logged_in = Auth::user()->camper;
         $year = \App\Year::where('is_current', '1')->first();
 
         $messages = ['pronounid.*.exists' => 'Please choose a preferred pronoun.',
@@ -149,7 +149,7 @@ class CamperController extends Controller
 
     private function getCampers()
     {
-        return \App\Camper::where('familyid', \App\Camper::where('email', Auth::user()->email)->first()->familyid)->orderBy('birthdate')->get();
+        return \App\Camper::where('familyid', Auth::user()->camper->familyid)->orderBy('birthdate')->get();
     }
 
     public function write(Request $request, $id)

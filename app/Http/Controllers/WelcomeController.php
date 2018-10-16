@@ -42,7 +42,7 @@ class WelcomeController extends Controller
                 'starttime' => $starttime, 'actslist' => $acts]);
         } else {
             if (Auth::check()) {
-                $camper = \App\Camper::where('email', Auth::user()->email)->first();
+                $camper = Auth::user()->camper;
                 if ($camper !== null) {
                     $family = \App\Thisyear_Family::find($camper->family->id);
                     $yas = DB::table('thisyear_campers')->where('familyid', $camper->family->id)->pluck('yearattendingid');
@@ -91,6 +91,16 @@ class WelcomeController extends Controller
     {
         $kids = DB::table('thisyear_campers')->where('familyid', $family->id)->where('age', '<', 18)->pluck('yearattendingid');
         return \App\Medicalresponse::whereIn('yearattendingid', $kids)->count() == count($kids);
+    }
+
+    public function campcost()
+    {
+        return view('campcost', ['rates' => DB::table('rates')
+            ->join('years', function ($join) {
+                $join->on('rates.start_year', '<=', 'years.year')->on('rates.end_year', '>', 'years.year');
+            })->join('programs', 'programs.id', 'rates.programid')
+            ->whereIn('buildingid', ['1000', '1007', '1017'])
+            ->orderBy('name')->orderBy('min_occupancy')->orderBy('max_occupancy')->get()]);
     }
 
 }

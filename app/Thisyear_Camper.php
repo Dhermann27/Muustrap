@@ -40,6 +40,11 @@ class Thisyear_Camper extends Model
         return $this->hasOne(Pronoun::class, 'id', 'pronounid');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function yearattending()
     {
         return $this->hasOne(Yearattending::class, 'id', 'yearattendingid');

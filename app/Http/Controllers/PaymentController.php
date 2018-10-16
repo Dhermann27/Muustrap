@@ -19,7 +19,7 @@ class PaymentController extends Controller
             'amount' => 'required|min:0'
         ], $messages);
 
-        $thiscamper = \App\Camper::where('email', Auth::user()->email)->first();
+        $thiscamper = Auth::user()->camper;
         if ($thiscamper !== null) {
             if ($request->donation > 0) {
                 \App\Charge::updateOrCreate(
@@ -90,7 +90,7 @@ class PaymentController extends Controller
 
         $charges = [];
         $deposit = 0.0;
-        $camper = \App\Camper::where('email', Auth::user()->email)->first();
+        $camper = Auth::user()->camper;
         if ($camper !== null) {
             $depositchargetype = DB::select('SELECT getchargetypeid(\'MUUSA Deposit\') id FROM users');
             $familyid = $camper->family->id;

@@ -37,4 +37,8 @@ class User extends Authenticatable
         return $this->hasOne(\App\Camper::class, 'email', 'email');
     }
 
+    public function thiscamper() {
+        return $this->hasOne(\App\Thisyear_Camper::class, 'email', 'email');
+    }
+
 }

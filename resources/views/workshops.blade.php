@@ -14,16 +14,16 @@
 @endsection
 
 @section('content')
-    <section id="workshops">
-        @component('snippet.navtabs', ['tabs' => $timeslots, 'id'=> 'id', 'option' => 'name'])
-            @foreach($timeslots as $timeslot)
-                <div class="tab-content" id="{{ $timeslot->id }}">
+    @component('snippet.navtabs', ['tabs' => $timeslots, 'id'=> 'id', 'option' => 'name'])
+        @foreach($timeslots as $timeslot)
+            <div class="tab-content pb-5" id="{{ $timeslot->id }}">
 
-                    <h2 class="m-3">{{ $timeslot->start_time->format('g:i A') }}
-                        - {{ $timeslot->end_time->format('g:i A') }}</h2>
+                <h2 class="mt-3">{{ $timeslot->start_time->format('g:i A') }}
+                    - {{ $timeslot->end_time->format('g:i A') }}</h2>
+                @component('snippet.blog')
                     @foreach($timeslot->workshops as $workshop)
-                        <div class="col-lg-11 col-lg-offset-1 mb-5">
-                            <h3>{{ $workshop->name }}</h3>
+                        <div class="post-content px-5">
+                            <h3 class="post-title">{{ $workshop->name }}</h3>
 
                             <ul class="meta">
                                 <li class="categories">Led by {{ $workshop->led_by }}</li>
@@ -36,12 +36,11 @@
 
                             <p>{{ $workshop->blurb }}</p>
 
-                            <hr/>
-
                         </div>
                     @endforeach
-                </div>
-            @endforeach
-        @endcomponent
-    </section>
+                @endcomponent
+
+            </div>
+        @endforeach
+    @endcomponent
 @endsection

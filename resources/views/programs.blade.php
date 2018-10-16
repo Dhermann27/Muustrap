@@ -9,12 +9,14 @@
 @endsection
 
 @section('content')
-    @foreach($programs as $program)
-        <ul class="list-group">
-            <li class="list-group-item">
-                <h3>{{ $program->name }}</h3>
-                {!! $program->blurb !!}
-            </li>
-        </ul>
-    @endforeach
+    @component('snippet.blog')
+        @foreach($programs as $program)
+            <div class="post-content">
+
+                <h3 class="post-title">{{ $program->name }}</h3>
+
+                <p>{!! $program->blurb !!}</p>
+            </div>
+        @endforeach
+    @endcomponent
 @endsection

@@ -4,7 +4,7 @@
     <link rel="stylesheet" type="text/css" href="/css/jquery.background-video.css">
 @endsection
 
-@section('content')
+@section('multisection')
     <section id="hero">
         <div id="owl-main" class="owl-carousel owl-one-item">
             <div class="item img-bg-center" style="background-image: url('/images/jumbotron.jpg');">

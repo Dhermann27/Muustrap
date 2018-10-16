@@ -335,7 +335,16 @@
             </div>
         </section>
     @endif
-    @yield('content')
+
+    @hassection('multisection')
+        @yield('multisection')
+    @else
+        <section>
+            <div class="inner-top inner-left-sm aos-init aos-animate p-5" data-aos="fade-up">
+                @yield('content')
+            </div>
+        </section>
+    @endif
 </main>
 
 <footer class="dark-bg">
@@ -358,10 +367,9 @@
 
             <div class="col-lg-4 col-md-6 inner">
                 <h4>Get In Touch</h4>
-                <p>Mail checks to the address below, or call our Registrar with questions.</p>
+                <p>Mail checks to the address below, or email our Registrar with questions.</p>
                 <ul class="contacts">
                     <li><i class="far fa-money-check-alt fa-fw"></i> 423 N Waiola Ave., La Grange Park, IL 60526</li>
-                    <li><a href="tel:+16304303493"> <i class="far fa-mobile fa-fw"></i> 630-430-3493</a></li>
                     <li><a href="mailto:registrar@muusa.org"><i class="far fa-envelope fa-fw"></i>
                             registrar@muusa.org</a>
                     </li>

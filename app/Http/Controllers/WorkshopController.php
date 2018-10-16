@@ -12,7 +12,7 @@ class WorkshopController extends Controller
     {
 
         $year = \App\Year::where('is_current', '1')->first();
-        $campers = $this->getCampers(\App\Camper::where('email', Auth::user()->email)->first()->familyid);
+        $campers = $this->getCampers(Auth::user()->camper->familyid);
 
         foreach ($campers as $camper) {
             $this->validate($request, [$camper->id . '-workshops' => 'regex:/^\d{0,5}+(,\d{0,5})*$/']);

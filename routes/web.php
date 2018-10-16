@@ -1,7 +1,5 @@
 <?php
 
-$year = \App\Year::where('is_current', '1')->first();
-
 Route::get('/', 'WelcomeController@index');
 Route::get('/home', 'HomeController@index');
 
@@ -143,9 +141,7 @@ Route::get('/information', function () {
     return view('information');
 });
 
-Route::get('/cost', function () {
-    return view('campcost');
-});
+Route::get('/cost', 'WelcomeController@campcost');
 
 Route::get('/themespeaker', function () {
     return view('themespeaker');

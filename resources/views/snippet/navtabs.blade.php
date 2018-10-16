@@ -15,7 +15,9 @@
                 @endforeach
             </ul>
 
-            {{ $slot }}
+            <div class="panel-container">
+                {{ $slot }}
+            </div>
 
         </div>
     </div>

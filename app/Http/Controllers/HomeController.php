@@ -28,6 +28,6 @@ class HomeController extends Controller
 
     public function registered()
     {
-        return Auth::check() && \App\Thisyear_Camper::where('email', Auth::user()->email)->first();
+        return Auth::check() && Auth::user()->thiscamper;
     }
 }

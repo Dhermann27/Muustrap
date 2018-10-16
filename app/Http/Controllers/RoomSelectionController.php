@@ -13,7 +13,7 @@ class RoomSelectionController extends Controller
         $this->validate($request, ['roomid' => 'required|numeric|between:999,99999']);
 
         $family = \App\Thisyear_Camper::where(['is_program_housing' => '0',
-            'familyid' => \App\Thisyear_Camper::where('email', Auth::user()->email)->first()->familyid])->get();
+            'familyid' => Auth::user()->thiscamper->familyid])->get();
         foreach ($family as $item) {
             $ya = \App\Yearattending::find($item->yearattendingid);
             $ya->roomid = $request->roomid;
@@ -32,7 +32,7 @@ class RoomSelectionController extends Controller
 
     public function index(Request $request)
     {
-        $camper = \App\Thisyear_Camper::where('email', Auth::user()->email)->first();
+        $camper = Auth::user()->thiscamper;
         $count = \App\Thisyear_Camper::where('familyid', $camper->familyid)->where('is_program_housing', '0')->count();
         $rooms = \App\Room::where('xcoord', '>', '0')->where('ycoord', '>', '0')->get();
 

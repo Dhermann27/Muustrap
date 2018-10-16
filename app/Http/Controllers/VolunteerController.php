@@ -12,7 +12,7 @@ class VolunteerController extends Controller
     public function store(Request $request)
     {
 
-        $campers = $this->getCampers(\App\Camper::where('email', Auth::user()->email)->first()->familyid);
+        $campers = $this->getCampers(Auth::user()->camper->familyid);
 
         foreach ($campers as $camper) {
             $this->validate($request, [$camper->id . '-volunteer' => 'regex:/^\d{0,5}+(,\d{0,5})*$/']);
@@ -50,7 +50,7 @@ class VolunteerController extends Controller
     public function index()
     {
         return view('volunteer', ['positions' => \App\Volunteerposition::all(),
-            'campers' => $this->getCampers(\App\Camper::where('email', Auth::user()->email)->first()->familyid)
+            'campers' => $this->getCampers(Auth::user()->camper->familyid)
         ]);
 
     }

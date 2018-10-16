@@ -57,7 +57,7 @@ class WorkshopController extends Controller
     public function index()
     {
         return view('workshopchoice', ['timeslots' => \App\Timeslot::all(),
-            'campers' => $this->getCampers(\App\Camper::where('email', Auth::user()->email)->first()->familyid)
+            'campers' => $this->getCampers(Auth::user()->camper->familyid)
         ]);
 
     }

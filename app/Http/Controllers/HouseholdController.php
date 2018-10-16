@@ -25,7 +25,7 @@ class HouseholdController extends Controller
             'is_scholar' => 'required|in:0,1'
         ], $messages);
 
-        $camper = \App\Camper::where('email', Auth::user()->email)->first();
+        $camper = Auth::user()->camper;
         if ($camper !== null) {
             $id = $camper->family->id;
         }
@@ -46,7 +46,7 @@ class HouseholdController extends Controller
     public function index($camper = null, $family = null)
     {
         if ($camper === null) {
-            $camper = \App\Camper::where('email', Auth::user()->email)->first();
+            $camper = Auth::user()->camper;
         }
         if ($family === null) {
             $family = $camper !== null ? $camper->family : new \App\Family();

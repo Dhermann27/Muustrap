@@ -10,7 +10,7 @@ class WelcomeController extends Controller
 {
     public function index()
     {
-        $year = \App\Year::where('is_current', '1')->first();
+        $year = $this->year;
 
         // Coffeehouse
         $nowyear = \App\Year::whereDate('start_date', '<', Carbon::today()->toDateString())

@@ -15,7 +15,8 @@ img#brochure {
     border-style: solid;
     padding: 20px 20px 0 20px;
 }
-section#jumpintoit  {
+
+section#jumpintoit {
     position: relative;
     height: 500px;
     min-height: 500px;
@@ -54,7 +55,7 @@ section#jumpintoit .banner {
     width: 85%;
     padding-bottom: 30px;
     text-align: center;
-    font:24px 'opensans-bold', sans-serif;
+    font: 24px 'opensans-bold', sans-serif;
     font-weight: bold;
 }
 
@@ -63,6 +64,11 @@ section#jumpintoit .banner-text {
     width: 100%;
 }
 
+.input-group-append .btn,
+.input-group-prepend .btn {
+    margin: 0;
+    height: calc(2.25rem + 2px);
+}
 
 ul.camperdetails {
     font-size: 16px;

@@ -5,7 +5,7 @@
 @endsection
 
 @section('heading')
-    Use this tool to easily estimate the cost of your fees this year.
+    Use this tool to easily estimate the cost of your fees for {{ $year->year }}.
 @endsection
 
 @section('content')

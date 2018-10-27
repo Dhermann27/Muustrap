@@ -30,7 +30,7 @@ class ContactController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|max:255',
             'mailbox' => 'required|exists:contactboxes,id',
-            'message' => 'required|min:5|not_regex:/scripture/|not_regex:/gospel/|not_regex:/infallible/',
+            'message' => 'required|min:5|not_regex:/scripture/i|not_regex:/gospel/i|not_regex:/infallible/',
             'g-recaptcha-response' => 'required|captcha',
         ], $messages);
 

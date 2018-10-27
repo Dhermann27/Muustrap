@@ -19,12 +19,14 @@
         <div class="col-md-3 number-spinner">
             <div class="input-group p-0 m-0">
                 <div class="input-group-prepend">
-                    <button class="btn btn-default" data-dir="up"><i class="far fa-plus"></i></button>
+                    <button class="btn btn-default" data-dir="up" dusk="adultup"><i class="far fa-plus"></i></button>
                 </div>
                 <input id="adults" class="form-control" name="adults" value="0"/>
 
                 <div class="input-group-append">
-                    <button class="btn btn-default" data-dir="dwn"><i class="far fa-minus"></i></button>
+                    <button class="btn btn-default" data-dir="dwn" dusk="adultdown">
+                        <i class="far fa-minus"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -57,11 +59,11 @@
         <div class="col-md-3 number-spinner">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <button class="btn btn-default" data-dir="up"><i class="far fa-plus"></i></button>
+                    <button class="btn btn-default" data-dir="up" dusk="yaup"><i class="far fa-plus"></i></button>
                 </div>
                 <input id="yas" class="form-control" name="yas" value="0"/>
                 <div class="input-group-append">
-                    <button class="btn btn-default" data-dir="dwn"><i class="far fa-minus"></i></button>
+                    <button class="btn btn-default" data-dir="dwn" dusk="yadown"><i class="far fa-minus"></i></button>
                 </div>
             </div>
         </div>
@@ -84,11 +86,11 @@
         <div class="col-md-3 number-spinner">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <button class="btn btn-default" data-dir="up"><i class="far fa-plus"></i></button>
+                    <button class="btn btn-default" data-dir="up" dusk="jrup"><i class="far fa-plus"></i></button>
                 </div>
                 <input id="jrsrs" class="form-control" name="yas" value="0"/>
                 <div class="input-group-append">
-                    <button class="btn btn-default" data-dir="dwn"><i class="far fa-minus"></i></button>
+                    <button class="btn btn-default" data-dir="dwn" dusk="jrdown"><i class="far fa-minus"></i></button>
                 </div>
             </div>
         </div>
@@ -103,11 +105,11 @@
         <div class="col-md-3 number-spinner">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <button class="btn btn-default" data-dir="up"><i class="far fa-plus"></i></button>
+                    <button class="btn btn-default" data-dir="up" dusk="kidup"><i class="far fa-plus"></i></button>
                 </div>
                 <input id="children" class="form-control" name="yas" value="0"/>
                 <div class="input-group-append">
-                    <button class="btn btn-default" data-dir="dwn"><i class="far fa-minus"></i></button>
+                    <button class="btn btn-default" data-dir="dwn" dusk="kiddown"><i class="far fa-minus"></i></button>
                 </div>
             </div>
         </div>
@@ -121,11 +123,11 @@
         <div class="col-md-3 number-spinner">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <button class="btn btn-default" data-dir="up"><i class="far fa-plus"></i></button>
+                    <button class="btn btn-default" data-dir="up" dusk="babyup"><i class="far fa-plus"></i></button>
                 </div>
                 <input id="babies" class="form-control" name="yas" value="0"/>
                 <div class="input-group-append">
-                    <button class="btn btn-default" data-dir="dwn"><i class="far fa-minus"></i></button>
+                    <button class="btn btn-default" data-dir="dwn" dusk="babydown"><i class="far fa-minus"></i></button>
                 </div>
             </div>
         </div>

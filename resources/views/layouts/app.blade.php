@@ -174,7 +174,8 @@
                         @endrole
 
                         <li class="dropdown">
-                            <a href="{{ url('/register') }}" class="dropdown-toggle" data-toggle="dropdown">Register</a>
+                            <a href="{{ url('/registration') }}" class="dropdown-toggle"
+                               data-toggle="dropdown">Register</a>
 
                             <ul class="dropdown-menu">
                                 @if (Auth::guest())
@@ -396,7 +397,7 @@
                 reserved.</p>
             <ul class="footer-menu float-right">
                 <li><a href="/">Home</a></li>
-                <li><a href="{{ url('/register') }}">Register</a></li>
+                <li><a href="{{ url('/registration') }}">Register</a></li>
                 <li><a href="{{ url('/information') }}">Information</a></li>
                 <li><a href="{{ url('/contact') }}">Contact</a></li>
             </ul>

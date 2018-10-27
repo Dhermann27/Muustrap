@@ -14,7 +14,8 @@
                         <p class="fadeInDown-2 light-color">An annual intergenerational Unitarian Universalist retreat
                             for fun, fellowship, and personal growth</p>
                         <div class="fadeInDown-3">
-                            <a href="{{ url('/register') }}" class="btn btn-large">Register for {{ $year->year }}</a>
+                            <a href="{{ url('/registration') }}" class="btn btn-large">Register
+                                for {{ $year->year }}</a>
                         </div>
                     </div>
                 </div>
@@ -204,7 +205,7 @@
                 <div class="col-md-11 text-right aos-init aos-animate" data-aos="fade-up">
                     <h1 class="single-block" style="color: white;">
                         Join us.
-                        <a href="{{ url('/register') }}" class="btn btn-large">Register now</a>
+                        <a href="{{ url('/registration') }}" class="btn btn-large">Register now</a>
                     </h1>
                 </div>
             </div>

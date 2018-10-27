@@ -133,31 +133,13 @@ Route::get('/themuse', function () {
     return redirect('/muses/' . substr($muse, strpos($muse, '/20') + 1));
 });
 
-Route::get('/register', function () {
-    return view('register');
-});
-
-Route::get('/information', function () {
-    return view('information');
-});
-
-Route::get('/cost', 'WelcomeController@campcost');
-
-Route::get('/themespeaker', function () {
-    return view('themespeaker');
-});
-
-Route::get('/scholarship', function () {
-    return view('scholarship');
-});
-
-Route::get('/programs', function () {
-    return view('programs', ['programs' => \App\Program::whereNotNull('blurb')->orderBy('order')->get()]);
-});
-
-Route::get('/housing', function () {
-    return view('housing', ['buildings' => \App\Building::whereNotNull('blurb')->get()]);
-});
+Route::get('/registration', 'HomeController@registration');
+Route::get('/information', 'HomeController@information');
+Route::get('/cost', 'HomeController@campcost');
+Route::get('/themespeaker', 'HomeController@themespeaker');
+Route::get('/scholarship', 'HomeController@scholarship');
+Route::get('/programs', 'HomeController@programs');
+Route::get('/housing', 'HomeController@housing');
 
 Route::get('/brochure', function () {
     $year = date('Y');

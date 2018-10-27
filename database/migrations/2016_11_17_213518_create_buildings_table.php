@@ -16,7 +16,7 @@ class CreateBuildingsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('blurb')->nullable();
-            $table->integer('side');
+            $table->integer('side')->default('0');
         });
         DB::update('ALTER TABLE buildings AUTO_INCREMENT = 1000');
 

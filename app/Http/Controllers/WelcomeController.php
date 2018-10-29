@@ -12,34 +12,35 @@ class WelcomeController extends Controller
     {
         $year = $this->year;
 
-        // Coffeehouse
-        $nowyear = \App\Year::whereDate('start_date', '<', Carbon::today()->toDateString())
-            ->whereDate('start_date', '>=', Carbon::today()->subDays(7)->toDateString())->first();
-        if ($nowyear == null) $nowyear = $year;
-        $av = false;
-        $camper = null;
-        if (Auth::check()) {
-            $camper = \App\Byyear_Camper::where('year', $nowyear->year)->where('email', Auth::user()->email)->first();
-            if (isset($camper)) {
-                foreach ($camper->yearattending->positions as $position) {
-                    if ($position->staffpositionid == '1117' || $position->staffpositionid == '1103') {
-                        $av = true;
-                    }
-                }
-            }
-        }
-        $onstage = \App\Coffeehouseact::where('date', $nowyear->next_weekday->toDateString())->where('is_onstage', '1')
-            ->orderBy('order', 'desc')->first();
-        $starttime = Carbon::now('America/Chicago');
-        if ($onstage == null) {
-            $starttime->hour(20)->minute(50);
-        }
-        $acts = \App\Coffeehouseact::where('date', $nowyear->next_weekday->toDateString())->where('is_onstage', '0')
-            ->orderBy('order')->get();
+//        // Coffeehouse
+//        $nowyear = \App\Year::whereDate('start_date', '<', Carbon::today()->toDateString())
+//            ->whereDate('start_date', '>=', Carbon::today()->subDays(7)->toDateString())->first();
+//        if ($nowyear == null) $nowyear = $year;
+//        $av = false;
+//        $camper = null;
+//        if (Auth::check()) {
+//            $camper = \App\Byyear_Camper::where('year', $nowyear->year)->where('email', Auth::user()->email)->first();
+//            if (isset($camper)) {
+//                foreach ($camper->yearattending->positions as $position) {
+//                    if ($position->staffpositionid == '1117' || $position->staffpositionid == '1103') {
+//                        $av = true;
+//                    }
+//                }
+//            }
+//        }
+//        $onstage = \App\Coffeehouseact::where('date', $nowyear->next_weekday->toDateString())->where('is_onstage', '1')
+//            ->orderBy('order', 'desc')->first();
+//        $starttime = Carbon::now('America/Chicago');
+//        if ($onstage == null) {
+//            $starttime->hour(20)->minute(50);
+//        }
+//        $acts = \App\Coffeehouseact::where('date', $nowyear->next_weekday->toDateString())->where('is_onstage', '0')
+//            ->orderBy('order')->get();
 
         if ($year->is_crunch == 1) {
-            return view('crunch', ['av' => $av, 'camper' => $camper, 'onstage' => $onstage,
-                'starttime' => $starttime, 'actslist' => $acts]);
+            return view('crunch');
+//                ['av' => $av, 'camper' => $camper, 'onstage' => $onstage,
+//                'starttime' => $starttime, 'actslist' => $acts]);
         } else {
             if (Auth::check()) {
                 $camper = Auth::user()->camper;
@@ -52,13 +53,16 @@ class WelcomeController extends Controller
                     $nametags = $roomid && $this->isNametagsCreated($yas);
                     $confirmed = $nametags && $this->isConfirmed($family);
                     return view('welcome', ['family' => $family, 'paid' => $paid, 'signedup' => $signedup,
-                        'nametags' => $nametags, 'roomid' => $roomid, 'confirmed' => $confirmed, 'av' => $av,
-                        'camper' => $camper, 'onstage' => $onstage, 'starttime' => $starttime, 'actslist' => $acts]);
+                        'nametags' => $nametags, 'roomid' => $roomid, 'confirmed' => $confirmed,'camper' => $camper]);
+//                        'av' => $av,
+//                        'onstage' => $onstage, 'starttime' => $starttime, 'actslist' => $acts]);
 
                 }
             }
-            return view('welcome', ['registered' => '0', 'av' => $av, 'camper' => $camper, 'onstage' => $onstage,
-                'starttime' => $starttime, 'actslist' => $acts]);
+            return view('welcome', ['registered' => '0']);
+//                , 'camper' => $camper]);
+//                'av' => $av, 'onstage' => $onstage,
+//                'starttime' => $starttime, 'actslist' => $acts]);
         }
     }
 
@@ -91,16 +95,6 @@ class WelcomeController extends Controller
     {
         $kids = DB::table('thisyear_campers')->where('familyid', $family->id)->where('age', '<', 18)->pluck('yearattendingid');
         return \App\Medicalresponse::whereIn('yearattendingid', $kids)->count() == count($kids);
-    }
-
-    public function campcost()
-    {
-        return view('campcost', ['rates' => DB::table('rates')
-            ->join('years', function ($join) {
-                $join->on('rates.start_year', '<=', 'years.year')->on('rates.end_year', '>', 'years.year');
-            })->join('programs', 'programs.id', 'rates.programid')
-            ->whereIn('buildingid', ['1000', '1007', '1017'])
-            ->orderBy('name')->orderBy('min_occupancy')->orderBy('max_occupancy')->get()]);
     }
 
 }

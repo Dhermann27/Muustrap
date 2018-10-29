@@ -33,7 +33,7 @@
 
         <div class="col-md-4">
             <label for="adults-housing" class="control-label sr-only">Housing Arrangements</label>
-            <select id="adults-housing" class="form-control">
+            <select id="adults-housing" name="adults-housing" class="form-control">
                 <option value="0" selected>Choose Housing Arrangements</option>
                 <option value="1">Guestroom, Cabin, or Loft</option>
                 <option value="3">Camp Lakewood Cabin (dorm style)</option>
@@ -45,13 +45,8 @@
         <div class="col-md-2 text-right" id="adults-fee">$0.00</div>
     </div>
     <div id="single-alert" class="row alert alert-warning" style="display: none;">
-        Due to limited space, single occupancy rooms are offered only a premium price. It is
-        strongly suggested that single campers seek out at least one roommate to reduce costs and
-        allow as many campers as possible to attend. Two adults rooming together will each pay
-        double occupancy,
-        ${{ money_format('%.2n', $rates->where('buildingid', '1000')->where('min_occupancy', '2')->where('max_occupancy', '2')->first()->rate * 6) }}
-        ,
-        with a $150.00 deposit due at registration.
+        If you plan to have a roommate, but have not yet selected or been assigned a roommate, please note that your
+        fees will be half the amount shown in the calculator.
     </div>
     <div class="form-group row">
         <label for="yas" class="col-md-3 control-label">Young Adults (18-20) Attending</label>
@@ -70,7 +65,7 @@
 
         <div class="col-md-4">
             <label for="yas-housing" class="control-label sr-only">Housing Arrangements</label>
-            <select id="yas-housing" class="form-control">
+            <select id="yas-housing" name="yas-housing" class="form-control">
                 <option value="0" selected>Choose Housing Arrangements</option>
                 <option value="1">YA Cabin</option>
                 <option value="2">Tent Camping</option>

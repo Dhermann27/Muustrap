@@ -80,7 +80,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'data'], function () {
 
 Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'reports'], function () {
     Route::get('campers', 'ReportController@campers');
-    Route::get('campers.xls', 'ReportController@campersExport');
+    Route::get('campers/{year}.xls', 'ReportController@campersExport');
     Route::get('campers/{year?}/{order?}', 'ReportController@campers');
     Route::get('chart', 'ReportController@chart');
     Route::get('conflicts', 'ReportController@conflicts');
@@ -92,14 +92,14 @@ Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'reports'], fu
     Route::get('outstanding/{filter?}', 'ReportController@outstanding');
     Route::post('outstanding/{id}', 'ReportController@outstandingMark')->middleware('auth', 'role:admin');
     Route::get('payments', 'ReportController@payments');
-    Route::get('payments.xls', 'ReportController@paymentsExport');
+    Route::get('payments/{year}.xls', 'ReportController@paymentsExport');
     Route::get('payments/{year?}/name', 'ReportController@payments');
     Route::get('programs', 'ReportController@programs');
     Route::get('rates', 'ReportController@rates');
     Route::post('rates', 'ReportController@ratesMark')->middleware('auth', 'role:admin');;
     Route::get('roommates', 'ReportController@roommates');
     Route::get('rooms', 'ReportController@rooms');
-    Route::get('rooms.xls', 'ReportController@roomsExport');
+    Route::get('rooms/{year}.xls', 'ReportController@roomsExport');
     Route::get('rooms/{year?}/name', 'ReportController@rooms');
     Route::get('states', 'ReportController@states');
     Route::get('volunteers', 'ReportController@volunteers');

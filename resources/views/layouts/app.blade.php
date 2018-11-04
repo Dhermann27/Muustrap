@@ -183,7 +183,7 @@
                                     </li>
                                     <li><a href="{{ url('/register') }}">Create Account</a></li>
                                 @elseif(true)
-                                    <li><a href="{{ url('/household') }}"><i class="far fa-chevron-right fa-fw"></i>
+                                    <li><a href="{{ url('/registration') }}"><i class="far fa-chevron-right fa-fw"></i>
                                             Start Registration</a>
                                     </li>
                                 @else

@@ -36,9 +36,9 @@ class HomeController extends Controller
         return view('programs', ['programs' => \App\Program::whereNotNull('blurb')->orderBy('order')->get()]);
     }
 
-    public function register()
+    public function registration()
     {
-        return view('register');
+        return view('registration');
     }
 
     public function scholarship()

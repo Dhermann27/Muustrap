@@ -11,19 +11,13 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.5.0/css/all.css"
+          integrity="sha384-j8y0ITrvFafF4EkV1mPW0BKm6dp3c+J9Fky22Man50Ofxo2wNe5pT1oZejDH9/Dt" crossorigin="anonymous">
 
-    <!-- Core CSS -->
-    <link href="/css/main.css" rel="stylesheet">
-
-    <!-- AddOn/Plugin CSS -->
-    <link href="/css/navy.css" rel="stylesheet" title="Color">
-    <link href="/css/owl.carousel.css" rel="stylesheet">
-    <link href="/css/owl.transitions.css" rel="stylesheet">
-    <link href="/css/animate.min.css" rel="stylesheet">
-    <link href="/css/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme-style.min.css">
+    <link rel="stylesheet" href="/css/colour-slate.min.css">
     <link rel="stylesheet" href="/css/muustrap.css" type="text/css"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans+Extra+Condensed|Krub"/>
-    <link href="/fonts/fontello.css" rel="stylesheet">
     <link rel="shortcut icon" href="/favicon.ico">
 
     @role(['admin', 'council'])
@@ -42,24 +36,24 @@
         ]); ?>
     </script>
 </head>
-<body>
+
+<body class="page page-index-static navbar-layout-default" data-plugins-localpath="/plugins/">
 <a href="#content" id="top" class="sr-only">Skip to content</a>
 
-<header>
-    <div class="navbar">
+<div id="header">
+    <div data-toggle="sticky">
 
-        <div class="navbar-header">
-            <div class="container">
+        <div class="header header-dark bg-dark bg-op-2 sticky-bg-op-9">
+            <div class="header-inner container">
 
-                <ul class="info">
-                    <li><a href="mailto:muusa@muusa.org"><i class="fa fa-envelope"></i> muusa@muusa.org</a></li>
-
-                    @if (Auth::guest())
-                        <li><a href="{{ url('/login') }}">Login</a>
-                        </li>
-                        <li><a href="{{ url('/register') }}">Create Account</a></li>
-                    @else
-                        <li><a href="{{ url('/logout') }}"
+                <div class="header-block-flex order-1 mr-auto">
+                    <nav class="nav nav-sm header-block-flex">
+                        @if (Auth::guest())
+                            <a href="{{ url('/login') }}" class="nav-link text-s text-uppercase d-md-block">Login</a>
+                            <a href="{{ url('/register') }}" class="nav-link text-s text-uppercase d-md-block">Create
+                                Account</a>
+                        @else
+                            <a href="{{ url('/logout') }}" class="nav-link text-s text-uppercase d-md-block"
                                onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                 Logout
@@ -69,9 +63,77 @@
                                   style="display: none;">
                                 {{ csrf_field() }}
                             </form>
-                        </li>
-                    @endif
-                </ul>
+                        @endif
+                        <div class="header-divider header-divider-sm"></div>
+                        @if($home->year()->next_muse !== false)
+                            <a href="{{ url('/themuse') }}"
+                               class="nav-link text-s text-uppercase d-md-block">{{ $home->year()->next_muse }}</a>
+                        @endif
+                        @if($home->year()->is_live)
+                            <a href="{{ url('MUUSA_' . $home->year()->year . '_Brochure.pdf') }}"
+                               class="nav-link text-s text-uppercase d-md-block">Web Brochure</a>
+                        @elseif(Auth::check() && $home->year()->is_workshop_proposal)
+                            <a href="{{ url('/proposal') }}" class="nav-link text-s text-uppercase d-md-block">Workshop
+                                Proposal</a>
+                        @endif
+                        <a href="{{ url('/contact') }}" class="nav-link text-s text-uppercase d-md-block">Contact Us</a>
+                    </nav>
+                </div>
+
+                <!--branding/logo -->
+                <div class="header-brand">
+                    <a class="header-brand-text" href="/" title="Home">
+                        <h1 class="h2">
+                            <span class="header-brand-text-alt">App</span>Strap<span class="header-brand-text-alt">.</span>
+                        </h1>
+                    </a>
+                    <div class="header-divider d-none d-lg-block"></div>
+                    <div class="header-slogan d-none d-lg-block">Bootstrap 4 Theme</div>
+                </div>
+                <!-- other header content -->
+                <div class="header-block order-12">
+
+                    <!--Search trigger -->
+                    <a href="#search" class="btn btn-icon btn-link text-white header-btn float-right order-11" data-toggle="search-form" data-target=".header-search"><i class="fa fa-search fa-flip-horizontal search-icon"></i></a>
+
+                    <!-- mobile collapse menu button - data-toggle="collapse" = default BS menu - data-toggle="off-canvas" = Off-cavnas Menu - data-toggle="overlay" = Overlay Menu -->
+                    <a href="#top" class="btn btn-link btn-icon text-white header-btn float-right d-lg-none" data-toggle="off-canvas" data-target=".navbar-main" data-settings='{"cloneTarget":true, "targetClassExtras": "navbar-offcanvas"}'> <i class="fa fa-bars"></i> </a>
+                </div>
+
+                <div class="navbar navbar-expand-md navbar-static-top">
+                    <!--everything within this div is collapsed on mobile-->
+                    <div class="navbar-main collapse">
+                        <!--main navigation-->
+                        <ul class="nav navbar-nav navbar-dark navbar-nav-stretch float-lg-right dropdown-effect-fade">
+
+                            <!-- Homepages -->
+                            <li class="nav-item dropdown dropdown-mega-menu active">
+                                <a href="#" class="nav-link dropdown-toggle" id="indexs-drop" data-toggle="dropdown" data-hover="dropdown"> <i class="fa fa-home nav-link-icon"></i> <span class="d-none">Home</span> </a>
+                                <!-- Dropdown Menu - mega menu-->
+                                <div class="dropdown-menu">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <h4 class="dropdown-header d-none d-lg-block mt-0">
+                                                Classic Homepages
+                                            </h4>
+                                            <div class="row">
+                                                <div class="col-lg-6"> <a href="intro.html" class="dropdown-item">Intro</a> <a href="index.html" class="dropdown-item active">Homepage (default)</a> <a href="index-static.html" class="dropdown-item">Homepage No Slider</a> <a href="index-boxed.html" class="dropdown-item">Homepage Boxed</a> <a href="index-promo-header.html" class="dropdown-item">Promo Header</a> <a href="index-coming-soon.html" class="dropdown-item">Coming Soon</a> <a href="index-coming-soon-newsletter.html" class="dropdown-item">Coming Soon with newsletter</a> <a href="index-onepager.html" class="dropdown-item">One Pager Slideshow</a> </div>
+                                                <div class="col-lg-6"> <a href="index-onepager-image.html" class="dropdown-item">One Pager Image</a> <a href="index-onepager-image-full-height.html" class="dropdown-item">One Pager Image Full Height</a> <a href="index-onepager-bg-slideshow.html" class="dropdown-item">One Pager Background Slideshow</a> <a href="index-onepager-dotted-menu-left.html" class="dropdown-item">One Pager Dotted Menu Left</a> <a href="index-onepager-dotted-menu-right.html" class="dropdown-item">One Pager Dotted Menu Right</a> <a href="index-onepager-dotted-menu-bottom.html" class="dropdown-item">One Pager Dotted Menu Bottom</a> <a href="index-onepager-submenu.html" class="dropdown-item">One Pager Submenu</a> </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <h4 class="dropdown-header d-none d-lg-block mt-0">
+                                                Industry/Niche Homepages
+                                            </h4>
+                                            <div class="row">
+                                                <div class="col-lg-6"> <a href="demo-travel-blog.html" class="dropdown-item">Travel Blog</a> <a href="index-app-landing.html" class="dropdown-item">App Landing Page</a> <a href="index-music.html" class="dropdown-item">Music Homepage</a> <a href="index-event.html" class="dropdown-item">Event Homepage</a> <a href="index-gym.html" class="dropdown-item">Gym Homepage</a> <a href="index-jobs.html" class="dropdown-item">Jobs Homepage</a> <a href="index-corporate.html" class="dropdown-item active">Corporate Homepage</a> <a href="index-restaurant.html" class="dropdown-item">Restaurant Homepage</a> <a href="index-photographer.html" class="dropdown-item">Photographer Homepage</a> </div>
+                                                <div class="col-lg-6"> <a href="index-freelancer-portfolio.html" class="dropdown-item">Freelancer Homepage</a> <a href="index-wedding.html" class="dropdown-item">Wedding Homepage</a> <a href="index-realestate-single.html" class="dropdown-item">Real Estate (Single) Homepage</a> <a href="index-technology.html" class="dropdown-item">Technology Homepage</a> <a href="index-forum.html" class="dropdown-item">Forum Homepage</a> <a href="index-charity.html" class="dropdown-item">Charity Homepage</a> <a href="page-faq.html" class="dropdown-item">FAQ / Documentation</a> <a href="index-magazine.html" class="dropdown-item">Magazine Homepage</a> <a href="shop.html" class="dropdown-item">Shop Homepage</a> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
 
                 <ul class="social">
                     <li><a href="https://www.youtube.com/watch?v=QNWMdbrjxuE">
@@ -414,22 +476,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
-<script defer src="https://pro.fontawesome.com/releases/v5.3.1/js/all.js"
-        integrity="sha384-eAVkiER0fL/ySiqS7dXu8TLpoR8d9KRzIYtG0Tz7pi24qgQIIupp0fn2XA1H90fP"
-        crossorigin="anonymous"></script>
 
-<script src="/js/jquery.easing.1.3.min.js"></script>
-<script src="/js/jquery.form.js"></script>
-<script src="/js/jquery.validate.min.js"></script>
-<script src="/js/affix.js"></script>
-<script src="/js/aos.js"></script>
-<script src="/js/owl.carousel.min.js"></script>
-<script src="/js/jquery.isotope.min.js"></script>
-<script src="/js/imagesloaded.pkgd.min.js"></script>
-<script src="/js/jquery.easytabs.min.js"></script>
-<script src="/js/viewport-units-buggyfill.js"></script>
-<script src="/js/selected-scroll.js"></script>
-<script src="/js/scripts.js"></script>
 
 <script type="text/javascript">
     function nextCamper() {

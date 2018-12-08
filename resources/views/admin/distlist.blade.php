@@ -10,6 +10,12 @@
             @include('snippet.flash')
 
             @include('snippet.formgroup', ['type' => 'select',
+                'label' => 'List Grouping', 'attribs' => ['name' => 'groupby'],
+                'list' => [['id' => 'id', 'name' => 'Campers (Unique emails, duplicate snailmail addresses)'],
+                            ['id' => 'familyid', 'name' => 'Families (Unique snailmail addresses, one member\'s name and email)']], 'option' => 'name'])
+
+
+            @include('snippet.formgroup', ['type' => 'select',
                 'label' => 'Base Camper List', 'attribs' => ['name' => 'campers'],
                 'list' => [['id' => 'all', 'name' => 'All campers'],
                             ['id' => 'reg', 'name' => 'All registered campers'],
@@ -29,7 +35,7 @@
                 'label' => 'Restrict to campers that want snail mail?', 'attribs' => ['name' => 'ecomm'],
                 'list' => [['id' => '-1', 'name' => 'Show all campers'],
                             ['id' => '1', 'name' => 'Show campers that do not want snail mail'],
-                            ['id' => '0', 'name' => 'Show campers that want to receive paper snail mail']],
+                            ['id' => '0', 'name' => 'Show campers that want to receive snail mail']],
                              'option' => 'name'])
 
 
@@ -50,11 +56,6 @@
                     @endforeach
                 </div>
             </div>
-
-            @include('snippet.formgroup', ['type' => 'select',
-                'label' => 'Group By', 'attribs' => ['name' => 'groupby'],
-                'list' => [['id' => 'id', 'name' => 'Camper (Possibility of duplicate addresses)'],
-                            ['id' => 'familyid', 'name' => 'Family (Unique addresses)']], 'option' => 'name'])
 
             @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Download Data']])
         </form>

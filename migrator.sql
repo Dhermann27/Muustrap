@@ -310,6 +310,7 @@ CREATE VIEW byyear_families AS
     ya.year,
     f.id,
     f.name,
+    IF(count(c.id)>1,CONCAT('The ', f.name, ' Family'),CONCAT(MAX(c.firstname), ' ', MAX(c.lastname))) title,
     f.address1,
     f.address2,
     f.city,
@@ -332,50 +333,62 @@ CREATE VIEW byyear_families AS
 
 DROP VIEW IF EXISTS byyear_campers;
 CREATE VIEW byyear_campers AS
-  SELECT
-    ya.year,
-    f.id                                 familyid,
-    f.name                               familyname,
-    f.address1,
-    f.address2,
-    f.city,
-    f.statecd,
-    f.zipcd,
-    f.country,
-    f.is_ecomm,
-    f.is_address_current,
-    c.id,
-    c.pronounid,
-    o.name                               pronounname,
-    c.firstname,
-    c.lastname,
-    c.email,
-    c.phonenbr,
-    c.birthdate,
-    DATE_FORMAT(c.birthdate, '%m/%d/%Y') birthday,
-    getage(c.birthdate, ya.year)         age,
-    p.id                                 programid,
-    p.name                               programname,
-    p.is_program_housing                 is_program_housing,
-    c.roommate,
-    c.sponsor,
-    c.is_handicap,
-    c.foodoptionid,
-    u.id                                 churchid,
-    u.name                               churchname,
-    u.city                               churchcity,
-    u.statecd                            churchstatecd,
-    ya.id                                yearattendingid,
-    ya.days,
-    ya.roomid,
-    r.room_number,
-    b.id                                 buildingid,
-    b.name                               buildingname
-  FROM (families f, campers c, yearsattending ya, programs p, pronouns o)
-    LEFT JOIN (buildings b, rooms r) ON ya.roomid = r.id AND r.buildingid = b.id
-    LEFT JOIN churches u ON c.churchid = u.id
-  WHERE f.id = c.familyid AND c.id = ya.camperid AND p.id = ya.programid
-        AND c.pronounid = o.id;
+SELECT ya.year,
+       f.id                                               familyid,
+       f.name                                             familyname,
+       IF((SELECT COUNT(*)
+           FROM campers cp,
+                yearsattending yap
+           WHERE cp.id = yap.camperid
+             AND cp.familyid = f.id
+             AND yap.year = ya.year) > 1, CONCAT('The ', f.name, ' Family'),
+          CONCAT(MAX(c.firstname), ' ', MAX(c.lastname))) familytitle,
+       f.address1,
+       f.address2,
+       f.city,
+       f.statecd,
+       f.zipcd,
+       f.country,
+       f.is_address_current,
+       f.is_ecomm,
+       f.is_scholar,
+       COUNT(ya.id)                                       count,
+       SUM(IF(ya.roomid != 0, 1, 0))                      assigned,
+       c.id,
+       c.pronounid,
+       o.name                                             pronounname,
+       c.firstname,
+       c.lastname,
+       c.email,
+       c.phonenbr,
+       c.birthdate,
+       DATE_FORMAT(c.birthdate, '%m/%d/%Y')               birthday,
+       getage(c.birthdate, ya.year)                       age,
+       p.id                                               programid,
+       p.name                                             programname,
+       p.is_program_housing                               is_program_housing,
+       c.roommate,
+       c.sponsor,
+       c.is_handicap,
+       c.foodoptionid,
+       u.id                                               churchid,
+       u.name                                             churchname,
+       u.city                                             churchcity,
+       u.statecd                                          churchstatecd,
+       ya.id                                              yearattendingid,
+       ya.days,
+       ya.roomid,
+       r.room_number,
+       b.id                                               buildingid,
+       b.name                                             buildingname
+FROM (families f, campers c, yearsattending ya, programs p, pronouns o)
+       LEFT JOIN (buildings b, rooms r) ON ya.roomid = r.id AND r.buildingid = b.id
+       LEFT JOIN churches u ON c.churchid = u.id
+WHERE f.id = c.familyid
+  AND c.id = ya.camperid
+  AND p.id = ya.programid
+  AND c.pronounid = o.id
+GROUP BY c.id, ya.year;
 
 DROP VIEW IF EXISTS byyear_charges;
 CREATE VIEW byyear_charges AS
@@ -426,6 +439,7 @@ CREATE VIEW thisyear_families AS
   SELECT
     yf.id,
     yf.name,
+    yf.title,
     yf.address1,
     yf.address2,
     yf.city,
@@ -463,6 +477,7 @@ CREATE VIEW thisyear_campers AS
   SELECT
     familyid,
     familyname,
+    familytitle,
     address1,
     address2,
     city,

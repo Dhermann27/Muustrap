@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.appstrap')
 
 @section('css')
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">

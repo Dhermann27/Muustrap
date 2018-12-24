@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.appstrap')
 
 @section('css')
     <link rel='stylesheet' href='/css/fullcalendar.min.css'/>

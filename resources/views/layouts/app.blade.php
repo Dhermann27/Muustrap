@@ -41,431 +41,323 @@
 <a href="#content" id="top" class="sr-only">Skip to content</a>
 
 <div id="header">
-    <div data-toggle="sticky">
-
-        <div class="header header-dark bg-dark bg-op-2 sticky-bg-op-9">
-            <div class="header-inner container">
-
-                <div class="header-block-flex order-1 mr-auto">
-                    <nav class="nav nav-sm header-block-flex">
-                        @if (Auth::guest())
-                            <a href="{{ url('/login') }}" class="nav-link text-s text-uppercase d-md-block">Login</a>
-                            <a href="{{ url('/register') }}" class="nav-link text-s text-uppercase d-md-block">Create
-                                Account</a>
-                        @else
-                            <a href="{{ url('/logout') }}" class="nav-link text-s text-uppercase d-md-block"
-                               onclick="event.preventDefault();
+    <div class="header-upper">
+        <div class="header-inner container">
+            <div class="header-block-flex order-1 mr-auto">
+                <nav class="nav nav-sm header-block-flex">
+                    @if (Auth::guest())
+                        <a href="{{ url('/login') }}" class="nav-link text-s text-uppercase d-md-block">Login</a>
+                        <a href="{{ url('/register') }}" class="nav-link text-s text-uppercase d-md-block">Create
+                            Account</a>
+                    @else
+                        <a href="{{ url('/logout') }}" class="nav-link text-s text-uppercase d-md-block"
+                           onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                Logout
-                            </a>
+                            Logout
+                        </a>
 
-                            <form id="logout-form" action="{{ url('/logout') }}" method="POST"
-                                  style="display: none;">
-                                {{ csrf_field() }}
-                            </form>
-                        @endif
+                        <form id="logout-form" action="{{ url('/logout') }}" method="POST"
+                              style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                    @endif
+                    @if($year->next_muse !== false)
                         <div class="header-divider header-divider-sm"></div>
-                        @if($home->year()->next_muse !== false)
-                            <a href="{{ url('/themuse') }}"
-                               class="nav-link text-s text-uppercase d-md-block">{{ $home->year()->next_muse }}</a>
-                        @endif
-                        @if($home->year()->is_live)
-                            <a href="{{ url('MUUSA_' . $home->year()->year . '_Brochure.pdf') }}"
-                               class="nav-link text-s text-uppercase d-md-block">Web Brochure</a>
-                        @elseif(Auth::check() && $home->year()->is_workshop_proposal)
-                            <a href="{{ url('/proposal') }}" class="nav-link text-s text-uppercase d-md-block">Workshop
-                                Proposal</a>
-                        @endif
-                        <a href="{{ url('/contact') }}" class="nav-link text-s text-uppercase d-md-block">Contact Us</a>
-                    </nav>
-                </div>
+                        <a href="{{ url('/themuse') }}"
+                           class="nav-link text-s text-uppercase d-md-block">{{ $home->year()->next_muse }}</a>
+                    @endif
+                </nav>
+            </div>
+            <div class="nav nav-icons header-block order-12">
+                <a href="https://www.facebook.com/{{ Auth::guest() ? 'Muusa2013/' : 'groups/Muusans/'}}"
+                   class="nav-link"> <i class="fab fa-facebook-square icon-1x"></i> <span
+                            class="sr-only">Facebook</span> </a>
+                <a href="https://twitter.com/muusa1" class="nav-link"> <i class="fab fa-twitter-square icon-1x"></i>
+                    <span class="sr-only">Twitter</span> </a>
+                <a href="https://www.youtube.com/watch?v=QNWMdbrjxuE" class="nav-link"> <i
+                            class="fab fa-youtube-square icon-1x"></i> <span class="sr-only">YouTube</span> </a>
+            </div>
+        </div>
+    </div>
 
-                <!--branding/logo -->
+    <div data-toggle="sticky">
+        <div class="header header-dark bg-dark bg-op-1 border-primary border-op-4 sticky-bg-dark sticky-bg-op-9">
+            <div class="header-inner container">
                 <div class="header-brand">
                     <a class="header-brand-text" href="/" title="Home">
-                        <h1 class="h2">
-                            <span class="header-brand-text-alt">App</span>Strap<span class="header-brand-text-alt">.</span>
-                        </h1>
+                        <img src="/images/print_logo.png" class="logo"
+                             alt="Midwest Unitarian Universalist Summer Assembly">
                     </a>
                     <div class="header-divider d-none d-lg-block"></div>
-                    <div class="header-slogan d-none d-lg-block">Bootstrap 4 Theme</div>
+                    <div class="header-slogan d-none d-lg-block">MUUSA</div>
                 </div>
-                <!-- other header content -->
-                <div class="header-block order-12">
 
-                    <!--Search trigger -->
-                    <a href="#search" class="btn btn-icon btn-link text-white header-btn float-right order-11" data-toggle="search-form" data-target=".header-search"><i class="fa fa-search fa-flip-horizontal search-icon"></i></a>
-
+                <div class="header-block d-flex order-12 align-items-center">
                     <!-- mobile collapse menu button - data-toggle="collapse" = default BS menu - data-toggle="off-canvas" = Off-cavnas Menu - data-toggle="overlay" = Overlay Menu -->
-                    <a href="#top" class="btn btn-link btn-icon text-white header-btn float-right d-lg-none" data-toggle="off-canvas" data-target=".navbar-main" data-settings='{"cloneTarget":true, "targetClassExtras": "navbar-offcanvas"}'> <i class="fa fa-bars"></i> </a>
+                    <a href="#top" class="btn btn-icon btn-white ml-2 order-12 d-lg-none" data-toggle="off-canvas"
+                       data-target=".navbar-main"
+                       data-settings='{"cloneTarget":true, "targetClassExtras": "navbar-offcanvas"}'> <i
+                                class="fa fa-bars"></i> </a>
+                    <a href="{{ url('/registration') }}" data-toggle="scroll-link"
+                       class="btn btn-primary btn-sm text-uppercase font-weight-bold px-lg-3 py-lg-2 ml-lg-3">Register
+                        <span class="d-none d-lg-inline-block">Now</span></a>
                 </div>
 
                 <div class="navbar navbar-expand-md navbar-static-top">
                     <!--everything within this div is collapsed on mobile-->
-                    <div class="navbar-main collapse">
+                    <div class="navbar-main collapse ">
                         <!--main navigation-->
-                        <ul class="nav navbar-nav navbar-dark navbar-nav-stretch float-lg-right dropdown-effect-fade">
+                        <ul class="nav navbar-nav navbar-nav-stretch float-lg-right dropdown-effect-fade">
 
-                            <!-- Homepages -->
-                            <li class="nav-item dropdown dropdown-mega-menu active">
-                                <a href="#" class="nav-link dropdown-toggle" id="indexs-drop" data-toggle="dropdown" data-hover="dropdown"> <i class="fa fa-home nav-link-icon"></i> <span class="d-none">Home</span> </a>
-                                <!-- Dropdown Menu - mega menu-->
+                            @role(['admin', 'council'])
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" id="admin-drop" data-toggle="dropdown"
+                                   data-hover="dropdown">Admin</a>
+
+                                @role(['admin'])
                                 <div class="dropdown-menu">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <h4 class="dropdown-header d-none d-lg-block mt-0">
-                                                Classic Homepages
-                                            </h4>
-                                            <div class="row">
-                                                <div class="col-lg-6"> <a href="intro.html" class="dropdown-item">Intro</a> <a href="index.html" class="dropdown-item active">Homepage (default)</a> <a href="index-static.html" class="dropdown-item">Homepage No Slider</a> <a href="index-boxed.html" class="dropdown-item">Homepage Boxed</a> <a href="index-promo-header.html" class="dropdown-item">Promo Header</a> <a href="index-coming-soon.html" class="dropdown-item">Coming Soon</a> <a href="index-coming-soon-newsletter.html" class="dropdown-item">Coming Soon with newsletter</a> <a href="index-onepager.html" class="dropdown-item">One Pager Slideshow</a> </div>
-                                                <div class="col-lg-6"> <a href="index-onepager-image.html" class="dropdown-item">One Pager Image</a> <a href="index-onepager-image-full-height.html" class="dropdown-item">One Pager Image Full Height</a> <a href="index-onepager-bg-slideshow.html" class="dropdown-item">One Pager Background Slideshow</a> <a href="index-onepager-dotted-menu-left.html" class="dropdown-item">One Pager Dotted Menu Left</a> <a href="index-onepager-dotted-menu-right.html" class="dropdown-item">One Pager Dotted Menu Right</a> <a href="index-onepager-dotted-menu-bottom.html" class="dropdown-item">One Pager Dotted Menu Bottom</a> <a href="index-onepager-submenu.html" class="dropdown-item">One Pager Submenu</a> </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <h4 class="dropdown-header d-none d-lg-block mt-0">
-                                                Industry/Niche Homepages
-                                            </h4>
-                                            <div class="row">
-                                                <div class="col-lg-6"> <a href="demo-travel-blog.html" class="dropdown-item">Travel Blog</a> <a href="index-app-landing.html" class="dropdown-item">App Landing Page</a> <a href="index-music.html" class="dropdown-item">Music Homepage</a> <a href="index-event.html" class="dropdown-item">Event Homepage</a> <a href="index-gym.html" class="dropdown-item">Gym Homepage</a> <a href="index-jobs.html" class="dropdown-item">Jobs Homepage</a> <a href="index-corporate.html" class="dropdown-item active">Corporate Homepage</a> <a href="index-restaurant.html" class="dropdown-item">Restaurant Homepage</a> <a href="index-photographer.html" class="dropdown-item">Photographer Homepage</a> </div>
-                                                <div class="col-lg-6"> <a href="index-freelancer-portfolio.html" class="dropdown-item">Freelancer Homepage</a> <a href="index-wedding.html" class="dropdown-item">Wedding Homepage</a> <a href="index-realestate-single.html" class="dropdown-item">Real Estate (Single) Homepage</a> <a href="index-technology.html" class="dropdown-item">Technology Homepage</a> <a href="index-forum.html" class="dropdown-item">Forum Homepage</a> <a href="index-charity.html" class="dropdown-item">Charity Homepage</a> <a href="page-faq.html" class="dropdown-item">FAQ / Documentation</a> <a href="index-magazine.html" class="dropdown-item">Magazine Homepage</a> <a href="shop.html" class="dropdown-item">Shop Homepage</a> </div>
-                                            </div>
+                                    <div class="dropdown dropdown-submenu">
+                                        <a href="#" class="dropdown-item dropdown-toggle" id="func-drop"
+                                           data-toggle="dropdown" data-hover="dropdown" data-close-others="false">
+                                            Administrator Functions</a>
+                                        <div class="dropdown-menu" role="menu" aria-labelledby="func-drop">
+                                            <a href="{{ url('/household/f/0') }}" class="dropdown-item">Create New
+                                                Family</a>
+                                            <a href="{{ url('/admin/distlist') }}" class="dropdown-item">Distribution
+                                                Lists</a>
+                                            <a href="{{ url('/confirm/all') }}" class="dropdown-item">Invoices (all)</a>
+                                            <a href="{{ url('/admin/master') }}" class="dropdown-item">Master Control
+                                                Program</a>
+                                            <a href="{{ url('/confirm/letters') }}" class="dropdown-item">Medical/Program
+                                                Letters (all)</a>
+                                            <a href="{{ url('/admin/positions') }}" class="dropdown-item">Staff
+                                                Positions</a>
+                                            <a href="{{ url('/admin/roles') }}" class="dropdown-item">User Roles</a>
                                         </div>
                                     </div>
                                 </div>
-                            </li>
-
-
-                <ul class="social">
-                    <li><a href="https://www.youtube.com/watch?v=QNWMdbrjxuE">
-                            <i class="icon-s-youtube"></i> <span
-                                    class="sr-only">YouTube</span> </a></li>
-                    <li><a href="https://twitter.com/muusa1"> <i
-                                    class="icon-s-twitter"></i> <span
-                                    class="sr-only">Twitter</span> </a></li>
-                    <li><a href="https://www.facebook.com/{{ Auth::guest() ? 'Muusa2013/' : 'groups/Muusans/'}}">
-                            <i class="icon-s-facebook"></i> <span
-                                    class="sr-only">Facebook</span> </a>
-                    </li>
-                </ul>
-
-                <a class="navbar-brand" href="/"><img src="/images/brand.png" class="logo" alt=""></a>
-
-                <a class="navbar-toggler btn responsive-menu float-right" data-toggle="collapse"
-                   data-target=".navbar-collapse"><i class='icon-menu-1'></i></a>
-
-            </div>
-        </div>
-
-
-        <div class="yamm">
-            <div class="navbar-collapse collapse">
-                <div class="container">
-
-                    <a class="navbar-brand" href="/">
-                        <img src="/images/print_logo.png" class="logo"
-                             alt="Midwest Unitarian Universalist Summer Assembly">
-                    </a>
-
-                    <ul class="nav navbar-nav">
-                        @role(['admin', 'council'])
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin</a>
-
-                            <ul class="dropdown-menu">
-
-                                @role(['admin'])
-                                <li class="dropdown-submenu">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administrator
-                                        Functions</a>
-
-                                    <ul class="dropdown-menu">
-                                        <li><a href="{{ url('/household/f/0') }}">Create New Family</a></li>
-                                        <li><a href="{{ url('/admin/distlist') }}">Distribution Lists</a></li>
-                                        <li><a href="{{ url('/confirm/all') }}">Invoices (all)</a></li>
-                                        <li><a href="{{ url('/admin/master') }}">Master Control Program</a></li>
-                                        <li>
-                                            <a href="{{ url('/confirm/letters') }}">Medical/Program Letters (all)</a>
-                                        </li>
-                                        <li><a href="{{ url('/admin/positions') }}">Staff Positions</a></li>
-                                        <li><a href="{{ url('/admin/roles') }}">User Roles</a></li>
-                                    </ul>
-                                </li>
                                 @endrole
 
-                                <li class="dropdown-submenu">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reports</a>
+                                <div class="dropdown-menu">
+                                    <div class="dropdown dropdown-submenu">
+                                        <a href="#" class="dropdown-item dropdown-toggle" id="report-drop"
+                                           data-toggle="dropdown" data-hover="dropdown" data-close-others="false">
+                                            Reports</a>
+                                        <div class="dropdown-menu" role="menu" aria-labelledby="func-drop">
+                                            <a href="{{ url('/reports/deposits') }}" class="dropdown-item">Bank
+                                                Deposits</a>
+                                            <a href="{{ url('/reports/firsttime') }}" class="dropdown-item">First-time
+                                                Campers</a>
 
-                                    <ul class="dropdown-menu">
-                                        <li><a href="{{ url('/reports/deposits') }}">Bank Deposits</a></li>
-                                        <li><a href="{{ url('/reports/firsttime') }}">First-time Campers</a></li>
-                                        <li><a href="{{ url('/reports/guarantee') }}">Guarantee Status</a></li>
-                                        <li><a href="{{ url('/reports/payments') }}">Ledger</a></li>
-                                        <li><a href="{{ url('/reports/outstanding') }}">Outstanding Balances</a></li>
-                                        <li><a href="{{ url('/reports/programs') }}">Program Participants</a></li>
-                                        <li><a href="{{ url('/reports/rates') }}">Rates</a></li>
-                                        <li><a href="{{ url('/reports/campers') }}">Registered Campers</a></li>
-                                        <li><a href="{{ url('/reports/chart') }}">Registration Chart</a></li>
-                                        <li><a href="{{ url('/reports/roommates') }}">Roommates</a></li>
-                                        <li><a href="{{ url('/reports/rooms') }}">Rooms</a></li>
-                                        <li><a href="{{ url('/reports/states') }}">States &amp; Churches</a></li>
-                                        <li><a href="{{ url('/reports/volunteers') }}">Volunteers</a></li>
-                                        <li><a href="{{ url('/reports/workshops') }}">Workshop Attendees</a></li>
-                                        <li><a href="{{ url('/reports/conflicts') }}">Workshop Conflicts</a></li>
-                                    </ul>
-                                </li>
+                                            <a href="{{ url('/reports/guarantee') }}" class="dropdown-item">Guarantee
+                                                Status</a>
+                                            <a href="{{ url('/reports/payments') }}" class="dropdown-item">Ledger</a>
+                                            <a href="{{ url('/reports/outstanding') }}" class="dropdown-item">Outstanding
+                                                Balances</a>
 
-                                <li class="dropdown-submenu">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools</a>
+                                            <a href="{{ url('/reports/programs') }}" class="dropdown-item">Program
+                                                Participants</a>
 
-                                    <ul class="dropdown-menu">
-                                        <li><a href="{{ url('/coffeehouse') }}">Coffeehouse Schedule</a></li>
-                                        <li>
-                                            <a href="{{ url('/tools/cognoscenti') }}">Cognoscenti (Planning Council)</a>
-                                        </li>
-                                        <li><a href="{{ url('/tools/nametags') }}">Nametag Printer</a></li>
-                                        <li><a href="{{ url('/tools/nametags/all') }}">Nametags (all)</a></li>
-                                        <li><a href="{{ url('/tools/programs') }}">Programs</a></li>
-                                        <li><a href="{{ url('/roomselection/map') }}">Room Selection Map</a></li>
-                                        <li><a href="{{ url('/tools/staffpositions') }}">Staff Assignments</a></li>
-                                        <li><a href="{{ url('/tools/workshops') }}">Workshops</a></li>
-                                    </ul>
-                                </li>
+                                            <a href="{{ url('/reports/rates') }}" class="dropdown-item">Rates</a>
+                                            <a href="{{ url('/reports/campers') }}" class="dropdown-item">Registered
+                                                Campers</a>
+                                            <a href="{{ url('/reports/chart') }}" class="dropdown-item">Registration
+                                                Chart</a>
+                                            <a href="{{ url('/reports/roommates') }}"
+                                               class="dropdown-item">Roommates</a>
+                                            <a href="{{ url('/reports/rooms') }}" class="dropdown-item">Rooms</a>
+                                            <a href="{{ url('/reports/states') }}" class="dropdown-item">States &amp;
+                                                Churches</a>
 
-                            </ul>
-                        </li>
-                        @endrole
+                                            <a href="{{ url('/reports/volunteers') }}"
+                                               class="dropdown-item">Volunteers</a>
+                                            <a href="{{ url('/reports/workshops') }}" class="dropdown-item">Workshop
+                                                Attendees</a>
 
-                        <li class="dropdown">
-                            <a href="{{ url('/registration') }}" class="dropdown-toggle"
-                               data-toggle="dropdown">Register</a>
+                                            <a href="{{ url('/reports/conflicts') }}" class="dropdown-item">Workshop
+                                                Conflicts</a>
+                                        </div>
+                                    </div>
+                                </div>
 
-                            <ul class="dropdown-menu">
-                                @if (Auth::guest())
-                                    <li><a href="{{ url('/login') }}">Login</a>
-                                    </li>
-                                    <li><a href="{{ url('/register') }}">Create Account</a></li>
-                                @elseif(true)
-                                    <li><a href="{{ url('/registration') }}"><i class="far fa-chevron-right fa-fw"></i>
-                                            Start Registration</a>
-                                    </li>
-                                @else
-                                    <li><a href="{{ url('/household') }}"><i class="far fa-home fa-fw"></i>
-                                            Household</a>
-                                    </li>
-                                    <li><a href="{{ url('/camper') }}"><i class="far fa-users fa-fw"></i> Campers</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ url('/payment') }}"><i class="far fa-usd-square fa-fw"></i> Payment</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ url('/workshopchoice') }}"><i class="far fa-rocket fa-fw"></i>
-                                            Workshops</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ url('/roomselection') }}"><i class="far fa-bed fa-fw"></i> Room
-                                            Selection</a>
-                                    </li>
-                                    <li><a href="{{ url('/nametag') }}"><i class="far fa-id-card fa-fw"></i>
-                                            Nametags</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ url('/confirm') }}"><i class="far fa-envelope fa-fw"></i>
-                                            Confirmation</a>
-                                    </li>
-                                @endif
-                            </ul>
-                        </li>
+                            </li>
+                            @endrole
 
-                        <li class="dropdown">
-                            <a href="{{ url('/information') }}" class="dropdown-toggle" data-toggle="dropdown">Information</a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="{{ url('/cost') }}"><i class="far fa-calculator fa-fw"></i> Cost Calculator</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('/excursions') }}"><i class="far fa-binoculars fa-fw"></i>
-                                        Excursions</a>
-                                </li>
-                                <li><a href="{{ url('/housing') }}"><i class="far fa-bath fa-fw"></i> Housing
-                                        Options</a></li>
-                                <li><a href="{{ url('/programs') }}"><i class="far fa-sitemap fa-fw"></i> Programs</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('/themespeaker') }}"><i class="far fa-microphone fa-fw"></i> Theme
-                                        Speakers</a>
-                                </li>
-                                <li><a href="{{ url('/workshops') }}"><i class="far fa-map fa-fw"></i> Workshop List</a>
-                                </li>
-                            </ul>
-                        </li>
 
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Your Details</a>
-                            <ul class="dropdown-menu">
-                                @if (Auth::guest())
-                                    <li><a href="{{ url('/login') }}">Login</a>
-                                    </li>
-                                @else
-                                    @if($year->is_artfair)
-                                        <li>
-                                            <a href="{{ url('/artfair') }}">
-                                                <i class="far fa-shopping-bag fa-fw"></i>
-                                                Art Fair Submission
-                                            </a>
+                            <li class="nav-item dropdown">
+                                <a href="{{ url('/registration') }}" class="nav-link dropdown-toggle" id="pages-drop"
+                                   data-toggle="dropdown" data-hover="dropdown">Register</a>
 
-                                        </li>
+                                <div class="dropdown-menu">
+                                    @if (Auth::guest())
+                                        <a href="{{ url('/login') }}" class="dropdown-item">Login</a>
+                                        <a href="{{ url('/register') }}" class="dropdown-item">Create Account</a>
+                                    @elseif(true)
+                                        <a href="{{ url('/registration') }}" class="dropdown-item">
+                                            <i class="far fa-chevron-right fa-fw"></i> Start Registration</a>
+                                    @else
+                                        <a href="{{ url('/household') }}" class="dropdown-item">
+                                            <i class="far fa-home fa-fw"></i> Household</a>
+                                        <a href="{{ url('/camper') }}" class="dropdown-item">
+                                            <i class="far fa-users fa-fw"></i> Campers</a>
+                                        <a href="{{ url('/payment') }}" class="dropdown-item">
+                                            <i class="far fa-usd-square fa-fw"></i> Payment</a>
+                                        <a href="{{ url('/workshopchoice') }}" class="dropdown-item">
+                                            <i class="far fa-rocket fa-fw"></i> Workshops</a>
+                                        <a href="{{ url('/roomselection') }}" class="dropdown-item">
+                                            <i class="far fa-bed fa-fw"></i> Room Selection</a>
+                                        <a href="{{ url('/nametag') }}" class="dropdown-item">
+                                            <i class="far fa-id-card fa-fw"></i> Nametags</a>
+                                        <a href="{{ url('/confirm') }}" class="dropdown-item">
+                                            <i class="far fa-envelope fa-fw"></i> Confirmation</a>
                                     @endif
-                                    @if($year->is_calendar)
-                                        <li>
-                                            <a href="{{ url('/calendar') }}">
-                                                <i class="far fa-calendar-alt fa-fw"></i> Daily Schedule
-                                            </a>
-                                        </li>
-                                    @endif
-                                    @if($year->next_muse !== false)
-                                        <li>
-                                            <a href="{{ url('/themuse') }}">
-                                                <i class="fal fa-newspaper fa-fw"></i> {{ $year->next_muse }}
-                                            </a>
-                                        </li>
-                                    @endif
-                                    <li>
-                                        <a href="{{ url('/directory') }}">
-                                            <i class="far fa-address-book fa-fw"></i> Online Directory
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ url('/volunteer') }}">
-                                            <i class="far fa-handshake fa-fw"></i> Volunteer Opportunities
-                                        </a>
-                                    </li>
-                                    @if($year->is_live)
-                                        <li><a href="{{ url('/brochure') }}">
-                                                <i class="far fa-desktop fa-fw"></i> Web Brochure
-                                            </a>
-                                        </li>
-                                    @endif
-                                    @if($year->is_workshop_proposal)
-                                        <li><a href="{{ url('/proposal') }}">
+                                </div>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a href="{{ url('/information') }}" class="nav-link dropdown-toggle" id="info-drop"
+                                   data-toggle="dropdown" data-hover="dropdown">Information</a>
+                                <div class="dropdown-menu">
+                                    <a href="{{ url('/cost') }}" class="dropdown-item">
+                                        <i class="far fa-calculator fa-fw"></i> Cost Calculator</a>
+                                    <a href="{{ url('/excursions') }}" class="dropdown-item">
+                                        <i class="far fa-binoculars fa-fw"></i> Excursions</a>
+                                    <a href="{{ url('/housing') }}" class="dropdown-item">
+                                        <i class="far fa-bath fa-fw"></i> Housing Options</a>
+                                    <a href="{{ url('/programs') }}" class="dropdown-item">
+                                        <i class="far fa-sitemap fa-fw"></i> Programs</a>
+                                    <a href="{{ url('/themespeaker') }}" class="dropdown-item">
+                                        <i class="far fa-microphone fa-fw"></i> Theme Speakers</a>
+                                    <a href="{{ url('/workshops') }}" class="dropdown-item">
+                                        <i class="far fa-map fa-fw"></i> Workshop List</a>
+                                </div>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" id="details-drop" data-toggle="dropdown"
+                                   data-hover="dropdown">Your Details</a>
+                                <div class="dropdown-menu">
+                                    @if (Auth::guest())
+                                        <a href="{{ url('/login') }}" class="dropdown-item">Login</a>
+                                    @else
+                                        @if($year->is_artfair)
+                                            <a href="{{ url('/artfair') }}" class="dropdown-item">
+                                                <i class="far fa-shopping-bag fa-fw"></i> Art Fair Submission</a>
+                                        @endif
+                                        @if($year->is_calendar)
+                                            <a href="{{ url('/calendar') }}" class="dropdown-item">
+                                                <i class="far fa-calendar-alt fa-fw"></i> Daily Schedule</a>
+                                        @endif
+                                        @if($year->next_muse !== false)
+                                            <a href="{{ url('/themuse') }}" class="dropdown-item">
+                                                <i class="fal fa-newspaper fa-fw"></i> {{ $year->next_muse }}</a>
+
+                                        @endif
+                                        <a href="{{ url('/directory') }}" class="dropdown-item">
+                                            <i class="far fa-address-book fa-fw"></i> Online Directory</a>
+                                        <a href="{{ url('/volunteer') }}" class="dropdown-item">
+                                            <i class="far fa-handshake fa-fw"></i> Volunteer Opportunities</a>
+                                        @if($year->is_live)
+                                            <a href="{{ url('/brochure') }}" class="dropdown-item">
+                                                <i class="far fa-desktop fa-fw"></i> Web Brochure</a>
+                                        @endif
+                                        @if($year->is_workshop_proposal)
+                                            <a href="{{ url('/proposal') }}" class="dropdown-item">
                                                 <i class="fal fa-chalkboard-teacher fa-fw"></i> Workshop Proposal
                                             </a>
-                                        </li>
+                                        @endif
                                     @endif
-                                @endif
-                            </ul>
-                        </li>
+                                </div>
+                            </li>
 
-                        <li class="dropdown"><a href="{{ url('/contact') }}">Contact Us</a></li>
+                            <li class="nav-item"><a href="{{ url('/contact') }}" class="nav-link">Contact Us</a></li>
 
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    @role(['admin', 'council'])
-    <div class="input-group p-0 m-0">
-        <div class="input-group-prepend">
-            @include('admin.controls', ['id' =>  (preg_match('/\/(c|f)\/\d+$/', $_SERVER['REQUEST_URI'], $matches) ? substr($_SERVER['REQUEST_URI'], -6) : 'c/0'), 'inputgroup' => 'true'])
-        </div>
-
-        <input type="text" id="camper" class="form-control camperlist" placeholder="Camper Name"/>
-    </div>
-    @endrole
-</header>
-
-<main class="js-reveal">
-
-    @hassection('title')
-        <section id="hero" class="light-bg img-bg-bottom img-bg-softer"
-                 style="background-image: url(/images/jumbotron.jpg);">
-            <div class="container inner">
-                <div class="row">
-                    <div class="col-lg-8 col-md-9 aos-init aos-animate" data-aos="fade-up">
-                        <header>
-                            <h1>
-                                @yield('title')
-                            </h1>
-                            @hassection('heading')
-                                <h3>
-                                    @yield('heading')
-                                </h3>
-                            @endif
-                        </header>
+                        </ul>
                     </div>
                 </div>
             </div>
-        </section>
-    @endif
-
-    @hassection('multisection')
-        @yield('multisection')
-    @else
-        <section>
-            <div class="inner-top inner-left-sm aos-init aos-animate p-5" data-aos="fade-up">
-                @yield('content')
-            </div>
-        </section>
-    @endif
-</main>
-
-<footer class="dark-bg">
-    <div class="container inner">
-        <div class="row">
-
-            <div class="col-lg-4 col-md-6 inner">
-                <h4>Important Dates</h4>
-                <ul>
-                    <li><strong>February 1</strong>: Workshop registration and scholarship applications open. Housing
-                        selection and changes open to all campers who have paid their deposit.
-                    </li>
-                    <li><strong>April 15</strong>: Scholarship applications due.</li>
-                    <li><strong>May 15</strong>: Scholarships granted and applicants notified of awards.</li>
-                    <li><strong>May 31</strong>: Deadline for cancellations. Deposits will not be refunded for
-                        cancellations after May 31.
-                    </li>
-                </ul>
-            </div>
-
-            <div class="col-lg-4 col-md-6 inner">
-                <h4>Get In Touch</h4>
-                <p>Mail checks to the address below, or email our Registrar with questions.</p>
-                <ul class="contacts">
-                    <li><i class="far fa-money-check-alt fa-fw"></i> 423 N Waiola Ave., La Grange Park, IL 60526</li>
-                    <li><a href="mailto:registrar@muusa.org"><i class="far fa-envelope fa-fw"></i>
-                            registrar@muusa.org</a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="col-lg-4 col-md-6 inner">
-                <h4>Mailing List</h4>
-                <p>Interested in receiving our web brochure when it is published in February?</p>
-                <form id="mailinglist" class="form-inline newsletter" role="form" method="POST"
-                      action="{{ url('/mailinglist') }}">
-                    <label class="sr-only" for="email">Email address</label>
-                    <input type="email" class="form-control" id="email" required
-                           placeholder="Enter your email address">
-                    <button type="submit" class="btn btn-submit">Sign Up</button>
-                </form>
-            </div>
-
         </div>
     </div>
+</div>
 
-    <div class="footer-bottom">
-        <div class="container inner clearfix">
-            <p class="float-left">&copy; {{ $year->year }} Midwest Unitarian Universalist Summer Assembly. All rights
-                reserved.</p>
-            <ul class="footer-menu float-right">
-                <li><a href="/">Home</a></li>
-                <li><a href="{{ url('/registration') }}">Register</a></li>
-                <li><a href="{{ url('/information') }}">Information</a></li>
-                <li><a href="{{ url('/contact') }}">Contact</a></li>
-            </ul>
-        </div>
-    </div>
-</footer>
+{{--@role(['admin', 'council'])--}}
+{{--<div class="input-group p-0 m-0">--}}
+    {{--<div class="input-group-prepend">--}}
+        {{--@include('admin.controls', ['id' =>  (preg_match('/\/(c|f)\/\d+$/', $_SERVER['REQUEST_URI'], $matches) ? substr($_SERVER['REQUEST_URI'], -6) : 'c/0'), 'inputgroup' => 'true'])--}}
+    {{--</div>--}}
+
+    {{--<input type="text" id="camper" class="form-control camperlist" placeholder="Camper Name"/>--}}
+{{--</div>--}}
+{{--@endrole--}}
+{{--</header>--}}
+
+{{--<main class="js-reveal">--}}
+
+    {{--@hassection('title')--}}
+        {{--<section id="hero" class="light-bg img-bg-bottom img-bg-softer"--}}
+                 {{--style="background-image: url(/images/jumbotron.jpg);">--}}
+            {{--<div class="container inner">--}}
+                {{--<div class="row">--}}
+                    {{--<div class="col-lg-8 col-md-9 aos-init aos-animate" data-aos="fade-up">--}}
+                        {{--<header>--}}
+                            {{--<h1>--}}
+                                {{--@yield('title')--}}
+                            {{--</h1>--}}
+                            {{--@hassection('heading')--}}
+                                {{--<h3>--}}
+                                    {{--@yield('heading')--}}
+                                {{--</h3>--}}
+                            {{--@endif--}}
+                        {{--</header>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</section>--}}
+    {{--@endif--}}
+
+    {{--@hassection('multisection')--}}
+        {{--@yield('multisection')--}}
+    {{--@else--}}
+        {{--<section>--}}
+            {{--<div class="inner-top inner-left-sm aos-init aos-animate p-5" data-aos="fade-up">--}}
+                {{--@yield('content')--}}
+            {{--</div>--}}
+        {{--</section>--}}
+    {{--@endif--}}
+{{--</main>--}}
+
+{{--<footer class="dark-bg">--}}
+    {{--<div class="container inner">--}}
+        {{--<div class="row">--}}
+
+            {{--<div class="col-lg-4 col-md-6 inner">--}}
+
+            {{--</div>--}}
+
+            {{--<div class="col-lg-4 col-md-6 inner">--}}
+            {{--</div>--}}
+
+            {{--<div class="col-lg-4 col-md-6 inner">--}}
+
+            {{--</div>--}}
+
+        {{--</div>--}}
+    {{--</div>--}}
+
+    {{--<div class="footer-bottom">--}}
+        {{--<div class="container inner clearfix">--}}
+            {{--<p class="float-left">&copy; {{ $year->year }} Midwest Unitarian Universalist Summer Assembly.--}}
+                {{--All rights--}}
+                {{--reserved.</p>--}}
+            {{--<ul class="footer-menu float-right">--}}
+                {{--<li><a href="/">Home</a></li>--}}
+                {{--<li><a href="{{ url('/registration') }}">Register</a></li>--}}
+                {{--<li><a href="{{ url('/information') }}">Information</a></li>--}}
+                {{--<li><a href="{{ url('/contact') }}">Contact</a></li>--}}
+            {{--</ul>--}}
+        {{--</div>--}}
+    {{--</div>--}}
+{{--</footer>--}}
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"

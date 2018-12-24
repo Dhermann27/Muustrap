@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.appstrap')
 
 @section('css')
     <link href="https://fonts.googleapis.com/css?family=Bangers|Fredericka+the+Great|Great+Vibes|Indie+Flower|Mystery+Quest"

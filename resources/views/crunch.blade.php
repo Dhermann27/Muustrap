@@ -1,5 +1,5 @@
 @inject('home', 'App\Http\Controllers\HomeController')
-@extends('layouts.app')
+@extends('layouts.appstrap')
 
 @section('content')
     <div class="jumbotron">

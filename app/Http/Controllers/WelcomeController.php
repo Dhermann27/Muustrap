@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class WelcomeController extends Controller
@@ -39,45 +37,9 @@ class WelcomeController extends Controller
 
         if ($year->is_crunch == 1) {
             return view('crunch');
-//                ['av' => $av, 'camper' => $camper, 'onstage' => $onstage,
-//                'starttime' => $starttime, 'actslist' => $acts]);
         } else {
-            if (Auth::check()) {
-                $camper = Auth::user()->camper;
-                if ($camper !== null) {
-                    $family = \App\Thisyear_Family::find($camper->family->id);
-                    $yas = DB::table('thisyear_campers')->where('familyid', $camper->family->id)->pluck('yearattendingid');
-                    $paid = $this->isPaid($family);
-                    $signedup = $paid && $this->isSignedup($yas);
-                    $roomid = $signedup && $this->isRoomAssigned($yas);
-                    $nametags = $roomid && $this->isNametagsCreated($yas);
-                    $confirmed = $nametags && $this->isConfirmed($family);
-                    return view('welcome', ['family' => $family, 'paid' => $paid, 'signedup' => $signedup,
-                        'nametags' => $nametags, 'roomid' => $roomid, 'confirmed' => $confirmed,'camper' => $camper]);
-//                        'av' => $av,
-//                        'onstage' => $onstage, 'starttime' => $starttime, 'actslist' => $acts]);
-
-                }
-            }
-            return view('welcome', ['registered' => '0']);
-//                , 'camper' => $camper]);
-//                'av' => $av, 'onstage' => $onstage,
-//                'starttime' => $starttime, 'actslist' => $acts]);
+            return view('welcome');
         }
-    }
-
-    private function isPaid($family)
-    {
-        return $family != null &&
-            \App\Thisyear_Charge::where('familyid', $family->id)
-                ->where(function ($query) {
-                    $query->where('chargetypeid', 1003)->orWhere('amount', '<', '0');
-                })->sum('amount') <= 0.0;
-    }
-
-    private function isSignedup($yas)
-    {
-        return \App\Yearattending__Workshop::whereIn('yearattendingid', $yas)->count() > 0;
     }
 
     public function isRoomAssigned($yas)
@@ -95,6 +57,20 @@ class WelcomeController extends Controller
     {
         $kids = DB::table('thisyear_campers')->where('familyid', $family->id)->where('age', '<', 18)->pluck('yearattendingid');
         return \App\Medicalresponse::whereIn('yearattendingid', $kids)->count() == count($kids);
+    }
+
+    private function isPaid($family)
+    {
+        return $family != null &&
+            \App\Thisyear_Charge::where('familyid', $family->id)
+                ->where(function ($query) {
+                    $query->where('chargetypeid', 1003)->orWhere('amount', '<', '0');
+                })->sum('amount') <= 0.0;
+    }
+
+    private function isSignedup($yas)
+    {
+        return \App\Yearattending__Workshop::whereIn('yearattendingid', $yas)->count() > 0;
     }
 
 }

@@ -5,11 +5,25 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Nicolaslopezj\Searchable\SearchableTrait;
 
 class Camper extends Model
 {
+    use SearchableTrait;
+
     protected $fillable = ['familyid', 'sexcd', 'firstname', 'lastname', 'email', 'phonenbr', 'birthdate',
         'sponsor', 'is_handicap', 'foodoptionid', 'churchid', 'updated_at'];
+
+    protected $searchable = [
+        'columns' => [
+            'campers.firstname' => 10,
+            'campers.lastname' => 10,
+            'campers.email' => 5
+        ],
+        'joins' => [
+            'families' => ['campers.familyid', 'families.id']
+        ]
+    ];
 
     public function charge()
     {

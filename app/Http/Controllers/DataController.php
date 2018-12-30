@@ -10,9 +10,7 @@ class DataController extends Controller
     public function campers(Request $request)
     {
         $this->validate($request, ['term' => 'required|between:3,50']);
-        return \App\Camper::where('lastname', 'LIKE', '%' . $request->term . '%')
-            ->orWhere(DB::raw('CONCAT(firstname, " ", lastname)'), 'LIKE', '%' . $request->term . '%')
-            ->orderBy('lastname')->orderBy('birthdate')->get();
+        return \App\Camper::search($request->term)->with('family')->get();
     }
 
     public function churches(Request $request)

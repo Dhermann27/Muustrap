@@ -1,68 +1,20 @@
 
-body {
-    font-family: 'Krub', sans-serif;
-}
-
-h1, h2, h3, h4, div.panel-heading, table.table-responsive thead, a.header-brand-text {
-    font-family: 'Fira Sans Extra Condensed', sans-serif;
-    text-transform: none;
-}
-
-img#brochure {
-    border-radius: 25px 25px 0 0;
-    border-width: 3px 3px 0 3px;
-    border-color: black;
-    border-style: solid;
-    padding: 20px 20px 0 20px;
-}
-
-section#jumpintoit {
-    position: relative;
-    height: 500px;
-    min-height: 500px;
-    width: 100%;
-    background-size: cover !important;
-    -webkit-background-size: cover !important;
-    text-align: center;
+.map-responsive {
     overflow: hidden;
+    padding-bottom: 31%;
+    position: relative;
+    height: 0;
+    margin-bottom: 1em;
 }
 
-section#jumpintoit video {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: -100;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    -webkit-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-}
-
-section#jumpintoit:before {
-    content: '';
-    display: inline-block;
-    vertical-align: middle;
+.map-responsive iframe {
+    left: 0;
+    top: 0;
     height: 100%;
-}
-
-section#jumpintoit .banner {
-    display: inline-block;
-    vertical-align: center;
-    margin: 0 auto;
-    width: 85%;
-    padding-bottom: 30px;
-    text-align: center;
-    font: 24px 'opensans-bold', sans-serif;
-    font-weight: bold;
-}
-
-section#jumpintoit .banner-text {
-    color: #f5f5f5;
     width: 100%;
+    position: absolute;
 }
+
 
 .input-group-append .btn,
 .input-group-prepend .btn {
@@ -116,7 +68,7 @@ td.teditable:hover {
 }
 
 .krub {
-    font-family: 'Krub', Helvetica, sans-serif;
+    font-family: 'Open Sans', Helvetica, sans-serif;
 }
 
 .indie {
@@ -145,4 +97,32 @@ tr.family {
 
 .comic {
     font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+.input-group>.twitter-typeahead {
+    position: relative;
+    -ms-flex: 1 1 auto;
+    -webkit-box-flex: 1;
+    flex: 1 1 auto;
+    width: 1%;
+    margin-bottom: 0;
+}
+.input-group>.twitter-typeahead:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.input-group>.twitter-typeahead>.tt-input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.form-control.tt-input:focus {
+    z-index: 3
+}
+#campersearch .tt-menu {
+     max-height: 300px;
+     overflow-y: auto;
+ }
+.tt-suggestion:hover {
+    color: #fff;
+    background-color: #5D6D7E;
 }

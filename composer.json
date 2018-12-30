@@ -15,7 +15,8 @@
     "guzzlehttp/guzzle": "^6.2",
     "maatwebsite/excel": "~2.1.0",
     "barryvdh/laravel-ide-helper": "^2.4",
-    "anhskohbo/no-captcha": "^3.0"
+    "anhskohbo/no-captcha": "^3.0",
+    "nicolaslopezj/searchable": "1.*"
   },
   "require-dev": {
     "filp/whoops": "~2.0",

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Landing Page Homepage | AppStrap Bootstrap Theme by Themelize.me</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -18,6 +17,7 @@
 
     <link href="/assets/css/theme-style.min.css" rel="stylesheet">
     <link href="/assets/css/colour-slate.min.css" rel="stylesheet">
+    <link href="/css/muustrap.css" rel="stylesheet">
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=bOMnaKo3RO"/>
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=bOMnaKo3RO"/>
@@ -52,7 +52,7 @@
 
 <body class="page page-index navbar-layout-default">
 
-<a id="#top" href="#content" class="sr-only">Skip to content</a>
+<a id="top" href="#content" class="sr-only">Skip to content</a>
 
 <div id="header">
 
@@ -96,46 +96,69 @@
     </div>
     <div data-toggle="sticky">
 
-        <!--Header & Branding region-->
         <div class="header">
-            <!-- all direct children of the .header-inner element will be vertically aligned with each other you can override all the behaviours using the flexbox utilities (flexbox.html) All elements with .header-brand & .header-block-flex wrappers will automatically be aligned inline & vertically using flexbox, this can be overridden using the flexbox utilities (flexbox.htm) Use .header-block to stack elements within on small screen & "float" on larger screens use .order-first or/and .order-last classes to make an element show first or last within .header-inner or .headr-block elements -->
             <div class="header-inner container">
-                <!--branding/logo -->
                 <div class="header-brand">
                     <a class="header-brand-text" href="/" title="Home">
                         <img src="/images/brand35.png" class="logo"
                              alt="Midwest Unitarian Universalist Summer Assembly">
                     </a>
                     <div class="header-divider d-none d-lg-block"></div>
-                    <div class="header-slogan d-none d-lg-block">Midwest Unitarian Universalist Summer Assembly</div>
+                    <div class="header-slogan d-none d-lg-block">MUUSA</div>
                 </div>
-                <!-- other header content -->
                 <div class="header-block order-12">
 
-                    <!-- mobile collapse menu button - data-toggle="collapse" = default BS menu - data-toggle="off-canvas" = Off-cavnas Menu - data-toggle="overlay" = Overlay Menu -->
                     <a href="#top" class="btn btn-link btn-icon header-btn float-right d-lg-none"
                        data-toggle="off-canvas" data-target=".navbar-main"
                        data-settings='{"cloneTarget":true, "targetClassExtras": "navbar-offcanvas"}'> <i
                                 class="fa fa-bars"></i> </a>
-                    <!--Show/hide trigger for #offcanvas-sidebar -->
-                    <a href="#" title="Click me you'll get a surprise"
-                       class="btn btn-icon btn-link header-btn float-right order-last" data-toggle="off-canvas"
+                    <a href="#" class="btn btn-icon btn-link header-btn float-right order-last" data-toggle="off-canvas"
                        data-target="#offcanvas-sidebar" data-settings='{"cloneTarget":false}'> <i
                                 class="ion-android-more-vertical"></i> </a>
+                    @if(Auth::guest())
+                        <a href="{{ url('/registration') }}"
+                           class="btn btn-primary btn-sm text-uppercase font-weight-bold px-lg-3 py-lg-2 ml-lg-3">Register
+                            <span class="d-none d-lg-inline-block">Now</span></a>
+                    @else
+                        <div class="dropdown">
+                            <a href="{{ url('/registration') }}" id="dropdownMenuLink" data-toggle="dropdown"
+                               class="btn btn-primary btn-sm text-uppercase font-weight-bold px-lg-3 py-lg-2 ml-lg-3 dropdown-toggle"
+                               aria-haspopup="true" aria-expanded="false">
+                                Registration</a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a href="{{ url('/household') }}" class="dropdown-item">
+                                    <i class="far fa-home fa-fw"></i> Household</a>
+                                <a href="{{ url('/camper') }}" class="dropdown-item">
+                                    <i class="far fa-users fa-fw"></i> Campers</a>
+                                <a href="{{ url('/payment') }}" class="dropdown-item">
+                                    <i class="far fa-usd-square fa-fw"></i> Payment</a>
+                                <a href="{{ url('/workshopchoice') }}" class="dropdown-item">
+                                    <i class="far fa-rocket fa-fw"></i>
+                                    @if($year->is_live)
+                                        Workshop List
+                                    @else
+                                        Last Year's Workshops (Sample)
+                                    @endif
+                                </a>
+                                <a href="{{ url('/roomselection') }}" class="dropdown-item">
+                                    <i class="far fa-bed fa-fw"></i> Room Selection</a>
+                                <a href="{{ url('/nametag') }}" class="dropdown-item">
+                                    <i class="far fa-id-card fa-fw"></i> Nametags</a>
+                                <a href="{{ url('/confirm') }}" class="dropdown-item">
+                                    <i class="far fa-envelope fa-fw"></i> Confirmation</a>
+                            </div>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="navbar navbar-expand-md navbar-static-top">
-                    <!--everything within this div is collapsed on mobile-->
                     <div class="navbar-main collapse">
-                        <!--main navigation-->
                         <ul class="nav navbar-nav navbar-nav-stretch float-lg-right dropdown-effect-fade">
 
-                            <!-- Pages -->
                             @role(['admin', 'council'])
                             <li class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" id="admin-drop" data-toggle="dropdown"
                                    data-hover="dropdown">Admin</a>
-                                <!-- Menu -->
                                 <div class="dropdown-menu">
 
                                     @role(['admin'])
@@ -169,16 +192,13 @@
                                                 Deposits</a>
                                             <a href="{{ url('/reports/firsttime') }}" class="dropdown-item">First-time
                                                 Campers</a>
-
                                             <a href="{{ url('/reports/guarantee') }}" class="dropdown-item">Guarantee
                                                 Status</a>
                                             <a href="{{ url('/reports/payments') }}" class="dropdown-item">Ledger</a>
                                             <a href="{{ url('/reports/outstanding') }}" class="dropdown-item">Outstanding
                                                 Balances</a>
-
                                             <a href="{{ url('/reports/programs') }}" class="dropdown-item">Program
                                                 Participants</a>
-
                                             <a href="{{ url('/reports/rates') }}" class="dropdown-item">Rates</a>
                                             <a href="{{ url('/reports/campers') }}" class="dropdown-item">Registered
                                                 Campers</a>
@@ -189,12 +209,10 @@
                                             <a href="{{ url('/reports/rooms') }}" class="dropdown-item">Rooms</a>
                                             <a href="{{ url('/reports/states') }}" class="dropdown-item">States &amp;
                                                 Churches</a>
-
                                             <a href="{{ url('/reports/volunteers') }}"
                                                class="dropdown-item">Volunteers</a>
                                             <a href="{{ url('/reports/workshops') }}" class="dropdown-item">Workshop
                                                 Attendees</a>
-
                                             <a href="{{ url('/reports/conflicts') }}" class="dropdown-item">Workshop
                                                 Conflicts</a>
                                         </div>
@@ -208,59 +226,22 @@
                                             <a href="{{ url('/coffeehouse') }}" class="dropdown-item">Coffeehouse
                                                 Schedule</a>
                                             <a href="{{ url('/tools/cognoscenti') }}" class="dropdown-item">Cognoscenti
-                                                (Planning
-                                                Council)</a>
-
+                                                (Planning Council)</a>
                                             <a href="{{ url('/tools/nametags') }}" class="dropdown-item">Nametag
                                                 Printer</a>
                                             <a href="{{ url('/tools/nametags/all') }}" class="dropdown-item">Nametags
                                                 (all)</a>
                                             <a href="{{ url('/tools/programs') }}" class="dropdown-item">Programs</a>
                                             <a href="{{ url('/roomselection/map') }}" class="dropdown-item">Room
-                                                Selection
-                                                Map</a>
-
+                                                Selection Map</a>
                                             <a href="{{ url('/tools/staffpositions') }}" class="dropdown-item">Staff
                                                 Assignments</a>
-
                                             <a href="{{ url('/tools/workshops') }}" class="dropdown-item">Workshops</a>
                                         </div>
-
                                     </div>
-
                                 </div>
                             </li>
                             @endrole
-
-                            <li class="nav-item dropdown">
-                                <a href="{{ url('/registration') }}" class="nav-link dropdown-toggle" id="pages-drop"
-                                   data-toggle="dropdown" data-hover="dropdown">Register</a>
-
-                                <div class="dropdown-menu">
-                                    @if (Auth::guest())
-                                        <a href="{{ url('/login') }}" class="dropdown-item">Login</a>
-                                        <a href="{{ url('/register') }}" class="dropdown-item">Create Account</a>
-                                    @elseif(true)
-                                        <a href="{{ url('/registration') }}" class="dropdown-item">
-                                            <i class="far fa-chevron-right fa-fw"></i> Start Registration</a>
-                                    @else
-                                        <a href="{{ url('/household') }}" class="dropdown-item">
-                                            <i class="far fa-home fa-fw"></i> Household</a>
-                                        <a href="{{ url('/camper') }}" class="dropdown-item">
-                                            <i class="far fa-users fa-fw"></i> Campers</a>
-                                        <a href="{{ url('/payment') }}" class="dropdown-item">
-                                            <i class="far fa-usd-square fa-fw"></i> Payment</a>
-                                        <a href="{{ url('/workshopchoice') }}" class="dropdown-item">
-                                            <i class="far fa-rocket fa-fw"></i> Workshops</a>
-                                        <a href="{{ url('/roomselection') }}" class="dropdown-item">
-                                            <i class="far fa-bed fa-fw"></i> Room Selection</a>
-                                        <a href="{{ url('/nametag') }}" class="dropdown-item">
-                                            <i class="far fa-id-card fa-fw"></i> Nametags</a>
-                                        <a href="{{ url('/confirm') }}" class="dropdown-item">
-                                            <i class="far fa-envelope fa-fw"></i> Confirmation</a>
-                                    @endif
-                                </div>
-                            </li>
 
                             <li class="nav-item dropdown">
                                 <a href="{{ url('/information') }}" class="nav-link dropdown-toggle" id="info-drop"
@@ -323,70 +304,51 @@
                 </div>
             </div>
 
-
-            {{--@role(['admin', 'council'])--}}
-            <div class="input-group p-0 m-0">
+            @role(['admin', 'council'])
+            <div id="campersearch" class="input-group p-0 m-0">
                 <div class="input-group-prepend">
                     @include('admin.controls', ['id' =>  (preg_match('/\/(c|f)\/\d+$/', $_SERVER['REQUEST_URI'], $matches) ? substr($_SERVER['REQUEST_URI'], -6) : 'c/0'), 'inputgroup' => 'true'])
                 </div>
 
-                <input type="text" id="camper" class="form-control camperlist" placeholder="Camper Name"/>
+                <input type="text" id="camper" class="form-control camperlist" placeholder="Search Campers here..."
+                       autocomplete="off"/>
             </div>
-            {{--@endrole--}}
+            @endrole
+
         </div>
     </div>
 </div>
 
 <!-- ======== @Region: #content ======== -->
 <div id="content" class="p-0">
-    <!-- Video background MDR -->
-    <div class="p-3 p-lg-5 bg-light text-center overlay overlay-dark overlay-op-5"
-         data-bg-video="assets/videos/bubbles.mp4" data-animate="fadeIn">
-        <div class="container">
-            <h2 class="text-white display-4 text-shadow">
-                Add some <span class="font-italic font-weight-bold">fizz</span> to your next website!
-            </h2>
-            <a href="https://wrapbootstrap.com/theme/appstrap-responsive-website-template-WB0C6D0H4?ref=tme"
-               class="btn btn-xlg btn-rounded btn-primary mt-4">Get AppStrap!</a>
 
-        </div>
-    </div>
+    @yield('content')
+
 </div>
 
 <footer id="footer" class="p-0">
     <div class="container pt-6 pb-5">
         <div class="row">
+            <div class="col-md-4 map-responsive">
+                <h4 class="text-uppercase text-white">
+                    Our Location</h4>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2930.017719932353!2d-90.93029498484057!3d37.946753879728526!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87d99fbc4175e629%3A0xe1c9be8ab89a4075!2sTrout+Lodge%2C+Potosi%2C+MO+63664!5e1!3m2!1sen!2sus!4v1546112609663"
+                        width="360" height="288" frameborder="0" style="border:0" allowfullscreen></iframe>
+            </div>
+
             <div class="col-md-4">
                 <h4 class="text-uppercase text-white">Important Dates</h4>
                 <ul>
                     <li><strong>February 1</strong>: Workshop registration and scholarship applications
-                        open. Housing
-                        selection and changes open to all campers who have paid their deposit.
+                        open. Housing selection and changes open to all campers who have paid their deposit.
                     </li>
                     <li><strong>April 15</strong>: Scholarship applications due.</li>
                     <li><strong>May 15</strong>: Scholarships granted and applicants notified of awards.
                     </li>
-                    <li><strong>May 31</strong>: Deadline for cancellations. Deposits will not be refunded
-                        for
+                    <li><strong>May 31</strong>: Deadline for cancellations. Deposits will not be refunded for
                         cancellations after May 31.
                     </li>
                 </ul>
-            </div>
-
-            <div class="col-md-4">
-                <h4 class="text-uppercase text-white">
-                    Get In Touch</h4>
-                <p>Mail checks to the address below, or email our Registrar with questions.</p>
-                <address>
-                    <p><abbr title="Address"><i class="far fa-money-check-alt fa-fw"></i> 423 N Waiola Avenue<br/>
-                            La Grange Park, IL 60526</abbr></p>
-                    <p><abbr title="Email">
-                            <a href="mailto:registrar@muusa.org">
-                                <i class="far fa-envelope fa-fw"></i>registrar@muusa.org
-                            </a>
-                        </abbr></p>
-                </address>
-
             </div>
 
             <div class="col-md-4">
@@ -439,10 +401,137 @@
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 
+@role(['admin', 'council'])
 <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+@endrole
 
 <script src="assets/js/custom-script.js"></script>
 <script src="assets/js/script.min.js"></script>
+
+
+<script type="text/javascript">
+    function nextCamper() {
+        var next = $('.nav-tabs .active').parent().next('li').find('a');
+        if (next !== undefined && next.attr("id") !== 'newcamper') {
+            next.tab('show');
+            $('html,body').animate({
+                scrollTop: 0
+            }, 700);
+        } else {
+            $('input[type="submit"]').trigger("focus");
+            $('html,body').animate({
+                scrollTop: 9999
+            }, 100);
+        }
+    }
+
+    $('button.nextcamper').click(nextCamper);
+
+    $('form#mailinglist button:submit').on('click', function (e) {
+        e.preventDefault();
+        var form = $("form#mailinglist");
+        $(this).val("Sending").removeClass("btn-success btn-danger").prop("disabled", true);
+        $.ajax({
+            url: form.attr("action"),
+            type: 'post',
+            data: form.serialize(),
+            success: function () {
+                $("button:submit").val("Success").addClass("btn-success").prop("disabled", false);
+            },
+            error: function () {
+                $("input:submit").val("Error").addClass("btn-danger").prop("disabled", false);
+            }
+        });
+    });
+
+</script>
+@role(['admin', 'council'])
+<script type="text/javascript">
+    @if(isset($readonly) && $readonly === true)
+    $("input:not(#camper), select").prop("disabled", "true");
+    @endif
+    $('[data-toggle="tooltip"]').tooltip({
+        content: function () {
+            return this.getAttribute("title");
+        }
+    });
+    $("select.orderby").on('change', function (e) {
+        e.preventDefault();
+        window.location = $("#orderby-url").val() + "/" + $("#orderby-years").val() + "/" + $("#orderby-order").val();
+    });
+
+    function customTokenizer(datum) {
+        var firstTokens = Bloodhound.tokenizers.whitespace(datum.firstname);
+        var lastTokens = Bloodhound.tokenizers.whitespace(datum.lastname);
+        var emailTokens = Bloodhound.tokenizers.whitespace(datum.email);
+
+        return firstTokens.concat(lastTokens).concat(emailTokens);
+    }
+    var engine = new Bloodhound({
+        datumTokenizer: customTokenizer,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: '/data/camperlist?term=%QUERY%',
+            wildcard: '%QUERY%'
+        }
+    });
+    $('input.camperlist').each(function () {
+        $(this).typeahead({
+            highlight: true,
+            minLength: 3,
+            classNames: {
+                dataset: 'list-group',
+                cursor: 'active'
+            }
+        }, {
+            source: engine.ttAdapter(),
+            name: 'usersList',
+            limit: Infinity,
+
+            display: function(data) {
+                return data.firstname + ' ' + data.lastname;
+            },
+
+            updater: function(data) {
+                alert('update');
+            },
+
+            templates: {
+                empty: [
+                    '<ul class="list-group"><li class="list-group-item">No campers found.</li></ul>'
+                ],
+                suggestion: function (data) {
+                    return '<a href="#" class="list-group-item list-group-item-action">' + data.firstname + ' ' + data.lastname + ' (' + data.family.name + ' Family, ' + data.family.city + ' ' + data.family.statecd + ')' + (data.email != null ? ' &lt;' + data.email + '&gt;' : '') + '</a>'
+                }
+            }
+        }).on('typeahead:selected', function(event, selection) {
+            $("input#" + $(this).attr("id") + "id").val(selection.id);
+            $("div#campersearch a.dropdown-item").each(function () {
+                $(this).attr("href", $(this).attr("href").replace(/\/c\/\d+$/, "/c/" + selection.id));
+            });
+        });
+    });
+</script>
+@endrole
+@role(['admin'])
+<script type="text/javascript">
+    $('tbody.editable td').on('click', function () {
+        var tr = $(this).parent('tr');
+        var index = tr.children().index($(this));
+        var th = $(this).parents('table').find('thead th')[index];
+        if (th.id !== "") {
+            if (th.className === "") {
+                $(this).html('<input name="' + tr.attr('id') + '-' + th.id + '" value="' + $(this).text() + '" />');
+            } else if (th.className === 'select' && $("select." + th.id).length > 0) {
+                var select = $("select." + th.id).first().clone();
+                select.attr('id', '').attr('name', tr.attr('id') + '-' + th.id).removeClass(th.id);
+                $(this).html(select);
+            }
+            $(this).off('click');
+        }
+    });
+</script>
+@endrole
 
 @yield('script')
 

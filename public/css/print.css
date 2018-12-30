@@ -2,7 +2,7 @@
     body {
         color: #000;
         background: #fff;
-        font-family: 'Krub', sans-serif;
+        font-family: 'Open Sans', sans-serif;
         line-height: 1.5;
         width: 100%;
         margin: 0;
@@ -23,7 +23,7 @@
     }
 
     h1 {
-        font-family: 'Krub', sans-serif;
+        font-family: 'Open Sans', sans-serif;
     }
 
     h2, h3, h4, div.panel-heading, table.table thead {

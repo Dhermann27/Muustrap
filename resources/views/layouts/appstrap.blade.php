@@ -8,7 +8,13 @@
     <meta name="description"
           content="Midwest Unitarian Universalist Summer Assembly, located outside Potosi, Missouri (Formerly Lake Geneva Summer Assembly in Williams Bay, Wisconsin)">
     <meta name="author" content="Dan Hermann">
-    <title>Midwest Unitarian Universalist Summer Assembly</title>
+    <title>
+        @hassection('title')
+            MUUSA: @yield('title')
+        @else
+            Midwest Unitarian Universalist Summer Assembly
+        @endif
+    </title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -94,8 +100,8 @@
             </div>
         </div>
     </div>
-    <div data-toggle="sticky">
 
+    <div data-toggle="sticky">
         <div class="header">
             <div class="header-inner container">
                 <div class="header-brand">
@@ -132,20 +138,26 @@
                                     <i class="far fa-users fa-fw"></i> Campers</a>
                                 <a href="{{ url('/payment') }}" class="dropdown-item">
                                     <i class="far fa-usd-square fa-fw"></i> Payment</a>
-                                <a href="{{ url('/workshopchoice') }}" class="dropdown-item">
-                                    <i class="far fa-rocket fa-fw"></i>
-                                    @if($year->is_live)
-                                        Workshop List
-                                    @else
-                                        Last Year's Workshops (Sample)
-                                    @endif
-                                </a>
-                                <a href="{{ url('/roomselection') }}" class="dropdown-item">
-                                    <i class="far fa-bed fa-fw"></i> Room Selection</a>
-                                <a href="{{ url('/nametag') }}" class="dropdown-item">
-                                    <i class="far fa-id-card fa-fw"></i> Nametags</a>
-                                <a href="{{ url('/confirm') }}" class="dropdown-item">
-                                    <i class="far fa-envelope fa-fw"></i> Confirmation</a>
+                                @if(!$year->is_live)
+                                    <div class="dropdown-divider"></div>
+                                    <h6 class="dropdown-header">
+                                        Opens February 1
+                                    </h6>
+                                    <a href="#" class="dropdown-item disabled">Workshop List</a>
+                                    <a href="#" class="dropdown-item disabled">Room Selection</a>
+                                    <a href="#" class="dropdown-item disabled">Nametags</a>
+                                    <a href="#" class="dropdown-item disabled">Confirmation</a>
+                                @else
+                                    <a href="{{ url('/workshopchoice') }}" class="dropdown-item">
+                                        <i class="far fa-rocket fa-fw"></i>Workshop List
+                                    </a>
+                                    <a href="{{ url('/roomselection') }}" class="dropdown-item">
+                                        <i class="far fa-bed fa-fw"></i> Room Selection</a>
+                                    <a href="{{ url('/nametag') }}" class="dropdown-item">
+                                        <i class="far fa-id-card fa-fw"></i> Nametags</a>
+                                    <a href="{{ url('/confirm') }}" class="dropdown-item">
+                                        <i class="far fa-envelope fa-fw"></i> Confirmation</a>
+                                @endif
                             </div>
                         </div>
                     @endif
@@ -319,8 +331,41 @@
     </div>
 </div>
 
-<!-- ======== @Region: #content ======== -->
 <div id="content" class="p-0">
+    @hassection('title')
+        @if(isset($background))
+            <div class="bg-grey text-white py-4 py-lg-8 overlay overlay-default overlay-op-6 mb-5"
+                 data-bg-img="{{ env('IMG_PATH') }}{{ $background }}" data-css='{"background-position":"bottom center"}'>
+                <div class="container d-lg-flex align-items-lg-end">
+                    <div>
+                        <h2 class="my-0 text-uppercase">
+                            @yield('title')
+                        </h2>
+                        @hassection('heading')
+                            <p class="op-8 mb-0">
+                                @yield('heading')
+                            </p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @else
+            <div class="bg-dark text-white bg-op-9 py-5 mb-5" id="page-title-classic-dark">
+                <div class="container d-lg-flex align-items-lg-center">
+                    <div>
+                        <h2 class="my-0 op-9 text-uppercase">
+                            @yield('title')
+                        </h2>
+                        @hassection('heading')
+                            <p class="op-6 mb-0">
+                                @yield('heading')
+                            </p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @endif
+    @endif
 
     @yield('content')
 
@@ -359,7 +404,8 @@
                       action="{{ url('/mailinglist') }}">
                     <div class="input-group">
                         <label class="sr-only" for="email-field">Email</label>
-                        <input type="text" class="form-control" id="email-field" placeholder="Enter your email address">
+                        <input type="text" class="form-control" id="email-field"
+                               placeholder="Enter your email address">
                         <span class="input-group-append">
                   <button class="btn btn-primary" type="button">Signup</button>
                 </span>
@@ -374,7 +420,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
-                    <p class="mb-0">Site template by <a href="http://themelize.me/" class="footer-link">AppStrap</a> |
+                    <p class="mb-0">Site template by <a href="http://themelize.me/" class="footer-link">AppStrap</a>
+                        |
                         Copyright {{ $year->year }} &copy; Midwest Unitarian Universalist Summer Assembly</p>
                 </div>
                 <div class="col-md-4">
@@ -467,6 +514,7 @@
 
         return firstTokens.concat(lastTokens).concat(emailTokens);
     }
+
     var engine = new Bloodhound({
         datumTokenizer: customTokenizer,
         queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -488,12 +536,8 @@
             name: 'usersList',
             limit: Infinity,
 
-            display: function(data) {
+            display: function (data) {
                 return data.firstname + ' ' + data.lastname;
-            },
-
-            updater: function(data) {
-                alert('update');
             },
 
             templates: {
@@ -504,7 +548,7 @@
                     return '<a href="#" class="list-group-item list-group-item-action">' + data.firstname + ' ' + data.lastname + ' (' + data.family.name + ' Family, ' + data.family.city + ' ' + data.family.statecd + ')' + (data.email != null ? ' &lt;' + data.email + '&gt;' : '') + '</a>'
                 }
             }
-        }).on('typeahead:selected', function(event, selection) {
+        }).on('typeahead:selected', function (event, selection) {
             $("input#" + $(this).attr("id") + "id").val(selection.id);
             $("div#campersearch a.dropdown-item").each(function () {
                 $(this).attr("href", $(this).attr("href").replace(/\/c\/\d+$/, "/c/" + selection.id));

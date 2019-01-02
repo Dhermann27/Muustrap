@@ -8,29 +8,30 @@
     Check out all the available room types we have in the wonderful YMCA of the Ozarks facilities!
 @endsection
 
+@section('image')
+    /images/housing.png
+@endsection
+
 @section('content')
-    @component('snippet.blog')
+    <div class="container px-3 py-5 px-lg-4 py-lg-6 bg-grey mb-5">
         @foreach($buildings as $building)
-            <div class="post-content">
+            @component('snippet.blog', ['title' => $building->name])
 
-                <h2 class="post-title">{{ $building->name }}</h2>
-
-                <p>{!! $building->blurb !!}</p>
+                <div class="mt-2">{!! $building->blurb !!}</div>
 
                 @if(isset($building->image))
-                    <div id="owl-work"
-                         class="owl-carousel owl-inner-pagination owl-inner-nav post-media">
+                    <div class="mt-4 owl-dots-center owl-nav-over owl-nav-over-lg owl-nav-over-hover"
+                         data-toggle="owl-carousel"
+                         data-owl-carousel-settings='{"items":1, "center":true, "autoplay":true, "loop":true, "dots":true, "nav":true, "animateOut":"fadeOutDown"}'>
                         @foreach($building->image_array as $image)
                             <div class="item">
-                                <figure>
-                                    <img src="/images/buildings/{{ $image }}"
-                                         alt="Image of {{ $building->name }} room">
-                                </figure>
+                                <img src="/images/buildings/{{ $image }}" alt="Image of {{ $building->name }} room"
+                                     class="img-fluid"/>
                             </div>
                         @endforeach
                     </div>
                 @endif
-            </div>
+            @endcomponent
         @endforeach
-    @endcomponent
+    </div>
 @endsection

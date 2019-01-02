@@ -1,18 +1,13 @@
-{{--<section id="blog" class="light-bg">--}}
-    <div class="container inner-top-sm inner-bottom classic-blog no-sidebar">
-        <div class="row">
-            <div class="col-lg-9 mx-auto">
-                <div class="posts sidemeta">
-                    <div class="post format-gallery">
-                        {{ $slot }}
+{{--<div class="container px-3 py-5 px-lg-4 py-lg-6 bg-grey mb-5">--}}
+{{--@foreach($programs as $program)--}}
+{{--@component('snippet.blog', ['title' => $program->name])--}}
+<article class="mb-5 pr-xl-6" data-animate="fadeIn" data-animate-delay="0.1">
+    <h2 class="text-slab">{{ $title }}</h2>
 
-                        {{--@foreach($programs as $program)--}}
-                        {{--<div class="post-content">--}}
-                        {{--<h3 class="post-title">{{ $program->name }}</h3>--}}
-                        {{--<p>{!! $program->blurb !!}</p>--}}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-{{--</section>--}}
+    {{ $slot }}
+
+</article>
+<hr class="hr-lg my-5"/>
+{{--@endcomponent--}}
+{{--@endforeach--}}
+{{--</div>--}}

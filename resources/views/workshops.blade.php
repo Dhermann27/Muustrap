@@ -16,30 +16,28 @@
 @section('content')
     @component('snippet.navtabs', ['tabs' => $timeslots, 'id'=> 'id', 'option' => 'name'])
         @foreach($timeslots as $timeslot)
-            <div class="tab-content pb-5" id="{{ $timeslot->id }}">
-
-                <h2 class="mt-3">{{ $timeslot->start_time->format('g:i A') }}
+            <div class="tab-pane fade{!! $loop->first ? ' active show' : '' !!}" id="tab-{{ $timeslot->id }}"
+                 role="tabpanel">
+                <h2 class="m-3">{{ $timeslot->start_time->format('g:i A') }}
                     - {{ $timeslot->end_time->format('g:i A') }}</h2>
-                @component('snippet.blog')
-                    @foreach($timeslot->workshops as $workshop)
-                        <div class="post-content px-5">
-                            <h3 class="post-title">{{ $workshop->name }}</h3>
 
-                            <ul class="meta">
-                                <li class="categories">Led by {{ $workshop->led_by }}</li>
-                                <li class="comments">Days: {{ $workshop->displayDays }}</li>
-                                @if($workshop->fee > 0)
-                                    <li class="likes">Fee: ${{ $workshop->fee }}</li>
-                                @endif
-                            </ul>
+                <div class="container px-3 py-5 px-lg-4 py-lg-6 bg-grey mb-5">
+                    @foreach($timeslot->workshops as $workshop)
+                        @component('snippet.blog', ['title' => $workshop->name])
+
                             @include('snippet.filling', ['workshop' => $workshop])
 
+                            <div class="lead d-block">Led by {{ $workshop->led_by }}
+                                / Days: {{ $workshop->displayDays }}
+                                @if($workshop->fee > 0)
+                                    / Fee: ${{ $workshop->fee }}
+                                @endif
+                            </div>
+
                             <p>{{ $workshop->blurb }}</p>
-
-                        </div>
+                        @endcomponent
                     @endforeach
-                @endcomponent
-
+                </div>
             </div>
         @endforeach
     @endcomponent

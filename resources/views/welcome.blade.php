@@ -1,12 +1,13 @@
 @extends('layouts.appstrap')
 
 @section('content')
+
     <div id="highlighted" class="bg-black">
-        <div class="overlay overlay-op-6 text-left" data-animate="fadeIn" data-toggle="backstretch"
+        <div class="overlay overlay-op-6 text-left" data-animate="fadeInRight" data-toggle="backstretch"
              data-backstretch-target="self" data-backstretch-overlay=false
-             data-backstretch-imgs="/images/jumbotron.jpg">
+             data-backstretch-imgs="/images/lodge1.jpg,/images/lodge2.jpg,/images/lodge3.jpg,/images/lodge4.jpg,/images/lodge5.jpg">
             <div data-toggle="full-height" class="container px-3 py-5 py-lg-7 flex-valign-b"
-                 data-animate="fadeIn" data-animate-delay="0.4">
+                 data-animate="fadeInRight" data-animate-delay="0.4">
                 <h2 class="display-4 text-white font-weight-bold text-letter-spacing-xs text-uppercase mt-lg-7">
                     Midwest Unitarian Universalist Summer Assembly
                 </h2>
@@ -16,13 +17,52 @@
                 <div class="mt-4 text-sm text-white">
                     {{ $year->first_day }} through {{ $year->last_day }} {{ $year->year }}
                 </div>
-                <div class="mt-4"><a href="{{ url('/registration') }}" class="btn btn-primary font-weight-bold"
-                                     data-toggle="scroll-link" data-animate="fadeIn" data-animate-delay="0.6">Register
-                        for {{ $year->year }}</a></div>
+                <div class="mt-4">
+                    <a href="{{ url('/registration') }}" class="btn btn-primary font-weight-bold"
+                       data-toggle="scroll-link" data-animate="fadeInRight" data-animate-delay="0.6">
+                        Register for {{ $year->year }}
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-    <!-- Countdown -->
+
+    <div class="py-4 pt-md-6 py-md-5 py-md-5 bg-op-5 bg-white">
+        <div class="container w-100 w-lg-70">
+            <div class="row my-2">
+                <div class="col-lg-6 d-sm-flex">
+                    <a href="{{ url('/brochure') }}">
+                        <img class="card-img-top img-fluid" src="/images/brochure.png" alt="Web Brochure cover">
+                    </a>
+                </div>
+                <div class="col-lg-6 d-sm-flex align-content-center d-flex align-items-center">
+                    <div class="mr-auto py-0 pl-lg-5 my-3 my-md-0">
+                        <h2 class="display-4 mt-3 mt-lg-0">
+                            Web Brochure
+                        </h2>
+                        <p class="line-height-30 py-md-2 op-7">
+                            @if($year->is_live)
+                                The easiest way to learn all about MUUSA is to read the brochure, put out by our
+                                Planning
+                                Council. It has it all: workshop descriptions, housing options, frequently asked
+                                questions,
+                                and more.
+                            @else
+                                While you can register right now to reserve your spot, our Planning Council is working
+                                diligently to prepare this year's brochure, which should be ready on February 1. You can
+                                currently see last year's to get an idea of what it might contain.
+                            @endif
+                        </p>
+                        <a href="{{ url('/brochure') }}"
+                           class="mb-1 py-2 px-4 btn btn-primary btn-shadow btn-flat btn-sm btn-bold text-uppercase text-letter-spacing rounded-0">
+                            Take a look
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="bg-primary py-4">
         <div class="container text-white d-lg-flex justify-content-center">
             <h3 class="my-lg-0 mr-lg-3 font-weight-normal">
@@ -35,55 +75,9 @@
         </div>
     </div>
 
-
-    {{--<div class="row inner-top-sm">--}}
-    {{--<div class="col-lg-3 inner-bottom-sm aos-init aos-animate" data-aos="fade-up"><h2>Meet us online</h2>--}}
-    {{--<p class="text-small">Want to learn more about us before taking the plunge? Find us on social media:--}}
-    {{--view our promotional video on YouTube, find our page or closed group on Facebook, or see our--}}
-    {{--innermost thoughts on Twitter.</p>--}}
-    {{--<a href="https://www.youtube.com/watch?v=QNWMdbrjxuE">--}}
-    {{--<i class="fab fa-youtube fa-2x"></i> <span--}}
-    {{--class="sr-only">YouTube</span> </a>--}}
-    {{--<a href="https://twitter.com/muusa1"> <i--}}
-    {{--class="fab fa-twitter fa-2x"></i> <span--}}
-    {{--class="sr-only">Twitter</span> </a>--}}
-    {{--<a href="https://www.facebook.com/{{ Auth::guest() ? 'Muusa2013/' : 'groups/Muusans/'}}">--}}
-    {{--<i class="fab fa-facebook fa-2x"></i> <span--}}
-    {{--class="sr-only">Facebook</span> </a>--}}
-    {{--</div>--}}
-    {{--<div class="col-lg-3 inner-bottom-sm aos-init aos-animate" data-aos="fade-up"><h2>Brochure</h2>--}}
-    {{--<p class="text-small">--}}
-    {{--@if($year->is_live)--}}
-    {{--The easiest way to learn all about MUUSA is to read the brochure, put out by our Planning--}}
-    {{--Council. It has it all: workshop descriptions, housing options, frequently asked questions,--}}
-    {{--and more.--}}
-    {{--@else--}}
-    {{--While you can register right now to reserve your spot, our Planning Council is working--}}
-    {{--diligently to prepare this year's brochure, which should be ready on February 1. You can--}}
-    {{--currently see last year's to get an idea of what it might contain.--}}
-    {{--@endif--}}
-    {{--</p>--}}
-    {{--<a href="{{ url('/brochure') }}" class="txt-btn">Take a look</a></div>--}}
-    {{--<div class="col-lg-6 inner-left-xs aos-init aos-animate p-0" data-aos="fade-up">--}}
-    {{--<figure><img id="brochure" src="/images/brochure.png"></figure>--}}
-    {{--</div>--}}
-    {{--</div>--}}
-
-    {{--<section id="services">--}}
-    {{--<div class="container inner-top inner-bottom-sm">--}}
-    {{--<div class="row">--}}
-    {{--<div class="col-lg-8 col-md-9 mx-auto text-center aos-init aos-animate" data-aos="fade-up">--}}
-    {{--<header><h1>&quot;See you next week!&quot;</h1>--}}
-    {{--<p>Where you are welcomed to a warm and loving community. Where children are safe and cared for.--}}
-    {{--Where you’ll always be accepted. Where others share your values. Where your spirit will be--}}
-    {{--renewed!</p>--}}
-    {{--</header>--}}
-    {{--</div>--}}
-    {{--</div>--}}
-
     <div class="card-deck p-3">
         <div class="card">
-            <img class="card-img-top img-fluid" src="/images/programs.png" alt="Laurel and Jim Hermann"/>
+            <img class="card-img-top img-fluid" src="/images/programs@half.jpg" alt="Laurel and Jim Hermann"/>
             <div class="card-body">
                 <h4 class="card-title">
                     Programs
@@ -96,8 +90,7 @@
             <a href="{{ url('/programs') }}" class="btn btn-primary">Program Descriptions</a>
         </div>
         <div class="card">
-            <img class="card-img-top img-fluid" src="/images/housing.png"
-                 alt="Mark Lukow, intrepid explorer"/>
+            <img class="card-img-top img-fluid" src="/images/housing@half.jpg" alt="Trout Lodge"/>
             <div class="card-body">
                 <h4 class="card-title">
                     Housing
@@ -110,15 +103,14 @@
             <a href="{{ url('/housing') }}" class="btn btn-primary">Housing Options</a>
         </div>
         <div class="card">
-            <img class="card-img-top img-fluid" src="/images/workshops.png"
-                 alt="Peter and Harpy Gettle, performing at coffeehouse"/>
+            <img class="card-img-top img-fluid" src="/images/workshops@half.jpg"
+                 alt="Justin and Eleanor Hobbs, performing at coffeehouse"/>
             <div class="card-body">
                 <h4 class="card-title">
                     Workshops
                 </h4>
                 <p class="card-text">Workshops offer opportunities for learning, personal growth, and
-                    fun. They are an excellent way to get to know other campers in a small group setting and
-                    to
+                    fun. They are an excellent way to get to know other campers in a small group setting and to
                     benefit from the wonderful talents, skills, and insights the workshop leaders have to
                     offer.</p>
             </div>
@@ -134,7 +126,7 @@
 
     <div class="card-deck p-3">
         <div class="card">
-            <img class="card-img-top img-fluid" src="/images/biographies.png"
+            <img class="card-img-top img-fluid" src="/images/biographies@half.jpg"
                  alt="Chalice lit during morning celebrations"/>
             <div class="card-body">
                 <h4 class="card-title">
@@ -149,7 +141,7 @@
             <a href="{{ url('/themespeaker') }}" class="btn btn-primary">Theme Speaker Biographies</a>
         </div>
         <div class="card">
-            <img class="card-img-top img-fluid" src="/images/scholarship.png"
+            <img class="card-img-top img-fluid" src="/images/scholarship@half.jpg"
                  alt="A hummingbird in dire need of a sugar scholarship"/>
             <div class="card-body">
                 <h4 class="card-title">
@@ -163,7 +155,7 @@
             <a href="{{ url('/scholarship') }}" class="btn btn-primary">Application Process</a>
         </div>
         <div class="card">
-            <img class="card-img-top img-fluid" src="/images/calculator.png"
+            <img class="card-img-top img-fluid" src="/images/calculator@half.jpg"
                  alt="Hanna Davis, Brochure Editor"/>
             <div class="card-body">
                 <h4 class="card-title">
@@ -178,12 +170,13 @@
         </div>
     </div>
 
-    <div class="p-4 py-lg-5 bg-grey-dark text-center overlay overlay-slate overlay-op-4 my-3" data-bg-img="/images/yoga.png">
-        <h2 class="text-uppercase font-weight-bold m-0">&quot;See you next week!&quot;</h2>
-        <h5 class="p-5">Where you are welcomed to a warm and loving community.
-            Where children are safe and cared for.<br />
+    <div class="p-4 py-lg-5 bg-grey-dark text-center overlay overlay-default overlay-op-7 my-3"
+         data-bg-img="{{ env('IMG_PATH') }}/images/yoga.jpg">
+        <h2 class="display-4 text-white m-0">&quot;See you next week!&quot;</h2>
+        <h5 class="p-5 text-white lead">Where you are welcomed to a warm and loving community.
+            Where children are safe and cared for.<br/>
             Where you'll always be accepted.
-            Where others share your values.<br />
+            Where others share your values.<br/>
             Where your spirit will be renewed!</h5>
     </div>
 

@@ -9,14 +9,13 @@
 @endsection
 
 @section('content')
-    @foreach($timeslot->workshops as $workshop)
-        <ul class="list-group">
-            <li class="list-group-item">
+    <div class="container px-3 py-5 px-lg-4 py-lg-6 bg-grey mb-5">
+        @foreach($timeslot->workshops as $workshop)
+            @component('snippet.blog', ['title' => $workshop->name])
                 @include('snippet.filling', ['workshop' => $workshop])
-                <h3>{{ $workshop->name }}</h3>
                 <h5>Led by {{ $workshop->led_by }}</h5>
                 <p>{{ $workshop->blurb }} <i>Days: {{ $workshop->displayDays }}</i></p>
-            </li>
-        </ul>
-    @endforeach
+            @endcomponent
+        @endforeach
+    </div>
 @endsection

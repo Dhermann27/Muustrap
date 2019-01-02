@@ -9,14 +9,14 @@
 @endsection
 
 @section('content')
-    @component('snippet.blog')
+    <div class="container px-3 py-5 px-lg-4 py-lg-6 bg-grey mb-5">
         @foreach($programs as $program)
-            <div class="post-content">
+            @component('snippet.blog', ['title' => $program->name])
+                <div class="p-3">
+                    {!! $program->blurb !!}
+                </div>
+            @endcomponent
 
-                <h3 class="post-title">{{ $program->name }}</h3>
-
-                <p>{!! $program->blurb !!}</p>
-            </div>
         @endforeach
-    @endcomponent
+    </div>
 @endsection

@@ -26,6 +26,7 @@ class CreateYearsattendingTable extends Migration
             $table->string('nametag')->default('222215521');
             $table->timestamps();
         });
+        DB::update('ALTER TABLE yearsattending AUTO_INCREMENT = 1000');
     }
 
     /**

@@ -20,6 +20,7 @@ class CreateChurchesTable extends Migration
             $table->string('statecd');
             $table->timestamps();
         });
+        DB::update('ALTER TABLE churches AUTO_INCREMENT = 1000');
     }
 
     /**

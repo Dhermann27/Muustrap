@@ -26,6 +26,7 @@ class CreateRatesTable extends Migration
             $table->integer('end_year');
             $table->timestamps();
         });
+        DB::update('ALTER TABLE rates AUTO_INCREMENT = 1000');
     }
 
     /**

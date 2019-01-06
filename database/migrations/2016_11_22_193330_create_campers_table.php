@@ -35,6 +35,7 @@ class CreateCampersTable extends Migration
             $table->foreign('churchid')->references('id')->on('churches');
             $table->timestamps();
         });
+        DB::update('ALTER TABLE campers AUTO_INCREMENT = 1000');
     }
 
     /**

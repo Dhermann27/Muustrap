@@ -22,6 +22,7 @@ class CreateScholarshipsTable extends Migration
             $table->tinyInteger('is_muusa');
             $table->timestamps();
         });
+        DB::update('ALTER TABLE scholarships AUTO_INCREMENT = 1000');
     }
 
     /**

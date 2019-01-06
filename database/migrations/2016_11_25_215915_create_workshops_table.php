@@ -15,6 +15,7 @@ class CreateWorkshopsTable extends Migration
     {
         Schema::create('workshops', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('year');
             $table->integer('roomid')->unsigned();
             $table->foreign('roomid')->references('id')->on('rooms');
             $table->integer('timeslotid')->unsigned();

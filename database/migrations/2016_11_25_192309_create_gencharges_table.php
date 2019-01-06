@@ -23,6 +23,7 @@ class CreateGenchargesTable extends Migration
             $table->foreign('chargetypeid')->references('id')->on('chargetypes');
             $table->integer('year');
         });
+        DB::update('ALTER TABLE gencharges AUTO_INCREMENT = 1000');
     }
 
     /**

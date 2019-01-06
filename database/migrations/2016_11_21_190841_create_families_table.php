@@ -28,6 +28,7 @@ class CreateFamiliesTable extends Migration
             $table->tinyInteger('is_scholar')->default('0');
             $table->timestamps();
         });
+        DB::update('ALTER TABLE families AUTO_INCREMENT = 1000');
     }
 
     /**

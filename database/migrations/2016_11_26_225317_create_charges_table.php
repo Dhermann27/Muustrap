@@ -26,6 +26,7 @@ class CreateChargesTable extends Migration
             $table->integer('year');
             $table->timestamps();
         });
+        DB::update('ALTER TABLE charges AUTO_INCREMENT = 1000');
     }
 
     /**

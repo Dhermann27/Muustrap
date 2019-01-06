@@ -25,6 +25,7 @@ class CreateProgramsTable extends Migration
             $table->tinyInteger('is_program_housing');
             $table->timestamps();
         });
+        DB::update('ALTER TABLE programs AUTO_INCREMENT = 1000');
 
         DB::unprepared('CREATE FUNCTION getprogramidbyname (programname VARCHAR(1024), year INT) RETURNS INT DETERMINISTIC 	BEGIN
  			RETURN(SELECT p.id FROM programs p WHERE p.name LIKE CONCAT(\'%\', programname, \'%\') ORDER BY age_min DESC LIMIT 1);

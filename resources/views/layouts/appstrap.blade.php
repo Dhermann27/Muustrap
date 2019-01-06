@@ -16,14 +16,14 @@
         @endif
     </title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.5.0/css/all.css"
-          integrity="sha384-j8y0ITrvFafF4EkV1mPW0BKm6dp3c+J9Fky22Man50Ofxo2wNe5pT1oZejDH9/Dt" crossorigin="anonymous">
+          integrity="sha384-j8y0ITrvFafF4EkV1mPW0BKm6dp3c+J9Fky22Man50Ofxo2wNe5pT1oZejDH9/Dt" crossorigin="anonymous" />
 
-    <link href="/assets/css/theme-style.min.css" rel="stylesheet">
-    <link href="/assets/css/colour-slate.min.css" rel="stylesheet">
-    <link href="/css/muustrap.css" rel="stylesheet">
+    <link href="/assets/css/theme-style.min.css" rel="stylesheet" />
+    <link href="/assets/css/colour-slate.min.css" rel="stylesheet" />
+    <link href="/css/muustrap.css" rel="stylesheet" />
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=bOMnaKo3RO"/>
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=bOMnaKo3RO"/>
@@ -127,7 +127,7 @@
                             <span class="d-none d-lg-inline-block">Now</span></a>
                     @else
                         <div class="dropdown">
-                            <a href="{{ url('/registration') }}" id="dropdownMenuLink" data-toggle="dropdown"
+                            <a href="{{ url('/registration') }}" id="dropdownMenuLink" data-hover="dropdown"
                                class="btn btn-primary btn-sm text-uppercase font-weight-bold px-lg-3 py-lg-2 ml-lg-3 dropdown-toggle"
                                aria-haspopup="true" aria-expanded="false">
                                 Registration</a>
@@ -149,8 +149,7 @@
                                     <a href="#" class="dropdown-item disabled">Confirmation</a>
                                 @else
                                     <a href="{{ url('/workshopchoice') }}" class="dropdown-item">
-                                        <i class="far fa-rocket fa-fw"></i>Workshop List
-                                    </a>
+                                        <i class="far fa-rocket fa-fw"></i>Workshops</a>
                                     <a href="{{ url('/roomselection') }}" class="dropdown-item">
                                         <i class="far fa-bed fa-fw"></i> Room Selection</a>
                                     <a href="{{ url('/nametag') }}" class="dropdown-item">
@@ -269,6 +268,8 @@
                                         <i class="far fa-microphone fa-fw"></i> Theme Speakers</a>
                                     <a href="{{ url('/cost') }}" class="dropdown-item">
                                         <i class="far fa-calculator fa-fw"></i> Cost Calculator</a>
+                                    <a href="{{ url('/scholarship') }}" class="dropdown-item">
+                                        <i class="far fa-universal-access fa-fw"></i> Scholarships</a>
                                     <a href="{{ url('/excursions') }}" class="dropdown-item">
                                         <i class="far fa-binoculars fa-fw"></i> Excursions</a>
                                 </div>
@@ -335,7 +336,8 @@
     @hassection('title')
         @if(isset($background))
             <div class="bg-grey text-white py-4 py-lg-8 overlay overlay-default overlay-op-6 mb-5"
-                 data-bg-img="{{ env('IMG_PATH') }}{{ $background }}" data-css='{"background-position":"bottom center"}'>
+                 data-bg-img="{{ env('IMG_PATH') }}/images/{{ $background }}"
+                 data-css='{"background-position":"bottom center"}'>
                 <div class="container d-lg-flex align-items-lg-end">
                     <div>
                         <h2 class="my-0 text-uppercase">
@@ -441,13 +443,9 @@
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js"
+        integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP"
         crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script>
-
 @role(['admin', 'council'])
 <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
 @endrole

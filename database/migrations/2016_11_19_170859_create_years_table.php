@@ -15,17 +15,18 @@ class CreateYearsTable extends Migration
     {
         Schema::create('years', function (Blueprint $table) {
             $table->integer('year')->unique();
+            $table->integer('thisyear')->unique(); // Testing Only
             $table->date('start_date');
             $table->date('start_open');
-            $table->tinyInteger('is_current');
-            $table->tinyInteger('is_live');
-            $table->tinyInteger('is_calendar');
-            $table->tinyInteger('is_crunch');
-            $table->tinyInteger('is_accept_paypal');
-            $table->tinyInteger('is_room_select');
-            $table->tinyInteger('is_workshop_proposal');
-            $table->tinyInteger('is_artfair');
-            $table->tinyInteger('is_coffeehouse');
+            $table->tinyInteger('is_current')->default(0);
+            $table->tinyInteger('is_live')->default(0);
+            $table->tinyInteger('is_calendar')->default(0);
+            $table->tinyInteger('is_crunch')->default(0);
+            $table->tinyInteger('is_accept_paypal')->default(0);
+            $table->tinyInteger('is_room_select')->default(0);
+            $table->tinyInteger('is_workshop_proposal')->default(0);
+            $table->tinyInteger('is_artfair')->default(0);
+            $table->tinyInteger('is_coffeehouse')->default(0);
         });
 
         DB::unprepared('CREATE FUNCTION getcurrentyear () RETURNS INT DETERMINISTIC BEGIN

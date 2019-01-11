@@ -85,7 +85,7 @@
                     @if($year->next_muse !== false)
                         <div class="header-divider header-divider-sm"></div>
                         <a href="{{ url('/themuse') }}"
-                           class="nav-link text-s text-uppercase d-md-block">{{ $home->year()->next_muse }}</a>
+                           class="nav-link text-s text-uppercase d-md-block">{{ $year->next_muse }}</a>
                     @endif
                 </nav>
             </div>

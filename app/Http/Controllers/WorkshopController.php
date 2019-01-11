@@ -107,7 +107,7 @@ class WorkshopController extends Controller
 
     public function display()
     {
-        return view('workshops', ['timeslots' => \App\Timeslot::all()->except('1005'), 'background' => '/images/workshops.jpg']);
+        return view('workshops', ['timeslots' => \App\Timeslot::all()->except('1005'), 'background' => 'workshops.jpg']);
     }
 
     public function excursions() {

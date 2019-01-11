@@ -5,9 +5,8 @@
     <div id="highlighted" class="bg-black">
         <div class="overlay overlay-op-6 text-left" data-animate="fadeInRight" data-toggle="backstretch"
              data-backstretch-target="self" data-backstretch-overlay=false
-             data-backstretch-imgs="/images/lodge1.jpg,/images/lodge2.jpg,/images/lodge3.jpg,/images/lodge4.jpg,/images/lodge5.jpg">
-            <div data-toggle="full-height" class="container px-3 py-5 py-lg-7 flex-valign-b"
-                 data-animate="fadeInRight" data-animate-delay="0.4">
+             data-backstretch-imgs="{{ env('IMG_PATH') }}/images/lodge1.jpg,{{ env('IMG_PATH') }}/images/lodge2.jpg,{{ env('IMG_PATH') }}/images/lodge3.jpg,{{ env('IMG_PATH') }}/images/lodge4.jpg,{{ env('IMG_PATH') }}/images/lodge5.jpg">
+            <div data-toggle="full-height" class="container px-3 py-5 py-lg-7 flex-valign-b" data-animate="fadeInRight">
                 <h2 class="display-4 text-white font-weight-bold text-letter-spacing-xs text-uppercase mt-lg-7">
                     Midwest Unitarian Universalist Summer Assembly
                 </h2>
@@ -18,8 +17,7 @@
                     {{ $year->first_day }} through {{ $year->last_day }} {{ $year->year }}
                 </div>
                 <div class="mt-4">
-                    <a href="{{ url('/registration') }}" class="btn btn-primary font-weight-bold"
-                       data-toggle="scroll-link" data-animate="fadeInRight" data-animate-delay="0.6">
+                    <a href="{{ url('/registration') }}" id="register-button" class="btn btn-primary font-weight-bold">
                         Register for {{ $year->year }}
                     </a>
                 </div>

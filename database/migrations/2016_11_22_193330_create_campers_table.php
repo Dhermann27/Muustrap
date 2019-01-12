@@ -24,8 +24,6 @@ class CreateCampersTable extends Migration
             $table->string('email')->nullable()->unique();
             $table->bigInteger('phonenbr')->nullable();
             $table->date('birthdate')->nullable();
-            //$table->integer('gradeoffset')->default('-5');
-            $table->integer('gradyear')->default('1901');
             $table->string('roommate')->nullable();
             $table->string('sponsor')->nullable();
             $table->tinyInteger('is_handicap')->default('0');

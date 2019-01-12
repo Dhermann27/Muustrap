@@ -14,12 +14,11 @@ class WorkshopTest extends DuskTestCase
         $year = factory(\App\Year::class)->create();
 
         $timeslot = factory(\App\Timeslot::class)->create();
-        $building = factory(\App\Building::class)->create();
-        $room = factory(\App\Room::class)->create(['buildingid' => $building->id]);
-        $workshops = factory(\App\Workshop::class, 10)->create(['timeslotid' => $timeslot->id, 'roomid' => $room->id, 'year' => $year->thisyear]);
-        $this->browse(function (Browser $browser) use ($timeslot, $workshops) {
+        $room = factory(\App\Room::class)->create();
+        $workshop = factory(\App\Workshop::class)->create(['timeslotid' => $timeslot->id, 'roomid' => $room->id, 'year' => $year->thisyear]);
+        $this->browse(function (Browser $browser) use ($timeslot, $workshop) {
             $browser->visit('/workshops')
-                ->assertSee($timeslot->name)->assertSee($workshops[rand(0, 9)]->name);
+                ->assertSee($timeslot->name)->assertSee($workshop->name);
         });
     }
 
@@ -28,8 +27,7 @@ class WorkshopTest extends DuskTestCase
         $year = \App\Year::where('is_current', '1')->first();
 
         $timeslot = factory(\App\Timeslot::class)->create(['id' => 1005]);
-        $building = factory(\App\Building::class)->create();
-        $room = factory(\App\Room::class)->create(['buildingid' => $building->id]);
+        $room = factory(\App\Room::class)->create();
         $excursion = factory(\App\Workshop::class)->create(['timeslotid' => $timeslot->id, 'roomid' => $room->id, 'year' => $year->thisyear]);
         $this->browse(function (Browser $browser) use ($excursion) {
             $browser->visit('/excursions')

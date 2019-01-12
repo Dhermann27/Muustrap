@@ -51,8 +51,7 @@ class HouseholdController extends Controller
         if ($family === null) {
             $family = $camper !== null ? $camper->family : new \App\Family();
         }
-        return view('household', ['formobject' => $family,
-            'statecodes' => \App\Statecode::orderBy('name')->get()]);
+        return view('household', ['formobject' => $family, 'statecodes' => \App\Statecode::orderBy('name')->get()]);
     }
 
     public function write(Request $request, $id)

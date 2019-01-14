@@ -5,6 +5,9 @@ namespace Tests\Browser;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
+/**
+ * @group Home
+ */
 class HomeTest extends DuskTestCase
 {
 

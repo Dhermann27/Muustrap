@@ -64,7 +64,7 @@ class HouseholdController extends Controller
 
         if ($id == 0) {
             \App\Camper::create(['familyid' => $family->id, 'firstname' => 'Mister', 'lastname' => 'MUUSA']);
-            $success .= ' Since you just created a new family, I added a camper named &quot;Mister MUUSA&quot; to it if you need to find the family later. (Hint: not a real person.)';
+            $success .= 'Since you just created a new family, I added a camper named &quot;Mister MUUSA&quot; to it if you need to find the family later. (Hint: not a real person.)';
         }
 
         $request->session()->flash('success', $success);

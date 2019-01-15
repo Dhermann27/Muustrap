@@ -1,15 +1,11 @@
 <?php
 
-use Faker\Generator as Faker;
 use Carbon\Carbon;
 
-$factory->define(\App\Year::class, function (Faker $faker) {
-    $year = $faker->unique()->year;
+$factory->define(\App\Year::class, function () {
     return [
-        'year' => $year,
-        'thisyear' => $year,
-        'start_date' => Carbon::parse('first Sunday of July ' . $year)->toDateString(),
-        'start_open' => Carbon::parse('first day of February '. $year)->toDateString(),
+        'start_date' => Carbon::parse('first Sunday of July')->toDateString(),
+        'start_open' => Carbon::parse('first day of February')->toDateString(),
         'is_current' => '1',
         'is_live' => '1',
         'is_crunch' => '0',

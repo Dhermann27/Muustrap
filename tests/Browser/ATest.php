@@ -7,6 +7,13 @@ use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 use App\Year;
 
+/**
+ * @group Welcome
+ * @group Camper
+ * @group Home
+ * @group Household
+ * @group Workshop
+ */
 class ATest extends DuskTestCase
 {
     
@@ -25,14 +32,14 @@ class ATest extends DuskTestCase
     public function testWelcomepage()
     {
         $year = factory(Year::class)->create();
-        $firstday = Carbon::parse('first Sunday of July ' . $year->thisyear); // TODO: Replace with regexp
+        $firstday = Carbon::parse('first Sunday of July ' . $year->year); // TODO: Replace with regexp
 
         $this->browse(function (Browser $browser) use ($year, $firstday) {
             $browser->visit('/')
                 ->assertSee('Midwest Unitarian Universalist Summer Assembly')
-                ->assertSeeLink('Register for ' . $year->thisyear)
+                ->assertSeeLink('Register for ' . $year->year)
                 ->assertSee('Sunday ' . $firstday->format('F jS') .
-                    ' through Saturday July ' . $firstday->addDays(6)->format('jS') . ' ' . $year->thisyear);
+                    ' through Saturday July ' . $firstday->addDays(6)->format('jS') . ' ' . $year->year);
         });
 
         $year = \App\Year::where('is_current', '1')->first();

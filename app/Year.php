@@ -4,7 +4,6 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class Year extends Model
@@ -19,19 +18,18 @@ class Year extends Model
         return Storage::disk('local')->exists('public/MUUSA_' . $this->year . '_Brochure.pdf');
     }
 
-    public function isInProgress()
-    {
-        return Carbon::now('America/Chicago')->lte(Carbon::createFromFormat('Y-m-d', $this->start_date)->addWeek());
-    }
-
     public function getFirstDayAttribute()
     {
-        return Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago')->format('l F jS');
+        $date = Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago');
+        $date->year = $this->year;
+        return $date->format('l F jS');
     }
 
     public function getLastDayAttribute()
     {
-        return Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago')->addDays(6)->format('l F jS');
+        $date = Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago');
+        $date->year = $this->year;
+        return $date->addDays(6)->format('l F jS');
     }
 
     public function getNextDayAttribute()

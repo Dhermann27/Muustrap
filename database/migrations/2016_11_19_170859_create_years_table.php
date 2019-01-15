@@ -14,8 +14,8 @@ class CreateYearsTable extends Migration
     public function up()
     {
         Schema::create('years', function (Blueprint $table) {
-            $table->integer('year')->unique();
-            $table->integer('thisyear')->unique(); // Testing Only
+            $table->increments('year');
+//            $table->integer('thisyear')->unique(); // Testing Only
             $table->date('start_date');
             $table->date('start_open');
             $table->tinyInteger('is_current')->default(0);
@@ -29,6 +29,7 @@ class CreateYearsTable extends Migration
             $table->tinyInteger('is_coffeehouse')->default(0);
         });
 
+        DB::update('ALTER TABLE years AUTO_INCREMENT = 1901');
         DB::unprepared('CREATE FUNCTION getcurrentyear () RETURNS INT DETERMINISTIC BEGIN
  			RETURN(SELECT year FROM years WHERE is_current=1 LIMIT 1);
  		END');

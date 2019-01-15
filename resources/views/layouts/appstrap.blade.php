@@ -16,14 +16,14 @@
         @endif
     </title>
 
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous" />
+    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.5.0/css/all.css"
-          integrity="sha384-j8y0ITrvFafF4EkV1mPW0BKm6dp3c+J9Fky22Man50Ofxo2wNe5pT1oZejDH9/Dt" crossorigin="anonymous" />
+          integrity="sha384-j8y0ITrvFafF4EkV1mPW0BKm6dp3c+J9Fky22Man50Ofxo2wNe5pT1oZejDH9/Dt" crossorigin="anonymous"/>
 
-    <link href="/assets/css/theme-style.min.css" rel="stylesheet" />
-    <link href="/assets/css/colour-slate.min.css" rel="stylesheet" />
-    <link href="/css/muustrap.css" rel="stylesheet" />
+    <link href="/assets/css/theme-style.min.css" rel="stylesheet"/>
+    <link href="/assets/css/colour-slate.min.css" rel="stylesheet"/>
+    <link href="/css/muustrap.css" rel="stylesheet"/>
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=bOMnaKo3RO"/>
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=bOMnaKo3RO"/>
@@ -41,7 +41,7 @@
     <link href='http://fonts.googleapis.com/css?family=Calligraffitti' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/retina.js/1.3.0/retina.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/retina.js/1.3.0/retina.min.js"></script>
 
 @yield('css')
 
@@ -255,7 +255,7 @@
                             @endrole
 
                             <li class="nav-item dropdown">
-                                <a href="{{ url('/information') }}" class="nav-link dropdown-toggle" id="info-drop"
+                                <a href="#" class="nav-link dropdown-toggle" id="info-drop"
                                    data-toggle="dropdown" data-hover="dropdown">Information</a>
                                 <div class="dropdown-menu">
                                     <a href="{{ url('/housing') }}" class="dropdown-item">
@@ -278,8 +278,7 @@
                             @if (Auth::check())
                                 <li class="nav-item dropdown">
                                     <a href="#" class="nav-link dropdown-toggle" id="details-drop"
-                                       data-toggle="dropdown"
-                                       data-hover="dropdown">Your Details</a>
+                                       data-toggle="dropdown" data-hover="dropdown">Your Details</a>
                                     <div class="dropdown-menu">
                                         @if($year->is_live)
                                             <a href="{{ url('/brochure') }}" class="dropdown-item">
@@ -430,7 +429,6 @@
                     <ul class="list-inline footer-links float-md-right mb-0">
                         <li class="list-inline-item"><a href="/">Home</a></li>
                         <li class="list-inline-item"><a href="{{ url('/registration') }}">Register</a></li>
-                        <li class="list-inline-item"><a href="{{ url('/information') }}">Information</a></li>
                         <li class="list-inline-item"><a href="{{ url('/contact') }}">Contact</a></li>
                     </ul>
                 </div>
@@ -441,13 +439,16 @@
     </div>
 </footer>
 
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+<script src="//code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js"
-        integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP"
+<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+<script src="//stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
 @role(['admin', 'council'])
-<script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
 @endrole
 
 <script src="assets/js/custom-script.js"></script>
@@ -492,7 +493,7 @@
 </script>
 @role(['admin', 'council'])
 <script type="text/javascript">
-    @if(isset($readonly) && $readonly === true)
+    @if(isset($readonly) && $readonly === true) // TODO: Get rid of this after adding all the fieldsets
     $("input:not(#camper), select").prop("disabled", "true");
     @endif
     $('[data-toggle="tooltip"]').tooltip({

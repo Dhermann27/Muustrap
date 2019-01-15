@@ -25,7 +25,7 @@ class HouseholdTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($user, $family) {
             $browser->loginAs($user->id)->visit('/household')
                 ->within(new HouseholdForm, function ($browser) use ($family) {
-                    $browser->assertSee('Family Name')->createHousehold($family);
+                    $browser->createHousehold($family);
                 });
         });
 
@@ -39,7 +39,7 @@ class HouseholdTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($user, $family, $changes) {
             $browser->loginAs($user->id)->visit('/household')
                 ->within(new HouseholdForm, function ($browser) use ($family, $changes) {
-                    $browser->assertSee('Family Name')->changeHousehold($family, $changes);
+                    $browser->changeHousehold($family, $changes);
                 });
         });
 
@@ -65,7 +65,7 @@ class HouseholdTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($user, $family, $changes) {
             $browser->loginAs($user->id)->visit('/household')
                 ->within(new HouseholdForm, function ($browser) use ($family, $changes) {
-                    $browser->assertSee('Family Name')->changeHousehold($family, $changes);
+                    $browser->changeHousehold($family, $changes);
                 });
         });
 
@@ -95,8 +95,7 @@ class HouseholdTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($user, $family) {
             $browser->loginAs($user->id)->visit('/household/f/0')
                 ->within(new HouseholdForm, function ($browser) use ($family) {
-                    $browser->assertSee('Family Name')
-                        ->select('select#is_address_current', $family->is_address_current)
+                    $browser->select('select#is_address_current', $family->is_address_current)
                         ->createHousehold($family);
                 });
         });
@@ -113,8 +112,7 @@ class HouseholdTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($user, $family, $changes) {
             $browser->loginAs($user->id)->visit('/household/f/' . $family->id)
                 ->within(new HouseholdForm, function ($browser) use ($family, $changes) {
-                    $browser->assertSee('Family Name')
-                        ->assertSelected('select#is_address_current', $family->is_address_current)
+                    $browser->assertSelected('select#is_address_current', $family->is_address_current)
                         ->select('select#is_address_current', $changes->is_address_current)
                         ->changeHousehold($family, $changes);
                 });
@@ -142,8 +140,7 @@ class HouseholdTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($user, $family) {
             $browser->loginAs($user->id)->visit('/household/f/' . $family->id)
                 ->within(new HouseholdForm, function ($browser) use ($family) {
-                    $browser->assertSee('Family Name')
-                        ->select('select#is_address_current', $family->is_address_current)
+                    $browser->select('select#is_address_current', $family->is_address_current)
                         ->assertDisabled('select#is_address_current')
                         ->viewHousehold($family);
                 });

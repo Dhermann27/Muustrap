@@ -41,6 +41,12 @@
     <link href='http://fonts.googleapis.com/css?family=Calligraffitti' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
 
+    @role(['admin', 'council'])
+    <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css"
+          rel="stylesheet"/>
+    @endrole
+
     <script src="//cdnjs.cloudflare.com/ajax/libs/retina.js/1.3.0/retina.min.js"></script>
 
 @yield('css')
@@ -322,8 +328,9 @@
                     @include('admin.controls', ['id' =>  (preg_match('/\/(c|f)\/\d+$/', $_SERVER['REQUEST_URI'], $matches) ? substr($_SERVER['REQUEST_URI'], -6) : 'c/0'), 'inputgroup' => 'true'])
                 </div>
 
-                <input type="text" id="camper" class="form-control camperlist" placeholder="Search Campers here..."
-                       autocomplete="off"/>
+                <label class="sr-only" for="camper">Camper Search</label>
+                <select id="camper" class="form-control camperlist">
+                </select>
             </div>
             @endrole
 
@@ -448,7 +455,7 @@
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
 @role(['admin', 'council'])
-<script src="//cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 @endrole
 
 <script src="assets/js/custom-script.js"></script>
@@ -506,53 +513,45 @@
         window.location = $("#orderby-url").val() + "/" + $("#orderby-years").val() + "/" + $("#orderby-order").val();
     });
 
-    function customTokenizer(datum) {
-        var firstTokens = Bloodhound.tokenizers.whitespace(datum.firstname);
-        var lastTokens = Bloodhound.tokenizers.whitespace(datum.lastname);
-        var emailTokens = Bloodhound.tokenizers.whitespace(datum.email);
-
-        return firstTokens.concat(lastTokens).concat(emailTokens);
+    function mark(data, term) {
+        return data.replace(new RegExp(term, "i"), "<strong>$&</strong>");
     }
 
-    var engine = new Bloodhound({
-        datumTokenizer: customTokenizer,
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: {
-            url: '/data/camperlist?term=%QUERY%',
-            wildcard: '%QUERY%'
-        }
-    });
-    $('input.camperlist').each(function () {
-        $(this).typeahead({
-            highlight: true,
-            minLength: 3,
-            classNames: {
-                dataset: 'list-group',
-                cursor: 'active'
-            }
-        }, {
-            source: engine.ttAdapter(),
-            name: 'usersList',
-            limit: Infinity,
+    function templateRes(data) {
+        if (!data.id) return data.text;
+        return mark(data.firstname, data.term) + ' ' + mark(data.lastname, data.term) +
+            ' (' + mark(data.family.name, data.term) + ' Family, ' + mark(data.family.city, data.term) + ' ' +
+            mark(data.family.statecd, data.term) + ')' + (data.email != null ? ' &lt;' +
+                mark(data.email, data.term) + '&gt;' : '');
+    }
 
-            display: function (data) {
-                return data.firstname + ' ' + data.lastname;
-            },
-
-            templates: {
-                empty: [
-                    '<ul class="list-group"><li class="list-group-item">No campers found.</li></ul>'
-                ],
-                suggestion: function (data) {
-                    return '<a href="#" class="list-group-item list-group-item-action">' + data.firstname + ' ' + data.lastname + ' (' + data.family.name + ' Family, ' + data.family.city + ' ' + data.family.statecd + ')' + (data.email != null ? ' &lt;' + data.email + '&gt;' : '') + '</a>'
-                }
-            }
-        }).on('typeahead:selected', function (event, selection) {
-            $("input#" + $(this).attr("id") + "id").val(selection.id);
-            $("div#campersearch a.dropdown-item").each(function () {
-                $(this).attr("href", $(this).attr("href").replace(/\/c\/\d+$/, "/c/" + selection.id));
-            });
+    function templateSel(data) {
+        if (!data.id) return data.text;
+        // $("input#" + $(this).attr("id") + "id").val(data.id);
+        $("div#campersearch a.dropdown-item").each(function () {
+            $(this).attr("href", $(this).attr("href").replace(/\/c\/\d+$/, "/c/" + data.id));
         });
+        return data.firstname + ' ' + data.lastname;
+    }
+
+    $('select.camperlist').select2({
+        ajax: {
+            url: '/data/camperlist',
+            dataType: 'json',
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            }
+        },
+        escapeMarkup: function (markup) {
+            return markup;
+        },
+        minimumInputLength: 3,
+        placeholder: 'Camper Search',
+        templateResult: templateRes,
+        templateSelection: templateSel,
+        theme: 'bootstrap'
     });
 </script>
 @endrole

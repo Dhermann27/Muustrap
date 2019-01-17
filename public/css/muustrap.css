@@ -111,11 +111,6 @@ tr.family {
 .form-control.tt-input:focus {
     z-index: 3
 }
-#campersearch .tt-menu {
-     max-height: 300px;
-     overflow-y: auto;
- }
-.tt-suggestion:hover {
-    color: #fff;
-    background-color: #5D6D7E;
+div.tooltip, div.tooltip-inner {
+    min-width: 400px;
 }

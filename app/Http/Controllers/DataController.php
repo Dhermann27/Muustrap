@@ -10,7 +10,11 @@ class DataController extends Controller
     public function campers(Request $request)
     {
         $this->validate($request, ['term' => 'required|between:3,50']);
-        return \App\Camper::search($request->term)->with('family')->get();
+        $campers = \App\Camper::search($request->term)->with('family')->get();
+        foreach($campers as $camper) {
+            $camper->term = $request->term;
+        }
+        return $campers;
     }
 
     public function churches(Request $request)

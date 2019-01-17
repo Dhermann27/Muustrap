@@ -140,7 +140,6 @@ class CamperController extends Controller
 
         $empty = new \App\Camper();
         $empty->id = 0;
-        $empty->churchid = 2084;
         return view('campers', ['pronouns' => \App\Pronoun::all(), 'foodoptions' => \App\Foodoption::all(),
             'campers' => $campers, 'programs' => \App\Program::whereNotNull('display')->orderBy('order')->get(),
             'empties' => array($empty), 'readonly' => null]);

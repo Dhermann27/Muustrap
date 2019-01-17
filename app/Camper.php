@@ -18,7 +18,10 @@ class Camper extends Model
         'columns' => [
             'campers.firstname' => 10,
             'campers.lastname' => 10,
-            'campers.email' => 5
+            'campers.email' => 5,
+            'families.name' => 8,
+            'families.address1' => 3,
+            'families.city' => 3
         ],
         'joins' => [
             'families' => ['campers.familyid', 'families.id']

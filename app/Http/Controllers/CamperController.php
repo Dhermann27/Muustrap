@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Mail\Confirm;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -97,7 +97,7 @@ class CamperController extends Controller
         }
         $camper->birthdate = $request->input('birthdate')[$i];
         $programid = $request->input('programid')[$i];
-        if($programid == '1009' && Carbon::createFromFormat('Y-m-d', $camper->birthdate)->diffInYears(Carbon::createFromFormat('Y-m-d', $year->start_date)) < 21) {
+        if ($programid == '1009' && Carbon::createFromFormat('Y-m-d', $camper->birthdate)->diffInYears(Carbon::createFromFormat('Y-m-d', $year->start_date)) < 21) {
             $programid = '1006';
         }
 
@@ -138,11 +138,17 @@ class CamperController extends Controller
     {
         $campers = $this->getCampers();
 
+        $camperids = $campers->pluck('id')->all();
+
+        $lastyears = DB::table('yearsattending')->whereRaw('(camperid, year) IN 
+                                   (select camperid, MAX(year) from yearsattending WHERE camperid in (' . implode(',', $camperids) . ') 
+                                   group by camperid)')->get()->keyBy('camperid');
+
         $empty = new \App\Camper();
         $empty->id = 0;
         return view('campers', ['pronouns' => \App\Pronoun::all(), 'foodoptions' => \App\Foodoption::all(),
             'campers' => $campers, 'programs' => \App\Program::whereNotNull('display')->orderBy('order')->get(),
-            'empties' => array($empty), 'readonly' => null]);
+            'empties' => array($empty), 'readonly' => null, 'lastyears' => $lastyears]);
 
     }
 
@@ -155,28 +161,14 @@ class CamperController extends Controller
     {
         $year = \App\Year::where('is_current', '1')->first();
 
-        $messages = ['pronounid.*.exists' => 'Please choose a preferred pronoun.',
-            'firstname.*.required' => 'Please enter a first name.',
-            'lastname.*.required' => 'Please enter a last name.',
-            'email.*.email' => 'Please enter a valid email address.',
-            'email.*.distinct' => 'Please do not use the same email address for multiple campers.',
+        $messages = ['email.*.distinct' => 'Please do not use the same email address for multiple campers.',
             'email.*.unique' => 'This email address has already been taken.',
-            'birthdate.*.required' => 'Please enter your eight-digit birthdate in 2016-12-31 format.',
             'birthdate.*.regex' => 'Please enter your eight-digit birthdate in 2016-12-31 format.'];
 
-        $this->validate($request, [
-            'pronounid.*' => 'exists:pronouns,id',
-            'firstname.*' => 'required|max:255',
-            'lastname.*' => 'required|max:255',
-            'email.*' => 'email|max:255|distinct',
+        $this->validate($request, ['email.*' => 'email|max:255|distinct',
             'phonenbr.*' => 'regex:/^\d{3}-\d{3}-\d{4}$/',
             'birthdate.*' => 'required|regex:/^\d{4}-\d{2}-\d{2}$/',
-            'programid.*' => 'required|exists:programs,id',
-            'roommate.*' => 'max:255',
-            'sponsor.*' => 'max:255',
-            'churchid.*' => 'exists:churches,id',
-            'is_handicap.*' => 'in:0,1',
-            'foodoptionid.*' => 'exists:foodoptions,id',
+            'programid.*' => 'required|exists:programs,id'
         ], $messages);
 
         for ($i = 0; $i < count($request->input('id')); $i++) {

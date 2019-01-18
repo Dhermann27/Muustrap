@@ -1,5 +1,5 @@
 <div role="tabpanel" class="tab-pane fade{{ $looper->first && $camper->id != '0' ? ' active show' : '' }}"
-     aria-expanded="{{ $loop->first && $camper->id != '0' ? 'true' : 'false' }}" id="{{ $camper->id }}">
+     aria-expanded="{{ $loop->first && $camper->id != '0' ? 'true' : 'false' }}" id="tab-{{ $camper->id }}">
     <p>&nbsp;</p>
     <input type="hidden" id="id-{{ $looper->index }}" name="id[]" value="{{ $camper->id }}"/>
     <div class="form-group row{{ $errors->has('days.' . $looper->index) ? ' has-danger' : '' }}">
@@ -20,21 +20,21 @@
                         id="days-{{ $looper->index }}" name="days[]">
                     @for($i=7; $i>0; $i--)
                         <option value="{{ $i }}"
-                                {{ $i == old('days.' . $looper->index, isset($camper->yearattending) ? $camper->yearattending->days : null) ? ' selected' : '' }}>
+                                {{ $i == old('days.' . $looper->index, isset($lastyears[$camper->id]) && $lastyears[$camper->id]->year == $year->year ? $lastyears[$camper->id]->days : null) ? ' selected' : '' }}>
                             {{ $i }} nights
                         </option>
                     @endfor
-                    <option value="0"{{ !isset($camper->yearattending) ? ' selected' : '' }}>
+                    <option value="0"{{ !isset($lastyears[$camper->id]) || $lastyears[$camper->id]->year != $year->year ? ' selected' : '' }}>
                         Not Attending
                     </option>
                 </select>
             @else
                 <select class="form-control days{{ $errors->has('days.' . $looper->index) ? ' is-invalid' : '' }}"
                         id="days-{{ $looper->index }}" name="days[]">
-                    <option value="{{ isset($camper->yearattending) && $camper->yearattending->days > 0 ? $camper->yearattending->days : '6' }}">
+                    <option value="{{ isset($lastyears[$camper->id]) && $lastyears[$camper->id]->year == $year->year && $lastyears[$camper->id]->days > 0 ? $lastyears[$camper->id]->days : '6' }}">
                         Yes
                     </option>
-                    <option value="0"{{ !isset($camper->yearattending) ? ' selected' : '' }}>
+                    <option value="0"{{ !isset($lastyears[$camper->id]) || $lastyears[$camper->id]->year != $year->year || $lastyears[$camper->id]->days <= 0 ? ' selected' : '' }}>
                         No
                     </option>
                 </select>
@@ -78,7 +78,7 @@
             Name</label>
         <div class="col-md-6">
             <input id="firstname-{{ $looper->index }}"
-                   class="form-control campername{{ $errors->has('firstname.' . $looper->index) ? ' is-invalid' : '' }}"
+                   class="form-control{{ $errors->has('firstname.' . $looper->index) ? ' is-invalid' : '' }}"
                    name="firstname[]" value="{{ old('firstname.' . $looper->index, $camper->firstname) }}">
 
             @if ($errors->has('firstname.' . $looper->index))
@@ -93,7 +93,7 @@
             Name</label>
         <div class="col-md-6">
             <input id="lastname-{{ $looper->index }}"
-                   class="form-control campername{{ $errors->has('lastname.' . $looper->index) ? ' is-invalid' : '' }}"
+                   class="form-control{{ $errors->has('lastname.' . $looper->index) ? ' is-invalid' : '' }}"
                    name="lastname[]" value="{{ old('lastname.' . $looper->index, $camper->lastname) }}">
 
             @if ($errors->has('lastname.' . $looper->index))
@@ -173,7 +173,7 @@
                 <option value="0">Choose a program</option>
                 @foreach($programs as $program)
                     <option value="{{ $program->id }}"
-                            {{ $program->id == old('programid.' . $looper->index, $camper->last_programid) ? ' selected' : '' }}>
+                            {{ $program->id == old('programid.' . $looper->index,  isset($lastyears[$camper->id]) ? $lastyears[$camper->id]->programid: 0) ? ' selected' : '' }}>
                         {{ str_replace("YEAR", $year->year, $program->display) }}
                     </option>
                 @endforeach
@@ -198,10 +198,10 @@
 
         <div class="col-md-6">
             <input id="roommate-{{ $looper->index }}" type="text"
-                   class="form-control easycamper{{ $errors->has('roommate.' . $looper->index) ? ' is-invalid' : '' }}"
+                   class="form-control {{ $errors->has('roommate.' . $looper->index) ? ' is-invalid' : '' }}"
                    name="roommate[]" autocomplete="off"
                    value="{{ old('roommate.' . $looper->index, $camper->roommate) }}"
-                   placeholder="First and last name of the camper who has agreed to be your roommate.">
+                   placeholder="First and last name of the camper who has agreed to be your roommate."/>
 
             @if ($errors->has('roommate.' . $looper->index))
                 <span class="invalid-feedback">
@@ -219,7 +219,7 @@
 
         <div class="col-md-6">
             <input id="sponsor-{{ $looper->index }}" type="text"
-                   class="form-control easycamper{{ $errors->has('sponsor.' . $looper->index) ? ' is-invalid' : '' }}"
+                   class="form-control {{ $errors->has('sponsor.' . $looper->index) ? ' is-invalid' : '' }}"
                    name="sponsor[]" autocomplete="off" value="{{ old('sponsor.' . $looper->index, $camper->sponsor) }}"
                    placeholder="First and last name of the camper who has agreed to be your sponsor.">
 
@@ -233,12 +233,14 @@
     <div class="form-group row{{ $errors->has('churchid.' . $looper->index) ? ' has-danger' : '' }}">
         <label for="churchid-{{ $looper->index }}" class="col-md-4 control-label">Church Affiliation</label>
         <div class="col-md-6">
-            <input id="churchname-{{ $looper->index }}" type="text"
-                   class="form-control churchlist{{ $errors->has('churchid.' . $looper->index) ? ' is-invalid' : '' }}"
-                   name="churchname[]" value="{{ old('churchname.' . $looper->index, $camper->church->name) }}"
-                   placeholder="Begin typing the name or city of your church.">
-            <input id="churchid-{{ $looper->index }}" type="hidden" name="churchid[]"
-                   value="{{ old('churchid.' . $looper->index, $camper->churchid) }}">
+            <select id="churchid-{{ $looper->index }}" name="churchid[]"
+                    class="form-control churchlist{{ $errors->has('churchid.' . $looper->index) ? ' is-invalid' : '' }}">
+                @if(isset($camper->churchid))
+                    {{--<option value="{{ old('churchid.' . $looper->index, $camper->churchid)}}">--}}
+                        {{--{{ isset($camper->church) ? $camper->church->name : '' }}--}}
+                    {{--</option>--}}
+                @endif
+            </select>
 
             @if ($errors->has('churchid.' . $looper->index))
                 <span class="invalid-feedback">

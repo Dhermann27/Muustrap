@@ -138,37 +138,55 @@ class CamperController extends Controller
     {
         $campers = $this->getCampers();
 
-        $camperids = $campers->pluck('id')->all();
-
-        $lastyears = DB::table('yearsattending')->whereRaw('(camperid, year) IN 
-                                   (select camperid, MAX(year) from yearsattending WHERE camperid in (' . implode(',', $camperids) . ') 
-                                   group by camperid)')->get()->keyBy('camperid');
-
         $empty = new \App\Camper();
-        $empty->id = 0;
+        $empty->id = 999;
         return view('campers', ['pronouns' => \App\Pronoun::all(), 'foodoptions' => \App\Foodoption::all(),
             'campers' => $campers, 'programs' => \App\Program::whereNotNull('display')->orderBy('order')->get(),
-            'empties' => array($empty), 'readonly' => null, 'lastyears' => $lastyears]);
+            'empty' => $empty, 'readonly' => null]);
 
     }
 
     private function getCampers()
     {
-        return \App\Camper::where('familyid', Auth::user()->camper->familyid)->orderBy('birthdate')->get();
+        return DB::select('SELECT c.id, c.familyid, c.pronounid, c.firstname, c.lastname, c.email, 
+              CONCAT(SUBSTR(c.phonenbr, 1, 3), "-", SUBSTR(c.phonenbr, 4, 3), "-", SUBSTR(c.phonenbr, 7, 4)) AS phone, 
+              c.birthdate, c.roommate, c.sponsor, c.is_handicap, c.foodoptionid, c.churchid, ch.name AS churchname, 
+              ch.city AS churchcity, ch.statecd AS churchstate, IFNULL(cap.days, 0) AS currentdays, 
+              (SELECT yap.programid FROM yearsattending yap WHERE (yap.camperid, yap.year) IN 
+                (SELECT yapp.camperid, MAX(yapp.year) FROM yearsattending yapp WHERE yapp.camperid=c.id)) AS lastprogramid
+        FROM campers c LEFT JOIN yearsattending cap ON c.id=cap.camperid AND cap.year=? 
+                      LEFT JOIN churches ch ON c.churchid=ch.id WHERE c.familyid=? ORDER BY birthdate',
+            [$this->year->year, Auth::user()->camper->familyid]);
     }
 
     public function write(Request $request, $id)
     {
         $year = \App\Year::where('is_current', '1')->first();
 
-        $messages = ['email.*.distinct' => 'Please do not use the same email address for multiple campers.',
+        $messages = ['pronounid.*.exists' => 'Please choose a preferred pronoun.',
+            'firstname.*.required' => 'Please enter a first name.',
+            'lastname.*.required' => 'Please enter a last name.',
+            'email.*.email' => 'Please enter a valid email address.',
+            'email.*.distinct' => 'Please do not use the same email address for multiple campers.',
             'email.*.unique' => 'This email address has already been taken.',
+            'phonenbr.*.regex' => 'Please enter your ten-digit phone number in 800-555-1212 format.',
+            'birthdate.*.required' => 'Please enter your eight-digit birthdate in 2016-12-31 format.',
             'birthdate.*.regex' => 'Please enter your eight-digit birthdate in 2016-12-31 format.'];
 
-        $this->validate($request, ['email.*' => 'email|max:255|distinct',
+        $this->validate($request, [
+            'days.*' => 'between:0,8',
+            'pronounid.*' => 'exists:pronouns,id',
+            'firstname.*' => 'required|max:255',
+            'lastname.*' => 'required|max:255',
+            'email.*' => 'email|max:255|distinct',
             'phonenbr.*' => 'regex:/^\d{3}-\d{3}-\d{4}$/',
             'birthdate.*' => 'required|regex:/^\d{4}-\d{2}-\d{2}$/',
-            'programid.*' => 'required|exists:programs,id'
+            'programid.*' => 'required|exists:programs,id',
+            'roommate.*' => 'max:255',
+            'sponsor.*' => 'max:255',
+            'churchid.*' => 'exists:churches,id',
+            'is_handicap.*' => 'in:0,1',
+            'foodoptionid.*' => 'exists:foodoptions,id',
         ], $messages);
 
         for ($i = 0; $i < count($request->input('id')); $i++) {
@@ -197,7 +215,7 @@ class CamperController extends Controller
 
         return view('campers', ['pronouns' => \App\Pronoun::all(), 'foodoptions' => \App\Foodoption::all(),
             'campers' => $campers, 'programs' => \App\Program::whereNotNull('display')->orderBy('order')->get(),
-            'empties' => array($empty), 'readonly' => $readonly]);
+            'empty' => $empty, 'readonly' => $readonly]);
     }
 
     private function getFamilyId($i, $id)

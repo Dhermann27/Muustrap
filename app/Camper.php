@@ -102,10 +102,10 @@ class Camper extends Model
         }
     }
 
-    public function getLoggedInAttribute()
-    {
-        return $this->email == Auth::user()->email;
-    }
+//    public function getLoggedInAttribute()
+//    {
+//        return $this->email == Auth::user()->email;
+//    }
 
 //    public function getYearattendingidAttribute()
 //    {

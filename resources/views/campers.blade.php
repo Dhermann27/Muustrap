@@ -3,7 +3,9 @@
 @section('css')
     <link rel="stylesheet"
           href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css"/>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css"/>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css"
+          rel="stylesheet"/>
 @endsection
 
 @section('title')
@@ -11,7 +13,7 @@
 @endsection
 
 @section('heading')
-    This page can show you all individual information about the campers in your family, both attending this year and not.
+    This page can show you all individual information about the campers in your family, both attending this year and returning soon.
 @endsection
 
 @section('content')
@@ -20,70 +22,63 @@
                  (isset($readonly) && $readonly === false ? '/f/' . $campers->first()->familyid : '')}}">
             @include('snippet.flash')
 
-            <ul class="nav nav-tabs flex-column flex-lg-row" role="tablist">
+            <ul class="nav nav-lg nav-tabs flex-column flex-lg-row" role="tablist">
                 @foreach($campers as $camper)
-                    @if($camper->id != '0')
-                        <li role="presentation" class="nav-item">
-                            <a href="#{{ $camper->id }}" aria-controls="{{ $camper->id }}" role="tab"
-                               class="nav-link{!! $loop->first ? ' active' : '' !!}" data-toggle="tab">
-                                {{ old('firstname.' . $loop->index, $camper->firstname) }}
-                                {{ old('lastname.' . $loop->index, $camper->lastname) }}
-                            </a>
-                        </li>
-                    @endif
+                    <li role="presentation" class="nav-item">
+                        <a href="#tab-{{ $camper->id }}" aria-controls="{{ $camper->id }}" role="tab"
+                           class="nav-link{!! $loop->first ? ' active' : '' !!}" data-toggle="tab">
+                            {{ old('firstname.' . $loop->index, $camper->firstname) }}
+                        </a>
+                    </li>
                 @endforeach
                 @if(!isset($readonly) || $readonly === false)
                     <li>
-                        <a id="newcamper" class="nav-link" href="#" role="tab">Create New Camper <i
+                        <a id="newcamper" class="nav-link" href="#" role="tab" title="Create New Camper"><i
                                     class="far fa-plus"></i></a>
                     </li>
                 @endif
             </ul>
 
-            <div class="tab-content">
-                @foreach($campers as $camper)
-                    @include('snippet.camper', ['camper' => $camper, 'looper' => $loop])
-                @endforeach
-            </div>
-            @if(!isset($readonly) || $readonly === false)
-                @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes']])
-            @endif
+            <fieldset{{ isset($readonly) && $readonly === true ? ' disabled' : '' }}>
+                <div class="tab-content">
+                    @foreach($campers as $camper)
+                        @include('snippet.camper', ['camper' => $camper, 'looper' => $loop->index])
+                    @endforeach
+                </div>
+                @if(!isset($readonly) || $readonly === false)
+                    @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes']])
+                @endif
+            </fieldset>
         </form>
     </div>
     <div id="empty">
-        @foreach($empties as $empty)
-            @include('snippet.camper', ['camper' => $empty, 'looper' => $loop])
-        @endforeach
+        @include('snippet.camper', ['camper' => $empty, 'looper' => 999])
     </div>
 @endsection
 
 @section('script')
-    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous">
-    </script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script type="text/javascript">
 
         $(function () {
 
-            bind($("body"));
+            bind($("form#camperinfo"));
 
-            $('div#empty select, div#empty  input').prop('disabled', true);
             $("#newcamper").on('click', function (e) {
                 e.preventDefault();
                 var camperCount = $(".tab-content div.tab-pane").length;
-                $(this).closest('li').before('<li role="presentation" class="nav-item"><a href="#' + camperCount + '" class="nav-link" data-toggle="tab">New Camper</a></li>');
+                $(this).closest('li').before('<li role="presentation" class="nav-item"><a href="#tab-' + camperCount + '" class="nav-link" data-toggle="tab">New Camper</a></li>');
                 var emptycamper = $("div#empty .tab-pane");
-                var empty = emptycamper.clone(false).attr("id", camperCount);
+                var empty = emptycamper.clone(false).attr("id", "tab-" + camperCount);
                 empty.find("input, select").each(function () {
                     $(this).attr("id", $(this).attr("id").replace(/\d+$/, camperCount));
-                    $(this).prop('disabled', false);
                 });
                 empty.find("label").each(function () {
                     $(this).attr("for", $(this).attr("for").replace(/\d+$/, camperCount));
                 });
                 $("form#camperinfo .tab-content").append(empty);
-                $('.nav-tabs a[href="#' + camperCount + '"]').tab('show');
+                $('.nav-tabs a[href="#tab-' + camperCount + '"]').tab('show');
                 bind(empty);
             });
 
@@ -131,73 +126,54 @@
                     }
                 });
             });
-
-            @if(isset($readonly) && $readonly === true)
-            $("input:not(#camper), select").prop("disabled", "true");
-            @endif
         });
 
+        function templateReschurch(data) {
+            if (!data.id) return data.text;
+            return mark(data.name, data.term) + ' (' + mark(data.city, data.term) + ', ' + mark(data.statecode.name, data.term) + ')';
+        }
+
+        function templateSelchurch(data) {
+            if (!data.name) return data.text;
+            return data.name + ' (' + data.city + ', ' + data.statecode.name + ')';
+        }
+
         function bind(obj) {
-            obj.find("[data-toggle='tooltip']").tooltip({
-                content: function () {
-                    return this.getAttribute("title");
-                }
-            });
             obj.find("button#quickme").on("click", function (e) {
                 e.preventDefault();
                 $("select.days").val('6');
             });
-            obj.find(".next").click(nextCamper);
-            obj.find(".campername").on("change", function () {
-                var tab = $(this).parents('div.tab-pane');
-                var name = tab.find("input.campername");
-                if (name.length === 2) {
-                    $('a[href="#' + tab.attr('id') + '"]').text(name[0].value + " " + name[1].value);
-                }
+            obj.find(".nextcamper").off("click").click(nextCamper);
+            obj.find("input[name='firstname[]']").on("change", function () {
+                $('a[href="#' + $(this).parents('div.tab-pane').attr('id') + '"]').text($(this).val());
             });
-            obj.find(".select-program").on("change", function() {
+            obj.find(".select-program").on("change", function () {
                 var tab = $(this).parents('div.tab-pane');
                 var days = tab.find("select.days");
-                if(days.val() === "0") {
+                if (days.val() === "0") {
                     $(this).next(".alert").removeClass("d-none");
                 } else {
                     $(this).next(".alert").addClass("d-none");
                 }
             });
-            obj.find(".easycamper").each(function () {
-                $(this).autocomplete({
-                    source: "/data/camperlist",
-                    minLength: 3,
-                    autoFocus: true,
-                    select: function (event, ui) {
-                        $("form#camperinfo .tab-pane").each(function () {
-                            var names = $(this).find("input.campername");
-                            if (names.length === 2 && $(names[0]).val() === ui.item.firstname && $(names[1]).val() === ui.item.lastname) {
-                                alert("No need to specify a family member as a roommate/sponsor.");
-                            }
-                        });
-                        $(this).val(ui.item.firstname + " " + ui.item.lastname);
-                        return false;
+            obj.find("select.churchlist").select2({
+                ajax: {
+                    url: '/data/churchlist',
+                    dataType: 'json',
+                    processResults: function (data) {
+                        return {
+                            results: data
+                        };
                     }
-                }).autocomplete('instance')._renderItem = function (ul, item) {
-                    return $("<li>").append("<div>" + item.lastname + ", " + item.firstname + "</div>").appendTo(ul);
-                }
-            });
-            obj.find(".churchlist").each(function () {
-                $(this).autocomplete({
-                    source: "/data/churchlist",
-                    minLength: 3,
-                    autoFocus: true,
-                    select: function (event, ui) {
-                        $(this).val(ui.item.name);
-                        $(this).next("input").val(ui.item.id);
-                        return false;
-                    }
-                }).autocomplete('instance')._renderItem = function (ul, item) {
-                    return $("<li>")
-                        .append("<div>" + item.name + " (" + item.city + ", " + item.statecd + ")</div>")
-                        .appendTo(ul);
-                };
+                },
+                escapeMarkup: function (markup) {
+                    return markup;
+                },
+                minimumInputLength: 3,
+                placeholder: 'Church Search',
+                templateResult: templateReschurch,
+                templateSelection: templateSelchurch,
+                theme: 'bootstrap'
             });
         }
     </script>

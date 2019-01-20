@@ -20,8 +20,10 @@ class DataController extends Controller
     public function churches(Request $request)
     {
         $this->validate($request, ['term' => 'required|between:3,50']);
-        return \App\Church::where('name', 'LIKE', '%' . $request->term . '%')
-            ->orWhere('city', 'LIKE', '%' . $request->term . '%')->orderBy('statecd')->orderBy('city')->orderBy('name')
-            ->get();
+        $churches = \App\Church::search($request->term)->with('statecode')->get();
+        foreach ($churches as $church) {
+            $church->term = $request->term;
+        }
+        return $churches;
     }
 }

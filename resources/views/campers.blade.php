@@ -160,6 +160,7 @@
                 ajax: {
                     url: '/data/churchlist',
                     dataType: 'json',
+                    quietMillis: 250,
                     processResults: function (data) {
                         return {
                             results: data

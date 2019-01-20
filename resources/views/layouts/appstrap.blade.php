@@ -478,6 +478,10 @@
         }
     }
 
+    function mark(data, term) {
+        return data.replace(new RegExp(term, "i"), "<strong>$&</strong>");
+    }
+
     $('button.nextcamper').click(nextCamper);
 
     $('form#mailinglist button:submit').on('click', function (e) {
@@ -512,10 +516,6 @@
         e.preventDefault();
         window.location = $("#orderby-url").val() + "/" + $("#orderby-years").val() + "/" + $("#orderby-order").val();
     });
-
-    function mark(data, term) {
-        return data.replace(new RegExp(term, "i"), "<strong>$&</strong>");
-    }
 
     function templateRes(data) {
         if (!data.id) return data.text;

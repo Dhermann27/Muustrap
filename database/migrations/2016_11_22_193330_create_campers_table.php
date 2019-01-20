@@ -26,10 +26,10 @@ class CreateCampersTable extends Migration
             $table->date('birthdate')->nullable();
             $table->string('roommate')->nullable();
             $table->string('sponsor')->nullable();
-            $table->tinyInteger('is_handicap')->default('0');
-            $table->integer('foodoptionid')->unsigned()->default('1000'); // No Restriction
+            $table->tinyInteger('is_handicap')->nullable();
+            $table->integer('foodoptionid')->unsigned()->nullable();
             $table->foreign('foodoptionid')->references('id')->on('foodoptions');
-            $table->integer('churchid')->unsigned()->default('2084'); // Church of the Larger Fellowship
+            $table->integer('churchid')->unsigned()->nullable();
             $table->foreign('churchid')->references('id')->on('churches');
             $table->timestamps();
         });

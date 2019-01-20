@@ -309,7 +309,7 @@
                                                                                 registered the
                                                                                 following campers for
                                                                                 MUUSA {{ $year->year }}:</p>
-                                                                            <ul>
+                                                                            <ul style="line-height: 1.5em; color: #555555; font-family: &#39;Helvetica Neue&#39;, Helvetica, Arial, sans-serif; font-size: 15px; text-align: left; unicode-bidi: embed; vertical-align: baseline; margin-top: 0; margin-right: 0; margin-bottom: 1.3em; padding-top: 0; padding-right: 0; padding-bottom: 0;">
                                                                                 @foreach($campers as $camper)
                                                                                     <li>{{ $camper->firstname }} {{ $camper->lastname }}</li>
                                                                                 @endforeach

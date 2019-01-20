@@ -68,11 +68,9 @@ class CamperController extends Controller
             }
         }
 
-        $year = \App\Year::where('is_current', '1')->first()->year;
+//        DB::statement('CALL generate_charges(' . $year->year . ');');
 
-        DB::statement('CALL generate_charges(' . $year . ');');
-
-        Mail::to(Auth::user()->email)->send(new Confirm($year, $campers));
+//        Mail::to(Auth::user()->email)->send(new Confirm($year, $campers));
 
         return 'You have successfully saved your changes and registered. Click <a href="' . url('/payment') . '">here</a> to remit payment.';
     }

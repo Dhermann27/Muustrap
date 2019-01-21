@@ -29,6 +29,7 @@ class CreateYearsattendingTable extends Migration
             $table->timestamps();
         });
         DB::update('ALTER TABLE yearsattending AUTO_INCREMENT = 1000');
+
     }
 
     /**

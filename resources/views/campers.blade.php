@@ -19,7 +19,7 @@
 @section('content')
     <div class="container">
         <form id="camperinfo" class="form-horizontal" role="form" method="POST" action="{{ url('/camper') .
-                 (isset($readonly) && $readonly === false ? '/f/' . $campers->first()->familyid : '')}}">
+                 (isset($readonly) && $readonly === false ? '/f/' . $campers[0]->familyid : '')}}">
             @include('snippet.flash')
 
             <ul class="nav nav-lg nav-tabs flex-column flex-lg-row" role="tablist">

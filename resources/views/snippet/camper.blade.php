@@ -18,7 +18,7 @@
             @if(isset($readonly))
                 <select class="form-control days{{ $errors->has('days.' . $looper) ? ' is-invalid' : '' }}"
                         id="days-{{ $looper }}" name="days[]">
-                    @for($i=7; $i>0; $i--)
+                    @for($i=6; $i>0; $i--)
                         <option value="{{ $i }}"
                                 {{ $i == old('days.' . $looper, $camper->currentdays) ? ' selected' : '' }}>
                             {{ $i }} nights

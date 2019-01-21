@@ -34,6 +34,14 @@ class CreateCampersTable extends Migration
             $table->timestamps();
         });
         DB::update('ALTER TABLE campers AUTO_INCREMENT = 1000');
+
+        DB::unprepared("CREATE FUNCTION getage(birthdate DATE, year YEAR)
+                          RETURNS INT DETERMINISTIC
+                          BEGIN
+                            RETURN DATE_FORMAT(FROM_DAYS(DATEDIFF((SELECT start_date
+                                                                   FROM years y
+                                                                   WHERE year = y.year), birthdate)), '%Y');
+                          END;");
     }
 
     /**
@@ -43,6 +51,7 @@ class CreateCampersTable extends Migration
      */
     public function down()
     {
+        DB::unprepared('DROP FUNCTION IF EXISTS getage;');
         Schema::dropIfExists('campers');
     }
 }

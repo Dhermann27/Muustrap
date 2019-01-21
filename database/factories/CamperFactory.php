@@ -10,7 +10,7 @@ $factory->define(\App\Camper::class, function (Faker $faker) {
         'firstname' => $faker->firstName,
         'lastname' => $faker->lastName,
         'email' => $faker->safeEmail,
-        'phonenbr' => $faker->regexify('\d{3}-\d{3}-\d{4}'),
+        'phonenbr' => $faker->regexify('[1-9]\d{9}'),
         'birthdate' => $faker->dateTimeBetween('-100 years', '-19 years')->format('Y-m-d'),
         'roommate' => $faker->name,
         'sponsor' => $faker->name,

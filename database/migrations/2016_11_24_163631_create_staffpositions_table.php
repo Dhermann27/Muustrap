@@ -20,6 +20,7 @@ class CreateStaffpositionsTable extends Migration
             $table->foreign('compensationlevelid')->references('id')->on('compensationlevels');
             $table->integer('programid')->unsigned();
             $table->foreign('programid')->references('id')->on('programs');
+            $table->integer('pctype')->default(0);
             $table->integer('start_year');
             $table->integer('end_year');
             $table->timestamps();

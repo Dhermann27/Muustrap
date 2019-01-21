@@ -83,12 +83,7 @@ class HouseholdTest extends DuskTestCase
     {
 
         $user = factory(\App\User::class)->create();
-        $role = factory(\App\Role::class)->create(['name' => 'admin']);
-        $permissionr = factory(\App\Permission::class)->create(['name' => 'read']);
-        $permissionw = factory(\App\Permission::class)->create(['name' => 'write']);
-        factory(\App\Permission_Role::class)->create(['permission_id' => $permissionr->id, 'role_id' => $role->id]);
-        factory(\App\Permission_Role::class)->create(['permission_id' => $permissionw->id, 'role_id' => $role->id]);
-        factory(\App\Role_User::class)->create(['user_id' => $user->id, 'role_id' => $role->id]);
+        factory(\App\Role_User::class)->create(['user_id' => $user->id, 'role_id' => \App\Role::where('name', 'admin')->first()->id]);
 
         $family = factory(\App\Family::class)->make(['is_address_current' => rand(0, 1)]);
 
@@ -131,10 +126,7 @@ class HouseholdTest extends DuskTestCase
     public function testCharlieRO()
     {
         $user = factory(\App\User::class)->create();
-        $role = factory(\App\Role::class)->create(['name' => 'council']);
-        $permissionr = \App\Permission::where('name', 'read')->first();
-        factory(\App\Permission_Role::class)->create(['permission_id' => $permissionr->id, 'role_id' => $role->id]);
-        factory(\App\Role_User::class)->create(['user_id' => $user->id, 'role_id' => $role->id]);
+        factory(\App\Role_User::class)->create(['user_id' => $user->id, 'role_id' => \App\Role::where('name', 'council')->first()->id]);
 
         $family = factory(\App\Family::class)->create(['is_address_current' => rand(0, 1)]);
         $this->browse(function (Browser $browser) use ($user, $family) {

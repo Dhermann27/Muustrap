@@ -45,5 +45,16 @@ class ATest extends DuskTestCase
         $year = \App\Year::where('is_current', '1')->first();
         $year->is_current = 0;
         $year->save();
+        $types = factory(\App\Chargetype::class, 4)->create();
+
+        $role = factory(\App\Role::class)->create(['name' => 'admin']);
+        $permissionr = factory(\App\Permission::class)->create(['name' => 'read']);
+        $permissionw = factory(\App\Permission::class)->create(['name' => 'write']);
+        factory(\App\Permission_Role::class)->create(['permission_id' => $permissionr->id, 'role_id' => $role->id]);
+        factory(\App\Permission_Role::class)->create(['permission_id' => $permissionw->id, 'role_id' => $role->id]);
+
+        $role = factory(\App\Role::class)->create(['name' => 'council']);
+        $permissionr = \App\Permission::where('name', 'read')->first();
+        factory(\App\Permission_Role::class)->create(['permission_id' => $permissionr->id, 'role_id' => $role->id]);
     }
 }

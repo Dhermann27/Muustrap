@@ -25,7 +25,7 @@ class CamperForm extends BaseComponent
      */
     public function selector()
     {
-        return 'form#camperinfo div.tab-content div.tab-pane';
+        return 'form#camperinfo div.tab-content div.active';
     }
 
     /**
@@ -53,7 +53,7 @@ class CamperForm extends BaseComponent
         ];
     }
 
-    public function createCamper($browser, $camper, $ya)
+    public function createCamper(Browser $browser, $camper, $ya)
     {
         $browser->select('@days', $ya->days)
             ->select('@pronoun', $camper->pronounid)
@@ -75,7 +75,7 @@ class CamperForm extends BaseComponent
         return substr($nbr, 0, 3) . '-' . substr($nbr, 3, 3) . '-' . substr($nbr, 6);
     }
 
-    public function changeCamper($browser, $from, $to)
+    public function changeCamper(Browser $browser, $from, $to)
     {
         $browser->assertSelected('@days', $from[1]->days)->select('@days', $to[1]->days)
             ->assertSelected('@pronoun', $from[0]->pronounid)->select('@pronoun', $to[0]->pronounid)
@@ -92,7 +92,7 @@ class CamperForm extends BaseComponent
             ->assertSelected('@church', $from[0]->churchid)->click('@churchs2');
     }
 
-    public function viewCamper($browser, $camper, $ya)
+    public function viewCamper(Browser $browser, $camper, $ya)
     {
         $browser->assertSelected('@days', $ya->days)->assertDisabled('@days')
             ->assertSelected('@pronoun', $camper->pronounid)->assertDisabled('@pronoun')

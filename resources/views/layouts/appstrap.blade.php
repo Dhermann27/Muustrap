@@ -62,7 +62,7 @@
     </script>
 </head>
 
-<body class="page page-index navbar-layout-default">
+<body class="page page-index navbar-layout-default" data-plugins-localpath="/assets/plugins/">
 
 <a id="top" href="#content" class="sr-only">Skip to content</a>
 
@@ -458,8 +458,8 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 @endrole
 
-<script src="assets/js/custom-script.js"></script>
-<script src="assets/js/script.min.js"></script>
+<script src="/assets/js/custom-script.js"></script>
+<script src="/assets/js/script.min.js"></script>
 
 
 <script type="text/javascript">

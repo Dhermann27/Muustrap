@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Storage;
 class Year extends Model
 {
     public $timestamps = false;
-    protected $primaryKey = "year";
     protected $fillable = ['start_date', 'start_open', 'is_live', 'is_crunch', 'is_accept_paypal', 'is_workshop_proposal', 'is_artfair'];
 
 

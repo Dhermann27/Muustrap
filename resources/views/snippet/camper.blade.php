@@ -2,7 +2,7 @@
      aria-expanded="{{ $looper == 0 ? 'true' : 'false' }}" id="tab-{{ $camper->id }}">
     <p>&nbsp;</p>
     <input type="hidden" id="id-{{ $looper }}" name="id[]" value="{{ $camper->id }}"/>
-    <div class="form-group row{{ $errors->has('days.' . $looper) ? ' has-danger' : '' }}">
+    <div class="form-group shadow p-3 mb-5 bg-white rounded row{{ $errors->has('days.' . $looper) ? ' has-danger' : '' }}">
         <label for="days-{{ $looper }}" class="col-md-4 control-label">
             @if($readonly === false)
                 <button id="quickme" class="float-right" data-toggle="tooltip" title="@lang('messages.quickcopy')">
@@ -147,8 +147,8 @@
         <label for="birthdate-{{ $looper }}" class="col-md-4 control-label">Birthdate
             (yyyy-mm-dd)</label>
         <div class="col-md-6">
-            <div class="input-group date" data-provide="datepicker"
-                 data-date-format="yyyy-mm-dd" data-date-start-view="decades" data-date-autoclose="true">
+            <div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd"
+                 data-date-start-view="decades" data-date-autoclose="true">
                 <input id="birthdate-{{ $looper }}" type="text" class="form-control" name="birthdate[]"
                        value="{{ old('birthdate.' . $looper, $camper->birthdate) }}">
                 <div class="input-group-append">

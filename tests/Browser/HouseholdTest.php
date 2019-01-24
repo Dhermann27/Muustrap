@@ -14,6 +14,7 @@ class HouseholdTest extends DuskTestCase
 
     /**
      * @group Abraham
+     * @throws \Throwable
      */
     public function testAbraham()
     {
@@ -52,6 +53,7 @@ class HouseholdTest extends DuskTestCase
 
     /**
      * @group Beto
+     * @throws \Throwable
      */
     public function testBeto()
     {
@@ -78,6 +80,7 @@ class HouseholdTest extends DuskTestCase
 
     /**
      * @group Charlie
+     * @throws \Throwable
      */
     public function testCharlie()
     {
@@ -122,6 +125,7 @@ class HouseholdTest extends DuskTestCase
 
     /**
      * @group Charlie
+     * @throws \Throwable
      */
     public function testCharlieRO()
     {

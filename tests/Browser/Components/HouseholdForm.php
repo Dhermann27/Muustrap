@@ -3,6 +3,7 @@
 namespace Tests\Browser\Components;
 
 use Laravel\Dusk\Browser;
+use Facebook\WebDriver\Exception\TimeOutException;
 use Laravel\Dusk\Component as BaseComponent;
 
 class HouseholdForm extends BaseComponent
@@ -50,7 +51,10 @@ class HouseholdForm extends BaseComponent
         ];
     }
 
-    public function createHousehold($browser, $hh)
+    /**
+     * @throws TimeOutException
+     */
+    public function createHousehold(Browser $browser, $hh)
     {
         $browser->type('@name', $hh->name)
             ->type('@adr1', $hh->address1)
@@ -64,7 +68,11 @@ class HouseholdForm extends BaseComponent
             ->click('@submit')->waitFor('div.alert')->assertVisible('div.alert-success');
     }
 
-    public function changeHousehold($browser, $from, $to)
+
+    /**
+     * @throws TimeOutException
+     */
+    public function changeHousehold(Browser $browser, $from, $to)
     {
         $browser->assertInputValue('@name', $from->name)->type('@name', $to->name)
             ->assertInputValue('@adr1', $from->address1)->type('@adr1', $to->address1)
@@ -78,7 +86,7 @@ class HouseholdForm extends BaseComponent
             ->click('@submit')->waitFor('div.alert')->assertVisible('div.alert-success');
     }
 
-    public function viewHousehold($browser, $hh)
+    public function viewHousehold(Browser $browser, $hh)
     {
         $browser->assertInputValue('@name', $hh->name)->assertDisabled('@name')
             ->assertInputValue('@adr1', $hh->address1)->assertDisabled('@adr1')

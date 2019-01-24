@@ -3,6 +3,7 @@
 use Faker\Generator as Faker;
 
 $factory->define(\App\Camper::class, function (Faker $faker) {
+    $year = date("Y") - \App\Year::where('is_current', '1')->first()->year;
     return [
         'pronounid' => function () {
             return factory(\App\Pronoun::class)->create()->id;
@@ -11,7 +12,7 @@ $factory->define(\App\Camper::class, function (Faker $faker) {
         'lastname' => $faker->lastName,
         'email' => $faker->safeEmail,
         'phonenbr' => $faker->regexify('[1-9]\d{9}'),
-        'birthdate' => $faker->dateTimeBetween('-100 years', '-19 years')->format('Y-m-d'),
+        'birthdate' => $faker->dateTimeBetween('-' . (100+$year) . ' years', '-' . (19+$year) . ' years')->format('Y-m-d'),
         'roommate' => $faker->name,
         'sponsor' => $faker->name,
         'churchid' => function () {

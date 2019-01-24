@@ -11,6 +11,9 @@ use Tests\DuskTestCase;
 class WorkshopTest extends DuskTestCase
 {
 
+    /**
+     * @throws \Throwable
+     */
     public function testDisplay()
     {
         // SetUp
@@ -24,6 +27,9 @@ class WorkshopTest extends DuskTestCase
         });
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function testExcursions()
     {
         $year = \App\Year::where('is_current', '1')->first();

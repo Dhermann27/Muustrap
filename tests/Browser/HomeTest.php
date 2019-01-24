@@ -11,6 +11,9 @@ use Tests\DuskTestCase;
 class HomeTest extends DuskTestCase
 {
 
+    /**
+     * @throws \Throwable
+     */
     public function testPrograms()
     {
         // SetUp
@@ -24,6 +27,9 @@ class HomeTest extends DuskTestCase
         });
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function testHousing()
     {
         $building = factory(\App\Building::class)->create(['id' => 1000]);
@@ -34,6 +40,9 @@ class HomeTest extends DuskTestCase
         });
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function testRegistration()
     {
 
@@ -44,6 +53,9 @@ class HomeTest extends DuskTestCase
     }
 
 
+    /**
+     * @throws \Throwable
+     */
     public function testScholarship()
     {
         $this->browse(function (Browser $browser) {
@@ -52,6 +64,9 @@ class HomeTest extends DuskTestCase
         });
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function testThemeSpeakers()
     {
         $this->browse(function (Browser $browser) {
@@ -60,6 +75,9 @@ class HomeTest extends DuskTestCase
         });
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function testCampCost()
     {
         $program = factory(\App\Program::class)->create();

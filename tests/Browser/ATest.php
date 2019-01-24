@@ -13,6 +13,29 @@ use App\Year;
  * @group Home
  * @group Household
  * @group Workshop
+ * @group Abraham
+ * @group Beto
+ * @group Charlie
+ * @group Deb
+ * @group Evra
+ * @group Franklin
+ * @group Geoff
+ * @group Henrietta
+ * @group Juliet
+ * @group Knopf
+ * @group Lucy
+ * @group Matthew
+ * @group Nancy
+ * @group Oscar
+ * @group Sierra
+ * @group Trent
+ * @group Uncle
+ * @group Victor
+ * @group Willson
+ * @group Xavier
+ * @group Yavin
+ * @group Zeke
+ * @group Aaron
  */
 class ATest extends DuskTestCase
 {
@@ -29,6 +52,9 @@ class ATest extends DuskTestCase
         $kernel->call('migrate:refresh');
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function testWelcomepage()
     {
         $year = factory(Year::class)->create();

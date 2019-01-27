@@ -15,6 +15,7 @@ class Church extends Model
         'columns' => [
             'churches.name' => 10,
             'churches.city' => 10,
+            'churches.statecd' => 2,
             'statecodes.name' => 5
         ],
         'joins' => [

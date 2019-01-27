@@ -123,7 +123,7 @@ class CamperController extends Controller
                 'email.' . $i => 'unique:campers,email,' . $request->input('id')[$i],
             ], $messages);
 
-            $this->upsertCamper($request, $i, $id, $this->year->year);
+            $this->upsertCamper($request, $i, $id);
         }
 
         DB::statement('CALL generate_charges(' . $this->year->year . ');');

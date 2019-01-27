@@ -86,14 +86,14 @@
                 e.preventDefault();
                 var form = $("#camperinfo");
                 $(this).val("Saving").removeClass("btn-primary btn-danger").prop("disabled", true);
-                if (!confirm("You are registering " + form.find('select.days option[value!="0"]:selected').length + " campers for {{ $year->year }}. Is this correct?")) {
-                    $(this).val("Resubmit").addClass("btn-danger").prop("disabled", false);
-                    return false;
-                }
                 $(".has-danger").removeClass("has-danger");
                 $(".is-invalid").removeClass("is-invalid");
                 $(".invalid-feedback").remove();
                 $("div.alert").remove();
+                if (!confirm("You are registering " + form.find('select.days option[value!="0"]:selected').length + " campers for {{ $year->year }}. Is this correct?")) {
+                    $(this).val("Resubmit").addClass("btn-danger").prop("disabled", false);
+                    return false;
+                }
                 $.ajax({
                     url: form.attr("action"),
                     type: 'post',

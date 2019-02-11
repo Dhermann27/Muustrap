@@ -25,12 +25,13 @@
         </div>
     </div>
 
-    <div class="py-4 pt-md-6 py-md-5 py-md-5 bg-op-5 bg-white">
+    <div class="pt-4 pt-md-6 bg-op-5 bg-white">
         <div class="container w-100 w-lg-70">
-            <div class="row my-2">
+            <div class="row mt-2">
                 <div class="col-lg-6 d-sm-flex">
                     <a href="{{ url('/brochure') }}">
-                        <img class="card-img-top img-fluid" src="/images/brochure.png" alt="Web Brochure cover">
+                        <img id="brochureimg" class="card-img-top img-fluid" src="/images/brochure.png"
+                             alt="Web Brochure cover">
                     </a>
                 </div>
                 <div class="col-lg-6 d-sm-flex align-content-center d-flex align-items-center">
@@ -41,10 +42,8 @@
                         <p class="line-height-30 py-md-2 op-7">
                             @if($year->is_live)
                                 The easiest way to learn all about MUUSA is to read the brochure, put out by our
-                                Planning
-                                Council. It has it all: workshop descriptions, housing options, frequently asked
-                                questions,
-                                and more.
+                                Planning Council. It has it all: workshop descriptions, housing options, frequently
+                                asked questions, and more.
                             @else
                                 While you can register right now to reserve your spot, our Planning Council is working
                                 diligently to prepare this year's brochure, which should be ready on February 1. You can
@@ -80,10 +79,9 @@
                 <h4 class="card-title">
                     Programs
                 </h4>
-                <p class="card-text">Couples and singles, with and without children, can enjoy a variety
-                    of workshop and recreational activities while children are in programs with others near
-                    their
-                    own age, building friendships that will last well beyond the week of camp.</p>
+                <p class="card-text">Couples and singles, with and without children, can enjoy a variety of workshop and
+                    recreational activities while children are in programs with others near their own age, building
+                    friendships that will last well beyond the week of camp.</p>
             </div>
             <a href="{{ url('/programs') }}" class="btn btn-primary">Program Descriptions</a>
         </div>
@@ -93,10 +91,9 @@
                 <h4 class="card-title">
                     Housing
                 </h4>
-                <p class="card-text">YMCA of the Ozarks, Trout Lodge, is located on 5,200 acres of pine
-                    and oak forest on a private 360-acre lake 75 miles southwest of St. Louis, Missouri,
-                    outside of
-                    Potosi. Accommodations are available for all budgets.</p>
+                <p class="card-text">YMCA of the Ozarks, Trout Lodge, is located on 5,200 acres of pine and oak forest
+                    on a private 360-acre lake 75 miles southwest of St. Louis, Missouri, outside of Potosi.
+                    Accommodations are available for all budgets.</p>
             </div>
             <a href="{{ url('/housing') }}" class="btn btn-primary">Housing Options</a>
         </div>
@@ -107,10 +104,9 @@
                 <h4 class="card-title">
                     Workshops
                 </h4>
-                <p class="card-text">Workshops offer opportunities for learning, personal growth, and
-                    fun. They are an excellent way to get to know other campers in a small group setting and to
-                    benefit from the wonderful talents, skills, and insights the workshop leaders have to
-                    offer.</p>
+                <p class="card-text">Workshops offer opportunities for learning, personal growth, and fun. They are an
+                    excellent way to get to know other campers in a small group setting and to benefit from the
+                    wonderful talents, skills, and insights the workshop leaders have to offer.</p>
             </div>
             <a href="{{ url('/workshops') }}" class="btn btn-primary">
                 @if($year->is_live)
@@ -130,11 +126,9 @@
                 <h4 class="card-title">
                     Morning Celebrations
                 </h4>
-                <p class="card-text">Each morning, the Rev. Karen Mooney &amp; Rev. Pam Rumancik will
-                    lead a multi-generational service on the theme topic. Services include children's
-                    stories and
-                    choral music from the Awesome Choir, led by Pam Blevins Hinkle and accompanied by Bonnie
-                    Ettinger.</p>
+                <p class="card-text">Each morning, the Rev. Karen Mooney &amp; Rev. Pam Rumancik will lead a
+                    multi-generational service on the theme topic. Services include children's stories and choral music
+                    from the Awesome Choir, led by Pam Blevins Hinkle and accompanied by Bonnie Ettinger.</p>
             </div>
             <a href="{{ url('/themespeaker') }}" class="btn btn-primary">Theme Speaker Biographies</a>
         </div>
@@ -145,10 +139,9 @@
                 <h4 class="card-title">
                     Scholarship Opportunities
                 </h4>
-                <p class="card-text">If finances are tight and MUUSA doesn't quite fit into your budget
-                    this year, we hope you will apply for a scholarship. These funds strengthen our
-                    community and we
-                    want to be sure you know they are available.</p>
+                <p class="card-text">If finances are tight and MUUSA doesn't quite fit into your budget this year, we
+                    hope you will apply for a scholarship. These funds strengthen our community and we want to be sure
+                    you know they are available.</p>
             </div>
             <a href="{{ url('/scholarship') }}" class="btn btn-primary">Application Process</a>
         </div>
@@ -159,10 +152,9 @@
                 <h4 class="card-title">
                     Camp Cost Calculator
                 </h4>
-                <p class="card-text">Use this helpful tool to help estimate how much MUUSA will cost this
-                    year. Please consider sharing a room with as many others as possible to reduce your cost
-                    and
-                    make optimum use of housing. Full details can be found in the brochure.</p>
+                <p class="card-text">Use this helpful tool to help estimate how much MUUSA will cost this year. Please
+                    consider sharing a room with as many others as possible to reduce your cost and make optimum use of
+                    housing. Full details can be found in the brochure.</p>
             </div>
             <a href="{{ url('/cost') }}" class="btn btn-primary">Full-Week Rates</a>
         </div>
@@ -187,55 +179,41 @@
          data-owl-carousel-settings='{"responsive":{"0":{"items":1}, "600":{"items":1, "stagePadding":150, "margin":150}}, "autoplay": true, "center":true, "dots":true, "autoHeight":true}'>
 
         <blockquote class="blockquote-bubble">
-            <p class="blockquote-bubble-content">"When you hear about the kinds of experiences that change
-                kids' lives, this is
-                what they are talking about."</p>
+            <p class="blockquote-bubble-content">"When you hear about the kinds of experiences that change kids' lives,
+                this is what they are talking about."</p>
             <small>
                 Karen S. <span class="text-primary font-weight-bold">/</span> Wheaton IL
             </small>
         </blockquote>
         <blockquote class="blockquote-bubble">
-            <p class="blockquote-bubble-content">"When you hear about the kinds of experiences that change
-                kids' lives, this is
-                what they are talking about."</p>
-            <small>
-                Karen S. <span class="text-primary font-weight-bold">/</span> Wheaton IL
-            </small>
-        </blockquote>
-        <blockquote class="blockquote-bubble">
-            <p class="blockquote-bubble-content">"MUUSA is where I became a UU and where I return to renew
-                my vows."</p>
+            <p class="blockquote-bubble-content">"MUUSA is where I became a UU and where I return to renew my vows."</p>
             <small>
                 John S. <span class="text-primary font-weight-bold">/</span> Cincinnati OH
             </small>
         </blockquote>
         <blockquote class="blockquote-bubble">
-            <p class="blockquote-bubble-content">"I love that I started the week not knowing anyone except
-                my children, but
-                ended the week with lifelong friends."</p>
+            <p class="blockquote-bubble-content">"I love that I started the week not knowing anyone except my children,
+                but ended the week with lifelong friends."</p>
             <small>
                 Geeta P. <span class="text-primary font-weight-bold">/</span> Colorado Springs CO
             </small>
         </blockquote>
         <blockquote class="blockquote-bubble">
-            <p class="blockquote-bubble-content">"MUUSA is a true community for building meaningful
-                friendships-- as well as a
-                low stress family vacation where you are not always reaching for your wallet."</p>
+            <p class="blockquote-bubble-content">"MUUSA is a true community for building meaningful friendships-- as
+                well as a low stress family vacation where you are not always reaching for your wallet."</p>
             <small>
                 Roger E. <span class="text-primary font-weight-bold">/</span> Atlanta GA
             </small>
         </blockquote>
         <blockquote class="blockquote-bubble">
-            <p class="blockquote-bubble-content">"MUUSA gives me a space to deepen family bonds and recharge
-                connections with
-                my inner humanity."</p>
+            <p class="blockquote-bubble-content">"MUUSA gives me a space to deepen family bonds and recharge connections
+                with my inner humanity."</p>
             <small>
                 Gregory R. <span class="text-primary font-weight-bold">/</span> Chicago IL
             </small>
         </blockquote>
         <blockquote class="blockquote-bubble">
-            <p class="blockquote-bubble-content">"Growing up at MUUSA helped teach me how to love and be
-                loved."</p>
+            <p class="blockquote-bubble-content">"Growing up at MUUSA helped teach me how to love and be loved."</p>
             <small>
                 Ellie M. <span class="text-primary font-weight-bold">/</span> Kalamazoo MI
             </small>

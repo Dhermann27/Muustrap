@@ -133,8 +133,8 @@ Route::get('/themuse', function () {
     return redirect('/muses/' . substr($muse, strpos($muse, '/20') + 1));
 });
 
-Route::get('/registration', 'HomeController@registration');
-Route::get('/information', 'HomeController@information');
+Route::get('/registration', 'HouseholdController@index'); //HomeController@registration');
+Route::get('/information', 'HouseholdController@index'); //HomeController@information');
 Route::get('/cost', 'HomeController@campcost');
 Route::get('/themespeaker', 'HomeController@themespeaker');
 Route::get('/scholarship', 'HomeController@scholarship');

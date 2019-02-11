@@ -119,58 +119,13 @@
                     <div class="header-slogan d-none d-lg-block">MUUSA</div>
                 </div>
                 <div class="header-block order-12">
-
                     <a href="#top" class="btn btn-link btn-icon header-btn float-right d-lg-none"
-                       data-toggle="off-canvas" data-target=".navbar-main"
-                       data-settings='{"cloneTarget":true, "targetClassExtras": "navbar-offcanvas"}'> <i
-                                class="fa fa-bars"></i> </a>
-                    <a href="#" class="btn btn-icon btn-link header-btn float-right order-last" data-toggle="off-canvas"
-                       data-target="#offcanvas-sidebar" data-settings='{"cloneTarget":false}'> <i
-                                class="ion-android-more-vertical"></i> </a>
-                    @if(Auth::guest())
-                        <a href="{{ url('/registration') }}"
-                           class="btn btn-primary btn-sm text-uppercase font-weight-bold px-lg-3 py-lg-2 ml-lg-3">Register
-                            <span class="d-none d-lg-inline-block">Now</span></a>
-                    @else
-                        <div class="dropdown">
-                            <a href="{{ url('/registration') }}" id="dropdownMenuLink" data-hover="dropdown"
-                               class="btn btn-primary btn-sm text-uppercase font-weight-bold px-lg-3 py-lg-2 ml-lg-3 dropdown-toggle"
-                               aria-haspopup="true" aria-expanded="false">
-                                Registration</a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a href="{{ url('/household') }}" class="dropdown-item">
-                                    <i class="far fa-home fa-fw"></i> Household</a>
-                                <a href="{{ url('/camper') }}" class="dropdown-item">
-                                    <i class="far fa-users fa-fw"></i> Campers</a>
-                                <a href="{{ url('/payment') }}" class="dropdown-item">
-                                    <i class="far fa-usd-square fa-fw"></i> Payment</a>
-                                @if(!$year->is_live)
-                                    <div class="dropdown-divider"></div>
-                                    <h6 class="dropdown-header">
-                                        Opens February 1
-                                    </h6>
-                                    <a href="#" class="dropdown-item disabled">Workshop List</a>
-                                    <a href="#" class="dropdown-item disabled">Room Selection</a>
-                                    <a href="#" class="dropdown-item disabled">Nametags</a>
-                                    <a href="#" class="dropdown-item disabled">Confirmation</a>
-                                @else
-                                    <a href="{{ url('/workshopchoice') }}" class="dropdown-item">
-                                        <i class="far fa-rocket fa-fw"></i>Workshops</a>
-                                    <a href="{{ url('/roomselection') }}" class="dropdown-item">
-                                        <i class="far fa-bed fa-fw"></i> Room Selection</a>
-                                    <a href="{{ url('/nametag') }}" class="dropdown-item">
-                                        <i class="far fa-id-card fa-fw"></i> Nametags</a>
-                                    <a href="{{ url('/confirm') }}" class="dropdown-item">
-                                        <i class="far fa-envelope fa-fw"></i> Confirmation</a>
-                                @endif
-                            </div>
-                        </div>
-                    @endif
+                       data-toggle="collapse" data-target=".navbar-main"> <i class="fa fa-bars"></i> </a>
                 </div>
 
                 <div class="navbar navbar-expand-md navbar-static-top">
                     <div class="navbar-main collapse">
-                        <ul class="nav navbar-nav navbar-nav-stretch float-lg-right dropdown-effect-fade">
+                        <ul class="nav navbar-nav dropdown-effect-fade">
 
                             @role(['admin', 'council'])
                             <li class="nav-item dropdown">
@@ -186,16 +141,16 @@
                                         <div class="dropdown-menu" role="menu" aria-labelledby="func-drop">
                                             <a href="{{ url('/household/f/0') }}" class="dropdown-item">Create New
                                                 Family</a>
-                                            <a href="{{ url('/admin/distlist') }}" class="dropdown-item">Distribution
-                                                Lists</a>
-                                            <a href="{{ url('/confirm/all') }}" class="dropdown-item">Invoices (all)</a>
-                                            <a href="{{ url('/admin/master') }}" class="dropdown-item">Master Control
-                                                Program</a>
-                                            <a href="{{ url('/confirm/letters') }}" class="dropdown-item">Medical/Program
-                                                Letters (all)</a>
-                                            <a href="{{ url('/admin/positions') }}" class="dropdown-item">Staff
-                                                Positions</a>
-                                            <a href="{{ url('/admin/roles') }}" class="dropdown-item">User Roles</a>
+                                            {{--<a href="{{ url('/admin/distlist') }}" class="dropdown-item">Distribution--}}
+                                                {{--Lists</a>--}}
+                                            {{--<a href="{{ url('/confirm/all') }}" class="dropdown-item">Invoices (all)</a>--}}
+                                            {{--<a href="{{ url('/admin/master') }}" class="dropdown-item">Master Control--}}
+                                                {{--Program</a>--}}
+                                            {{--<a href="{{ url('/confirm/letters') }}" class="dropdown-item">Medical/Program--}}
+                                                {{--Letters (all)</a>--}}
+                                            {{--<a href="{{ url('/admin/positions') }}" class="dropdown-item">Staff--}}
+                                                {{--Positions</a>--}}
+                                            {{--<a href="{{ url('/admin/roles') }}" class="dropdown-item">User Roles</a>--}}
                                         </div>
                                     </div>
                                     @endrole
@@ -205,33 +160,33 @@
                                            data-toggle="dropdown" data-hover="dropdown" data-close-others="false">
                                             Reports</a>
                                         <div class="dropdown-menu" role="menu" aria-labelledby="func-drop">
-                                            <a href="{{ url('/reports/deposits') }}" class="dropdown-item">Bank
-                                                Deposits</a>
-                                            <a href="{{ url('/reports/firsttime') }}" class="dropdown-item">First-time
-                                                Campers</a>
-                                            <a href="{{ url('/reports/guarantee') }}" class="dropdown-item">Guarantee
-                                                Status</a>
-                                            <a href="{{ url('/reports/payments') }}" class="dropdown-item">Ledger</a>
-                                            <a href="{{ url('/reports/outstanding') }}" class="dropdown-item">Outstanding
-                                                Balances</a>
-                                            <a href="{{ url('/reports/programs') }}" class="dropdown-item">Program
-                                                Participants</a>
-                                            <a href="{{ url('/reports/rates') }}" class="dropdown-item">Rates</a>
-                                            <a href="{{ url('/reports/campers') }}" class="dropdown-item">Registered
-                                                Campers</a>
-                                            <a href="{{ url('/reports/chart') }}" class="dropdown-item">Registration
-                                                Chart</a>
-                                            <a href="{{ url('/reports/roommates') }}"
-                                               class="dropdown-item">Roommates</a>
-                                            <a href="{{ url('/reports/rooms') }}" class="dropdown-item">Rooms</a>
-                                            <a href="{{ url('/reports/states') }}" class="dropdown-item">States &amp;
-                                                Churches</a>
-                                            <a href="{{ url('/reports/volunteers') }}"
-                                               class="dropdown-item">Volunteers</a>
-                                            <a href="{{ url('/reports/workshops') }}" class="dropdown-item">Workshop
-                                                Attendees</a>
-                                            <a href="{{ url('/reports/conflicts') }}" class="dropdown-item">Workshop
-                                                Conflicts</a>
+                                            {{--<a href="{{ url('/reports/deposits') }}" class="dropdown-item">Bank--}}
+                                                {{--Deposits</a>--}}
+                                            {{--<a href="{{ url('/reports/firsttime') }}" class="dropdown-item">First-time--}}
+                                                {{--Campers</a>--}}
+                                            {{--<a href="{{ url('/reports/guarantee') }}" class="dropdown-item">Guarantee--}}
+                                                {{--Status</a>--}}
+                                            {{--<a href="{{ url('/reports/payments') }}" class="dropdown-item">Ledger</a>--}}
+                                            {{--<a href="{{ url('/reports/outstanding') }}" class="dropdown-item">Outstanding--}}
+                                                {{--Balances</a>--}}
+                                            {{--<a href="{{ url('/reports/programs') }}" class="dropdown-item">Program--}}
+                                                {{--Participants</a>--}}
+                                            {{--<a href="{{ url('/reports/rates') }}" class="dropdown-item">Rates</a>--}}
+                                            {{--<a href="{{ url('/reports/campers') }}" class="dropdown-item">Registered--}}
+                                                {{--Campers</a>--}}
+                                            {{--<a href="{{ url('/reports/chart') }}" class="dropdown-item">Registration--}}
+                                                {{--Chart</a>--}}
+                                            {{--<a href="{{ url('/reports/roommates') }}"--}}
+                                               {{--class="dropdown-item">Roommates</a>--}}
+                                            {{--<a href="{{ url('/reports/rooms') }}" class="dropdown-item">Rooms</a>--}}
+                                            {{--<a href="{{ url('/reports/states') }}" class="dropdown-item">States &amp;--}}
+                                                {{--Churches</a>--}}
+                                            {{--<a href="{{ url('/reports/volunteers') }}"--}}
+                                               {{--class="dropdown-item">Volunteers</a>--}}
+                                            {{--<a href="{{ url('/reports/workshops') }}" class="dropdown-item">Workshop--}}
+                                                {{--Attendees</a>--}}
+                                            {{--<a href="{{ url('/reports/conflicts') }}" class="dropdown-item">Workshop--}}
+                                                {{--Conflicts</a>--}}
                                         </div>
                                     </div>
 
@@ -240,20 +195,20 @@
                                            data-toggle="dropdown" data-hover="dropdown" data-close-others="false">
                                             Tools</a>
                                         <div class="dropdown-menu" role="menu" aria-labelledby="func-drop">
-                                            <a href="{{ url('/coffeehouse') }}" class="dropdown-item">Coffeehouse
-                                                Schedule</a>
-                                            <a href="{{ url('/tools/cognoscenti') }}" class="dropdown-item">Cognoscenti
-                                                (Planning Council)</a>
-                                            <a href="{{ url('/tools/nametags') }}" class="dropdown-item">Nametag
-                                                Printer</a>
-                                            <a href="{{ url('/tools/nametags/all') }}" class="dropdown-item">Nametags
-                                                (all)</a>
-                                            <a href="{{ url('/tools/programs') }}" class="dropdown-item">Programs</a>
-                                            <a href="{{ url('/roomselection/map') }}" class="dropdown-item">Room
-                                                Selection Map</a>
-                                            <a href="{{ url('/tools/staffpositions') }}" class="dropdown-item">Staff
-                                                Assignments</a>
-                                            <a href="{{ url('/tools/workshops') }}" class="dropdown-item">Workshops</a>
+                                            {{--<a href="{{ url('/coffeehouse') }}" class="dropdown-item">Coffeehouse--}}
+                                                {{--Schedule</a>--}}
+                                            {{--<a href="{{ url('/tools/cognoscenti') }}" class="dropdown-item">Cognoscenti--}}
+                                                {{--(Planning Council)</a>--}}
+                                            {{--<a href="{{ url('/tools/nametags') }}" class="dropdown-item">Nametag--}}
+                                                {{--Printer</a>--}}
+                                            {{--<a href="{{ url('/tools/nametags/all') }}" class="dropdown-item">Nametags--}}
+                                                {{--(all)</a>--}}
+                                            {{--<a href="{{ url('/tools/programs') }}" class="dropdown-item">Programs</a>--}}
+                                            {{--<a href="{{ url('/roomselection/map') }}" class="dropdown-item">Room--}}
+                                                {{--Selection Map</a>--}}
+                                            {{--<a href="{{ url('/tools/staffpositions') }}" class="dropdown-item">Staff--}}
+                                                {{--Assignments</a>--}}
+                                            {{--<a href="{{ url('/tools/workshops') }}" class="dropdown-item">Workshops</a>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -298,14 +253,14 @@
                                             <a href="{{ url('/themuse') }}" class="dropdown-item">
                                                 <i class="fal fa-newspaper fa-fw"></i> {{ $year->next_muse }}</a>
                                         @endif
-                                        <a href="{{ url('/directory') }}" class="dropdown-item">
-                                            <i class="far fa-address-book fa-fw"></i> Online Directory</a>
+                                        {{--<a href="{{ url('/directory') }}" class="dropdown-item">--}}
+                                            {{--<i class="far fa-address-book fa-fw"></i> Online Directory</a>--}}
                                         @if($year->is_artfair)
                                             <a href="{{ url('/artfair') }}" class="dropdown-item">
                                                 <i class="far fa-shopping-bag fa-fw"></i> Art Fair Submission</a>
                                         @endif
-                                        <a href="{{ url('/volunteer') }}" class="dropdown-item">
-                                            <i class="far fa-handshake fa-fw"></i> Volunteer Opportunities</a>
+                                        {{--<a href="{{ url('/volunteer') }}" class="dropdown-item">--}}
+                                            {{--<i class="far fa-handshake fa-fw"></i> Volunteer Opportunities</a>--}}
                                         @if($year->is_workshop_proposal)
                                             <a href="{{ url('/proposal') }}" class="dropdown-item">
                                                 <i class="fal fa-chalkboard-teacher fa-fw"></i> Workshop Proposal
@@ -319,7 +274,48 @@
                         </ul>
                     </div>
                     <!--/.navbar-collapse -->
+
                 </div>
+
+                @if(Auth::guest())
+                    <a href="{{ url('/registration') }}"
+                       class="btn btn-primary btn-sm text-uppercase font-weight-bold">Register
+                        <span class="d-none d-lg-inline-block">Now</span></a>
+                @else
+                    <div class="dropdown">
+                        <a href="{{ url('/registration') }}" id="dropdownMenuLink" data-hover="dropdown"
+                           class="btn btn-primary btn-sm text-uppercase font-weight-bold dropdown-toggle"
+                           aria-haspopup="true" aria-expanded="false">
+                            Registration</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a href="{{ url('/household') }}" class="dropdown-item">
+                                <i class="far fa-home fa-fw"></i> Household</a>
+                            <a href="{{ url('/camper') }}" class="dropdown-item">
+                                <i class="far fa-users fa-fw"></i> Campers</a>
+                            <a href="{{ url('/payment') }}" class="dropdown-item">
+                                <i class="far fa-usd-square fa-fw"></i> Payment</a>
+                            @if(!$year->is_live)
+                                <div class="dropdown-divider"></div>
+                                <h6 class="dropdown-header">
+                                    Opens {{ $year->start_date }}
+                                </h6>
+                                <a href="#" class="dropdown-item disabled">Workshop List</a>
+                                <a href="#" class="dropdown-item disabled">Room Selection</a>
+                                <a href="#" class="dropdown-item disabled">Nametags</a>
+                                <a href="#" class="dropdown-item disabled">Confirmation</a>
+                            @else
+                                <a href="{{ url('/workshopchoice') }}" class="dropdown-item">
+                                    <i class="far fa-rocket fa-fw"></i>Workshops</a>
+                                <a href="{{ url('/roomselection') }}" class="dropdown-item">
+                                    <i class="far fa-bed fa-fw"></i> Room Selection</a>
+                                <a href="{{ url('/nametag') }}" class="dropdown-item">
+                                    <i class="far fa-id-card fa-fw"></i> Nametags</a>
+                                <a href="{{ url('/confirm') }}" class="dropdown-item">
+                                    <i class="far fa-envelope fa-fw"></i> Confirmation</a>
+                            @endif
+                        </div>
+                    </div>
+                @endif
             </div>
 
             @role(['admin', 'council'])
@@ -395,30 +391,27 @@
                     <li><strong>February 1</strong>: Workshop registration and scholarship applications
                         open. Housing selection and changes open to all campers who have paid their deposit.
                     </li>
-                    <li><strong>April 15</strong>: Scholarship applications due.</li>
-                    <li><strong>May 15</strong>: Scholarships granted and applicants notified of awards.
-                    </li>
-                    <li><strong>May 31</strong>: Deadline for cancellations. Deposits will not be refunded for
-                        cancellations after May 31.
-                    </li>
+                    <li><strong>April 15</strong>: Deadline to cancel without forfeiting deposit.</li>
+                    <li><strong>May 15</strong>: Scholarships granted and applicants notified of awards.</li>
+                    <li><strong>May 31</strong>: Deadline to cancel with forfeiting 50% of camper fees.</li>
                 </ul>
             </div>
 
             <div class="col-md-4">
-                <h4 class="text-uppercase text-white">
-                    Mailing List</h4>
-                <p>Interested in receiving our web brochure when it is published in February?</p>
-                <form id="mailinglist" role="form" method="POST"
-                      action="{{ url('/mailinglist') }}">
-                    <div class="input-group">
-                        <label class="sr-only" for="email-field">Email</label>
-                        <input type="text" class="form-control" id="email-field"
-                               placeholder="Enter your email address">
-                        <span class="input-group-append">
-                  <button class="btn btn-primary" type="button">Signup</button>
-                </span>
-                    </div>
-                </form>
+                {{--<h4 class="text-uppercase text-white">--}}
+                    {{--Mailing List</h4>--}}
+                {{--<p>Interested in receiving our web brochure when it is published in February?</p>--}}
+                {{--<form id="mailinglist" role="form" method="POST"--}}
+                      {{--action="{{ url('/mailinglist') }}">--}}
+                    {{--<div class="input-group">--}}
+                        {{--<label class="sr-only" for="email-field">Email</label>--}}
+                        {{--<input type="text" class="form-control" id="email-field"--}}
+                               {{--placeholder="Enter your email address">--}}
+                        {{--<span class="input-group-append">--}}
+                  {{--<button class="btn btn-primary" type="button">Signup</button>--}}
+                {{--</span>--}}
+                    {{--</div>--}}
+                {{--</form>--}}
             </div>
         </div>
 
@@ -445,6 +438,8 @@
         </div>
     </div>
 </footer>
+
+<div class="hidden-elements jpanel-menu-exclude"></div>
 
 <script src="//code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>

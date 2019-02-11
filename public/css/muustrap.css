@@ -114,3 +114,17 @@ tr.family {
 div.tooltip, div.tooltip-inner {
     min-width: 400px;
 }
+
+img#brochureimg {
+    border-radius: 25px 25px 0 0;
+    border-width: 10px 6px 0 4px;
+    border-color: black;
+    border-style: solid;
+    padding: 10px 10px 0 10px;
+}
+
+/*ul#bigsteps .nav-link {*/
+    /*padding: 1rem;*/
+/*}*/
+
+/*ul#bigsteps li.disabled*/

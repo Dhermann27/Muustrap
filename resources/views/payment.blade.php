@@ -134,17 +134,20 @@
 
             paypal.Button.render({
                 env: '{{ $env }}',
-                client: { {{ $env }}:
-            '{{ $token }}'
-            },
+                client: {
+                    {{ $env }}: '{{ $token }}'
+                },
 
-            style: {
-                size: 'large',
-                    label
-            :
-                'pay'
-            }
-            ,
+                locale: 'en_US',
+                style: {
+                    size: 'responsive',
+                    color: 'gold',
+                    shape: 'pill',
+                    label: 'pay',
+                    tagline: 'true',
+                    fundingicons: 'true',
+                    layout: 'horizontal'
+                },
 
             payment: function () {
                 var amt = parseFloat($("#amount").val());
@@ -159,28 +162,21 @@
                         }
                     ]
                 });
-            }
-            ,
+            },
 
             commit: true,
 
-                onAuthorize
-            :
-
-            function (data, actions) {
+            onAuthorize: function (data, actions) {
                 return actions.payment.execute().then(function (payment) {
-                    if (payment.transactions.length > 0 && payment.transactions[0].related_resources.length > 0) {
-                        $("#amount").val(payment.transactions[0].amount.total);
-                        $("#txn").val(payment.transactions[0].related_resources[0].sale.id);
-                    }
-                    $("form#muusapayment").submit();
-                });
-            }
+                        if (payment.transactions.length > 0 && payment.transactions[0].related_resources.length > 0) {
+                            $("#amount").val(payment.transactions[0].amount.total);
+                            $("#txn").val(payment.transactions[0].related_resources[0].sale.id);
+                        }
+                        $("form#muusapayment").submit();
+                   });
+                }
 
-            },
-            '#paypal-button'
-            )
-            ;
+            }, '#paypal-button');
         </script>
     @endif
 

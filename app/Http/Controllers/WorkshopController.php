@@ -51,12 +51,12 @@ class WorkshopController extends Controller
 
     private function getCampers($id)
     {
-        return \App\Thisyear_Camper::where('familyid', $id)->orderBy('birthdate')->get();
+        return \App\Thisyear_Camper::where('familyid', $id)->with('yearattending.workshops')->orderBy('birthdate')->get();
     }
 
     public function index()
     {
-        return view('workshopchoice', ['timeslots' => \App\Timeslot::all(),
+        return view('workshopchoice', ['timeslots' => \App\Timeslot::with('workshops.choices')->get(),
             'campers' => $this->getCampers(Auth::user()->camper->familyid)
         ]);
 
@@ -100,7 +100,7 @@ class WorkshopController extends Controller
     public function read($i, $id)
     {
         $readonly = \Entrust::can('read') && !\Entrust::can('write');
-        return view('workshopchoice', ['timeslots' => \App\Timeslot::all(),
+        return view('workshopchoice', ['timeslots' => \App\Timeslot::with('workshops.choices')->get(),
             'campers' => $this->getCampers($i == 'f' ? $id : \App\Camper::find($id)->familyid),
             'readonly' => $readonly]);
     }

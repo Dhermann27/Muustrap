@@ -62,39 +62,49 @@
             @include('snippet.flash')
 
             <svg id="rooms" height="731" width="1152">
-                <text x="30" y="40" font-family="Alfa Slab One" font-size="36px" fill="white">Trout Lodge</text>
-                <text x="15" y="80" font-family="Alfa Slab One" font-size="36px" fill="white">Guest Rooms</text>
-                <text x="320" y="-215" transform="rotate(90)" font-family="Alfa Slab One" font-size="36px" fill="white">Loft
+                <text x="30" y="40" font-family="Rambla" font-size="36px" fill="white">Trout Lodge</text>
+                <text x="15" y="80" font-family="Rambla" font-size="36px" fill="white">Guest Rooms</text>
+                <text x="320" y="-215" transform="rotate(90)" font-family="Rambla" font-size="36px" fill="white">Loft
                     Suites
                 </text>
-                <text x="402" y="450" font-family="Alfa Slab One" font-size="36px" fill="white">Lakeview Cabins</text>
-                <text x="255" y="200" font-family="Alfa Slab One" font-size="36px" fill="white">Forestview Cabins</text>
-                <text x="540" y="267" font-family="Alfa Slab One" font-size="36px" fill="white">Tent Camping</text>
-                <text x="740" y="85" font-family="Alfa Slab One" font-size="36px" fill="white">Camp Lakewood Cabins</text>
-                <text x="910" y="460" font-family="Alfa Slab One" font-size="36px" fill="white">Commuter</text>
+                <text x="402" y="450" font-family="Rambla" font-size="36px" fill="white">Lakeview Cabins</text>
+                <text x="255" y="200" font-family="Rambla" font-size="36px" fill="white">Forestview Cabins</text>
+                <text x="540" y="267" font-family="Rambla" font-size="36px" fill="white">Tent Camping</text>
+                <text x="740" y="85" font-family="Rambla" font-size="36px" fill="white">Camp Lakewood Cabins</text>
+                <text x="910" y="460" font-family="Rambla" font-size="36px" fill="white">Commuter</text>
                 @foreach($rooms as $room)
                     <g>
                         <rect id="{{ $room->id }}"
-                              class="{{ (isset($camper->yearattending->roomid) && $room->id == $camper->yearattending->roomid) || (isset($room->locked) && strpos($room->locked, $camper->lastname) !== false) ? 'active' : '' }}
-                              {{ (isset($camper->yearattending) && $camper->yearattending->is_setbyadmin == '1') || ((isset($room->occupants) || isset($room->locked)) && strpos($room->occupants . $room->locked, $camper->lastname) === false && $room->capacity < 10) ?  'unavailable' : 'available' }}"
-                              width="{{ $room->pixelsize }}" height="{{ $room->pixelsize }}" x="{{  $room->xcoord }}"
-                              y="{{ $room->ycoord }}" data-content="{!!  $room->room_name !!}{!! isset($room->occupants) ?
-                            '<br/>' . $room->occupants :
-                            (isset($room->locked) && $room->capacity < 10 ?
-                                '<br/><i>Locked by</i>:<br />' . $room->locked
-                            : '') !!}{!! (isset($camper->yearattending->roomid) && $room->id == $camper->yearattending->roomid) || (isset($room->locked) && strpos($room->locked, $camper->lastname) !== false) ?
-                            '<br/><strong>Your Current Selection</strong>' .
-                                ($room->capacity < 10 ?
-                                    '<br />Please note that changing from this room will make it available to other campers.<br /><i>This cannot be undone!</i>' :
-                                    '')
-                            : '' !!}"></rect>
+                              class="{{ $camper->yearattending->roomid == $room->id ? 'active' : '' }}
+                              {{ ($room->available == '0' && $room->capacity < 10 && $camper->yearattending->roomid != $room->id) || $locked ? 'unavailable' : 'available' }}"
+                              width="{{ $room->pixelsize }}" height="{{ $room->pixelsize }}" x="{{ $room->xcoord }}"
+                              y="{{ $room->ycoord }}" data-content="{{ $room->buildingname }}
+                        @if($room->pixelsize < 50)
+                        {{ $room->room_number }}
+                        @endif
+                        @if (isset($room->connected_with))
+                        @if($room->buildingid == 1000)
+                                <br /><i>Double Privacy Door with Room {{ $room->connected_with }}</i>
+                            @else
+                                <br /><i>Shares common area with Room {{ $room->connected_with }}</i>
+                            @endif
+                        @endif
+                        @if(isset($room->names))
+                                <hr />Locked by:<br />
+                                {{ $room->names }}
+                        @if($camper->yearattending->roomid == $room->id)
+                                <br /><strong>Your current selection</strong>
+                                <br />Please note that changing from this room will make it to other campers. <i>This cannot be undone.</i>
+                            @endif
+                        @endif
+                                "></rect>
 
                         <text class="svgText" x="{{ $room->xcoord+3 }}" y="{{ $room->ycoord+$room->pixelsize/1.62 }}"
                               font-size="12px">{{ $room->pixelsize < 50 ? $room->room_number : ''}}</text>
                     </g>
                 @endforeach
             </svg>
-            @if(isset($camper->yearattending) && $camper->yearattending->is_setbyadmin == '1')
+            @if($locked)
                 <div class="text-lg-right">
                     <input type="submit" class="btn btn-lg btn-primary disabled py-3 px-4"
                            value="Room Locked By Registrar"/>
@@ -122,9 +132,9 @@
             $(this).removeClass('highlight');
             return $('div.tooltip').css('opacity', '0');
         });
-        @if(isset($camper->yearattending) && $camper->yearattending->is_setbyadmin == '0')
+        @if(!$locked)
         $('rect.available').on('click', function () {
-            $('rect.available').removeClass('active');
+            $('rect.active').removeClass('active').removeClass('unavailable').addClass('available');
             $(this).addClass('active');
         });
         $('#roomselection').on('submit', function (e) {

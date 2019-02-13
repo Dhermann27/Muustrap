@@ -54,7 +54,7 @@
                             @if(!empty($family->address2))
                                 {{ $family->address2 }} |
                             @endif
-                            {{ $family->city }}, {{ $family->statecd }}</td>
+                            {{ $family->city }}, {{ $family->statecd }} {{ $family->zipcd }}</td>
                         <td align="right">{!! $family->formatted_years !!}</td>
                     </tr>
                     <tr class="members">
@@ -62,8 +62,8 @@
                             <table class="table table-sm">
                                 @foreach($campers[$family->id] as $camper)
                                     <tr>
-                                        <td width="34%" class="name align-middle">{{ $camper->lastname }}
-                                            , {{ $camper->firstname }}
+                                        <td width="34%" class="name align-middle">{{ $camper->lastname }},
+                                            {{ $camper->firstname }}
                                         </td>
                                         <td width="33%" class="align-middle">
                                             @if(isset($camper->email))

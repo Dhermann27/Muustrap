@@ -32,7 +32,7 @@ class ArtFair extends Mailable
      */
     public function build()
     {
-        $view = $this->from($this->camper->email)->replyTo($this->camper->email)->view('mail.artfair');
+        $view = $this->from('muusa@muusa.org')->replyTo($this->camper->email)->view('mail.artfair');
         if (count($this->request->images) > 0) {
             foreach ($this->request->images as $index => $image) {
                 $view->attach($image, [

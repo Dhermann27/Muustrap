@@ -1,6 +1,6 @@
 <div class="row float-right pb-2">
-    <a href="{{ $url }}.xls" class="btn btn-info" data-toggle="tooltip" title="Download Excel"><i
-                class="far fa-download"></i></a>
+    <a href="{{ $url }}/{{ !empty($thisyear) ? $thisyear : $home->year()->year }}.xls" class="btn btn-info"
+       data-toggle="tooltip" title="Download Excel"><i class="far fa-download"></i></a>
     @if(count($years) > 1)
         <div class="dropdown px-2">
             <a class="btn btn-info dropdown-toggle" href="#" role="button" id="orderByYearLink" data-toggle="dropdown"

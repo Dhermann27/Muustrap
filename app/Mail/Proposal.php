@@ -33,6 +33,6 @@ class Proposal extends Mailable
      */
     public function build()
     {
-        return $this->from($this->camper->email)->replyTo($this->camper->email)->view('mail.proposal');
+        return $this->from('muusa@muusa.org')->replyTo($this->camper->email)->view('mail.proposal');
     }
 }

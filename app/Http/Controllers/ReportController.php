@@ -24,16 +24,17 @@ class ReportController extends Controller
             'families' => $families->get(), 'thisyear' => $year, 'order' => $order]);
     }
 
-    public function campersExport()
+    public function campersExport($year = 0)
     {
-        $year = \App\Year::where('is_current', '1')->first()->year;
-        Excel::create('MUUSA_' . $year . '_Campers_' . Carbon::now()->toDateString(), function ($excel) {
-            $excel->sheet('campers', function ($sheet) {
+        $year = $year == 0 ? \App\Year::where('is_current', '1')->first()->year : (int)$year;
+        Excel::create('MUUSA_' . $year . '_Campers_' . Carbon::now()->toDateString(), function ($excel) use ($year) {
+            $excel->sheet('campers', function ($sheet) use ($year) {
                 $sheet->setOrientation('landscape');
-                $sheet->with(\App\Thisyear_Camper::select('familyname', 'address1', 'address2', 'city', 'statecd',
+                $sheet->with(\App\Byyear_Camper::select('familyname', 'address1', 'address2', 'city', 'statecd',
                     'zipcd', 'country', 'pronounname', 'firstname', 'lastname', 'email', 'phonenbr', 'birthday', 'age',
                     'programname', 'roommate', 'sponsor', 'churchname', 'churchcity', 'churchstatecd', 'days',
-                    'room_number', 'buildingname')->orderBy('familyname')->orderBy('familyid')->orderBy('birthdate')->get());
+                    'room_number', 'buildingname')->where('year', $year)
+                    ->orderBy('familyname')->orderBy('familyid')->orderBy('birthdate')->get());
             });
         })->export('xls');
     }
@@ -145,17 +146,19 @@ class ReportController extends Controller
             ->where('year', $year)->with('camper')->with('family')->get(), 'thisyear' => $year, 'years' => $years]);
     }
 
-    public function paymentsExport()
+    public function paymentsExport($year = 0)
     {
-        $year = \App\Year::where('is_current', '1')->first()->year;
-        Excel::create('MUUSA_' . $year . '_Ledger_' . Carbon::now()->toDateString(), function ($excel) {
-            $excel->sheet('payments', function ($sheet) {
+        $year = $year == 0 ? \App\Year::where('is_current', '1')->first()->year : (int)$year;
+        Excel::create('MUUSA_' . $year . '_Ledger_' . Carbon::now()->toDateString(), function ($excel) use ($year)  {
+            $excel->sheet('payments', function ($sheet) use ($year)  {
                 $sheet->setOrientation('landscape');
-                $sheet->with(\App\Thisyear_Charge::select('families.name', 'campers.firstname', 'campers.lastname',
-                    'thisyear_charges.amount', 'thisyear_charges.chargetypename', 'thisyear_charges.timestamp')
-                    ->join('campers', 'thisyear_charges.camperid', 'campers.id')
+                $sheet->with(\App\Byyear_Charge::select('families.name', 'campers.firstname', 'campers.lastname',
+                    'byyear_charges.amount', 'byyear_charges.chargetypename', 'byyear_charges.timestamp',
+                    'byyear_charges.memo')
+                    ->join('campers', 'byyear_charges.camperid', 'campers.id')
                     ->join('families', 'campers.familyid', 'families.id')->orderBy('families.name')
-                    ->orderBy('thisyear_charges.familyid')->orderBy('thisyear_charges.timestamp')->get());
+                    ->where('year', $year)
+                    ->orderBy('byyear_charges.familyid')->orderBy('byyear_charges.timestamp')->get());
             });
         })->export('xls');
     }
@@ -235,8 +238,8 @@ class ReportController extends Controller
                 $excel->sheet($building->buildingname, function ($sheet) use ($building, $year) {
                     $sheet->setOrientation('landscape');
                     $sheet->with(\App\Byyear_Camper::select('room_number', 'firstname', 'lastname', 'address1',
-                        'address2', 'city', 'statecd', 'zipcd', 'age')->where('year', $year)
-                        ->where('buildingid', $building->buildingid)
+                        'address2', 'city', 'statecd', 'zipcd', 'age')
+                        ->where('year', $year)->where('buildingid', $building->buildingid)
                         ->orderBy('room_number')->orderBy('familyid')->orderBy('birthdate')->get());
                 });
             }

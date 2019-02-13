@@ -14,8 +14,8 @@ class AdminController extends Controller
     {
         $programs = \App\Program::orderBy('order')->get();
 
-        $rows = \App\Byyear_Camper::select('familyname', 'address1', 'address2', 'city', 'statecd',
-            'zipcd', 'country', 'pronounname', 'firstname', 'lastname', 'email', 'phonenbr', 'birthday', 'age',
+        $rows = \App\Byyear_Camper::select('familyname', 'familytitle', 'address1', 'address2', 'city', 'statecd',
+            'zipcd', 'country', 'pronounname', 'firstname', 'lastname', DB::raw('MAX(email)'), 'phonenbr', 'birthday', 'age',
             'programname', 'roommate', 'sponsor', 'churchname', 'churchcity', 'churchstatecd', 'days', 'room_number',
             'buildingname');
         if ($request->input("campers") == "reg") {

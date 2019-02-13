@@ -337,7 +337,7 @@
 <div id="content" class="p-0">
     @hassection('title')
         @if(isset($background))
-            <div class="bg-grey text-white py-4 py-lg-8 overlay overlay-default overlay-op-6 mb-5"
+            <div class="bg-grey text-white py-4 py-lg-8 overlay overlay-default overlay-op-6 mb-5 d-print-none"
                  data-bg-img="{{ env('IMG_PATH') }}/images/{{ $background }}"
                  data-css='{"background-position":"bottom center"}'>
                 <div class="container d-lg-flex align-items-lg-end">
@@ -354,7 +354,7 @@
                 </div>
             </div>
         @else
-            <div class="bg-dark text-white bg-op-9 py-5 mb-5" id="page-title-classic-dark">
+            <div class="bg-dark text-white bg-op-9 py-5 mb-5 d-print-none" id="page-title-classic-dark">
                 <div class="container d-lg-flex align-items-lg-center">
                     <div>
                         <h2 class="my-0 op-9 text-uppercase">
@@ -375,7 +375,7 @@
 
 </div>
 
-<footer id="footer" class="p-0">
+<footer id="footer" class="p-0 d-print-none">
     <div class="container pt-6 pb-5">
         <div class="row">
             <div class="col-md-4 map-responsive">

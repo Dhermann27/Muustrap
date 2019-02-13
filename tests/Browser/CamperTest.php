@@ -464,8 +464,7 @@ class CamperTest extends DuskTestCase
      */
     public function testIngridUniqueCamper()
     {
-        $year = factory(\App\Year::class)->create();
-//        $year = \App\Year::where('is_current', '1')->first();
+        $year = \App\Year::where('is_current', '1')->first();
         $birth = Carbon::now();
         $birth->year = $year->year - 20;
 

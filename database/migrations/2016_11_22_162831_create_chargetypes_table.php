@@ -16,7 +16,8 @@ class CreateChargetypesTable extends Migration
         Schema::create('chargetypes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->tinyInteger('is_shown');
+            $table->tinyInteger('is_shown')->default('0');
+            $table->tinyInteger('is_deposited')->default('0');
         });
         DB::update('ALTER TABLE chargetypes AUTO_INCREMENT = 1000');
 

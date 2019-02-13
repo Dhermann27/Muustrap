@@ -19,7 +19,7 @@ class PaymentController extends Controller
             'amount' => 'required|min:0'
         ], $messages);
 
-        $thiscamper = \App\Camper::where('email', Auth::user()->email)->first();
+        $thiscamper = Auth::user()->camper;
         if ($thiscamper !== null) {
             if ($request->donation > 0) {
                 \App\Charge::updateOrCreate(
@@ -36,7 +36,7 @@ class PaymentController extends Controller
                 if (!empty($request->addthree)) {
                     \App\Charge::updateOrCreate(
                         ['camperid' => $thiscamper->id, 'memo' => 'Optional payment to offset PayPal ' . $request->txn],
-                        ['camperid' => $thiscamper->id, 'amount' => ($request->amount * .03),
+                        ['camperid' => $thiscamper->id, 'amount' => ($request->amount / 1.03 * .03),
                             'memo' => 'Optional payment to offset PayPal ' . $request->txn,
                             'chargetypeid' => DB::raw('getchargetypeid(\'Paypal Service Charge\')'),
                             'year' => DB::raw('getcurrentyear()'), 'timestamp' => date("Y-m-d"),
@@ -90,35 +90,18 @@ class PaymentController extends Controller
 
         $charges = [];
         $deposit = 0.0;
-        $camper = \App\Camper::where('email', Auth::user()->email)->first();
+        $camper = Auth::user()->camper;
         if ($camper !== null) {
-            $depositchargetype = DB::select('SELECT getchargetypeid(\'MUUSA Deposit\') id FROM users');
-            $familyid = $camper->family->id;
-            $roomid = \App\Thisyear_Camper::where('familyid', $familyid)->whereNotNull('roomid')->count();
-            $charges = \App\Thisyear_Charge::where('familyid', $familyid)->orderBy('timestamp')->orderBy('amount', 'desc')->get();
-            $deposit = $charges->where('amount', '<', 0)->sum('amount') +
-                $charges->where('chargetypeid', $depositchargetype[0]->id)->sum('amount');
+            $charges = \App\Thisyear_Charge::where('familyid', $camper->family->id)->orderBy('timestamp')->orderBy('amount', 'desc')->get();
+            foreach ($charges as $charge) {
+                if ($charge->amount < 0 || $charge->memo == 'MUUSA Deposit') {
+                    $deposit += $charge->amount;
+                }
+            }
         }
 
         return view('payment',
-            ['token' => $token, 'env' => $env, 'housing' => $roomid, 'charges' => $charges, 'deposit' => $deposit]);
-    }
-
-    public function test()
-    {
-        $env = env('APP_ENV');
-        $token = env('PAYPAL_CLIENT');
-
-        $camper = \App\Camper::find(1399);
-        $depositchargetype = DB::select('SELECT getchargetypeid(\'MUUSA Deposit\') id FROM users');
-        $familyid = $camper->family->id;
-        $roomid = \App\Thisyear_Camper::where('familyid', $familyid)->whereNotNull('roomid')->count();
-        $charges = \App\Thisyear_Charge::where('familyid', $familyid)->orderBy('timestamp')->orderBy('amount', 'desc')->get();
-        $deposit = $charges->where('amount', '<', 0)->sum('amount') +
-            $charges->where('chargetypeid', $depositchargetype[0]->id)->sum('amount');
-
-        return view('payment',
-            ['token' => $token, 'env' => $env, 'housing' => $roomid, 'charges' => $charges, 'deposit' => $deposit]);
+            ['token' => $token, 'env' => $env, 'charges' => $charges, 'deposit' => $deposit]);
     }
 
     public function write(Request $request, $id)

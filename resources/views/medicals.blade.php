@@ -1,5 +1,4 @@
-@extends('layouts.app')
-@inject('home', 'App\Http\Controllers\HomeController')
+@extends('layouts.appstrap')
 
 @section('css')
     <link rel="stylesheet" href="/css/print.css" type="text/css" media="print"/>

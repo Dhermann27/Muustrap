@@ -1,6 +1,4 @@
-@inject('home', 'App\Http\Controllers\HomeController')
-
-        <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -310,8 +308,8 @@
                                                                                align="left">You have successfully
                                                                                 registered the
                                                                                 following campers for
-                                                                                MUUSA {{ $home->year()->year }}:</p>
-                                                                            <ul>
+                                                                                MUUSA {{ $year->year }}:</p>
+                                                                            <ul style="line-height: 1.5em; color: #555555; font-family: &#39;Helvetica Neue&#39;, Helvetica, Arial, sans-serif; font-size: 15px; text-align: left; unicode-bidi: embed; vertical-align: baseline; margin-top: 0; margin-right: 0; margin-bottom: 1.3em; padding-top: 0; padding-right: 0; padding-bottom: 0;">
                                                                                 @foreach($campers as $camper)
                                                                                     <li>{{ $camper->firstname }} {{ $camper->lastname }}</li>
                                                                                 @endforeach
@@ -330,8 +328,8 @@
                                                                                 online registration process, thank you!
                                                                                 Your remaining balance is due on the
                                                                                 first day of
-                                                                                camp, {{ $home->year()->first_day }}.
-                                                                                @if($home->year()->is_live)
+                                                                                camp, {{ $year->first_day }}.
+                                                                                @if($year->is_live)
                                                                                     Room selection, workshop
                                                                                     preferences, nametag customization,
                                                                                     and confirmation letters are
@@ -340,14 +338,14 @@
                                                                                     .
                                                                                 @else
                                                                                     If you attended
-                                                                                    in {{ ((int)$home->year()->year)-1 }},
+                                                                                    in {{ ((int)$year->year)-1 }},
                                                                                     you <i>must pay your deposit to be
                                                                                         assigned your old room</i>.
                                                                                     Room selection, workshop
                                                                                     preferences, nametag customization,
                                                                                     and confirmation letters will become
                                                                                     available
-                                                                                    on {{ $home->year()->start_open }}
+                                                                                    on {{ $year->start_open }}
                                                                                     at <a
                                                                                             href="https://muusa.org">muusa.org</a>
                                                                                     .
@@ -420,7 +418,7 @@
                                                         align="center" bgcolor="#EBF2FF">
                                                         <div class="footer"
                                                              style="color: #999999; font-family: &#39;Helvetica Neue&#39;, Helvetica, Arial, sans-serif; font-size: 13px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
-                                                            ©{{ $home->year()->year }}
+                                                            ©{{ $year->year }}
                                                             MUUSA | Registrar | 423 N. Waiola, LaGrange Park, IL 60526
                                                             <div class="outlook-fixer"
                                                                  style="color: #999999; font-family: &#39;Helvetica Neue&#39;, Helvetica, Arial, sans-serif; font-size: 13px; clear: both; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">

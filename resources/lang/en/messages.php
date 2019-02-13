@@ -35,13 +35,6 @@ return [
                                   pronoun and age range. If this applies to you, we
                                   strongly suggest that you seek out your own roommate using
                                   social media or your church community.</p>',
-    'gradyear' => '<strong>Why do we ask?</strong>
-               <p>Many of our campers begin attending before kindergarten and continue past high school. In order to
-               maintain correct historical records, we need to determine which grade our campers were in over many
-               years.</p>
-               <p>While we could simply associate a grade with year of attendance, our Webmaster has overcomplicated this
-               issue by tracking a singlular graduation year instead.</p>
-               <p><i>Clearly</i>, he has spent too much time thinking about this.',
     'roommate' => '<p>There is no need to add family members to this field; we assume that
                    you would like to room with them unless contacted with another request.</p>',
     'sponsor' => '<strong>When is a sponsor required?</strong> 
@@ -53,7 +46,7 @@ return [
                    <p>If you are having difficulty finding a sponsor, please let us know using the
                    Contact Us form above. Oftentimes, we have adults in your area who are willing to
                    volunteer, and may also be willing to offer transportation.</p>',
-    'fonts' => '<div style=\'font-size: 1.5em\'><p class=\'opensans\'>Open Sans</p>
+    'fonts' => '<div style=\'font-size: 1.5em\'><p class=\'opensans\'>Krub</p>
                                             <p class=\'indie\'>Indie Flower</p>
                                             <p class=\'ftg\'>Fredericka the Great</p>
                                             <p class=\'quest\'>Mystery Quest</p>

@@ -14,7 +14,7 @@ class CalendarController extends Controller
 
     public function index()
     {
-        return view('calendar', ['campers' => \App\Thisyear_Camper::where('familyid', \App\Thisyear_Camper::where('email', Auth::user()->email)->first()->familyid)
+        return view('calendar', ['campers' => \App\Thisyear_Camper::where('familyid', Auth::user()->thiscamper->familyid)
             ->orderBy('birthdate')->get()]);
     }
 }

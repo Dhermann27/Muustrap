@@ -27,7 +27,9 @@ class NametagController extends Controller
 
     private function getCampers()
     {
-        return \App\Thisyear_Camper::where('familyid', \App\Camper::where('email', Auth::user()->email)->first()->familyid)->orderBy('birthdate')->get();
+        return \App\Thisyear_Camper::where('familyid', Auth::user()->camper->familyid)
+            ->with('yearattending.camper.pronoun', 'yearattending.camper.church', 'yearattending.camper.family', 'yearattending.positions')
+            ->orderBy('birthdate')->get();
     }
 
     private function updateCamper($request, $camper)

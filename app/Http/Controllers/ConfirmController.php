@@ -21,7 +21,7 @@ class ConfirmController extends Controller
 
     public function respond(Request $request, $id)
     {
-        $logged_in = \App\Thisyear_Camper::where('email', Auth::user()->email)->first();
+        $logged_in = Auth::user()->thiscamper;
 
         $messages = ['*-parent_name.required' => 'All children must identify their parent or guardian.',
             '*-mobile_phone.required' => 'All children must enter a mobile contact number in case of emergency.',
@@ -77,7 +77,7 @@ class ConfirmController extends Controller
 
     public function index()
     {
-        return view('confirm', ['families' => \App\Thisyear_Family::where('id', \App\Camper::where('email', Auth::user()->email)->first()->familyid)->get(),
+        return view('confirm', ['families' => \App\Thisyear_Family::where('id', Auth::user()->camper->familyid)->get(),
             'medical' => \App\Program::find(DB::raw('getprogramidbyname("Adult")'))->form]);
 
     }

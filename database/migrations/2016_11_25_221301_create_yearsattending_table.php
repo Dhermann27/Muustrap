@@ -18,7 +18,9 @@ class CreateYearsattendingTable extends Migration
             $table->integer('camperid')->unsigned();
             $table->foreign('camperid')->references('id')->on('campers');
             $table->integer('year');
-            $table->integer('roomid')->unsigned()->nullable()->default(NULL);
+            $table->integer('programid')->unsigned()->nullable();
+            $table->foreign('programid')->references('id')->on('programs');
+            $table->integer('roomid')->unsigned()->nullable();
             $table->foreign('roomid')->references('id')->on('rooms');
             $table->integer('days')->default('6');
             $table->tinyInteger('is_setbyadmin')->default('0');
@@ -26,6 +28,8 @@ class CreateYearsattendingTable extends Migration
             $table->string('nametag')->default('222215521');
             $table->timestamps();
         });
+        DB::update('ALTER TABLE yearsattending AUTO_INCREMENT = 1000');
+
     }
 
     /**

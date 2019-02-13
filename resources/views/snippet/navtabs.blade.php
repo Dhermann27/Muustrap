@@ -1,17 +1,15 @@
-{{--@include('snippet.navtabs', ['tabs' => $programs, 'id'=> 'id', 'option' => 'name'])--}}
-
-{{--<div class="tab-content">--}}
-{{--@foreach($programs as $program)--}}
-{{--<div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"--}}
-{{--aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $program->id }}">--}}
-
+{{--@component('snippet.navtabs', ['tabs' => $timeslots, 'id'=> 'id', 'option' => 'name'])--}}
+{{--@foreach($timeslots as $timeslot)--}}
+{{--<div class="tab-pane fade{!! $loop->first ? ' active show' : '' !!}" id="{{ $timeslot->id }}" role="tabpanel">--}}
 <ul class="nav nav-tabs flex-column flex-lg-row" role="tablist">
     @foreach($tabs as $tab)
-        <li role="presentation" class="nav-item">
-            <a href="#{{ $tab->$id }}" aria-controls="{{ $tab->$id }}" role="tab"
-               class="nav-link{!! $loop->first ? ' active' : '' !!}" data-toggle="tab">
+        <li class="nav-item{{ $loop->first ? ' pl-5' : '' }}">
+            <a class="nav-link{{ $loop->first ? ' active' : '' }}" data-toggle="tab" href="#tab-{{ $tab->id }}" role="tab">
                 {{ $option == 'fullname' ? $tab->firstname . ' ' . $tab->lastname : $tab->$option }}
             </a>
         </li>
     @endforeach
 </ul>
+<div class="tab-content p-3">
+    {{ $slot }}
+</div>

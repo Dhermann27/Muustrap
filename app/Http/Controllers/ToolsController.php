@@ -7,6 +7,49 @@ use Illuminate\Support\Facades\DB;
 
 class ToolsController extends Controller
 {
+    public function cognoscenti()
+    {
+        return view('tools.cognoscenti',
+            ['staff' => \App\Thisyear_Staff::where('pctype', '!=', '0')->orderBy('staffpositionid')->orderBy('lastname')
+                ->get()->groupBy('pctype')]);
+    }
+
+
+    public function nametags()
+    {
+        return view('tools.nametags', ['campers' => \App\Thisyear_Camper::orderBy('familyname')
+            ->orderBy('familyid')->orderBy('birthdate')->get()]);
+    }
+
+    public function nametagsList()
+    {
+        return view('tools.nametagslist', ['campers' => \App\Thisyear_Camper::orderBy('familyname')
+            ->orderBy('familyid')->orderBy('birthdate')->get()]);
+    }
+
+    public function nametagsPrint(Request $request)
+    {
+        $ids = array();
+        foreach ($request->all() as $key => $value) {
+            if (preg_match('/(\d+)-print/', $key, $matches) && $value == 'on') {
+                array_push($ids, $matches[1]);
+            }
+        }
+        $campers = \App\Thisyear_Camper::whereIn('id', $ids)->orderBy('familyname')->orderBy('familyid')
+            ->orderBy('birthdate')->get();
+        return view('tools.nametags', ['campers' => $campers]);
+    }
+
+    public function nametagsFamily($i, $id)
+    {
+        return view('tools.nametags', ['campers' => \App\Thisyear_Camper::where('familyid', $this->getFamilyId($i, $id))
+            ->orderBy('familyname')->orderBy('birthdate')->get()]);
+    }
+
+    private function getFamilyId($i, $id)
+    {
+        return $i == 'c' ? \App\Camper::find($id)->familyid : $id;
+    }
 
     public function positionStore(Request $request)
     {
@@ -54,42 +97,6 @@ class ToolsController extends Controller
         return view('tools.positions', ['programs' => \App\Program::with(['staffpositions' => function ($query) use ($year) {
             $query->where('start_year', '<=', $year)->where('end_year', '>=', $year);
         }])->with('assignments')->orderBy('order')->get()]);
-    }
-
-    public function nametags()
-    {
-        return view('tools.nametags', ['campers' => \App\Thisyear_Camper::orderBy('familyname')
-            ->orderBy('familyid')->orderBy('birthdate')->get()]);
-    }
-
-    public function nametagsList()
-    {
-        return view('tools.nametagslist', ['campers' => \App\Thisyear_Camper::orderBy('familyname')
-            ->orderBy('familyid')->orderBy('birthdate')->get()]);
-    }
-
-    public function nametagsPrint(Request $request)
-    {
-        $ids = array();
-        foreach ($request->all() as $key => $value) {
-            if (preg_match('/(\d+)-print/', $key, $matches) && $value == 'on') {
-                array_push($ids, $matches[1]);
-            }
-        }
-        $campers = \App\Thisyear_Camper::whereIn('id', $ids)->orderBy('familyname')->orderBy('familyid')
-            ->orderBy('birthdate')->get();
-        return view('tools.nametags', ['campers' => $campers]);
-    }
-
-    public function nametagsFamily($i, $id)
-    {
-        return view('tools.nametags', ['campers' => \App\Thisyear_Camper::where('familyid', $this->getFamilyId($i, $id))
-            ->orderBy('familyname')->orderBy('birthdate')->get()]);
-    }
-
-    private function getFamilyId($i, $id)
-    {
-        return $i == 'c' ? \App\Camper::find($id)->familyid : $id;
     }
 
     public function programStore(Request $request)

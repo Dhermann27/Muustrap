@@ -21,7 +21,7 @@ class ContactController extends Controller
         ];
 
         if (Auth::check()) {
-            $camper = \App\Camper::where('email', Auth::user()->email)->first();
+            $camper = Auth::user()->camper;
             $request["name"] = $camper->firstname . " " . $camper->lastname;
             $request["email"]  = $camper->email;
         }
@@ -30,7 +30,7 @@ class ContactController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|max:255',
             'mailbox' => 'required|exists:contactboxes,id',
-            'message' => 'required|min:5|not_regex:/scripture/|not_regex:/gospel/|not_regex:/infallible/',
+            'message' => 'required|min:5|not_regex:/scripture/i|not_regex:/gospel/i|not_regex:/infallible/i',
             'g-recaptcha-response' => 'required|captcha',
         ], $messages);
 
@@ -47,7 +47,7 @@ class ContactController extends Controller
     {
         $camper = null;
         if (Auth::check()) {
-            $camper = \App\Camper::where('email', Auth::user()->email)->first();
+            $camper = Auth::user()->camper;
         }
         return view('contactus', ['mailboxes' => \App\Contactbox::orderBy('id')->get(), 'camper' => $camper]);
     }
@@ -76,7 +76,7 @@ class ContactController extends Controller
             'g-recaptcha-response' => 'required|captcha',
         ], $messages);
 
-        $camper = \App\Camper::where('email', Auth::user()->email)->first();
+        $camper = Auth::user()->camper;
         Mail::to(env('PROPOSAL_EMAIL'))->send(new Proposal($request, $camper));
 
         $request->session()->flash('success', 'Message sent! You will be contact by a member of the Adult Programming Committee.');
@@ -87,7 +87,7 @@ class ContactController extends Controller
     public function proposalIndex($camper = null)
     {
         if ($camper == null) {
-            $camper = \App\Camper::where('email', Auth::user()->email)->first();
+            $camper = Auth::user()->camper;
         }
         return view('proposal', ['camper' => $camper, 'timeslots' => \App\Timeslot::all()]);
     }
@@ -103,7 +103,7 @@ class ContactController extends Controller
             'g-recaptcha-response' => 'required|captcha',
         ], $messages);
 
-        Mail::to(env('ARTFAIR_EMAIL'))->send(new ArtFair($request, \App\Thisyear_Camper::where('email', Auth::user()->email)->first()));
+        Mail::to(env('ARTFAIR_EMAIL'))->send(new ArtFair($request, Auth::user()->thiscamper));
 
         $request->session()->flash('success', 'Message sent! Replies will be sent to all applicants by May 1st.');
 
@@ -114,7 +114,7 @@ class ContactController extends Controller
     {
         $camper = null;
         if (Auth::check()) {
-            $camper = \App\Thisyear_Camper::where('email', Auth::user()->email)->first();
+            $camper = Auth::user()->thiscamper;
         }
         return view('artfair', ['camper' => $camper]);
     }

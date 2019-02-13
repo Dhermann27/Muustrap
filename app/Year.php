@@ -4,40 +4,31 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class Year extends Model
 {
     public $timestamps = false;
-    protected $primaryKey = "year";
     protected $fillable = ['start_date', 'start_open', 'is_live', 'is_crunch', 'is_accept_paypal', 'is_workshop_proposal', 'is_artfair'];
 
-    public function rates()
-    {
-        return DB::table('rates')->join('programs', 'programs.id', 'rates.programid')->where('start_year', '<=', $this->year)->where('end_year', '>', $this->year)
-            ->whereIn('buildingid', ['1000', '1007', '1017'])->orderBy('name')->orderBy('min_occupancy')
-            ->orderBy('max_occupancy');
-    }
 
     public function hasBrochure()
     {
         return Storage::disk('local')->exists('public/MUUSA_' . $this->year . '_Brochure.pdf');
     }
 
-    public function isInProgress()
-    {
-        return Carbon::now('America/Chicago')->lte(Carbon::createFromFormat('Y-m-d', $this->start_date)->addWeek());
-    }
-
     public function getFirstDayAttribute()
     {
-        return Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago')->format('l F jS');
+        $date = Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago');
+        $date->year = $this->year;
+        return $date->format('l F jS');
     }
 
     public function getLastDayAttribute()
     {
-        return Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago')->addDays(6)->format('l F jS');
+        $date = Carbon::createFromFormat('Y-m-d', $this->start_date, 'America/Chicago');
+        $date->year = $this->year;
+        return $date->addDays(6)->format('l F jS');
     }
 
     public function getNextDayAttribute()

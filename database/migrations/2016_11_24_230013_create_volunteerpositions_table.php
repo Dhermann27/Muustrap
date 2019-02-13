@@ -17,6 +17,7 @@ class CreateVolunteerpositionsTable extends Migration
             $table->increments('id');
             $table->string('name');
         });
+        DB::update('ALTER TABLE volunteerpositions AUTO_INCREMENT = 1000');
     }
 
     /**

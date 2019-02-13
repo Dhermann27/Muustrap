@@ -1,39 +1,41 @@
-@inject('home', 'App\Http\Controllers\HomeController')
-@extends('layouts.app')
+@extends('layouts.appstrap')
 
 @section('title')
     Camp Cost Calculator
 @endsection
 
 @section('heading')
-    Use this tool to easily estimate the cost of your fees this year.
+    Use this tool to easily estimate the cost of your fees for {{ $year->year }}.
 @endsection
 
 @section('content')
-    <div class="alert alert-warning">
-        Warning: this calculator only provides an estimate of your camp cost and your actual fees
-        may vary.
-    </div>
-    <div class="container">
+    <div class="container px-3 py-5 px-lg-4 py-lg-6 bg-grey mb-5">
+        <div class="alert alert-warning">
+            Warning: this calculator only provides an estimate of your camp cost and your actual fees
+            may vary.
+        </div>
         <div class="form-group row">
             <label for="adults" class="col-md-3 control-label">Adults Attending</label>
 
             <div class="col-md-3 number-spinner">
-                <div class="input-group">
+                <div class="input-group p-0 m-0">
                     <div class="input-group-prepend">
-                        <button class="btn btn-default" data-dir="up"><i class="far fa-plus"></i></button>
+                        <button class="btn btn-default" data-dir="up" dusk="adultup"><i class="far fa-plus"></i>
+                        </button>
                     </div>
                     <input id="adults" class="form-control" name="adults" value="0"/>
 
                     <div class="input-group-append">
-                        <button class="btn btn-default" data-dir="dwn"><i class="far fa-minus"></i></button>
+                        <button class="btn btn-default" data-dir="dwn" dusk="adultdown">
+                            <i class="far fa-minus"></i>
+                        </button>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-4">
                 <label for="adults-housing" class="control-label sr-only">Housing Arrangements</label>
-                <select id="adults-housing" class="form-control">
+                <select id="adults-housing" name="adults-housing" class="form-control">
                     <option value="0" selected>Choose Housing Arrangements</option>
                     <option value="1">Guestroom, Cabin, or Loft</option>
                     <option value="3">Camp Lakewood Cabin (dorm style)</option>
@@ -45,10 +47,8 @@
             <div class="col-md-2 text-right" id="adults-fee">$0.00</div>
         </div>
         <div id="single-alert" class="row alert alert-warning" style="display: none;">
-            Due to limited space, single occupancy rooms are offered only a premium price. It is
-            strongly suggested that single campers seek out at least one roommate to reduce costs and
-            allow as many campers as possible to attend. Two adults rooming together will each pay
-            double occupancy with a $150.00 deposit due at registration.
+            If you plan to have a roommate, but have not yet selected or been assigned a roommate, please note that your
+            fees will be half the amount shown in the calculator.
         </div>
         <div class="form-group row">
             <label for="yas" class="col-md-3 control-label">Young Adults (18-20) Attending</label>
@@ -56,18 +56,19 @@
             <div class="col-md-3 number-spinner">
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <button class="btn btn-default" data-dir="up"><i class="far fa-plus"></i></button>
+                        <button class="btn btn-default" data-dir="up" dusk="yaup"><i class="far fa-plus"></i></button>
                     </div>
                     <input id="yas" class="form-control" name="yas" value="0"/>
                     <div class="input-group-append">
-                        <button class="btn btn-default" data-dir="dwn"><i class="far fa-minus"></i></button>
+                        <button class="btn btn-default" data-dir="dwn" dusk="yadown"><i class="far fa-minus"></i>
+                        </button>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-4">
                 <label for="yas-housing" class="control-label sr-only">Housing Arrangements</label>
-                <select id="yas-housing" class="form-control">
+                <select id="yas-housing" name="yas-housing" class="form-control">
                     <option value="0" selected>Choose Housing Arrangements</option>
                     <option value="1">YA Cabin</option>
                     <option value="2">Tent Camping</option>
@@ -83,11 +84,12 @@
             <div class="col-md-3 number-spinner">
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <button class="btn btn-default" data-dir="up"><i class="far fa-plus"></i></button>
+                        <button class="btn btn-default" data-dir="up" dusk="jrup"><i class="far fa-plus"></i></button>
                     </div>
                     <input id="jrsrs" class="form-control" name="yas" value="0"/>
                     <div class="input-group-append">
-                        <button class="btn btn-default" data-dir="dwn"><i class="far fa-minus"></i></button>
+                        <button class="btn btn-default" data-dir="dwn" dusk="jrdown"><i class="far fa-minus"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -102,11 +104,12 @@
             <div class="col-md-3 number-spinner">
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <button class="btn btn-default" data-dir="up"><i class="far fa-plus"></i></button>
+                        <button class="btn btn-default" data-dir="up" dusk="kidup"><i class="far fa-plus"></i></button>
                     </div>
                     <input id="children" class="form-control" name="yas" value="0"/>
                     <div class="input-group-append">
-                        <button class="btn btn-default" data-dir="dwn"><i class="far fa-minus"></i></button>
+                        <button class="btn btn-default" data-dir="dwn" dusk="kiddown"><i class="far fa-minus"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -120,11 +123,12 @@
             <div class="col-md-3 number-spinner">
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <button class="btn btn-default" data-dir="up"><i class="far fa-plus"></i></button>
+                        <button class="btn btn-default" data-dir="up" dusk="babyup"><i class="far fa-plus"></i></button>
                     </div>
                     <input id="babies" class="form-control" name="yas" value="0"/>
                     <div class="input-group-append">
-                        <button class="btn btn-default" data-dir="dwn"><i class="far fa-minus"></i></button>
+                        <button class="btn btn-default" data-dir="dwn" dusk="babydown"><i class="far fa-minus"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -145,9 +149,9 @@
 @section('script')
     <script>
         // Adult (1-4), Burt, Cratty, Lumens, Meyer, YA, YA 18-20
-        var guestsuite = [{{ $home->year()->rates()->where('buildingid', '1000')->get()->implode('rate', ',') }}];
-        var tentcamp = [{{ $home->year()->rates()->where('buildingid', '1007')->get()->implode('rate', ',') }}];
-        var lakewood = [{{ $home->year()->rates()->where('buildingid', '1017')->get()->implode('rate', ',') }}];
+        var guestsuite = [{{ $rates->where('buildingid', '1000')->implode('rate', ',') }}];
+        var tentcamp = [{{ $rates->where('buildingid', '1007')->implode('rate', ',') }}];
+        var lakewood = [{{ $rates->where('buildingid', '1017')->implode('rate', ',') }}];
     </script>
     <script src="/js/campcost.js" type="text/javascript"></script>
 @endsection

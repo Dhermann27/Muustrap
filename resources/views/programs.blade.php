@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.appstrap')
 
 @section('title')
     Programs
@@ -9,12 +9,14 @@
 @endsection
 
 @section('content')
-    @foreach($programs as $program)
-        <ul class="list-group">
-            <li class="list-group-item">
-                <h3>{{ $program->name }}</h3>
-                {!! $program->blurb !!}
-            </li>
-        </ul>
-    @endforeach
+    <div class="container px-3 py-5 px-lg-4 py-lg-6 bg-grey mb-5">
+        @foreach($programs as $program)
+            @component('snippet.blog', ['title' => $program->name])
+                <div class="p-3">
+                    {!! $program->blurb !!}
+                </div>
+            @endcomponent
+
+        @endforeach
+    </div>
 @endsection

@@ -1,5 +1,4 @@
-@extends('layouts.app')
-@inject('home', 'App\Http\Controllers\HomeController')
+@extends('layouts.appstrap')
 
 @section('css')
     <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css"/>
@@ -11,13 +10,13 @@
 @endsection
 
 @section('heading')
-    Welcome to MUUSA {{ $home->year()->year }}!
+    Welcome to MUUSA {{ $year->year }}!
 @endsection
 
 @section('content')
     @foreach($families as $family)
         <div class="text-center">
-            <img src="/images/print_logo.png" alt="Welcome to MUUSA {{ $home->year()->year }}!"/>
+            <img src="/images/print_logo.png" alt="Welcome to MUUSA {{ $year->year }}!"/>
         </div>
         <p>&nbsp;</p>
         <h3>{{ $family->family_name }}<br/>
@@ -83,7 +82,7 @@
             </tbody>
             <tfoot>
             <tr>
-                <td colspan="3" align="right"><strong>Amount Due on {{ $home->year()->start_date }}:</strong></td>
+                <td colspan="3" align="right"><strong>Amount Due on {{ $year->start_date }}:</strong></td>
                 <td>${{ money_format('%.2n', $family->charges->sum('amount')) }}</td>
             </tr>
             </tfoot>

@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.appstrap')
 
 @section('title')
-    Register
+    Create Muusa.org Account
 @endsection
 
 @section('content')

@@ -12,7 +12,7 @@ class WorkshopController extends Controller
     {
 
         $year = \App\Year::where('is_current', '1')->first();
-        $campers = $this->getCampers(\App\Camper::where('email', Auth::user()->email)->first()->familyid);
+        $campers = $this->getCampers(Auth::user()->camper->familyid);
 
         foreach ($campers as $camper) {
             $this->validate($request, [$camper->id . '-workshops' => 'regex:/^\d{0,5}+(,\d{0,5})*$/']);
@@ -51,13 +51,13 @@ class WorkshopController extends Controller
 
     private function getCampers($id)
     {
-        return \App\Thisyear_Camper::where('familyid', $id)->orderBy('birthdate')->get();
+        return \App\Thisyear_Camper::where('familyid', $id)->with('yearattending.workshops')->orderBy('birthdate')->get();
     }
 
     public function index()
     {
-        return view('workshopchoice', ['timeslots' => \App\Timeslot::all(),
-            'campers' => $this->getCampers(\App\Camper::where('email', Auth::user()->email)->first()->familyid)
+        return view('workshopchoice', ['timeslots' => \App\Timeslot::with('workshops.choices')->get(),
+            'campers' => $this->getCampers(Auth::user()->camper->familyid)
         ]);
 
     }
@@ -100,14 +100,14 @@ class WorkshopController extends Controller
     public function read($i, $id)
     {
         $readonly = \Entrust::can('read') && !\Entrust::can('write');
-        return view('workshopchoice', ['timeslots' => \App\Timeslot::all(),
+        return view('workshopchoice', ['timeslots' => \App\Timeslot::with('workshops.choices')->get(),
             'campers' => $this->getCampers($i == 'f' ? $id : \App\Camper::find($id)->familyid),
             'readonly' => $readonly]);
     }
 
     public function display()
     {
-        return view('workshops', ['timeslots' => \App\Timeslot::all()->except('1005')]);
+        return view('workshops', ['timeslots' => \App\Timeslot::all()->except('1005'), 'background' => 'workshops.jpg']);
     }
 
     public function excursions() {

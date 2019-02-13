@@ -1,23 +1,23 @@
-@inject('home', 'App\Http\Controllers\HomeController')
-@extends('layouts.app')
+@extends('layouts.appstrap')
 
 @section('title')
     Theme Speakers: Rev Karen Mooney &amp; Rev Pam Rumancik
 @endsection
 
 @section('heading')
-    Learn more about the {{ $home->year()->year }} theme speakers.
+    Learn more about the {{ $year->year }} theme speakers.
 @endsection
 
 @section('content')
-    <div class="container">
-        <div class="row px-5">
+    <div class="container px-3 py-5 px-lg-4 py-lg-6 bg-grey mb-5">
+        @component('snippet.blog', ['title' => '2019 Theme Speakers'])
             <p>
-                <img class="float-right" src="/images/karenpamsm.jpg" alt="Rev Karen Mooney &amp; Rev Pam Rumancik"/>
-                Rev Pam Rumancik is a white, cis-gendered, queer, woman currently serving the
-                Unitarian Church of Hinsdale, Il. Coming from working class roots, Pam has run a home
-                childcare business, a restaurant in Estes Park, CO, spent a year as a food cart carnie at
-                Bluegrass music festivals, and until attending seminary, was a house painter.<br /><br />
+                <img class="float-right p-3" src="/images/karenpamsm.jpg"
+                     alt="Rev Karen Mooney &amp; Rev Pam Rumancik"/>
+                <span class="dropcap-lg tint-bg">R</span>ev Pam Rumancik is a white, cis-gendered, queer, woman
+                currently serving the Unitarian Church of Hinsdale, Il. Coming from working class roots, Pam has run a
+                home childcare business, a restaurant in Estes Park, CO, spent a year as a food cart carnie at
+                Bluegrass music festivals, and until attending seminary, was a house painter.<br/><br/>
                 She’s passionate about finding ways to communicate across cultural and theological
                 divides that honor the essential truth of each person without devolving to the lowest
                 common denominator. She believes that we must live our vision of Beloved Community
@@ -45,6 +45,5 @@
                 opportunities to support others in this perplexing, confounding and joyful experience
                 called life.
             </p>
-        </div>
-    </div>
+    @endcomponent
 @endsection

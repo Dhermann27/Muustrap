@@ -11,6 +11,10 @@ class Room extends Model
         return $this->hasOne(Building::class, 'id', 'buildingid');
     }
 
+    public function occupants() {
+        return $this->hasMany(Thisyear_Camper::class, 'roomid', 'id');
+    }
+
     public function workshop()
     {
         return $this->belongsTo(Workshop::class);
@@ -23,33 +27,6 @@ class Room extends Model
 
     public function getOccupantCountAttribute() {
         return \App\Thisyear_Camper::where('roomid', $this->id)->count();
-    }
-
-    public function getOccupantsAttribute() {
-
-        $campers = \App\Thisyear_Camper::where('roomid', $this->id)->orderBy('familyid')->orderBy('birthdate')->get();
-        if(count($campers) > 0) {
-            $str = "<br /><i>Current Occupants</i>:";
-            foreach ($campers as $camper) {
-                $str .= '<br />' . $camper->firstname . ' ' . $camper->lastname;
-            }
-            return $str;
-        } else {
-            return null;
-        }
-    }
-
-    public function getRoomNameAttribute()
-    {
-        $roomname = $this->building->name;
-        $roomname .= $this->buildingid < 1007 ? ', Room ' . $this->room_number : '';
-        if (isset($this->connected_with)) {
-            $connectingroom = \App\Room::findOrFail($this->connected_with);
-            $roomname .= ($this->buildingid == 1000 ?
-                '<br /><i>Double Privacy Door with Room ' . $connectingroom->room_number . '</i>' :
-                '<br /><i>Shares common area with Room ' . $connectingroom->room_number . '</i>');
-        }
-        return $roomname;
     }
 
     public function connected_with()

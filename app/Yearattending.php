@@ -12,7 +12,7 @@ class Yearattending extends Model
 
     public function camper()
     {
-        return $this->hasOne(Camper::class, 'id', 'camperid');
+        return $this->belongsTo(Camper::class, 'camperid');
     }
 
     public function getIsFirsttimeAttribute()

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.appstrap')
 
 @section('title')
     Housing Rates
@@ -9,12 +9,9 @@
         <form class="form-horizontal" role="form" method="POST" action="{{ url('/reports/rates') }}">
             @include('snippet.flash')
 
-            @include('snippet.navtabs', ['tabs' => $years, 'id'=> 'year', 'option' => 'year'])
-
-            <div class="tab-content">
+            @component('snippet.navtabs', ['tabs' => $years, 'id'=> 'year', 'option' => 'year'])
                 @foreach($years as $year)
-                    <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
-                         aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $year->year }}">
+                    <div class="tab-content" id="{{ $year->year }}">
                         @component('snippet.accordion', ['id' => $year->year])
                             @foreach($buildings as $building)
                                 @component('snippet.accordioncard', ['id' => $year->year, 'loop' => $loop, 'heading' => $building->id, 'title' => $building->name])
@@ -68,7 +65,7 @@
                         @endcomponent
                     </div>
                 @endforeach
-            </div>
+            @endcomponent
             @role(['admin'])
 
             <div class="well">
@@ -95,8 +92,10 @@
                     'placeholder' => 'Divide rate by 6; include repeating decimals', 'min' => '1']])
 
                 <div class="alert alert-warning d-none">
-                    Warning: adjusting a rate inline can (and probably will) alter past years of records, depending on the year
-                    range of the rate. In order to avoid this, enter a new rate for the same program, building, and occupancy
+                    Warning: adjusting a rate inline can (and probably will) alter past years of records, depending on
+                    the year
+                    range of the rate. In order to avoid this, enter a new rate for the same program, building, and
+                    occupancy
                     and the old rate will be sunset and a new one will be created for the current year and future years.
                 </div>
 
@@ -111,7 +110,7 @@
     @role(['admin'])
     <script>
         $('table#rates tbody td').on('click', function () {
-            $(this).html('<input name="' + $(this).attr('id') + '-rate" value="' + parseFloat($(this).text())/6 + '" />');
+            $(this).html('<input name="' + $(this).attr('id') + '-rate" value="' + parseFloat($(this).text()) / 6 + '" />');
             $(this).off('click');
             $('div.alert-warning').removeClass('d-none');
         });

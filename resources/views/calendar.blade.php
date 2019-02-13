@@ -1,5 +1,4 @@
-@inject('home', 'App\Http\Controllers\HomeController')
-@extends('layouts.app')
+@extends('layouts.appstrap')
 
 @section('css')
     <link rel='stylesheet' href='/css/fullcalendar.min.css'/>
@@ -15,16 +14,13 @@
 @endsection
 
 @section('content')
-    @include('snippet.navtabs', ['tabs' => $campers, 'id'=> 'id', 'option' => 'fullname'])
-
-    <div class="tab-content">
+    @component('snippet.navtabs', ['tabs' => $campers, 'id'=> 'id', 'option' => 'fullname'])
         @foreach($campers as $camper)
-            <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
-                 aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $camper->id }}">
+            <div class="tab-content" id="{{ $camper->id }}">
                 <div id="calendar-{{ $camper->id }}"></div>
             </div>
         @endforeach
-    </div>
+    @endcomponent
 @endsection
 
 @section('script')
@@ -50,7 +46,7 @@
             allDaySlot: false,
             minTime: '06:00:00',
             defaultView: $(window).width() < 768 ? 'agendaDay' : 'agendaWeek',
-            defaultDate: $(window).width() < 768 ? '{{ $home->year()->next_day }}' : '{{  $home->year()->start_date }}',
+            defaultDate: $(window).width() < 768 ? '{{ $year->next_day }}' : '{{  $year->start_date }}',
             @if(!empty($camper->program->calendar))
             events: {
                 googleCalendarId: '{{ $camper->each_calendar }}',
@@ -63,7 +59,7 @@
                 {
                     events: [
                             @foreach($camper->yearattending->workshops()->where('is_enrolled', '1')->get() as $signup)
-                            @foreach($signup->workshop->days($home->year()) as $day)
+                            @foreach($signup->workshop->days($year) as $day)
                         {
                             'title': '{{  $signup->workshop->name }}',
                             'start': ' {{ $day[0] }}',

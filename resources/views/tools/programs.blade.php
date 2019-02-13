@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.appstrap')
 
 @section('css')
     <link href="/css/summernote.css" rel="stylesheet">
@@ -14,13 +14,9 @@
         <form id="programs" class="form-horizontal" role="form" method="POST" action="{{ url('/tools/programs') }}">
             @include('snippet.flash')
 
-            @include('snippet.navtabs', ['tabs' => $programs, 'id'=> 'id', 'option' => 'name'])
-
-            <div class="tab-content">
+            @component('snippet.navtabs', ['tabs' => $programs, 'id'=> 'id', 'option' => 'name'])
                 @foreach($programs as $program)
-                    <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
-                         aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $program->id }}">
-
+                    <div class="tab-content" id="{{ $program->id }}">
                         <div class="form-group row{{ $errors->has($program->id . '-blurb') ? ' has-danger' : '' }}">
                             <label for="{{ $program->id }}-blurb" class="col-md-4 control-label">Blurb for
                                 Programs Page</label>
@@ -78,7 +74,7 @@
                         @endif
                     </div>
                 @endforeach
-            </div>
+            @endcomponent
             @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Changes']])
         </form>
     </div>

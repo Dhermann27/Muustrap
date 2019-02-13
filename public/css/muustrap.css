@@ -1,31 +1,18 @@
 
-body {
-    font-family: 'Open Sans', sans-serif;
+.map-responsive {
+    overflow: hidden;
+    padding-bottom: 31%;
+    position: relative;
+    height: 0;
+    margin-bottom: 1em;
 }
 
-h1 {
-    font-family: 'Open Sans', sans-serif;
-}
-
-h2, h3, h4, div.panel-heading, table.table-responsive thead, a.header-brand-text {
-    font-family: 'Roboto', sans-serif;
-}
-
-div.jumbotron {
-    background-image: url('../images/jumbotron.jpg');
-    background-size: cover;
-    color: white;
-    margin-bottom: 0px;
-    text-align: center;
-}
-
-div.jumbotron p {
-}
-
-div#jumpintoit {
-    color: white;
-    padding-top: 5rem;
-    padding-bottom: 15rem !important;
+.map-responsive iframe {
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
 }
 
 ul.camperdetails {
@@ -34,18 +21,6 @@ ul.camperdetails {
 
 div#empty {
     display: none;
-}
-
-.navbar {
-    margin-bottom: 0px;
-}
-
-nav a.navbar-brand {
-    padding: 0px 15px;
-}
-
-nav a.navbar-brand h4 {
-    margin-top: 0px;
 }
 
 div.label {
@@ -68,52 +43,6 @@ div.pronoun {
 
 div.preview div.line1, div.preview div.line2, div.preview div.line3, div.preview div.line4, div.preview div.parent {
     font-size: 1.2em;
-}
-
-div#spacer0 {
-    background-image: url("/images/spacer0.png");
-}
-
-div#spacer1 {
-    background-image: url("/images/spacer1.jpg");
-}
-
-div#spacer2 {
-    background-image: url("/images/spacer2.jpg");
-}
-
-.parallax {
-    /* Set a specific height */
-    height: 350px;
-
-    /* Create the parallax scrolling effect */
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-div#carousel-caption0 {
-    top: 8%;
-}
-
-div#carousel-caption1 {
-    left: 52%;
-    right: 1%
-}
-
-div#carousel-caption2 {
-    left: 5%;
-    right: 60%;
-    top: 25%;
-    color: #000;
-}
-
-
-@media only screen and (max-device-width: 1024px) {
-    .parallax {
-        background-attachment: scroll;
-    }
 }
 
 input::-webkit-outer-spin-button,
@@ -162,3 +91,40 @@ tr.family {
 .comic {
     font-family: 'Comic Sans MS', cursive, sans-serif;
 }
+
+.input-group>.twitter-typeahead {
+    position: relative;
+    -ms-flex: 1 1 auto;
+    -webkit-box-flex: 1;
+    flex: 1 1 auto;
+    width: 1%;
+    margin-bottom: 0;
+}
+.input-group>.twitter-typeahead:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.input-group>.twitter-typeahead>.tt-input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.form-control.tt-input:focus {
+    z-index: 3
+}
+div.tooltip, div.tooltip-inner {
+    min-width: 400px;
+}
+
+img#brochureimg {
+    border-radius: 25px 25px 0 0;
+    border-width: 10px 6px 0 4px;
+    border-color: black;
+    border-style: solid;
+    padding: 10px 10px 0 10px;
+}
+
+/*ul#bigsteps .nav-link {*/
+    /*padding: 1rem;*/
+/*}*/
+
+/*ul#bigsteps li.disabled*/

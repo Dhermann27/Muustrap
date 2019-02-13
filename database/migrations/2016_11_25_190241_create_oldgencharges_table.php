@@ -24,6 +24,7 @@ class CreateOldgenchargesTable extends Migration
             $table->integer('year');
             $table->timestamps();
         });
+        DB::update('ALTER TABLE oldgencharges AUTO_INCREMENT = 1000');
     }
 
     /**

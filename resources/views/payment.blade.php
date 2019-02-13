@@ -1,5 +1,4 @@
-@inject('home', 'App\Http\Controllers\HomeController')
-@extends('layouts.app')
+@extends('layouts.appstrap')
 
 @section('title')
     Payment Information
@@ -54,7 +53,7 @@
                     <td colspan='2'>Please consider at least a $10.00 donation to the MUUSA Scholarship fund.
                     </td>
                 </tr>
-                @if($home->year()->is_accept_paypal)
+                @if($year->is_accept_paypal)
                     <tr align="right">
                         <td><strong>Amount Due Now:</strong></td>
                         <td align="right">$<span id="amountNow">{{ money_format('%.2n', max($deposit, 0)) }}</span>
@@ -72,11 +71,11 @@
                 @endif
             </table>
             <div class="row p-7">
-                @if($home->year()->is_accept_paypal)
+                @if($year->is_accept_paypal)
                     <div class="col-md-6">
                         <h4>To Pay via Mail:</h4>
                         Make checks payable to <strong>MUUSA, Inc.</strong><br/>
-                        Mail check by May 31, {{ $home->year()->year }} to<br/>
+                        Mail check by May 31, {{ $year->year }} to<br/>
                         MUUSA, Inc.<br/>423 North Waiola<br/>
                         La Grange Park, IL 60526<br/> <br/>
                     </div>
@@ -112,7 +111,7 @@
                         <div id="paypal-button"></div>
                     </div>
                 @else
-                    Please bring payment to the first day of camp on {{ $home->year()->start_date }}. While we do accept
+                    Please bring payment to the first day of camp on {{ $year->start_date }}. While we do accept
                     VISA, Mastercard, Discover, we prefer a check a minimize fees.
                 @endif
             </div>
@@ -121,7 +120,7 @@
 @endsection
 
 @section('script')
-    @if($home->year()->is_accept_paypal)
+    @if($year->is_accept_paypal)
         <script src="https://www.paypalobjects.com/api/checkout.js"></script>
         <script>
             $(document).on('change', '#donation', function () {
@@ -135,17 +134,20 @@
 
             paypal.Button.render({
                 env: '{{ $env }}',
-                client: { {{ $env }}:
-            '{{ $token }}'
-            },
+                client: {
+                    {{ $env }}: '{{ $token }}'
+                },
 
-            style: {
-                size: 'large',
-                    label
-            :
-                'pay'
-            }
-            ,
+                locale: 'en_US',
+                style: {
+                    size: 'responsive',
+                    color: 'gold',
+                    shape: 'pill',
+                    label: 'pay',
+                    tagline: 'true',
+                    fundingicons: 'true',
+                    layout: 'horizontal'
+                },
 
             payment: function () {
                 var amt = parseFloat($("#amount").val());
@@ -160,28 +162,21 @@
                         }
                     ]
                 });
-            }
-            ,
+            },
 
             commit: true,
 
-                onAuthorize
-            :
-
-            function (data, actions) {
+            onAuthorize: function (data, actions) {
                 return actions.payment.execute().then(function (payment) {
-                    if (payment.transactions.length > 0 && payment.transactions[0].related_resources.length > 0) {
-                        $("#amount").val(payment.transactions[0].amount.total);
-                        $("#txn").val(payment.transactions[0].related_resources[0].sale.id);
-                    }
-                    $("form#muusapayment").submit();
-                });
-            }
+                        if (payment.transactions.length > 0 && payment.transactions[0].related_resources.length > 0) {
+                            $("#amount").val(payment.transactions[0].amount.total);
+                            $("#txn").val(payment.transactions[0].related_resources[0].sale.id);
+                        }
+                        $("form#muusapayment").submit();
+                   });
+                }
 
-            },
-            '#paypal-button'
-            )
-            ;
+            }, '#paypal-button');
         </script>
     @endif
 

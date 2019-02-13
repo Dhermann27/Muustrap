@@ -1,5 +1,4 @@
-@inject('home', 'App\Http\Controllers\HomeController')
-@extends('layouts.app')
+@extends('layouts.appstrap')
 
 @section('title')
     Nametag List

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.appstrap')
 
 @section('css')
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css"/>
@@ -18,49 +18,51 @@
               action="{{ url('/workshopchoice' . (isset($readonly) && $readonly === false ? '/f/' . $campers->first()->familyid : '')) }}">
             @include('snippet.flash')
 
-            @include('snippet.navtabs', ['tabs' => $campers, 'id'=> 'id', 'option' => 'fullname'])
-
-            <div class="tab-content">
+            @component('snippet.navtabs', ['tabs' => $campers, 'id'=> 'id', 'option' => 'firstname'])
                 @foreach($campers as $camper)
-                    <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
-                         aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $camper->id }}">
+                    <div class="tab-pane fade{!! $loop->first ? ' active show' : '' !!}" id="tab-{{ $camper->id }}"
+                         role="tabpanel">
                         <input type="hidden" id="{{ $camper->id }}-workshops"
                                name="{{ $camper->id }}-workshops" class="workshop-choices"/>
-                        <div class="row">
-                            @if(in_array($camper->programid, ['1008', '1009', '1006']) )
-                                @foreach($timeslots as $timeslot)
-                                    <div class="list-group col-md-4 col-sm-6 pb-5">
-                                        <h5>{{ $timeslot->name }}
-                                            @if($timeslot->id != 1005)
-                                                ({{ $timeslot->start_time->format('g:i A') }}
-                                                - {{ $timeslot->end_time->format('g:i A') }})
-                                            @endif
-                                        </h5>
-                                        @include('snippet.workshops', ['timeslot' => $timeslot, 'camperid' => $camper->id])
-                                        <h6 class="alert alert-danger mt-2 d-none">Your workshop selections are offered
-                                            on conflicting days.</h6>
+                        <h2 class="m-3">{{ $camper->firstname }} {{ $camper->lastname }}</h2>
+                        <div class="container px-3 py-5 px-lg-4 py-lg-6 bg-grey mb-5">
+                            <div class="row">
+                                @if(in_array($camper->programid, ['1008', '1009', '1006']) )
+                                    @foreach($timeslots as $timeslot)
+                                        <div class="list-group col-md-4 col-sm-6 pb-5">
+                                            <h5>{{ $timeslot->name }}
+                                                @if($timeslot->id != 1005)
+                                                    ({{ $timeslot->start_time->format('g:i A') }}
+                                                    - {{ $timeslot->end_time->format('g:i A') }})
+                                                @endif
+                                            </h5>
+                                            @include('snippet.workshops', ['timeslot' => $timeslot, 'camperid' => $camper->id])
+                                            <h6 class="alert alert-danger mt-2 d-none">Your workshop selections are
+                                                offered
+                                                on conflicting days.</h6>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="col-md-8 col-sm-6">
+                                        <p>&nbsp;</p>
+                                        Camper has been automatically enrolled in
+                                        <strong>{{ $camper->programname }}</strong> programming.
                                     </div>
-                                @endforeach
-                            @else
-                                <div class="col-md-8 col-sm-6">
-                                    <p>&nbsp;</p>
-                                    Camper has been automatically enrolled in
-                                    <strong>{{ $camper->programname }}</strong> programming.
-                                </div>
-                                @foreach($timeslots->where('id', '1005') as $timeslot)
-                                    <div class="list-group col-md-4 col-sm-6">
-                                        <h5>{{ $timeslot->name }}</h5>
-                                        @include('snippet.workshops', ['timeslot' => $timeslot, 'camperid' => $camper->id])
-                                    </div>
-                                @endforeach
+                                    @foreach($timeslots->where('id', '1005') as $timeslot)
+                                        <div class="list-group col-md-4 col-sm-6">
+                                            <h5>{{ $timeslot->name }}</h5>
+                                            @include('snippet.workshops', ['timeslot' => $timeslot, 'camperid' => $camper->id])
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
+                            @if(count($campers) > 1)
+                                @include('snippet.formgroup', ['type' => 'next', 'label' => '', 'attribs' => ['name' => 'Next Camper']])
                             @endif
                         </div>
-                        @if(count($campers) > 1)
-                            @include('snippet.formgroup', ['type' => 'next', 'label' => '', 'attribs' => ['name' => 'Next Camper']])
-                        @endif
                     </div>
                 @endforeach
-            </div>
+            @endcomponent
             @if(!isset($readonly) || $readonly === false)
                 @include('snippet.formgroup', ['type' => 'submit', 'label' => '', 'attribs' => ['name' => 'Save Preferences']])
             @endif
@@ -107,13 +109,13 @@
                     }
                 });
             });
-            $("#workshops").on("submit", function (e) {
-                $("form#workshops div.tab-pane").each(function () {
+            $("form#workshops").on("submit", function (e) {
+                $(this).find("div.tab-pane").each(function () {
                     var ids = new Array();
                     $(this).find("button.active").each(function () {
                         ids.push($(this).attr("id").split('-')[1]);
                     });
-                    $("#" + $(this).attr("id") + "-workshops").val(ids.join(","));
+                    $("#" + $(this).attr("id").split('-')[1] + "-workshops").val(ids.join(","));
                 });
                 return true;
             });

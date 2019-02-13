@@ -24,17 +24,24 @@ class CreateCampersTable extends Migration
             $table->string('email')->nullable()->unique();
             $table->bigInteger('phonenbr')->nullable();
             $table->date('birthdate')->nullable();
-            //$table->integer('gradeoffset')->default('-5');
-            $table->integer('gradyear')->default('1901');
             $table->string('roommate')->nullable();
             $table->string('sponsor')->nullable();
-            $table->tinyInteger('is_handicap')->default('0');
-            $table->integer('foodoptionid')->unsigned()->default('1000'); // No Restriction
+            $table->tinyInteger('is_handicap')->nullable();
+            $table->integer('foodoptionid')->unsigned()->nullable();
             $table->foreign('foodoptionid')->references('id')->on('foodoptions');
-            $table->integer('churchid')->unsigned()->default('2084'); // Church of the Larger Fellowship
+            $table->integer('churchid')->unsigned()->nullable();
             $table->foreign('churchid')->references('id')->on('churches');
             $table->timestamps();
         });
+        DB::update('ALTER TABLE campers AUTO_INCREMENT = 1000');
+
+        DB::unprepared("CREATE FUNCTION getage(birthdate DATE, year YEAR)
+                          RETURNS INT DETERMINISTIC
+                          BEGIN
+                            RETURN DATE_FORMAT(FROM_DAYS(DATEDIFF((SELECT start_date
+                                                                   FROM years y
+                                                                   WHERE year = y.year), birthdate)), '%Y');
+                          END;");
     }
 
     /**
@@ -44,6 +51,7 @@ class CreateCampersTable extends Migration
      */
     public function down()
     {
+        DB::unprepared('DROP FUNCTION IF EXISTS getage;');
         Schema::dropIfExists('campers');
     }
 }

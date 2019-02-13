@@ -1,18 +1,16 @@
-@extends('layouts.app')
+@extends('layouts.appstrap')
 
 @section('title')
     Workshop Attendees
 @endsection
 
 @section('content')
-    <button class="btn btn-primary float-right printme" data-toggle="tooltip" title="Print Signup Sheets"><i class="far fa-print fa-2x"></i>
+    <button class="btn btn-primary float-right printme" data-toggle="tooltip" title="Print Signup Sheets"><i
+                class="far fa-print fa-2x"></i>
     </button>
-    @include('snippet.navtabs', ['tabs' => $timeslots, 'id'=> 'id', 'option' => 'name'])
-
-    <div class="tab-content">
+    @component('snippet.navtabs', ['tabs' => $timeslots, 'id'=> 'id', 'option' => 'name'])
         @foreach($timeslots as $timeslot)
-            <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
-                 aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $timeslot->id }}">
+            <div class="tab-content" id="{{ $timeslot->id }}">
                 @if($timeslot->id != '1005')
                     <h5>{{ $timeslot->start_time->format('g:i A') }}
                         - {{ $timeslot->end_time->format('g:i A') }}</h5>
@@ -61,7 +59,7 @@
                 @endforeach
             </div>
         @endforeach
-    </div>
+    @endcomponent
 @endsection
 
 @section('script')

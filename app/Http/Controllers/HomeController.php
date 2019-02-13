@@ -2,63 +2,47 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return view('home');
     }
 
-    public function apc()
+    public function campcost()
     {
-        return \App\Thisyear_Staff::where('pctype', '1')->get();
+        return view('campcost', ['background' => 'calculator.jpg', 'rates' => DB::table('rates')
+            ->join('years', function ($join) {
+                $join->on('rates.start_year', '<=', 'years.year')->on('rates.end_year', '>', 'years.year');
+            })->join('programs', 'programs.id', 'rates.programid')
+            ->whereIn('buildingid', ['1000', '1007', '1017'])->where('years.is_current', '1')
+            ->orderBy('name')->orderBy('min_occupancy')->orderBy('max_occupancy')->get()]);
     }
 
-    public function ec()
+    public function housing()
     {
-        return \App\Thisyear_Staff::where('pctype', '2')->get();
-    }
-
-    public function getInProgressYear()
-    {
-        $year = DB::table('years')->whereRaw('NOW() BETWEEN `start_date` and DATE_ADD(start_dat, INTERVAL 7 DAY')->first();
-        return $year != null ? $year : $this->year();
-    }
-
-    public function year()
-    {
-        return \App\Year::where('is_current', '1')->first();
-    }
-
-    public function pc()
-    {
-        return \App\Thisyear_Staff::where('pctype', '>=', '1')->get();
+        return view('housing', ['buildings' => \App\Building::whereNotNull('blurb')->get(), 'background' => 'housing.jpg']);
     }
 
     public function programs()
     {
-        return \App\Thisyear_Staff::where('pctype', '3')->get();
+        return view('programs', ['programs' => \App\Program::whereNotNull('blurb')->orderBy('order')->get(), 'background' => 'programs.jpg']);
     }
 
-    public function registered()
+    public function registration()
     {
-        return Auth::check() && \App\Thisyear_Camper::where('email', Auth::user()->email)->first();
+        return view('registration', ['background' => 'registration.jpg']);
+    }
+
+    public function scholarship()
+    {
+        return view('scholarship', ['background' => 'scholarship.jpg']);
+    }
+
+    public function themespeaker()
+    {
+        return view('themespeaker', [ 'background' => 'biographies.jpg']);
     }
 }

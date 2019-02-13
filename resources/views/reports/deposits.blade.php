@@ -1,16 +1,13 @@
-@extends('layouts.app')
+@extends('layouts.appstrap')
 
 @section('title')
     Bank Deposits
 @endsection
 
 @section('content')
-    @include('snippet.navtabs', ['tabs' => $chargetypes, 'id'=> 'id', 'option' => 'name'])
-
-    <div class="tab-content">
+    @component('snippet.navtabs', ['tabs' => $chargetypes, 'id'=> 'id', 'option' => 'name'])
         @foreach($chargetypes as $chargetype)
-            <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
-                 aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $chargetype->id }}">
+            <div class="tab-content" id="{{ $chargetype->id }}">
                 @component('snippet.accordion', ['id' => $chargetype->id])
                     @foreach($charges as $ddate => $dcharges)
                         @if(count($dcharges->filter(function ($value) use ($chargetype) {
@@ -75,6 +72,6 @@
                 @endcomponent
             </div>
         @endforeach
-    </div>
+    @endcomponent
 @endsection
 

@@ -25,11 +25,12 @@
                  (isset($readonly) && $readonly === false ? '/f/' . $campers->first()->familyid : '')}}">
             @include('snippet.flash')
 
-            @component('snippet.navtabs', ['tabs' => $campers, 'id'=> 'id', 'option' => 'fullname'])
+            @component('snippet.navtabs', ['tabs' => $campers, 'id'=> 'id', 'option' => 'firstname'])
                 @foreach($campers as $camper)
-                    <div class="tab-content" id="{{ $camper->id }}">
+                    <div class="tab-pane fade{!! $loop->first ? ' active show' : '' !!}" id="tab-{{ $camper->id }}"
+                         role="tabpanel">
                         <p>&nbsp;</p>
-                        <button class="btn btn-default copyAnswers float-right">
+                        <button class="btn btn-primary btn-shadow copyAnswers float-right">
                             <i class="far fa-copy fa-3x float-left pr-3"></i> Copy preferences to<br/> all family
                             members
                         </button>
@@ -141,7 +142,7 @@
 
                         @include('snippet.formgroup', ['type' => 'select', 'label' => 'Font', 'title' => 'fonts',
                             'attribs' => ['name' => $camper->id . '-nametag-font'], 'formobject' => $camper->yearattending,
-                            'list' => [['id' => '1', 'name' => 'Krub'], ['id' => '2', 'name' => 'Indie Flower'],
+                            'list' => [['id' => '1', 'name' => 'Open Sans'], ['id' => '2', 'name' => 'Indie Flower'],
                             ['id' => '3', 'name' => 'Fredericka the Great'], ['id' => '4', 'name' => 'Mystery Quest'],
                             ['id' => '5', 'name' => 'Great Vibes'], ['id' => '6', 'name' => 'Bangers'],
                             ['id' => '7', 'name' => 'Comic Sans MS']], 'option' => 'name'])
@@ -198,7 +199,7 @@
         });
 
         function redraw(obj) {
-            var id = obj.attr("id");
+            var id = obj.attr("id").split('-')[1];
             var font = $("#" + id + "-nametag-font option:selected").text();
             $("#" + id + "-nametag-pronoun").val() === '1' ? obj.find(".pronoun").hide() : obj.find(".pronoun").show();
             var names = $("#" + id + "-nametag-name option:selected").attr("data-content").split("||");

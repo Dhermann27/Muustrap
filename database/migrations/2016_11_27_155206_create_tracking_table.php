@@ -119,7 +119,7 @@ class CreateTrackingTable extends Migration
                         statecd,
                         zipcd,
                         country,
-                        id,
+                        bc.id,
                         pronounid,
                         pronounname,
                         firstname,

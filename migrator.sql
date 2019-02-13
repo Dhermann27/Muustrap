@@ -8,6 +8,7 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE workshops()
                              capacity - 1
                            FROM workshops;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    SET sql_mode='';
 
     UPDATE yearattending__workshop
     SET is_enrolled = 0;

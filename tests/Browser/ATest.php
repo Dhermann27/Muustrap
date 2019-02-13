@@ -12,6 +12,7 @@ use App\Year;
  * @group Camper
  * @group Home
  * @group Household
+ * @group Payment
  * @group Workshop
  * @group Abraham
  * @group Beto

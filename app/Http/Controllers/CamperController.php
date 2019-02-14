@@ -77,8 +77,12 @@ class CamperController extends Controller
         return 'You have successfully saved your changes and registered. Click <a href="' . url('/payment') . '">here</a> to remit payment.';
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        if(!isset(Auth::user()->camper)) {
+            $request->session()->flash('warning', 'You have not yet created your household information.');
+            return redirect()->action('HouseholdController@index');
+        }
         $campers = $this->getCampers(Auth::user()->camper->familyid);
 
         $empty = new \App\Camper();

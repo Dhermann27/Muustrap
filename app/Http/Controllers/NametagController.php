@@ -47,8 +47,16 @@ class NametagController extends Controller
         $camper->yearattending->save();
     }
 
-    public function index($campers = null)
+    public function index(Request $request, $campers = null)
     {
+        if (!isset(Auth::user()->camper)) {
+            $request->session()->flash('warning', 'You have not yet created your household information.');
+            return redirect()->action('HouseholdController@index');
+        }
+        if (!isset(Auth::user()->thiscamper)) {
+            $request->session()->flash('warning', 'You have no campers registered for this year.');
+            return redirect()->action('CamperController@index');
+        }
         if ($campers == null) {
             $campers = $this->getCampers();
         }

@@ -42,22 +42,26 @@ class WorkshopController extends Controller
         DB::statement('CALL generate_charges(' . $year->year . ');');
 
         $success = 'Your workshop selections have been updated.';
-        if($year->is_live) $success .= ' Check out available rooms by clicking <a href="' . url('/roomselection') . '">here</a>.';
+        if ($year->is_live) $success .= ' Check out available rooms by clicking <a href="' . url('/roomselection') . '">here</a>.';
 
         $request->session()->flash('success', $success);
 
         return redirect()->action('WorkshopController@index');
     }
 
-    private function getCampers($id)
+    public function index(Request $request)
     {
-        return \App\Thisyear_Camper::where('familyid', $id)->with('yearattending.workshops')->orderBy('birthdate')->get();
-    }
-
-    public function index()
-    {
+        if (!isset(Auth::user()->camper)) {
+            $request->session()->flash('warning', 'You have not yet created your household information.');
+            return redirect()->action('HouseholdController@index');
+        }
+        $campers = $this->getCampers(Auth::user()->camper->familyid);
+        if (count($campers) == 0) {
+            $request->session()->flash('warning', 'You have no campers registered for this year.');
+            return redirect()->action('CamperController@index');
+        }
         return view('workshopchoice', ['timeslots' => \App\Timeslot::with('workshops.choices')->get(),
-            'campers' => $this->getCampers(Auth::user()->camper->familyid)
+            'campers' => $campers
         ]);
 
     }
@@ -110,9 +114,15 @@ class WorkshopController extends Controller
         return view('workshops', ['timeslots' => \App\Timeslot::all()->except('1005'), 'background' => 'workshops.jpg']);
     }
 
-    public function excursions() {
+    public function excursions()
+    {
         return view('excursions', ['timeslot' => \App\Timeslot::where('id', '1005')->first()]);
 
+    }
+
+    private function getCampers($id)
+    {
+        return \App\Thisyear_Camper::where('familyid', $id)->with('yearattending.workshops')->orderBy('birthdate')->get();
     }
 
 }

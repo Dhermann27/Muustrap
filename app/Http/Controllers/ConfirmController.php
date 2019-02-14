@@ -75,8 +75,16 @@ class ConfirmController extends Controller
         return 'You have successfully saved your response.';
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        if (!isset(Auth::user()->camper)) {
+            $request->session()->flash('warning', 'You have not yet created your household information.');
+            return redirect()->action('HouseholdController@index');
+        }
+        if (!isset(Auth::user()->thiscamper)) {
+            $request->session()->flash('warning', 'You have no campers registered for this year.');
+            return redirect()->action('CamperController@index');
+        }
         return view('confirm', ['families' => \App\Thisyear_Family::where('id', Auth::user()->camper->familyid)->get(),
             'medical' => \App\Program::find(DB::raw('getprogramidbyname("Adult")'))->form]);
 

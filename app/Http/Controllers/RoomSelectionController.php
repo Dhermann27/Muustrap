@@ -32,6 +32,15 @@ class RoomSelectionController extends Controller
 
     public function index(Request $request)
     {
+        if (!isset(Auth::user()->camper)) {
+            $request->session()->flash('warning', 'You have not yet created your household information.');
+            return redirect()->action('HouseholdController@index');
+        }
+        if (!isset(Auth::user()->thiscamper)) {
+            $request->session()->flash('warning', 'You have no campers registered for this year.');
+            return redirect()->action('CamperController@index');
+        }
+
         $camper = Auth::user()->thiscamper;
         $locked = $camper->yearattending->is_setbyadmin == '1' || $camper->is_program_housing == '1';
         $count = \App\Thisyear_Camper::where('familyid', $camper->familyid)->where('is_program_housing', '0')->count();

@@ -83,16 +83,23 @@ class PaymentController extends Controller
 
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $env = env('APP_ENV');
         $token = env('PAYPAL_CLIENT');
 
         $charges = [];
         $deposit = 0.0;
-        $camper = Auth::user()->camper;
-        if ($camper !== null) {
-            $charges = \App\Thisyear_Charge::where('familyid', $camper->family->id)->orderBy('timestamp')->orderBy('amount', 'desc')->get();
+
+        if(!isset(Auth::user()->camper)) {
+            $request->session()->flash('warning', 'You have not yet created your household information.');
+            return redirect()->action('HouseholdController@index');
+        } else {
+            $charges = \App\Thisyear_Charge::where('familyid', Auth::user()->camper->familyid)->orderBy('timestamp')->orderBy('amount', 'desc')->get();
+            if(count($charges) == 0) {
+                $request->session()->flash('warning', 'You have no campers registered for this year.');
+                return redirect()->action('CamperController@index');
+            }
             foreach ($charges as $charge) {
                 if ($charge->amount < 0 || $charge->memo == 'MUUSA Deposit') {
                     $deposit += $charge->amount;

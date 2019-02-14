@@ -41,16 +41,14 @@ class CreateGenchargesTable extends Migration
                       WHERE bc.roomid != 0 AND bc.year = myyear;
                     INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
                       SELECT
-                        bf.year,
-                        (SELECT id
-                         FROM campers
-                         WHERE familyid = bf.id
-                         LIMIT 1),
-                        IF(bf.count = 1, 200.0, 400.0),
+                        ya.year,
+                        MAX(c.id),
+                        IF(COUNT(c.id) = 1, 200.0, 400.0),
                         1001, -- 1003 in Prod
-                        CONCAT(\"Deposit for \", bf.year)
-                      FROM byyear_families bf
-                      WHERE bf.year = myyear AND bf.assigned = 0;
+                        CONCAT(\"Deposit for \", ya.year)
+                      FROM families f, campers c, yearsattending ya
+                      WHERE f.id=c.familyid AND c.id=ya.camperid AND ya.year=myyear AND ya.roomid IS NULL
+                      GROUP BY f.id;
                     INSERT INTO gencharges (year, camperid, charge, chargetypeid, memo)
                       SELECT
                         bsp.year,

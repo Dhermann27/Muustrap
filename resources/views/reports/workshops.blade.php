@@ -10,7 +10,8 @@
     </button>
     @component('snippet.navtabs', ['tabs' => $timeslots, 'id'=> 'id', 'option' => 'name'])
         @foreach($timeslots as $timeslot)
-            <div class="tab-content" id="{{ $timeslot->id }}">
+            <div class="tab-pane fade{!! $loop->first ? ' active show' : '' !!}" id="tab-{{ $timeslot->id }}"
+                 role="tabpanel">
                 @if($timeslot->id != '1005')
                     <h5>{{ $timeslot->start_time->format('g:i A') }}
                         - {{ $timeslot->end_time->format('g:i A') }}</h5>

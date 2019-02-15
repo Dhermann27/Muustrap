@@ -91,23 +91,27 @@ class CreateTrackingTable extends Migration
 
         DB::unprepared("CREATE VIEW thisyear_families AS
                       SELECT
-                        yf.id,
-                        yf.name,
-                        yf.address1,
-                        yf.address2,
-                        yf.city,
-                        yf.statecd,
-                        yf.zipcd,
-                        yf.country,
-                        yf.is_address_current,
-                        yf.is_ecomm,
-                        yf.is_scholar,
-                        yf.count,
-                        yf.assigned,
-                        yf.balance,
-                        yf.created_at
-                      FROM byyear_families yf, years y
-                      WHERE yf.year = y.year AND y.is_current = 1;
+                        ya.year,
+                        f.id,
+                        f.name,
+                        f.address1,
+                        f.address2,
+                        f.city,
+                        f.statecd,
+                        f.zipcd,
+                        f.country,
+                        f.is_address_current,
+                        f.is_ecomm,
+                        f.is_scholar,
+                        COUNT(ya.id)                                     count,
+                        SUM(IF(ya.roomid != 0, 1, 0))                    assigned,
+                        (SELECT SUM(bh.amount)
+                         FROM byyear_charges bh
+                         WHERE ya.year = bh.year AND f.id = bh.familyid) balance,
+                        MIN(ya.created_at)                               created_at
+                      FROM families f, campers c, yearsattending ya, years y
+                      WHERE f.id = c.familyid AND c.id = ya.camperid AND ya.year=y.year AND y.is_current=1
+                      GROUP BY f.id;
                       
                     CREATE VIEW thisyear_campers AS
                       SELECT

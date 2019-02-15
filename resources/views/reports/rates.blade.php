@@ -11,7 +11,7 @@
 
             @component('snippet.navtabs', ['tabs' => $years, 'id'=> 'year', 'option' => 'year'])
                 @foreach($years as $year)
-                    <div class="tab-content" id="{{ $year->year }}">
+                    <div class="tab-pane fade{!! $loop->first ? ' active show' : '' !!}" id="tab-{{ $year->year }}" role="tabpanel">
                         @component('snippet.accordion', ['id' => $year->year])
                             @foreach($buildings as $building)
                                 @component('snippet.accordioncard', ['id' => $year->year, 'loop' => $loop, 'heading' => $building->id, 'title' => $building->name])

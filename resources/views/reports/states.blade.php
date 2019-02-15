@@ -9,7 +9,7 @@
     <ul class="nav nav-tabs flex-column flex-lg-row" role="tablist">
         @foreach($years as $thisyear => $states)
             <li role="presentation" class="nav-item">
-                <a href="#{{ $thisyear }}" aria-controls="{{ $thisyear }}" role="tab"
+                <a href="#tab-{{ $thisyear }}" aria-controls="{{ $thisyear }}" role="tab"
                    class="nav-link{!! $loop->first ? ' active' : '' !!}" data-toggle="tab">{{ $thisyear }}</a>
             </li>
         @endforeach
@@ -18,7 +18,7 @@
     <div class="tab-content">
         @foreach($years as $thisyear => $states)
             <div role="tabpanel" class="tab-pane fade{{ $loop->first ? ' active show' : '' }}"
-                 aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="{{ $thisyear }}">
+                 aria-expanded="{{ $loop->first ? 'true' : 'false' }}" id="tab-{{ $thisyear }}">
                 @component('snippet.accordion', ['id' => $thisyear])
                     @foreach($states as $state)
                         @component('snippet.accordioncard', ['id' => $thisyear, 'loop' => $loop, 'heading' => $state->code, 'title' => $state->code])

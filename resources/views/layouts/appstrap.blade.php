@@ -160,33 +160,33 @@
                                            data-toggle="dropdown" data-hover="dropdown" data-close-others="false">
                                             Reports</a>
                                         <div class="dropdown-menu" role="menu" aria-labelledby="func-drop">
-                                            {{--<a href="{{ url('/reports/deposits') }}" class="dropdown-item">Bank--}}
-                                                {{--Deposits</a>--}}
-                                            {{--<a href="{{ url('/reports/firsttime') }}" class="dropdown-item">First-time--}}
-                                                {{--Campers</a>--}}
-                                            {{--<a href="{{ url('/reports/guarantee') }}" class="dropdown-item">Guarantee--}}
-                                                {{--Status</a>--}}
-                                            {{--<a href="{{ url('/reports/payments') }}" class="dropdown-item">Ledger</a>--}}
-                                            {{--<a href="{{ url('/reports/outstanding') }}" class="dropdown-item">Outstanding--}}
-                                                {{--Balances</a>--}}
-                                            {{--<a href="{{ url('/reports/programs') }}" class="dropdown-item">Program--}}
-                                                {{--Participants</a>--}}
-                                            {{--<a href="{{ url('/reports/rates') }}" class="dropdown-item">Rates</a>--}}
-                                            {{--<a href="{{ url('/reports/campers') }}" class="dropdown-item">Registered--}}
-                                                {{--Campers</a>--}}
-                                            {{--<a href="{{ url('/reports/chart') }}" class="dropdown-item">Registration--}}
-                                                {{--Chart</a>--}}
-                                            {{--<a href="{{ url('/reports/roommates') }}"--}}
-                                               {{--class="dropdown-item">Roommates</a>--}}
-                                            {{--<a href="{{ url('/reports/rooms') }}" class="dropdown-item">Rooms</a>--}}
-                                            {{--<a href="{{ url('/reports/states') }}" class="dropdown-item">States &amp;--}}
-                                                {{--Churches</a>--}}
-                                            {{--<a href="{{ url('/reports/volunteers') }}"--}}
-                                               {{--class="dropdown-item">Volunteers</a>--}}
-                                            {{--<a href="{{ url('/reports/workshops') }}" class="dropdown-item">Workshop--}}
-                                                {{--Attendees</a>--}}
-                                            {{--<a href="{{ url('/reports/conflicts') }}" class="dropdown-item">Workshop--}}
-                                                {{--Conflicts</a>--}}
+                                            <a href="{{ url('/reports/deposits') }}" class="dropdown-item">Bank
+                                                Deposits</a>
+                                            <a href="{{ url('/reports/firsttime') }}" class="dropdown-item">First-time
+                                                Campers</a>
+                                            <a href="{{ url('/reports/guarantee') }}" class="dropdown-item">Guarantee
+                                                Status</a>
+                                            <a href="{{ url('/reports/payments') }}" class="dropdown-item">Ledger</a>
+                                            <a href="{{ url('/reports/outstanding') }}" class="dropdown-item">Outstanding
+                                                Balances</a>
+                                            <a href="{{ url('/reports/programs') }}" class="dropdown-item">Program
+                                                Participants</a>
+                                            <a href="{{ url('/reports/rates') }}" class="dropdown-item">Rates</a>
+                                            <a href="{{ url('/reports/campers') }}" class="dropdown-item">Registered
+                                                Campers</a>
+                                            <a href="{{ url('/reports/chart') }}" class="dropdown-item">Registration
+                                                Chart</a>
+                                            <a href="{{ url('/reports/roommates') }}"
+                                               class="dropdown-item">Roommates</a>
+                                            <a href="{{ url('/reports/rooms') }}" class="dropdown-item">Rooms</a>
+                                            <a href="{{ url('/reports/states') }}" class="dropdown-item">States &amp;
+                                                Churches</a>
+                                            <a href="{{ url('/reports/volunteers') }}"
+                                               class="dropdown-item">Volunteers</a>
+                                            <a href="{{ url('/reports/workshops') }}" class="dropdown-item">Workshop
+                                                Attendees</a>
+                                            <a href="{{ url('/reports/conflicts') }}" class="dropdown-item">Workshop
+                                                Conflicts</a>
                                         </div>
                                     </div>
 

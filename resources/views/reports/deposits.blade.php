@@ -7,7 +7,7 @@
 @section('content')
     @component('snippet.navtabs', ['tabs' => $chargetypes, 'id'=> 'id', 'option' => 'name'])
         @foreach($chargetypes as $chargetype)
-            <div class="tab-content" id="{{ $chargetype->id }}">
+            <div class="tab-pane fade{!! $loop->first ? ' active show' : '' !!}" id="tab-{{ $chargetype->id }}" role="tabpanel">
                 @component('snippet.accordion', ['id' => $chargetype->id])
                     @foreach($charges as $ddate => $dcharges)
                         @if(count($dcharges->filter(function ($value) use ($chargetype) {

@@ -74,7 +74,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'data'], function () {
     Route::get('churchlist', 'DataController@churches');
 });
 
-Route::group(['middleware' => ['role:admin|council'], 'prefix' => 'reports'], function () {
+Route::group(['middleware' => ['auth', 'role:admin|council'], 'prefix' => 'reports'], function () {
     Route::get('campers', 'ReportController@campers');
     Route::get('campers/{year}.xls', 'ReportController@campersExport');
     Route::get('campers/{year?}/{order?}', 'ReportController@campers');

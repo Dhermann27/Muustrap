@@ -11,7 +11,7 @@ class ReportController extends Controller
 {
     public function campers($year = 0, $order = 'name')
     {
-        $year = $year == 0 ? \App\Year::where('is_current', '1')->first()->year : (int)$year;
+        $year = $year == 0 ? $this->year->year : (int)$year;
         $years = \App\Byyear_Family::where('year', '>', '2008')->groupBy('year')->distinct()
             ->orderBy('year', 'DESC')->get();
         $families = \App\Byyear_Family::with('campers')->where('year', $year);
@@ -26,7 +26,7 @@ class ReportController extends Controller
 
     public function campersExport($year = 0)
     {
-        $year = $year == 0 ? \App\Year::where('is_current', '1')->first()->year : (int)$year;
+        $year = $year == 0 ? $this->year->year : (int)$year;
         Excel::create('MUUSA_' . $year . '_Campers_' . Carbon::now()->toDateString(), function ($excel) use ($year) {
             $excel->sheet('campers', function ($sheet) use ($year) {
                 $sheet->setOrientation('landscape');
@@ -44,21 +44,23 @@ class ReportController extends Controller
         $mergeddates = array();
         $dates = DB::select(DB::raw('SELECT ya.year AS theleft, RIGHT(DATE(ya.created_at),5) AS theright, DATE(ya.created_at) AS thedate, 
             (SELECT COUNT(*) FROM yearsattending yap WHERE yap.year=MAX(ya.year) AND DATE(yap.created_at) <= thedate) AS total
-            FROM yearsattending ya, staticdates sd WHERE RIGHT(DATE(ya.created_at), 5)=RIGHT(DATE(sd.date), 5) AND ya.year>getcurrentyear()-7 
+            FROM yearsattending ya, staticdates sd WHERE RIGHT(DATE(ya.created_at), 5)=RIGHT(DATE(sd.date), 5) 
+                                                  AND ya.year>getcurrentyear()-7 AND ya.year<=getcurrentyear() 
             GROUP BY DATE(ya.created_at) ORDER BY sd.day'));
         $summaries = DB::select(DB::raw('SELECT ya.year, COUNT(*) total, SUM(IF((SELECT COUNT(*) FROM yearsattending yap WHERE ya.year>yap.year AND c.id=yap.camperid)=0, 1, 0)) newcampers, 
             SUM(IF((SELECT COUNT(*) FROM yearsattending yap WHERE ya.year-1=yap.year AND c.id=yap.camperid)=0 AND (SELECT COUNT(*) FROM yearsattending yap WHERE ya.year-2=yap.year AND c.id=yap.camperid)=1,1,0)) oldcampers, 
             SUM(IF((SELECT COUNT(*) FROM yearsattending yap WHERE ya.year-3<yap.year AND yap.year<ya.year AND c.id=yap.camperid)=0 AND (SELECT COUNT(*) FROM yearsattending yap WHERE ya.year-3>=yap.year AND c.id=yap.camperid)>0,1,0)) voldcampers, 
             (SELECT COUNT(*) FROM yearsattending yap WHERE ya.year-1=yap.year AND (SELECT COUNT(*) FROM yearsattending yaq WHERE ya.year=yaq.year AND yap.camperid=yaq.camperid)=0) lostcampers 
-            FROM campers c, yearsattending ya WHERE c.id=ya.camperid AND ya.year>getcurrentyear()-7 GROUP BY ya.year ORDER BY ya.year'));
+            FROM campers c, yearsattending ya WHERE c.id=ya.camperid AND ya.year>getcurrentyear()-7 AND ya.year<=getcurrentyear()
+            GROUP BY ya.year ORDER BY ya.year'));
         foreach ($dates as $date) {
             if (!array_has($mergeddates, $date->theright)) {
                 $mergeddates[$date->theright] = array();
             }
             $mergeddates[$date->theright][$date->theleft] = $date->total;
         }
-        return view('reports.chart', ['years' => \App\Year::where('year', '>', DB::raw('getcurrentyear()-7'))->get(),
-            'summaries' => $summaries, 'dates' => $mergeddates]);
+        return view('reports.chart', ['years' => \App\Year::where('year', '>', DB::raw($this->year->year-7))
+            ->where('year', '<=', $this->year->year)->get(), 'summaries' => $summaries, 'dates' => $mergeddates]);
     }
 
     public function conflicts()
@@ -91,11 +93,9 @@ class ReportController extends Controller
 
     public function firsttime()
     {
-        $year = \App\Year::where('is_current', '1')->first()->year;
-        $families = \App\Byyear_Family::where(DB::raw('(SELECT COUNT(*) FROM byyear_families bfp WHERE byyear_families.id=bfp.id AND bfp.year!=getcurrentyear())'), 0)
-            ->with('campers')->orderBy('name')->get();
+        $families = \App\Thisyear_Family::whereRaw('id IN (SELECT c.familyid FROM campers c, yearsattending ya WHERE c.id=ya.camperid GROUP BY c.familyid HAVING COUNT(ya.id)=1)')->with('campers')->orderBy('name')->get();
         return view('reports.campers', ['title' => 'First-time Campers', 'families' => $families,
-            'thisyear' => $year, 'years' => [$year]]);
+            'thisyear' => $this->year->year, 'years' => [$this->year->year]]);
     }
 
     public function guarantee()
@@ -139,7 +139,7 @@ class ReportController extends Controller
 
     public function payments($year = 0)
     {
-        $year = $year == 0 ? \App\Year::where('is_current', '1')->first()->year : (int)$year;
+        $year = $year == 0 ? $this->year->year : (int)$year;
         $years = \App\Byyear_Charge::where('year', '>', '2008')->groupBy('year')->distinct()
             ->orderBy('year', 'DESC')->get();
         return view('reports.payments', ['charges' => \App\Byyear_Charge::where('amount', '!=', '0.0')
@@ -148,9 +148,9 @@ class ReportController extends Controller
 
     public function paymentsExport($year = 0)
     {
-        $year = $year == 0 ? \App\Year::where('is_current', '1')->first()->year : (int)$year;
-        Excel::create('MUUSA_' . $year . '_Ledger_' . Carbon::now()->toDateString(), function ($excel) use ($year)  {
-            $excel->sheet('payments', function ($sheet) use ($year)  {
+        $year = $year == 0 ? $this->year->year : (int)$year;
+        Excel::create('MUUSA_' . $year . '_Ledger_' . Carbon::now()->toDateString(), function ($excel) use ($year) {
+            $excel->sheet('payments', function ($sheet) use ($year) {
                 $sheet->setOrientation('landscape');
                 $sheet->with(\App\Byyear_Charge::select('families.name', 'campers.firstname', 'campers.lastname',
                     'byyear_charges.amount', 'byyear_charges.chargetypename', 'byyear_charges.timestamp',
@@ -171,7 +171,6 @@ class ReportController extends Controller
 
     public function ratesMark(Request $request)
     {
-        $year = \App\Year::where('is_current', '1')->first()->year;
         foreach ($request->all() as $key => $value) {
             $matches = array();
             if (preg_match('/(\d+)-rate/', $key, $matches)) {
@@ -219,7 +218,7 @@ class ReportController extends Controller
 
     public function rooms($year = 0)
     {
-        $year = $year == 0 ? \App\Year::where('is_current', '1')->first()->year : (int)$year;
+        $year = $year == 0 ? $this->year->year : (int)$year;
         $years = \App\Byyear_Camper::where('year', '>', '2008')->groupBy('year')->distinct()
             ->orderBy('year', 'DESC')->get();
         $campers = \App\Byyear_Camper::where('year', $year)->whereNotNull('roomid')
@@ -230,7 +229,7 @@ class ReportController extends Controller
 
     public function roomsExport($year = 0)
     {
-        $year = $year == 0 ? \App\Year::where('is_current', '1')->first()->year : (int)$year;
+        $year = $year == 0 ? $this->year->year : (int)$year;
         Excel::create('MUUSA_' . $year . '_Rooms_' . Carbon::now()->toDateString(), function ($excel) use ($year) {
             $buildings = \App\Byyear_Camper::where('year', $year)->whereNotNull('roomid')->groupBy('buildingid')
                 ->distinct()->get();

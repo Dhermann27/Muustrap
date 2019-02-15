@@ -7,7 +7,7 @@
 @section('content')
     @include('snippet.orderby', ['years' => $years, 'url' => url('/reports/rooms'), 'orders' => ['name']])
     <p>&nbsp;</p>
-    @component('snippet.accordion', ['id' => ''])
+    @component('snippet.accordion', ['id' => '1'])
         @foreach($buildings as $building)
             @component('snippet.accordioncard', ['id' => '1', 'loop' => $loop, 'heading' => $building->id, 'title' => $building->name])
                 @slot('badge')

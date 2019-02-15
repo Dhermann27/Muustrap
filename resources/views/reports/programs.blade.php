@@ -7,7 +7,7 @@
 @section('content')
     @component('snippet.navtabs', ['tabs' => $programs, 'id'=> 'id', 'option' => 'name'])
         @foreach($programs as $program)
-            <div class="tab-content" id="{{ $program->id }}">
+            <div class="tab-pane fade{!! $loop->first ? ' active show' : '' !!}" id="tab-{{ $program->id }}" role="tabpanel">
                 @if(count($program->participants) > 0)
                     <table class="table">
                         <thead>

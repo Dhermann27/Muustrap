@@ -24,14 +24,14 @@
             <th>Total</th>
         </tr>
         <tbody>
-        @foreach ($summaries as $year)
+        @foreach ($summaries as $myyear)
             <tr align="center">
-                <td><b>{{ $year->year }}</b></td>
-                <td>+{{ $year->newcampers }}</td>
-                <td>+{{ $year->oldcampers }}</td>
-                <td>+{{ $year->voldcampers }}</td>
-                <td>-{{ $year->lostcampers }}</td>
-                <td>{{ $year->total }}</td>
+                <td><b>{{ $myyear->year }}</b></td>
+                <td>+{{ $myyear->newcampers }}</td>
+                <td>+{{ $myyear->oldcampers }}</td>
+                <td>+{{ $myyear->voldcampers }}</td>
+                <td>-{{ $myyear->lostcampers }}</td>
+                <td>{{ $myyear->total }}</td>
             </tr>
         @endforeach
         </tbody>
@@ -50,16 +50,16 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
     <script>
         var years = [
-            @foreach($years as $year)
-                '{{ $year->year }}' @if(!$loop->last) , @endif
+            @foreach($years as $myyear)
+                '{{ $myyear->year }}' @if(!$loop->last) , @endif
             @endforeach
         ];
         var mydata = [
                 @foreach($dates as $date => $totals)
             {
                 'y': '{{ $date }}',
-                @foreach($totals as $year => $total)
-                '{{ $year }}':  {{ $total }},
+                @foreach($totals as $myyear => $total)
+                '{{ $myyear }}':  {{ $total }},
                 @endforeach
             },
             @endforeach

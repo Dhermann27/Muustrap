@@ -24,12 +24,12 @@
                             }))>0)
                             @component('snippet.accordioncard', ['id' => $thisyear, 'loop' => $loop, 'heading' => $position->id, 'title' => $position->name])
                                 @slot('badge')
-                                    <span class="p-2 float-right">
-                                    {{ count($volunteers->filter(function ($value) use ($thisyear, $position) {
-                                        return $value->year==$thisyear && $value->volunteerpositionid==$position->id;
-                                    })) }}
+                                    <span class="badge badge-primary">
+                                        {{ count($volunteers->filter(function ($value) use ($thisyear, $position) {
+                                            return $value->year==$thisyear && $value->volunteerpositionid==$position->id;
+                                        })) }}
                                         <i class="far fa-handshake"></i>
-                                </span>
+                                    </span>
                                 @endslot
                                 <table class="table">
                                     <thead>

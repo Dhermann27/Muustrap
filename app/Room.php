@@ -25,10 +25,6 @@ class Room extends Model
         return $this->belongsTo(Yearattending::class);
     }
 
-    public function getOccupantCountAttribute() {
-        return \App\Thisyear_Camper::where('roomid', $this->id)->count();
-    }
-
     public function connected_with()
     {
         return $this->hasOne(Room::class, 'id', 'connected_with');

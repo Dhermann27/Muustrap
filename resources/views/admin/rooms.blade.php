@@ -29,7 +29,7 @@
                                         @foreach($building->rooms as $room)
                                             <option value="{{ $room->id }}"{{ $camper->roomid == $room->id ? ' selected' : '' }}>
                                                 {{ $room->room_number }} {{ $room->is_handicap == '1' ? ' - HC' : '' }}
-                                                ({{ $room->occupant_count }}/{{ $room->capacity }})
+                                                ({{ count($room->occupants) }}/{{ $room->capacity }})
                                             </option>
                                         @endforeach
                                     </optgroup>
@@ -52,13 +52,15 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($camper->history() as $year)
-                            <tr>
-                                <td>{{ $year->year }}</td>
-                                <td>{{ $year->buildingname }}</td>
-                                <td>{{ $year->room_number }}</td>
+                        @foreach($camper->yearsattending as $ya)
+                            @if(isset($ya->roomid))
+                                <tr>
+                                    <td>{{ $ya->year}}</td>
+                                    <td>{{ $ya->room->building->name}}</td>
+                                    <td>{{ $ya->room->room_number }}</td>
 
-                            </tr>
+                                </tr>
+                            @endif
                         @endforeach
                         </tbody>
                     </table>

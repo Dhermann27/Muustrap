@@ -50,9 +50,10 @@ class Thisyear_Camper extends Model
         return $this->hasOne(Yearattending::class, 'id', 'yearattendingid');
     }
 
-    public function history()
+    public function yearsattending()
     {
-        return \App\Byyear_Camper::where('id', $this->id)->where('year', '>', DB::raw('getcurrentyear()-5'))->orderBy('year')->get();
+        return $this->hasMany(Yearattending::class, 'camperid', 'id')
+            ->orderBy('year', 'desc');
     }
 
     public function getFormattedPhoneAttribute()

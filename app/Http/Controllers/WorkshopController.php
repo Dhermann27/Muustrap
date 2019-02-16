@@ -98,7 +98,7 @@ class WorkshopController extends Controller
 
         $request->session()->flash('success', 'Green means good! Yayyyyyy');
 
-        redirect()->action('WorkshopController@read', ['i' => 'f', 'id' => $id]);
+        return redirect()->action('WorkshopController@read', ['i' => 'f', 'id' => $id]);
     }
 
     public function read($i, $id)

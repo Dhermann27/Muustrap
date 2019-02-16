@@ -142,15 +142,18 @@
                                             <a href="{{ url('/household/f/0') }}" class="dropdown-item">Create New
                                                 Family</a>
                                             {{--<a href="{{ url('/admin/distlist') }}" class="dropdown-item">Distribution--}}
-                                                {{--Lists</a>--}}
-                                            {{--<a href="{{ url('/confirm/all') }}" class="dropdown-item">Invoices (all)</a>--}}
+                                            {{--Lists</a>--}}
+                                            {{--<a href="{{ url('/confirm/all') }}" class="dropdown-item">Invoices <i class="fal fa-tachometer-alt-slow"></i></a>--}}
                                             {{--<a href="{{ url('/admin/master') }}" class="dropdown-item">Master Control--}}
-                                                {{--Program</a>--}}
+                                            {{--Program</a>--}}
                                             {{--<a href="{{ url('/confirm/letters') }}" class="dropdown-item">Medical/Program--}}
-                                                {{--Letters (all)</a>--}}
-                                            <a href="{{ url('/admin/massassign') }}" class="dropdown-item">Rooms Assignment</a>
+                                            {{--Letters <i class="fal fa-tachometer-alt-slow"></i></a>--}}
+                                            <a href="{{ url('/admin/massassign') }}" class="dropdown-item"
+                                               title="Slow Function">
+                                                Rooms Assignment <i class="fal fa-tachometer-alt-slow"></i>
+                                            </a>
                                             {{--<a href="{{ url('/admin/positions') }}" class="dropdown-item">Staff--}}
-                                                {{--Positions</a>--}}
+                                            {{--Positions</a>--}}
                                             {{--<a href="{{ url('/admin/roles') }}" class="dropdown-item">User Roles</a>--}}
                                         </div>
                                     </div>
@@ -197,18 +200,18 @@
                                             Tools</a>
                                         <div class="dropdown-menu" role="menu" aria-labelledby="tools-drop">
                                             {{--<a href="{{ url('/coffeehouse') }}" class="dropdown-item">Coffeehouse--}}
-                                                {{--Schedule</a>--}}
+                                            {{--Schedule</a>--}}
                                             {{--<a href="{{ url('/tools/cognoscenti') }}" class="dropdown-item">Cognoscenti--}}
-                                                {{--(Planning Council)</a>--}}
+                                            {{--(Planning Council)</a>--}}
                                             {{--<a href="{{ url('/tools/nametags') }}" class="dropdown-item">Nametag--}}
-                                                {{--Printer</a>--}}
+                                            {{--Printer</a>--}}
                                             {{--<a href="{{ url('/tools/nametags/all') }}" class="dropdown-item">Nametags--}}
-                                                {{--(all)</a>--}}
+                                            {{--<i class="fal fa-tachometer-alt-slow"></i></a>--}}
                                             {{--<a href="{{ url('/tools/programs') }}" class="dropdown-item">Programs</a>--}}
                                             {{--<a href="{{ url('/roomselection/map') }}" class="dropdown-item">Room--}}
-                                                {{--Selection Map</a>--}}
+                                            {{--Selection Map</a>--}}
                                             {{--<a href="{{ url('/tools/staffpositions') }}" class="dropdown-item">Staff--}}
-                                                {{--Assignments</a>--}}
+                                            {{--Assignments</a>--}}
                                             {{--<a href="{{ url('/tools/workshops') }}" class="dropdown-item">Workshops</a>--}}
                                         </div>
                                     </div>
@@ -255,13 +258,13 @@
                                                 <i class="fal fa-newspaper fa-fw"></i> {{ $year->next_muse }}</a>
                                         @endif
                                         {{--<a href="{{ url('/directory') }}" class="dropdown-item">--}}
-                                            {{--<i class="far fa-address-book fa-fw"></i> Online Directory</a>--}}
+                                        {{--<i class="far fa-address-book fa-fw"></i> Online Directory</a>--}}
                                         @if($year->is_artfair)
                                             <a href="{{ url('/artfair') }}" class="dropdown-item">
                                                 <i class="far fa-shopping-bag fa-fw"></i> Art Fair Submission</a>
                                         @endif
                                         {{--<a href="{{ url('/volunteer') }}" class="dropdown-item">--}}
-                                            {{--<i class="far fa-handshake fa-fw"></i> Volunteer Opportunities</a>--}}
+                                        {{--<i class="far fa-handshake fa-fw"></i> Volunteer Opportunities</a>--}}
                                         @if($year->is_workshop_proposal)
                                             <a href="{{ url('/proposal') }}" class="dropdown-item">
                                                 <i class="fal fa-chalkboard-teacher fa-fw"></i> Workshop Proposal
@@ -400,18 +403,18 @@
 
             <div class="col-md-4">
                 {{--<h4 class="text-uppercase text-white">--}}
-                    {{--Mailing List</h4>--}}
+                {{--Mailing List</h4>--}}
                 {{--<p>Interested in receiving our web brochure when it is published in February?</p>--}}
                 {{--<form id="mailinglist" role="form" method="POST"--}}
-                      {{--action="{{ url('/mailinglist') }}">--}}
-                    {{--<div class="input-group">--}}
-                        {{--<label class="sr-only" for="email-field">Email</label>--}}
-                        {{--<input type="text" class="form-control" id="email-field"--}}
-                               {{--placeholder="Enter your email address">--}}
-                        {{--<span class="input-group-append">--}}
-                  {{--<button class="btn btn-primary" type="button">Signup</button>--}}
+                {{--action="{{ url('/mailinglist') }}">--}}
+                {{--<div class="input-group">--}}
+                {{--<label class="sr-only" for="email-field">Email</label>--}}
+                {{--<input type="text" class="form-control" id="email-field"--}}
+                {{--placeholder="Enter your email address">--}}
+                {{--<span class="input-group-append">--}}
+                {{--<button class="btn btn-primary" type="button">Signup</button>--}}
                 {{--</span>--}}
-                    {{--</div>--}}
+                {{--</div>--}}
                 {{--</form>--}}
             </div>
         </div>

@@ -93,6 +93,7 @@ class AdminController extends Controller
             if (preg_match('/(\d+)-roomid/', $key, $matches)) {
                 $ya = \App\Yearattending::findOrFail($matches[1]);
                 $ya->roomid = $value;
+                $ya->is_setbyadmin = 1;
                 $ya->save();
             }
         }

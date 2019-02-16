@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Confirm;
 
 class CamperController extends Controller
 {
@@ -58,13 +60,13 @@ class CamperController extends Controller
                 }
                 if ($camper->familyid == $logged_in->familyid) {
                     $thiscamper = $this->upsertCamper($request, $i, $logged_in->familyid);
-                    if ($thiscamper->yearattendingid != null) {
+                    if ((int)$request->input('days')[$i] > 0) {
                         array_push($campers, $thiscamper);
                     }
                 }
             } else {
                 $thiscamper = $this->upsertCamper($request, $i, $logged_in->familyid);
-                if ($thiscamper->yearattendingid != null) {
+                if ((int)$request->input('days')[$i] > 0) {
                     array_push($campers, $thiscamper);
                 }
             }
@@ -72,7 +74,7 @@ class CamperController extends Controller
 
         DB::statement('CALL generate_charges(' . $this->year->year . ');');
 
-//        Mail::to(Auth::user()->email)->send(new Confirm($year, $campers));
+        Mail::to(Auth::user()->email)->send(new Confirm($this->year, $campers));
 
         return 'You have successfully saved your changes and registered. Click <a href="' . url('/payment') . '">here</a> to remit payment.';
     }

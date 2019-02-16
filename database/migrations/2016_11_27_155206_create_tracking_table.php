@@ -115,6 +115,7 @@ class CreateTrackingTable extends Migration
                       
                     CREATE VIEW thisyear_campers AS
                       SELECT
+                        y.year,
                         familyid,
                         familyname,
                         address1,

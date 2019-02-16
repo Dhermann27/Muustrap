@@ -74,6 +74,7 @@ class RoomSelectionController extends Controller
         foreach ($campers as $camper) {
             $ya = \App\Yearattending::find($camper->yearattendingid);
             $ya->roomid = $request->input($camper->id . '-roomid');
+            if($ya->roomid == 0) $ya->roomid = null;
             $ya->is_setbyadmin = '1';
             $ya->save();
         }

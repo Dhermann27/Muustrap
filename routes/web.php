@@ -121,6 +121,8 @@ Route::group(['middleware' => ['role:admin'], 'prefix' => 'admin'], function () 
     Route::post('distlist', 'AdminController@distlistStore');
     Route::get('master', 'AdminController@masterIndex');
     Route::post('master', 'AdminController@masterStore');
+    Route::get('massassign', 'AdminController@massAssignIndex');
+    Route::post('massassign/f/{id}', 'AdminController@massAssignStore');
     Route::get('roles', 'AdminController@roleIndex');
     Route::post('roles', 'AdminController@roleStore');
     Route::get('positions', 'AdminController@positionIndex');

@@ -148,6 +148,7 @@
                                                 {{--Program</a>--}}
                                             {{--<a href="{{ url('/confirm/letters') }}" class="dropdown-item">Medical/Program--}}
                                                 {{--Letters (all)</a>--}}
+                                            <a href="{{ url('/admin/massassign') }}" class="dropdown-item">Rooms Assignment</a>
                                             {{--<a href="{{ url('/admin/positions') }}" class="dropdown-item">Staff--}}
                                                 {{--Positions</a>--}}
                                             {{--<a href="{{ url('/admin/roles') }}" class="dropdown-item">User Roles</a>--}}
@@ -159,7 +160,7 @@
                                         <a href="#" class="dropdown-item dropdown-toggle" id="report-drop"
                                            data-toggle="dropdown" data-hover="dropdown" data-close-others="false">
                                             Reports</a>
-                                        <div class="dropdown-menu" role="menu" aria-labelledby="func-drop">
+                                        <div class="dropdown-menu" role="menu" aria-labelledby="report-drop">
                                             <a href="{{ url('/reports/deposits') }}" class="dropdown-item">Bank
                                                 Deposits</a>
                                             <a href="{{ url('/reports/firsttime') }}" class="dropdown-item">First-time
@@ -191,10 +192,10 @@
                                     </div>
 
                                     <div class="dropdown dropdown-submenu">
-                                        <a href="#" class="dropdown-item dropdown-toggle" id="report-drop"
+                                        <a href="#" class="dropdown-item dropdown-toggle" id="tools-drop"
                                            data-toggle="dropdown" data-hover="dropdown" data-close-others="false">
                                             Tools</a>
-                                        <div class="dropdown-menu" role="menu" aria-labelledby="func-drop">
+                                        <div class="dropdown-menu" role="menu" aria-labelledby="tools-drop">
                                             {{--<a href="{{ url('/coffeehouse') }}" class="dropdown-item">Coffeehouse--}}
                                                 {{--Schedule</a>--}}
                                             {{--<a href="{{ url('/tools/cognoscenti') }}" class="dropdown-item">Cognoscenti--}}

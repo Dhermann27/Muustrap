@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use mysql_xdevapi\Exception;
 
 class AdminController extends Controller
 {
@@ -84,6 +85,29 @@ class AdminController extends Controller
     {
         return view('admin.distlist', ['programs' => \App\Program::orderBy('order')->get(),
             'request' => $request ? $request : new Request()]);
+    }
+
+    public function massAssignStore(Request $request)
+    {
+        foreach ($request->all() as $key => $value) {
+            if (preg_match('/(\d+)-roomid/', $key, $matches)) {
+                $ya = \App\Yearattending::findOrFail($matches[1]);
+                $ya->roomid = $value;
+                $ya->save();
+            }
+        }
+        return $request->input('familyid');
+    }
+
+
+    public function massAssignIndex()
+    {
+        $families = \App\Thisyear_Family::orderBy('name')->get();
+        $campers = \App\Thisyear_Camper::orderBy('birthdate')->get()->groupBy('familyid');
+
+        $buildings = \App\Building::with('rooms.occupants')->get();
+        return view('reports.campers', ['title' => 'Rooms Assignment Function', 'buildings' => $buildings,
+            'families' => $families, 'campers' => $campers]);
     }
 
     public function masterStore(Request $request)

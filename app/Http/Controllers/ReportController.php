@@ -12,16 +12,17 @@ class ReportController extends Controller
     public function campers($year = 0, $order = 'name')
     {
         $year = $year == 0 ? $this->year->year : (int)$year;
-        $years = \App\Byyear_Family::where('year', '>', '2008')->groupBy('year')->distinct()
-            ->orderBy('year', 'DESC')->get();
-        $families = \App\Byyear_Family::with('campers')->where('year', $year);
+        $years = \App\Year::where('year', '>', '2008')->orderBy('year', 'DESC')->get();
+        $families = \App\Byyear_Family::where('year', $year);
         if ($order == 'name') {
             $families->orderBy('name');
         } else {
             $families->orderBy('created_at', 'DESC');
         }
+        $campers = \App\Byyear_Camper::where('year', $year)->orderBy('birthdate')->get()->groupBy('familyid');
+
         return view('reports.campers', ['title' => 'Registered Campers', 'years' => $years,
-            'families' => $families->get(), 'thisyear' => $year, 'order' => $order]);
+            'families' => $families->get(), 'campers' => $campers, 'thisyear' => $year, 'order' => $order]);
     }
 
     public function campersExport($year = 0)
@@ -93,9 +94,9 @@ class ReportController extends Controller
 
     public function firsttime()
     {
-        $families = \App\Thisyear_Family::whereRaw('id IN (SELECT c.familyid FROM campers c, yearsattending ya WHERE c.id=ya.camperid GROUP BY c.familyid HAVING COUNT(ya.id)=1)')->with('campers')->orderBy('name')->get();
-        return view('reports.campers', ['title' => 'First-time Campers', 'families' => $families,
-            'thisyear' => $this->year->year, 'years' => [$this->year->year]]);
+        $families = \App\Thisyear_Family::whereRaw('id IN (SELECT c.familyid FROM campers c, yearsattending ya WHERE c.id=ya.camperid GROUP BY c.familyid HAVING COUNT(ya.id)=1)')->orderBy('name')->get();
+        $campers = \App\Thisyear_Camper::whereIn('familyid', $families->pluck('id'))->get()->groupBy('familyid');
+        return view('reports.campers', ['title' => 'First-time Campers', 'families' => $families, 'campers' => $campers]);
     }
 
     public function guarantee()
@@ -166,7 +167,7 @@ class ReportController extends Controller
     public function programs()
     {
         return view('reports.programs', ['programs' => \App\Program::where('name', '!=', 'Adult')
-            ->with('participants.parents')->orderBy('order')->get()]);
+            ->with('participants.parents')->orderBy('order')->get()]); // TODO: Add Medical Responses
     }
 
     public function ratesMark(Request $request)

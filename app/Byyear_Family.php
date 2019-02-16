@@ -9,12 +9,6 @@ class Byyear_Family extends Model
     protected $table = "byyear_families";
     protected $dates = ['created_at'];
 
-    public function campers()
-    {
-        return $this->hasMany(Byyear_Camper::class, 'familyid', 'id')
-            ->orderBy('birthdate');
-    }
-
     public function allcampers() {
         return $this->hasMany(Camper::class, 'familyid', 'id');
     }

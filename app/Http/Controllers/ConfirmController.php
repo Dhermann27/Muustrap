@@ -11,7 +11,7 @@ class ConfirmController extends Controller
     public function read($i, $id)
     {
         return view('confirm', ['families' => \App\Thisyear_Family::where('id', $this->getFamilyId($i, $id))->get(),
-            'medical' => \App\Program::find(DB::raw('getprogramidbyname("Adult")'))->form]);
+            'medical' => \App\Program::find(DB::raw('getprogramidbyname("Adult")'))->form, 'steps' => $this->getSteps()]);
     }
 
     private function getFamilyId($i, $id)
@@ -86,7 +86,7 @@ class ConfirmController extends Controller
             return redirect()->action('CamperController@index');
         }
         return view('confirm', ['families' => \App\Thisyear_Family::where('id', Auth::user()->camper->familyid)->get(),
-            'medical' => \App\Program::find(DB::raw('getprogramidbyname("Adult")'))->form]);
+            'medical' => \App\Program::find(DB::raw('getprogramidbyname("Adult")'))->form, 'steps' => $this->getSteps()]);
 
     }
 

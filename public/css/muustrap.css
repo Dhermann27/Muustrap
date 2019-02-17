@@ -123,6 +123,24 @@ img#brochureimg {
     padding: 10px 10px 0 10px;
 }
 
+ul#littlesteps .nav-link {
+    padding: 1rem;
+    width: 60px;
+    height: 60px;
+}
+
+ul#littlesteps i.btn-success {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    border-radius: 5px;
+    padding: 2px;
+    pointer-events: none; /*let mouse events pass through*/
+}
+
+ul#littlesteps div.tooltip, ul#littlesteps div.tooltip-inner {
+    min-width: 100px;
+}
 /*ul#bigsteps .nav-link {*/
     /*padding: 1rem;*/
 /*}*/

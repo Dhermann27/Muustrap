@@ -60,7 +60,7 @@ class NametagController extends Controller
         if ($campers == null) {
             $campers = $this->getCampers();
         }
-        return view('nametags', ['campers' => $campers]);
+        return view('nametags', ['campers' => $campers, 'steps' => $this->getSteps()]);
     }
 
     public function write(Request $request, $id)
@@ -82,7 +82,7 @@ class NametagController extends Controller
         $readonly = \Entrust::can('read') && !\Entrust::can('write');
         $campers = \App\Thisyear_Camper::where('familyid', $this->getFamilyId($i, $id))->orderBy('birthdate')->get();
 
-        return view('nametags', ['campers' => $campers, 'readonly' => $readonly]);
+        return view('nametags', ['campers' => $campers, 'readonly' => $readonly, 'steps' => $this->getSteps()]);
     }
 
     private function getFamilyId($i, $id)

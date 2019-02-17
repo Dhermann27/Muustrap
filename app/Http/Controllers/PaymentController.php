@@ -91,12 +91,12 @@ class PaymentController extends Controller
         $charges = [];
         $deposit = 0.0;
 
-        if(!isset(Auth::user()->camper)) {
+        if (!isset(Auth::user()->camper)) {
             $request->session()->flash('warning', 'You have not yet created your household information.');
             return redirect()->action('HouseholdController@index');
         } else {
             $charges = \App\Thisyear_Charge::where('familyid', Auth::user()->camper->familyid)->orderBy('timestamp')->orderBy('amount', 'desc')->get();
-            if(count($charges) == 0) {
+            if (count($charges) == 0) {
                 $request->session()->flash('warning', 'You have no campers registered for this year.');
                 return redirect()->action('CamperController@index');
             }
@@ -107,8 +107,8 @@ class PaymentController extends Controller
             }
         }
 
-        return view('payment',
-            ['token' => $token, 'env' => $env, 'charges' => $charges, 'deposit' => $deposit]);
+        return view('payment', ['token' => $token, 'env' => $env, 'charges' => $charges, 'deposit' => $deposit,
+            'steps' => $this->getSteps()]);
     }
 
     public function write(Request $request, $id)
@@ -170,7 +170,7 @@ class PaymentController extends Controller
             ->orderBy('year')->orderBy('timestamp')->orderBy('amount', 'desc')->get()->groupBy('year');
 
         return view('admin.payment', ['chargetypes' => \App\Chargetype::where('is_shown', '1')->orderBy('name')->get(),
-            'years' => $years, 'readonly' => $readonly, 'family' => $family]);
+            'years' => $years, 'readonly' => $readonly, 'family' => $family, 'steps' => $this->getSteps()]);
     }
 
     private function getFamilyId($i, $id)

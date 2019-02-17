@@ -61,8 +61,7 @@ class WorkshopController extends Controller
             return redirect()->action('CamperController@index');
         }
         return view('workshopchoice', ['timeslots' => \App\Timeslot::with('workshops.choices')->get(),
-            'campers' => $campers
-        ]);
+            'campers' => $campers, 'steps' => $this->getSteps()]);
 
     }
 
@@ -106,7 +105,7 @@ class WorkshopController extends Controller
         $readonly = \Entrust::can('read') && !\Entrust::can('write');
         return view('workshopchoice', ['timeslots' => \App\Timeslot::with('workshops.choices')->get(),
             'campers' => $this->getCampers($i == 'f' ? $id : \App\Camper::find($id)->familyid),
-            'readonly' => $readonly]);
+            'readonly' => $readonly, 'steps' => $this->getSteps()]);
     }
 
     public function display()

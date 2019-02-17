@@ -33,7 +33,7 @@
             fill: #daa520;
         }
 
-        .tooltip {
+        div#mytooltip {
             background: sandybrown;
             border: solid gray;
             position: absolute;
@@ -44,6 +44,7 @@
             transition: opacity 0.3s;
             box-shadow: #0f0f0f;
             padding: 3px;
+            z-index: 10;
         }
     </style>
 @endsection
@@ -57,6 +58,7 @@
 @endsection
 
 @section('content')
+    @include('snippet.steps', ['steps' => $steps[0]])
     <div class="container">
         <form id="roomselection" method="POST" action="{{ url('/roomselection') }}">
             @include('snippet.flash')
@@ -90,8 +92,11 @@
                             @endif
                         @endif
                         @if(isset($room->names))
-                                <hr />Locked by:<br />
-                                {{ $room->names }}
+                                <hr />
+                                @if($room->capacity < 10)
+                                Locked by:<br />
+                                @endif
+                        {{ $room->names }}
                         @if($camper->yearattending->roomid == $room->id)
                                 <br /><strong>Your current selection</strong>
                                 <br />Please note that changing from this room will make it to other campers. <i>This cannot be undone.</i>
@@ -116,21 +121,21 @@
         </form>
     </div>
     <p>&nbsp;</p>
-    <div class="tooltip"></div>
+    <div id="mytooltip"></div>
 @endsection
 
 @section('script')
     <script>
         $('rect').on('mouseover', function (event) {
             $(this).addClass('highlight');
-            $('div.tooltip').html($(this).attr('data-content')).css({
+            $('div#mytooltip').html($(this).attr('data-content')).css({
                 'opacity': '1',
                 'top': (window.pageYOffset + event.clientY + 30) + 'px',
                 'left': (window.pageXOffset + event.clientX) + 'px'
             });
         }).on('mouseout', function () {
             $(this).removeClass('highlight');
-            return $('div.tooltip').css('opacity', '0');
+            return $('div#mytooltip').css('opacity', '0');
         });
         @if(!$locked)
         $('rect.available').on('click', function () {

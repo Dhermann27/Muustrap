@@ -56,7 +56,8 @@ class RoomSelectionController extends Controller
             $request->session()->flash('warning', 'Your room has been locked by the Registrar. Please use the Contact Us form above to request any changes at this point.');
         }
 
-        return view('roomselection', ['rooms' => $rooms, 'camper' => $camper, 'count' => $count, 'locked' => $locked]);
+        return view('roomselection', ['rooms' => $rooms, 'camper' => $camper, 'count' => $count,
+            'locked' => $locked, 'steps' => $this->getSteps()]);
     }
 
     public function map()
@@ -94,7 +95,7 @@ class RoomSelectionController extends Controller
             ->orderBy('birthdate')->get();
 
         return view('admin.rooms', ['buildings' => \App\Building::with('rooms.occupants')->get(),
-            'campers' => $campers, 'readonly' => $readonly]);
+            'campers' => $campers, 'readonly' => $readonly, 'steps' => $this->getSteps()]);
     }
 
     private function getFamilyId($i, $id)

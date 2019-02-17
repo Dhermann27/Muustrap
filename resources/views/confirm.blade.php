@@ -14,6 +14,9 @@
 @endsection
 
 @section('content')
+    @if(count($families) == 1)
+        @include('snippet.steps', ['steps' => $steps[0]])
+    @endif
     @foreach($families as $family)
         <div class="text-center">
             <img src="/images/print_logo.png" alt="Welcome to MUUSA {{ $year->year }}!"/>

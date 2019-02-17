@@ -49,9 +49,17 @@ class HouseholdController extends Controller
             $camper = Auth::user()->camper;
         }
         if ($family === null) {
-            $family = $camper !== null ? $camper->family : new \App\Family();
+            if ($camper !== null) {
+                $family = $camper->family;
+                $id = $camper->id;
+            } else {
+                $family = new \App\Family();
+                $id = 0;
+
+            }
         }
-        return view('household', ['formobject' => $family, 'statecodes' => \App\Statecode::orderBy('name')->get()]);
+        return view('household', ['formobject' => $family, 'steps' => $this->getSteps($id),
+            'statecodes' => \App\Statecode::orderBy('name')->get()]);
     }
 
     public function write(Request $request, $id)
@@ -82,8 +90,11 @@ class HouseholdController extends Controller
         if (empty($family)) {
             $family = new \App\Family();
             $family->id = 0;
+            $id = 0;
+        } else {
+            $id = $family->id;
         }
-        return view('household', ['formobject' => $family,
+        return view('household', ['formobject' => $family, 'steps' => $this->getSteps($id),
             'statecodes' => \App\Statecode::all()->sortBy('name'), 'readonly' => $readonly]);
     }
 

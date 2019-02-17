@@ -51,7 +51,7 @@
                             <table class="table table-sm">
                                 @foreach($campers->get($family->id) as $camper)
                                     <tr>
-                                        <td width="15%">{{ $camper->lastname }}, {{ $camper->firstname }}
+                                        <td width="25%">{{ $camper->lastname }}, {{ $camper->firstname }}
                                             @if(isset($camper->email))
                                                 <a href="mailto:{{ $camper->email }}" class="px-2 float-right"><i
                                                             class="far fa-envelope"></i></a>
@@ -59,7 +59,7 @@
                                         </td>
                                         <td width="15%">{{ $camper->birthdate }}</td>
                                         <td width="20%">{{ $camper->programname }}</td>
-                                        <td width="40%">
+                                        <td width="30%">
                                             @if(isset($buildings))
                                                 <label for="{{ $camper->yearattendingid }}-roomid"
                                                        class="sr-only">{{ $camper->yearattendingid }}</label>

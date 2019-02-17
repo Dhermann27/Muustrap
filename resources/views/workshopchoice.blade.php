@@ -13,6 +13,7 @@
 @endsection
 
 @section('content')
+    @include('snippet.steps', ['steps' => $steps[0]])
     <div class="container">
         <form id="workshops" class="form-horizontal" role="form" method="POST"
               action="{{ url('/workshopchoice' . (isset($readonly) && $readonly === false ? '/f/' . $campers->first()->familyid : '')) }}">

@@ -74,7 +74,7 @@ class CamperController extends Controller
 
         DB::statement('CALL generate_charges(' . $this->year->year . ');');
 
-        Mail::to(Auth::user()->email)->send(new Confirm($this->year, $campers));
+//        Mail::to(Auth::user()->email)->send(new Confirm($this->year, $campers));
 
         return 'You have successfully saved your changes and registered. Click <a href="' . url('/payment') . '">here</a> to remit payment.';
     }
@@ -91,7 +91,7 @@ class CamperController extends Controller
         $empty->id = 999;
         return view('campers', ['pronouns' => \App\Pronoun::all(), 'foodoptions' => \App\Foodoption::all(),
             'campers' => $campers, 'programs' => \App\Program::whereNotNull('display')->orderBy('order')->get(),
-            'empty' => $empty, 'readonly' => null]);
+            'empty' => $empty, 'readonly' => null, 'steps' => $this->getSteps()]);
 
     }
 
@@ -148,7 +148,7 @@ class CamperController extends Controller
 
         return view('campers', ['pronouns' => \App\Pronoun::all(), 'foodoptions' => \App\Foodoption::all(),
             'campers' => $campers, 'programs' => \App\Program::whereNotNull('display')->orderBy('order')->get(),
-            'empty' => $empty, 'readonly' => $readonly]);
+            'empty' => $empty, 'readonly' => $readonly, 'steps' => $this->getSteps()]);
     }
 
     private function upsertCamper(Request $request, $i, $familyid)

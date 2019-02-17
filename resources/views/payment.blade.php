@@ -9,6 +9,7 @@
 @endsection
 
 @section('content')
+    @include('snippet.steps', ['steps' => $steps[0]])
     <div class="container">
         <form id="muusapayment" class="form-horizontal" role="form" method="POST" action="{{ url('/payment') }}">
             @include('snippet.flash')

@@ -20,6 +20,7 @@
 @endsection
 
 @section('content')
+    @include('snippet.steps', ['steps' => $steps[0]])
     <div class="container">
         <form class="form-horizontal" role="form" method="POST" action="{{ url('/nametag') .
                  (isset($readonly) && $readonly === false ? '/f/' . $campers->first()->familyid : '')}}">

@@ -11,7 +11,7 @@
 
             @component('snippet.navtabs', ['tabs' => $roles, 'id'=> 'id', 'option' => 'display_name'])
                 @foreach($roles as $role)
-                    <div class="tab-content" id="{{ $role->id }}">
+                    <div class="tab-pane fade{!! $loop->first ? ' active show' : '' !!}" id="tab-{{ $role->id }}" role="tabpanel">
                         <p>&nbsp;</p>
                         <h4>{{ $role->description }}</h4>
                         <table class="table">

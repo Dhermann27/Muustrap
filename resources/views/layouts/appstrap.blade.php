@@ -141,20 +141,20 @@
                                         <div class="dropdown-menu" role="menu" aria-labelledby="func-drop">
                                             <a href="{{ url('/household/f/0') }}" class="dropdown-item">Create New
                                                 Family</a>
-                                            {{--<a href="{{ url('/admin/distlist') }}" class="dropdown-item">Distribution--}}
-                                            {{--Lists</a>--}}
-                                            {{--<a href="{{ url('/confirm/all') }}" class="dropdown-item">Invoices <i class="fal fa-tachometer-alt-slow"></i></a>--}}
-                                            {{--<a href="{{ url('/admin/master') }}" class="dropdown-item">Master Control--}}
-                                            {{--Program</a>--}}
-                                            {{--<a href="{{ url('/confirm/letters') }}" class="dropdown-item">Medical/Program--}}
-                                            {{--Letters <i class="fal fa-tachometer-alt-slow"></i></a>--}}
+                                            <a href="{{ url('/admin/distlist') }}" class="dropdown-item">Distribution
+                                            Lists</a>
+                                            <a href="{{ url('/confirm/all') }}" class="dropdown-item">Invoices <i class="fal fa-tachometer-alt-slow"></i></a>
+                                            <a href="{{ url('/admin/master') }}" class="dropdown-item">Master Control
+                                            Program</a>
+                                            <a href="{{ url('/confirm/letters') }}" class="dropdown-item">Medical/Program
+                                            Letters <i class="fal fa-tachometer-alt-slow"></i></a>
                                             <a href="{{ url('/admin/massassign') }}" class="dropdown-item"
                                                title="Slow Function">
                                                 Rooms Assignment <i class="fal fa-tachometer-alt-slow"></i>
                                             </a>
-                                            {{--<a href="{{ url('/admin/positions') }}" class="dropdown-item">Staff--}}
-                                            {{--Positions</a>--}}
-                                            {{--<a href="{{ url('/admin/roles') }}" class="dropdown-item">User Roles</a>--}}
+                                            <a href="{{ url('/admin/positions') }}" class="dropdown-item">Staff
+                                                Positions</a>
+                                            <a href="{{ url('/admin/roles') }}" class="dropdown-item">User Roles</a>
                                         </div>
                                     </div>
                                     @endrole

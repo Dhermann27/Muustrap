@@ -43,14 +43,14 @@ class HomeTest extends DuskTestCase
     /**
      * @throws \Throwable
      */
-    public function testRegistration()
-    {
-
-        $this->browse(function (Browser $browser) {
-            $browser->visit('/registration')
-                ->assertSee('Household'); // TODO: Move to end-to-end test
-        });
-    }
+//    public function testRegistration()
+//    {
+//
+//        $this->browse(function (Browser $browser) {
+//            $browser->visit('/registration')
+//                ->assertSee('Household'); // TODO: Move to end-to-end test
+//        });
+//    }
 
 
     /**

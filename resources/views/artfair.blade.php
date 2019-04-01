@@ -65,7 +65,7 @@
                 </div>
 
                 @include('snippet.formgroup', ['type' => 'text', 'label' => 'Presentation Requests: do you
-                        need a full length (8&#39; long, but narrow) table or would 1/2 a table work? Please
+                        need a full length (8 foot long, but narrow) table or would 1/2 a table work? Please
                         describe your display needs.',
                     'attribs' => ['name' => 'table']])
 

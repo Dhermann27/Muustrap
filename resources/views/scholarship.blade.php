@@ -28,61 +28,22 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#tab-2" data-toggle="tab" role="tab">Appendix</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#tab-3" data-toggle="tab" role="tab">Examples</a>
-                </li>
             </ul>
             <div class="tab-content p-3">
                 <div class="tab-pane active fade active show" id="tab-1"><p>Our goal at MUUSA is to make camp
-                        affordable for those
-                        who wish to attend. We strive to accomplish this goal by providing lower-cost housing
-                        options, inviting campers to apply for staff positions that offer a credit toward camp
-                        expenses, and partnering with YMCA of the Ozarks (which operates Trout Lodge) to offer
-                        scholarship funds.</p>
-                    <p>This document lays out the scholarship application process, details the sources of
-                        scholarship funds that are available, and explains the scholarship award process.</p>
+                        affordable for those who wish to attend. We strive to accomplish this goal by providing
+                        lower-cost housing options, inviting campers to apply for staff positions that offer a credit
+                        toward camp expenses, and partnering with YMCA of the Ozarks (which operates Trout Lodge) to
+                        offer scholarship funds.</p>
+                    <p>This document lays out the scholarship application process, details the sources of scholarship
+                        funds that are available, and explains the scholarship award process.</p>
                     <h3 class="pb-2">How to Apply For a Scholarship</h3>
-                    <ol>
-                        <li><h5>Download an application form, available <a
-                                        href="/Trout_Lodge_Financial_Assistance_Form.pdf">here</a>.</h5>
-                            <p>The application form is developed by the YMCA of the Ozarks and is the same form
-                                that they use to evaluate scholarships for other YMCA programming. You do not
-                                have to be a YMCA member to apply for a MUUSA scholarship.</p>
-                            <p>Notes about the Trout Lodge Financial Assistance Form:</p>
-                            <ul>
-                                <li>The MUUSA Scholarship Process will follow the time schedule detailed in this
-                                    document (see &quot;Timing&quot;), not the one outlined in the scholarship
-                                    application. All scholarship applicants will be contacted by a member of the
-                                    MUUSA Scholarship Committee.
-                                </li>
-                                <li>Please disregard the &quot;method of payment&quot; section.</li>
-                                <li>Please write &quot;MUUSA&quot; in the space next to &quot;Member ID&quot;.
-                                </li>
-                                <li>You do not need to initial the &quot;expectations of eligibility&quot;or the
-                                    &quot;membership dues to be paid.&quot;
-                                </li>
-                                <li>Although the Trout Lodge Financial Assistance Form mentions &quot;membership&quot;
-                                    in several places, rest assured that you are filling out the correct
-                                    document for a MUUSA scholarship.
-                                </li>
-                                <li>If you have extenuating circumstances not reflected in your tax documents,
-                                    we encourage you to attach an additional page explaining said circumstances.
-                            </ul>
-                        </li>
-                        <li><h5>Submit the application by mail or e-mail by April 15 to:</h5>
-                            <address> Nicolle Wright<br/> YMCA Trout Lodge<br/> 13528 State Highway AA<br/>
-                                Potosi, MO 63664<br/> <a href="mailto:nicolle.wright@gwrymca.org">nicolle.wright@gwrymca.org</a>
-                            </address>
-                        </li>
-                        <li><h5>Submit the supplemental application form (found <a
-                                        href="/Supplemental_Scholarship_Form.pdf">here</a>) by email or mail by
-                                April 15 to the Scholarship Committee Coordinator.</h5>
-                            <address>Maya Rao<br/> <a
-                                        href="mailto:maya.m.rao3@gmail.com?subject=MUUSA%20Scholarship%20Application%20Submitted">maya.m.rao3@gmail.com</a><br/>
-                                914 N. Woodbridge Dr.<br/> Bloomington, IN 47408
-                            </address>
-                        </li>
-                    </ol>
+                    <h5>Begin an application form, available <a
+                                href="//docs.google.com/forms/d/1MOP0UtePIKBKeubNcj5hgX6z_a6KcgZ5fFMn_zLsgP0">here</a>.
+                    </h5>
+                    <p>If you are unable to use the online form, you may request a hard copy application form by
+                        contacting the MUUSA Scholarship Coordinator. If you mail in a hard copy form, your form must be
+                        RECEIVED (not postmarked) by April 15 in order to be considered. </p>
                     <p><strong>Scholarships are limited and cannot be guaranteed. Campers should not make any
                             travel or financial plans on the assumption that they will receive a scholarship or
                             any specific scholarship amount until they have received written (via email or
@@ -94,8 +55,8 @@
                     <table>
                         <tbody>
                         <tr>
-                            <td class="pb-3" width="25%"><strong>February 1</strong></td>
-                            <td width="75%">Scholarship process opens; applications can be submitted</td>
+                            <td class="pb-3"><strong>February 1</strong></td>
+                            <td>Scholarship process opens; applications can be submitted</td>
                         </tr>
                         <tr>
                             <td class="pb-3"><strong>April 15</strong></td>
@@ -107,56 +68,31 @@
                             <td class="pb-3"><strong>May 15</td>
                             <td>Scholarship determinations made and campers contacted.</td>
                         </tr>
-                        <tr>
-                            <td class="pb-3"><strong>June 1</strong></td>
-                            <td>Deadline for late application submissions (these applications will only be
-                                considered if funds remain after scholarships are distributed to those who
-                                applied by April 15).
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="pb-3"><strong>June 10</strong></td>
-                            <td>Additional determinations made for late submissions, but only if funds remain.
-                            </td>
-                        </tr>
                         </tbody>
                     </table>
                     <p>Applicants who submit their applications by the April 15 deadline will be notified of
                         their award by May 15, barring unforeseen delays. Balances of camper invoices on the
                         MUUSA website will be updated as soon as feasible after scholarships are awarded.
-                    <p>If scholarship funds remain after determinations are made (by May 15), late applications
-                        (submitted after April 15) will be considered. These additional determinations will be
-                        made by June 10. <strong>No scholarship applications submitted after June 1 will be
-                            considered.</strong></p>
                     <h3 class="pb-2">Details</h3>
                     <h4 class="pb-2">Review and Award of Scholarships</h4>
-                    <p>The scholarship process will be administeredby the MUUSA Scholarship Committee, which
-                        includes: Maya Rao, Veronica Colegrove, Sara Teppema, John Sandman, and Bill Pokorny for
-                        MUUSA {{ $year->year }}. Maya Rao will serve as the Scholarship Committee Coordinator
-                        and the primary contact for the Scholarship Committee.</p>
-                    <p>As explained in the appendix, scholarship funds come from the MUUSA Scholarship Fund and
-                        the YMCA of the Ozarks.</p>
-                    <p>Trout Lodge staff will review all applications to determine whether they meet the YMCA of
-                        the Ozarks eligibility criteria for financial assistance, and whether the YMCA will
-                        contribute to a scholarship (and the amount) for the camper after MUUSA satisfies its
-                        guarantee (again, see appendix for details on how this works).</p>
+                    <p>The scholarship process will be administered by the MUUSA Scholarship Committee, which
+                        includes: Sarah Lensink, Sara Teppema, John Sandman, and Bill Pokorny for
+                        MUUSA {{ $year->year }}. Sarah Lensink will serve as the Scholarship Committee Coordinator and
+                        the primary contact for the Scholarship Committee.</p>
                     <p>Upon receipt of the YMCA's determinations, the Scholarship Committee will review all
                         applications and independently determine how available scholarship funds will be
                         allocated.</p>
                     <p>Scholarships will be awarded based upon the following criteria:</p>
                     <ul>
                         <li>YMCA scholarship determinations</li>
-                        <li>Other circumstances contributing to financial need that may not be reflected in
-                            Trout Lodge's assessment
-                        </li>
-                        <li>Timeliness of application</li>
                         <li>Welcoming new campers who have not previously had an opportunity to attend MUUSA
                         </li>
+                        <li>Interest in attending MUUSA and being part of the MUUSA community</li>
                         <li>Availability of funds</li>
                     </ul>
                     <p>To make the process as fair as possible, members of the Scholarship Committee will recuse
                         themselves from any decision involving a scholarship application by a family member or
-                        close personal friend.</p>
+                        close friend.</p>
                     <p>The Scholarship Committee has sole discretion to determine whether to award a scholarship
                         and in what amount. The Committee's decisions are final.</p>
                     <h4 class="pb-2">Scholarship Amounts</h4>
@@ -192,7 +128,8 @@
                     <p><strong>Thank you for your interest in applying for a scholarship for
                             MUUSA {{ $year->year }}. We hope this document has helped clarify the scholarship
                             process. If you have further questions or concerns please contact the Scholarship
-                            Committee Coordinator, Maya Rao at maya.m.rao3@gmail.com.</strong></p></div>
+                            Committee Coordinator, Sarah Lensink at <a href="mailto:sarah.lensink@gmail.com">sarah.lensink@gmail.com</a>.</strong>
+                    </p></div>
 
                 <div class="tab-pane fade" id="tab-2">
                     <h3>Appendix</h3>
@@ -230,39 +167,8 @@
                         well as MUUSA's projected enrollment and revenue. They will then recommend an amount to
                         be included in the budget for scholarship awards. The amount available for distribution
                         will be included in the budget approved by the Planning Council, and will be finalized
-                        before scholarship awards are communicated to campers.</p></div>
-                <div class="tab-pane fade" id="tab-3">
-                    <h3>Sample Scholarship Calculations</h3>
-                    <p>The following are some examples of how this calculation would apply, using 2018 rates.
-                        (Examples 1 and 2 assume the maximum scholarship has been awarded, which will not always
-                        be the case.)</p>                              <h4>Example 1:</h4>
-                    <p> Family of 4, with 2 adults and 2 kids over the age of 6, staying in a Trout Lodge room,
-                        with1 adult working in the Children's Program and 1 adult leading a 3 day workshop.</p>
-                    <p>Adult fee: $670 x 2 = $1,340</p>
-                    <p>Child fee: $344 x 2 = $688</p>
-                    <p>Staff honorarium: $300 (Children's Program worker)+ $150 (3 day workshop leader)=$450</p>
-                    <p>Total costbefore scholarship: $1,578 ($1,340+$688-$450)</p>
-                    <p>Scholarship cap: $1,600 ($500 x 2 adults + $300 x 2 children)</p>
-                    <p>Maximum scholarship: $1,378 ($1,600 or cost before scholarship minus $100 per adult,
-                        whichever is less)</p>
-                    <p>Actual scholarship awarded: $1,378</p>
-                    <p>Total cost after scholarship &amp; credits (or honoraria): $222</p><h4>Example 2: </h4>
-                    <p>Single YA(young adult) tent camper, under 21 years old</p>
-                    <p>YA fee: $350</p>
-                    <p>Total cost before scholarship: $350</p>
-                    <p>Scholarship cap: $500</p>
-                    <p>Maximum scholarship: $300 ($500, or cost before scholarship minus $50 per adult tent
-                        camper, whichever is less)</p>
-                    <p>Actual scholarship awarded: $300</p>
-                    <p>Total cost after scholarship: $50 ($350-$50)</p>                              <h4>Example
-                        3:</h4>
-                    <p> 2 adults staying in a Forest View cabin with 1 adult leading a 5 day workshop. The
-                        Scholarship Committee determines that the couple will be awarded a $400 scholarship.</p>
-                    <p>Adult fee: $795x 2 = $1,590</p>
-                    <p>Staff honorarium: $300 (5 day workshop leader)</p>
-                    <p>Total cost before scholarship: $1,290 ($1,590-$300)</p>
-                    <p>Actual scholarship awarded: $400</p>
-                    <p>Total cost after scholarship: $890 ($1,290-$400)</p></div>
+                        before scholarship awards are communicated to campers.</p>
+                </div>
             </div>
         </div>
     </div>

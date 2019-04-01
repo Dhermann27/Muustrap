@@ -142,12 +142,13 @@
                                             <a href="{{ url('/household/f/0') }}" class="dropdown-item">Create New
                                                 Family</a>
                                             <a href="{{ url('/admin/distlist') }}" class="dropdown-item">Distribution
-                                            Lists</a>
-                                            <a href="{{ url('/confirm/all') }}" class="dropdown-item">Invoices <i class="fal fa-tachometer-alt-slow"></i></a>
+                                                Lists</a>
+                                            <a href="{{ url('/confirm/all') }}" class="dropdown-item">Invoices <i
+                                                        class="fal fa-tachometer-alt-slow"></i></a>
                                             <a href="{{ url('/admin/master') }}" class="dropdown-item">Master Control
-                                            Program</a>
+                                                Program</a>
                                             <a href="{{ url('/confirm/letters') }}" class="dropdown-item">Medical/Program
-                                            Letters <i class="fal fa-tachometer-alt-slow"></i></a>
+                                                Letters <i class="fal fa-tachometer-alt-slow"></i></a>
                                             <a href="{{ url('/admin/massassign') }}" class="dropdown-item"
                                                title="Slow Function">
                                                 Rooms Assignment <i class="fal fa-tachometer-alt-slow"></i>
@@ -263,8 +264,8 @@
                                             <a href="{{ url('/artfair') }}" class="dropdown-item">
                                                 <i class="far fa-shopping-bag fa-fw"></i> Art Fair Submission</a>
                                         @endif
-                                        {{--<a href="{{ url('/volunteer') }}" class="dropdown-item">--}}
-                                        {{--<i class="far fa-handshake fa-fw"></i> Volunteer Opportunities</a>--}}
+                                            <a href="{{ url('/volunteer') }}" class="dropdown-item">
+                                                <i class="far fa-handshake fa-fw"></i> Volunteer Opportunities</a>
                                         @if($year->is_workshop_proposal)
                                             <a href="{{ url('/proposal') }}" class="dropdown-item">
                                                 <i class="fal fa-chalkboard-teacher fa-fw"></i> Workshop Proposal
@@ -402,20 +403,24 @@
             </div>
 
             <div class="col-md-4">
-                {{--<h4 class="text-uppercase text-white">--}}
-                {{--Mailing List</h4>--}}
-                {{--<p>Interested in receiving our web brochure when it is published in February?</p>--}}
-                {{--<form id="mailinglist" role="form" method="POST"--}}
-                {{--action="{{ url('/mailinglist') }}">--}}
-                {{--<div class="input-group">--}}
-                {{--<label class="sr-only" for="email-field">Email</label>--}}
-                {{--<input type="text" class="form-control" id="email-field"--}}
-                {{--placeholder="Enter your email address">--}}
-                {{--<span class="input-group-append">--}}
-                {{--<button class="btn btn-primary" type="button">Signup</button>--}}
-                {{--</span>--}}
-                {{--</div>--}}
-                {{--</form>--}}
+                <h4 class="text-uppercase text-white">Mailing List</h4>
+                <p>
+                    @if($year->is_live)
+                        Interested in receiving our web brochure when it is published in February?
+                    @else
+                        Can't come in {{ $year->year }}, but want to receive next year's brochure?
+                    @endif
+                </p>
+                <form id="mailinglist" role="form" method="POST" action="{{ url('/mailinglist') }}">
+                    <div class="input-group">
+                        <label class="sr-only" for="email-field">Email</label>
+                        <input type="text" class="form-control" id="email-field"
+                               name="email" placeholder="Enter your email address">
+                        <span class="input-group-append">
+                            <button class="btn btn-primary" type="submit">Signup</button>
+                        </span>
+                    </div>
+                </form>
             </div>
         </div>
 

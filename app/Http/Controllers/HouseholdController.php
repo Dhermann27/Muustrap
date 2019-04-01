@@ -12,7 +12,7 @@ class HouseholdController extends Controller
     {
         $id = 0;
         $messages = ['statecd.exists' => 'Please choose a state code or "ZZ" for international.',
-            'zipcd.regex' => 'Please enter your five-digit zip code.'];
+            'zipcd.regex' => 'Please enter your 5-7 character zip code.'];
 
         $this->validate($request, [
             'name' => 'required|max:255',
@@ -20,7 +20,7 @@ class HouseholdController extends Controller
             'address2' => 'max:255',
             'city' => 'required|max:255',
             'statecd' => 'required|exists:statecodes,id',
-            'zipcd' => 'required|regex:/^\d{5}$/',
+            'zipcd' => 'required|regex:/^[a-zA-Z0-9]{5,7}$/',
             'is_ecomm' => 'required|in:0,1',
             'is_scholar' => 'required|in:0,1'
         ], $messages);

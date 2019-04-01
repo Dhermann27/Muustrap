@@ -11,8 +11,8 @@
 @section('content')
     <div class="container">
         <p>Thank you for your interest in the MUUSA Artists &amp; Crafters Show! Please complete the
-            following application and materials and send to the Show Coordinator, Geeta Palumbo, by
-            April 1st. Replies will be sent to all applicants by May 1st.</p>
+            following application and materials and send to the Show Coordinator, Geeta Palumbo.
+            Replies will be sent to all applicants by May 1st.</p>
         <p><strong>Please note the following regarding the sale:</strong></p>
         <ul>
             <li>30% of the sale price will be donated to MUUSA.</li>

@@ -18,15 +18,13 @@
             <tr>
                 <th>Family</th>
                 <th>Location</th>
-                <th>Balance</th>
                 <th>Registration Date</th>
             </tr>
             </thead>
             @foreach($families as $family)
                 <tr>
                     <td>{{ $family->name }}</td>
-                    <td>{{ $family->city }}, {{ $family->statecd }}</td>
-                    <td>${{ money_format('%.2n', $family->balance) }}
+                    <td>{{ $family->city }}, {{ $family->statecd }}
                         @if($family->is_scholar == '1')
                             <i class="far fa-universal-access" data-toggle="tooltip"
                                title="This family has indicated that they are applying for a scholarship."></i>
@@ -47,7 +45,7 @@
                         <form id="roomchange-{{ $family->id }}" class="form-horizontal" role="form" method="POST"
                               action="{{ url('/admin/massassign') . '/f/' . $family->id}}">
                             {{ csrf_field() }}
-                            <input type="hidden" name="familyid" value="{{ $family->id }}" />
+                            <input type="hidden" name="familyid" value="{{ $family->id }}"/>
                             <table class="table table-sm">
                                 @foreach($campers->get($family->id) as $camper)
                                     <tr>
@@ -72,8 +70,7 @@
                                                             @foreach($building->rooms as $room)
                                                                 <option value="{{ $room->id }}"{{ $camper->roomid == $room->id ? ' selected' : '' }}>
                                                                     {{ $room->room_number }} {{ $room->is_handicap == '1' ? ' - HC' : '' }}
-                                                                    ({{ count($room->occupants) }}/{{ $room->capacity }}
-                                                                    )
+                                                                    {{'(' . count($room->occupants) . '/' . $room->capacity . ')'}}
                                                                 </option>
                                                             @endforeach
                                                         </optgroup>

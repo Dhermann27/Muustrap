@@ -80,7 +80,7 @@
                         </tr>
                         <tr class="d-print-none">
                             <td colspan="{{ $program->is_minor ? '8' : '4' }}">
-                                Distribution list: {{ $program->participants->where('email', '!=', '')->implode('email', ';') }}
+                                Distribution list: {{ $program->participants->where('email', '!=', '')->implode('email', '; ') }}
                             </td>
                         </tr>
                         @if($program->is_minor)

@@ -167,7 +167,7 @@ class ReportController extends Controller
     public function programs()
     {
         return view('reports.programs', ['programs' => \App\Program::where('name', '!=', 'Adult')
-            ->with('participants.parents')->orderBy('order')->get()]); // TODO: Add Medical Responses
+            ->with('participants.parents')->with('participants.medicalresponse')->orderBy('order')->get()]);
     }
 
     public function ratesMark(Request $request)

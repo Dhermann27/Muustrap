@@ -23,6 +23,7 @@ class CreateProgramsTable extends Migration
             $table->text('covenant')->nullable();
             $table->text('calendar')->nullable();
             $table->tinyInteger('is_program_housing');
+            $table->tinyInteger('is_minor');
             $table->timestamps();
         });
         DB::update('ALTER TABLE programs AUTO_INCREMENT = 1000');

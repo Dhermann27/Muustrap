@@ -65,33 +65,6 @@ class Thisyear_Camper extends Model
         return "";
     }
 
-    public function getParentAttribute()
-    {
-        $icon = "<i class='fa fa-male'></i> ";
-        if ($this->age < 18) {
-            if (!empty($this->sponsor)) {
-                return "<i class='fa fa-id-badge'></i> " . $this->sponsor;
-            } else {
-                $parents = $this->parents()->get();
-                if (count($parents) == 1) {
-                    return $icon . $parents->first()->firstname . " " . $parents->first()->lastname;
-                } elseif (count($parents) > 1) {
-                    $first = $parents->shift();
-                    $second = $parents->shift();
-                    if ($first->lastname == $second->lastname) {
-                        return $icon . $first->firstname . " & " . $second->firstname . " " . $first->lastname;
-                    } else {
-                        return $icon . $first->firstname . " " . $first->lastname . " & " . $second->firstname . " " . $second->lastname;
-                    }
-                } else {
-                    return "<i>Unsponsored Minor</i>";
-                }
-            }
-        } else {
-            return "";
-        }
-    }
-
     public function parents()
     {
         return $this->hasMany(Thisyear_Camper::class, 'familyid', 'familyid')

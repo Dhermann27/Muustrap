@@ -7,7 +7,8 @@
 @section('content')
     @component('snippet.navtabs', ['tabs' => $programs, 'id'=> 'id', 'option' => 'name'])
         @foreach($programs as $program)
-            <div class="tab-pane fade{!! $loop->first ? ' active show' : '' !!}" id="tab-{{ $program->id }}" role="tabpanel">
+            <div class="tab-pane fade{!! $loop->first ? ' active show' : '' !!}" id="tab-{{ $program->id }}"
+                 role="tabpanel">
                 @if(count($program->participants) > 0)
                     <table class="table">
                         <thead>
@@ -15,7 +16,7 @@
                             <th>Pronoun</th>
                             <th>Name</th>
                             <th>Age</th>
-                            @if($program->participants->first()->age<18)
+                            @if($program->is_minor)
                                 <th>Parent/Sponsor</th>
                                 <th>Room</th>
                                 <th>Phone Number</th>
@@ -41,8 +42,27 @@
                                            title="This camper has submitted their medical response."></i>
                                     @endif
                                 </td>
-                                @if($program->participants->first()->age<18)
-                                    <td>{!! $participant->parent !!}</td>
+                                @if($program->is_minor)
+                                    <td>
+                                        @if(!empty($participant->sponsor))
+                                            <i class='fa fa-id-badge'></i> {{ $participant->sponsor }}
+                                        @else
+                                            <i class='fa fa-male'></i>
+                                            @if (count($participant->parents) == 1)
+                                                {{ $parents->first()->firstname }} {{ $parents->first()->lastname }}
+                                            @elseif (count($participant->parents) > 1)
+                                            @if ($participant->parents[0]->lastname == $participant->parents[1]->lastname)
+                                                {{ $participant->parents[0]->firstname }}
+                                                &amp; {{ $participant->parents[1]->firstname}} {{ $participant->parents[0]->lastname }}
+                                            @else
+                                                {{ $participant->parents[0]->firstname }} {{ $participant->parents[0]->lastname }}
+                                                &amp; {{ $participant->parents[1]->firstname}} {{ $participant->parents[1]->lastname }}
+                                            @endif
+                                            @else
+                                                <i>Unsponsored Minor</i>
+                                            @endif
+                                        @endif
+                                    </td>
                                     <td>{{ $participant->parent_room }}</td>
                                     <td>{{ $participant->parent_phone }}</td>
                                 @endif
@@ -54,16 +74,16 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <td colspan="{{ $program->participants->first()->age<18 ? '8' : '4' }}" align="right">
+                            <td colspan="{{ $program->is_minor ? '8' : '4' }}" align="right">
                                 <strong>Total Campers: </strong> {{ count($program->participants) }}
                             </td>
                         </tr>
                         <tr class="d-print-none">
-                            <td colspan="{{ $program->participants->first()->age<18 ? '8' : '4' }}">
-                                Distribution list: {{ $program->emails }}
+                            <td colspan="{{ $program->is_minor ? '8' : '4' }}">
+                                Distribution list: {{ $program->participants->where('email', '!=', '')->implode('email', ';') }}
                             </td>
                         </tr>
-                        @if($program->participants->first()->age<18)
+                        @if($program->is_minor)
                             <tr class="d-print-none">
                                 <td colspan="8">
                                     Parent Distribution list:

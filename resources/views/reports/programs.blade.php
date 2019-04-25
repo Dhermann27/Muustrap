@@ -49,7 +49,7 @@
                                         @else
                                             <i class='fa fa-male'></i>
                                             @if (count($participant->parents) == 1)
-                                                {{ $parents->first()->firstname }} {{ $parents->first()->lastname }}
+                                                {{ $participant->parents->first()->firstname }} {{ $participant->parents->first()->lastname }}
                                             @elseif (count($participant->parents) > 1)
                                             @if ($participant->parents[0]->lastname == $participant->parents[1]->lastname)
                                                 {{ $participant->parents[0]->firstname }}

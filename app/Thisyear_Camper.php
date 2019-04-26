@@ -71,31 +71,6 @@ class Thisyear_Camper extends Model
             ->where('age', '>', '17')->orderBy('birthdate');
     }
 
-    public function getParentRoomAttribute()
-    {
-
-        if ($this->age < 18) {
-            $parent = !empty($this->sponsor) ? \App\Thisyear_Camper::where(DB::raw('CONCAT(firstname," ",lastname)'), $this->sponsor)->first() : $this->parents()->first();
-            return !empty($parent->roomid) ? $parent->buildingname . " " . $parent->room_number : "Unassigned";
-        } else {
-            return "";
-        }
-    }
-
-    public function getParentPhoneAttribute()
-    {
-
-        if ($this->age < 18) {
-            $parents = !empty($this->sponsor) ? \App\Thisyear_Camper::where(DB::raw('CONCAT(firstname," ",lastname)'), $this->sponsor)->get() : $this->parents()->get();
-            foreach ($parents as $parent) {
-                if (!empty($parent->phonenbr)) return $parent->formatted_phone;
-            }
-            return "None Given";
-        } else {
-            return "";
-        }
-    }
-
     public function getEachCalendarAttribute()
     {
         $cal = explode(';', $this->program->calendar);

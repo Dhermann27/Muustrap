@@ -51,20 +51,35 @@
                                             @if (count($participant->parents) == 1)
                                                 {{ $participant->parents->first()->firstname }} {{ $participant->parents->first()->lastname }}
                                             @elseif (count($participant->parents) > 1)
-                                            @if ($participant->parents[0]->lastname == $participant->parents[1]->lastname)
-                                                {{ $participant->parents[0]->firstname }}
-                                                &amp; {{ $participant->parents[1]->firstname}} {{ $participant->parents[0]->lastname }}
-                                            @else
-                                                {{ $participant->parents[0]->firstname }} {{ $participant->parents[0]->lastname }}
-                                                &amp; {{ $participant->parents[1]->firstname}} {{ $participant->parents[1]->lastname }}
-                                            @endif
+                                                @if ($participant->parents[0]->lastname == $participant->parents[1]->lastname)
+                                                    {{ $participant->parents[0]->firstname }}
+                                                    &amp; {{ $participant->parents[1]->firstname}} {{ $participant->parents[0]->lastname }}
+                                                @else
+                                                    {{ $participant->parents[0]->firstname }} {{ $participant->parents[0]->lastname }}
+                                                    &amp; {{ $participant->parents[1]->firstname}} {{ $participant->parents[1]->lastname }}
+                                                @endif
                                             @else
                                                 <i>Unsponsored Minor</i>
                                             @endif
                                         @endif
                                     </td>
-                                    <td>{{ $participant->parent_room }}</td>
-                                    <td>{{ $participant->parent_phone }}</td>
+                                    <td>
+                                        @if(!empty($participant->sponsor))
+                                            N/A
+                                        @elseif(count($participant->parents->where('roomid', '!=', '0')) > 0)
+                                            {{ $participant->parents->where('roomid', '!=', '0')->first()->buildingname }}
+                                            {{ $participant->parents->where('roomid', '!=', '0')->first()->room_number }}
+                                        @else
+                                            Unassigned
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(!empty($participant->sponsor))
+                                            N/A
+                                        @elseif(count($participant->parents->where('phonenbr', '!=', '')) > 0)
+                                            {{ $participant->parents->where('phonenbr', '!=', '')->first()->formatted_phone }}
+                                        @endif
+                                    </td>
                                 @endif
                                 <td class="d-print-none">
                                     @include('admin.controls', ['id' => 'c/' . $participant->id])
@@ -80,7 +95,8 @@
                         </tr>
                         <tr class="d-print-none">
                             <td colspan="{{ $program->is_minor ? '8' : '4' }}">
-                                Distribution list: {{ $program->participants->where('email', '!=', '')->implode('email', '; ') }}
+                                Distribution
+                                list: {{ $program->participants->where('email', '!=', '')->implode('email', '; ') }}
                             </td>
                         </tr>
                         @if($program->is_minor)
@@ -88,10 +104,8 @@
                                 <td colspan="8">
                                     Parent Distribution list:
                                     @foreach($program->participants as $participant)
-                                        @foreach($participant->parents as $parent)
-                                            @if(!empty($parent->email))
-                                                {{ $parent->email }};
-                                            @endif
+                                        @foreach($participant->parents->where('email', '!=', '') as $parent)
+                                            {{ $parent->email }};
                                         @endforeach
                                     @endforeach
                                 </td>

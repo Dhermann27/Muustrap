@@ -19,12 +19,15 @@
                 <td>
                     @switch($group->side)
                         @case(0)
-                        Trout Lodge, Lakeview and Forestview
+                        Unassigned
                         @break
                         @case(1)
-                        Tent Camping
+                        Trout Lodge, Lakeview and Forestview
                         @break
                         @case(2)
+                        Tent Camping
+                        @break
+                        @case(3)
                         Lakewood Side
                         @break
                     @endswitch
@@ -45,6 +48,12 @@
             </tr>
         @endforeach
         </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="3" align="right"><strong>Total Campers
+                    Attending: </strong> {{ $groups->sum('count') }}</td>
+        </tr>
+        </tfoot>
     </table>
 @endsection
 

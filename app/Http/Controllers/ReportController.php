@@ -102,7 +102,7 @@ class ReportController extends Controller
     public function guarantee()
     {
         $groups = DB::table('thisyear_campers')->selectRaw('side, age, IF(age>12,0,IF(age>5,1,2)) AS agegroup, COUNT(*) AS count')
-            ->where('days', '>', 5)->whereNotNull('roomid')->join('buildings', 'thisyear_campers.buildingid', 'buildings.id')
+            ->where('days', '>', 5)->leftJoin('buildings', 'thisyear_campers.buildingid', 'buildings.id')
             ->groupBy('side')->groupBy('agegroup')->orderBy('side')->orderBy('agegroup')->get();
         return view('reports.guarantee', ['groups' => $groups]);
     }
@@ -263,6 +263,13 @@ class ReportController extends Controller
             ->where('churchid', '!=', '2084')->groupBy('year', 'churchid')
             ->orderBy('total', 'desc')->get();
         return view('reports.states', ['years' => $years, 'churches' => $churches]);
+    }
+
+    public function unassigned()
+    {
+        $families = \App\Thisyear_Family::whereRaw('assigned != count')->orderBy('name')->get();
+        $campers = \App\Thisyear_Camper::whereIn('familyid', $families->pluck('id'))->get()->groupBy('familyid');
+        return view('reports.campers', ['title' => 'Unassigned Campers', 'families' => $families, 'campers' => $campers]);
     }
 
     public function volunteers()

@@ -186,6 +186,8 @@
                                             <a href="{{ url('/reports/rooms') }}" class="dropdown-item">Rooms</a>
                                             <a href="{{ url('/reports/states') }}" class="dropdown-item">States &amp;
                                                 Churches</a>
+                                            <a href="{{ url('/reports/unassigned') }}" class="dropdown-item">Unassigned
+                                                Campers</a>
                                             <a href="{{ url('/reports/volunteers') }}"
                                                class="dropdown-item">Volunteers</a>
                                             <a href="{{ url('/reports/workshops') }}" class="dropdown-item">Workshop
@@ -264,8 +266,8 @@
                                             <a href="{{ url('/artfair') }}" class="dropdown-item">
                                                 <i class="far fa-shopping-bag fa-fw"></i> Art Fair Submission</a>
                                         @endif
-                                            <a href="{{ url('/volunteer') }}" class="dropdown-item">
-                                                <i class="far fa-handshake fa-fw"></i> Volunteer Opportunities</a>
+                                        <a href="{{ url('/volunteer') }}" class="dropdown-item">
+                                            <i class="far fa-handshake fa-fw"></i> Volunteer Opportunities</a>
                                         @if($year->is_workshop_proposal)
                                             <a href="{{ url('/proposal') }}" class="dropdown-item">
                                                 <i class="fal fa-chalkboard-teacher fa-fw"></i> Workshop Proposal

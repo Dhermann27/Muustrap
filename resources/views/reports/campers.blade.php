@@ -77,7 +77,7 @@
                                                     @endforeach
                                                 </select>
                                             @else
-                                                {{ $camper->room_number }}
+                                                {{ empty($camper->room_number) ? 'Unassigned' : $camper->room_number }}
                                             @endif
                                         </td>
                                         <td width="10%">

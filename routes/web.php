@@ -2,6 +2,7 @@
 
 Route::get('/', 'WelcomeController@index');
 Route::get('/home', 'HomeController@index');
+//Route::post('/mailinglist', 'HomeController@mailingList');
 
 Auth::routes();
 
@@ -98,6 +99,7 @@ Route::group(['middleware' => ['auth', 'role:admin|council'], 'prefix' => 'repor
     Route::get('rooms/{year}.xls', 'ReportController@roomsExport');
     Route::get('rooms/{year?}/name', 'ReportController@rooms');
     Route::get('states', 'ReportController@states');
+    Route::get('unassigned', 'ReportController@unassigned');
     Route::get('volunteers', 'ReportController@volunteers');
     Route::get('workshops', 'ReportController@workshops');
 });
